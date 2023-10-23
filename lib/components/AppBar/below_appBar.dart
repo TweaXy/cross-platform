@@ -20,7 +20,7 @@ class _BelowBarState extends State<BelowAppBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 5),
+      margin: EdgeInsets.only(top: 5),
       height: 50,
       decoration: BoxDecoration(
         border: Border(
