@@ -29,12 +29,7 @@ class _BottomNaviagtionState extends State<BottomNaviagtion> {
         BottomNavigationBarItem(
           icon: IconButton(
               onPressed: () => _onItemTapped(0),
-              icon: DecoratedIcon(
-                icon: Icon(FontAwesomeIcons.house,
-                    color: _selectedIndex == 0 ? Colors.black : Colors.white),
-                decoration: IconDecoration(
-                    border: IconBorder(color: Colors.black, width: 4)),
-              )),
+              icon:HomeIcon(selectedIndex: _selectedIndex,)),
           label: '',
         ),
         //search icon
