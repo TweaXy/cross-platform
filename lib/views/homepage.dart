@@ -133,6 +133,12 @@ class _HomePage2State extends State<HomePage>
                         ],
                 ),
               ),
+              SliverToBoxAdapter(
+                child: Divider(
+                  height: 1,
+                  color: Color.fromARGB(255, 184, 189, 193),
+                ),
+              )
             ];
           },
           body: HomePageBody(
