@@ -1,18 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/views/login_view_page2.dart';
+import 'package:tweaxy/constants/custom_text_form_validations.dart';
 
 // ignore: must_be_immutable
-class LoginViewPage2 extends StatelessWidget {
+class LoginViewPage2 extends StatefulWidget {
   final TextEditingController initialValue;
   LoginViewPage2({super.key, required this.initialValue});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController myControllerPassword = TextEditingController();
+  State<LoginViewPage2> createState() => _LoginViewPage2State();
+}
 
+class _LoginViewPage2State extends State<LoginViewPage2> {
+  TextEditingController myControllerPassword = TextEditingController();
+
+  bool isButtonEnabled = false;
+  @override
+  void initState() {
+    super.initState();
+    myControllerPassword.addListener(_updateButtonState);
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      isButtonEnabled = myControllerPassword.text.isNotEmpty;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -58,14 +75,28 @@ class LoginViewPage2 extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: CustomTextField(
-              label: 'Phone, email address, username',
-              controller: initialValue,
+            child: TextField(
+              style: TextStyle(
+                color: Colors.black,
+              ),
+              controller: widget.initialValue,
+              enabled: false,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 20.0),
+                border: const OutlineInputBorder(borderSide: BorderSide()),
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Colors.lightBlue[700]!,
+                        width: 2.0) // Adjust color as needed
+                    ),
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 40),
             child: CustomTextField(
+              validatorFunc: passwordValidation,
               label: 'Password',
               controller: myControllerPassword,
             ),
@@ -99,7 +130,7 @@ class LoginViewPage2 extends StatelessWidget {
                           CustomButton(
                             color: Colors.black,
                             text: 'Next',
-                            initialEnabled: true,
+                            initialEnabled: isButtonEnabled,
                             onPressedCallback: () {
                               Navigator.pop(context);
                             },
