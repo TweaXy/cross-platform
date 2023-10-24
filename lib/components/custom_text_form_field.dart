@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({
-    Key? key,
-    required this.label,
-    required this.controller,
-  }) : super(key: key);
-
+  const CustomTextField(
+      {super.key,
+      required this.label,
+      required this.validatorFunc,
+      required this.controller});
   final String label;
+  final Function validatorFunc;
   final TextEditingController controller;
 
   @override
@@ -15,11 +15,15 @@ class CustomTextField extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  int _isValid = 0;
+  int _isValid = 0; //0 for initial state, 1 for valid, 2 for invalid
+  String? _errorText; //should be null if the input is valid or in initial state
+  bool passwordVisible = false;
 
-  void validate() {
-    if ((_formKey.currentState)!.validate()) {
+  void validate({required String inputValue}) {
+    _errorText = widget.validatorFunc(
+        inputValue:
+            inputValue); //null or errorText -> validate functions in constants folder
+    if (_errorText == null) {
       setState(() {
         _isValid = 1;
       });
@@ -32,50 +36,52 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: TextFormField(
-        controller: widget.controller,
-        cursorHeight: 30.0,
-        cursorColor: Colors.lightBlue[700],
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: _isValid == 2 ? Colors.yellow[200] : Colors.transparent,
-          suffixIcon: _isValid == 1
-              ? const Icon(
-                  Icons.check_circle,
-                  color: Colors.green,
-                )
-              : _isValid == 2
-                  ? const Icon(
-                      Icons.error,
-                      color: Colors.red,
-                    )
-                  : null,
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
-          labelText: widget.label,
-          border: OutlineInputBorder(
-            borderSide: _isValid == 1
-                ? const BorderSide()
-                : const BorderSide(color: Colors.red, width: 2.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.lightBlue[700]!, width: 2.0),
-          ),
-          errorText: _isValid == 2 ? '' : null,
-          errorStyle: const TextStyle(backgroundColor: Colors.transparent),
+    return TextFormField(
+      controller: widget.controller,
+      cursorHeight: 30.0,
+      cursorColor: Colors.lightBlue[700],
+      obscureText: widget.label == 'Password' ? !passwordVisible : false,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: _isValid == 2 ? Colors.yellow[200] : Colors.transparent,
+        suffixIcon: widget.label != 'Password'
+            ? _isValid == 1
+                ? const Icon(
+                    Icons.check_circle,
+                    color: Colors.green,
+                  )
+                : _isValid == 2
+                    ? const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      )
+                    : null
+            : IconButton(
+                onPressed: () {
+                  setState(() {
+                    passwordVisible = !(passwordVisible);
+                  });
+                },
+                icon: passwordVisible
+                    ? const Icon(Icons.visibility_off)
+                    : const Icon(Icons.visibility),
+                color: Theme.of(context).primaryColorDark,
+              ),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
+        labelText: widget.label,
+        border: const OutlineInputBorder(borderSide: BorderSide()),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.lightBlue[700]!, width: 2.0),
         ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return 'Please enter your ${widget.label}';
-          }
-          return null;
-        },
-        onFieldSubmitted: (value) {
-          validate();
-        },
+        errorBorder: const OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 2.0),
+        ),
+        errorText: _errorText,
       ),
+      onFieldSubmitted: (value) {
+        validate(inputValue: value);
+      },
     );
   }
 }
