@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField(
+  CustomTextField(
       {super.key,
       required this.label,
       required this.validatorFunc,
-      required this.controller});
+      required this.controller,
+      this.onTap,
+      this.unreadable});
   final String label;
   final Function validatorFunc;
+  Function? onTap = () {};
   final TextEditingController controller;
-
+  bool? unreadable = false;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -37,7 +40,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: widget.unreadable!,
       controller: widget.controller,
+      onTap: () {
+        if (widget.onTap != null) {
+          widget.onTap!(context);
+        }
+      },
       cursorHeight: 30.0,
       cursorColor: Colors.lightBlue[700],
       obscureText: widget.label == 'Password' ? !passwordVisible : false,
