@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants/custom_text_form_validations.dart';
+import 'package:tweaxy/views/forget_password_page1.dart';
 
 // ignore: must_be_immutable
 class LoginViewPage2 extends StatefulWidget {
@@ -14,7 +16,6 @@ class LoginViewPage2 extends StatefulWidget {
 
 class _LoginViewPage2State extends State<LoginViewPage2> {
   TextEditingController myControllerPassword = TextEditingController();
-
   bool isButtonEnabled = false;
   @override
   void initState() {
@@ -110,10 +111,10 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                   //     border: Border(
                   //         top: BorderSide(color: Colors.black45, width: 0.4))),
                   children: [
-                    Container(
+                    Divider(
                       color: Colors.black26,
                       height: 0.5,
-                      width: double.infinity,
+                      thickness: 1,
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
@@ -125,7 +126,14 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                             color: Colors.white,
                             text: 'Forget password?',
                             initialEnabled: true,
-                            onPressedCallback: () {},
+                            onPressedCallback: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: ForgetPasswordPage1()));
+                            },
                           ),
                           CustomButton(
                             color: Colors.black,

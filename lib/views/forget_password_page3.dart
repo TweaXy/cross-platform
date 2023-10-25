@@ -3,17 +3,17 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/constants/custom_text_form_validations.dart';
-import 'package:tweaxy/views/forget_password_page1.dart';
+import 'package:tweaxy/views/forget_password_page2.dart';
 import 'package:tweaxy/views/login_view_page2.dart';
 
-class LoginViewPage1 extends StatefulWidget {
-  const LoginViewPage1({super.key});
+class ForgetPasswordPage3 extends StatefulWidget {
+  const ForgetPasswordPage3({super.key});
 
   @override
-  State<LoginViewPage1> createState() => _LoginViewPage1State();
+  State<ForgetPasswordPage3> createState() => _LoginViewPage1State();
 }
 
-class _LoginViewPage1State extends State<LoginViewPage1> {
+class _LoginViewPage1State extends State<ForgetPasswordPage3> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   @override
@@ -55,22 +55,37 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
       ),
       body: Column(
         children: [
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Text(
+                  'We sent you a code',
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                ),
+              ),
+            ],
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
             child: Text(
-              'To get started, first enter your phone, email address or @username',
-              overflow: TextOverflow.clip,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
+              overflow: TextOverflow.fade,
+              style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 20,
+                  color: Colors.black54),
             ),
           ),
           SizedBox(
-            height: 30,
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
               validatorFunc: emailValidation,
-              label: 'Phone, email address, username',
+              label: 'Enter your code',
               controller: myController,
             ),
           ),
@@ -92,15 +107,15 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                     children: [
                       CustomButton(
                         color: Colors.white,
-                        text: 'Forget password?',
+                        text: 'Back',
                         initialEnabled: true,
                         onPressedCallback: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: ForgetPasswordPage1()));
+                          // Navigator.pop(context);
+                          // Navigator.push(
+                          //     context,
+                          //     CustomPageRoute(
+                          //         direction: AxisDirection.left,
+                          //         child: ()));
                         },
                       ),
                       CustomButton(
