@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      readOnly: widget.unreadable!,
+      readOnly: widget.unreadable?? false ,
       controller: widget.controller,
       onTap: () {
         if (widget.onTap != null) {

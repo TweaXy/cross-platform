@@ -69,6 +69,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
+              
               validatorFunc: emailValidation,
               label: 'Phone, email address, username',
               controller: myController,
