@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/constants/custom_text_form_validations.dart';
+import 'package:tweaxy/components/custom_button.dart';
+import 'package:tweaxy/views/login_view_page1.dart';
 
 void main() {
-  runApp(const MainMaterialApp());
+  runApp(const MyApp());
 }
 
 class MainMaterialApp extends StatelessWidget {
@@ -14,13 +14,20 @@ class MainMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(
-          body: Center(
-            child: CustomTextField(
-              label: 'Password',
-              validatorFunc: passwordValidation,
-            ),
-          ),
-        ));
+        home: Scaffold(body: Center(
+          child: Builder(builder: (BuildContext builderContext) {
+            return CustomButton(
+              initialEnabled: true,
+              onPressedCallback: () {
+                Navigator.push(builderContext,
+                    MaterialPageRoute(builder: (context) {
+                  return LoginViewPage1();
+                }));
+              },
+              text: 'Login',
+              color: Colors.black,
+            );
+          }),
+        )));
   }
 }
