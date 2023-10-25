@@ -90,7 +90,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         text: 'Back',
                         initialEnabled: true,
                         onPressedCallback: () {
-                          // Navigator.pop(context);
+                          Navigator.pop(context);
                           // Navigator.push(
                           //     context,
                           //     CustomPageRoute(
@@ -103,14 +103,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         text: 'Next',
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: LoginViewPage2(
-                                    initialValue: myController,
-                                  )));
+                          
                         },
                       ),
                     ],

@@ -89,7 +89,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                             context,
                             CustomPageRoute(
                                 direction: AxisDirection.left,
-                                child: ForgetPasswordPage3()));
+                                child: ForgetPasswordPage2()));
                       },
                     ),
                   ],
