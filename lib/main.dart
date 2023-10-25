@@ -3,11 +3,11 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/views/login_view_page1.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const tweaxy());
 }
 
-class MainMaterialApp extends StatelessWidget {
-  const MainMaterialApp({super.key});
+class tweaxy extends StatelessWidget {
+  const tweaxy({super.key});
 
   // This widget is the root of your application.
   @override
