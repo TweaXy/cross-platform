@@ -85,17 +85,17 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.symmetric(
                     vertical: 25.0, horizontal: 20.0),
-                border: const OutlineInputBorder(borderSide: BorderSide()),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        color: Colors.lightBlue[700]!,
-                        width: 2.0) // Adjust color as needed
-                    ),
+                border: const OutlineInputBorder(),
+                disabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: Colors.black38)),
               ),
             ),
           ),
+          SizedBox(
+            height: 35,
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 40),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
               validatorFunc: passwordValidation,
               label: 'Password',
@@ -105,48 +105,44 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // decoration: BoxDecoration(
-                  //     border: Border(
-                  //         top: BorderSide(color: Colors.black45, width: 0.4))),
-                  children: [
-                    Divider(
-                      color: Colors.black26,
-                      height: 0.5,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0, vertical: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CustomButton(
-                            color: Colors.white,
-                            text: 'Forget password?',
-                            initialEnabled: true,
-                            onPressedCallback: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  CustomPageRoute(
-                                      direction: AxisDirection.left,
-                                      child: ForgetPasswordPage1()));
-                            },
-                          ),
-                          CustomButton(
-                            color: Colors.black,
-                            text: 'Next',
-                            initialEnabled: isButtonEnabled,
-                            onPressedCallback: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
+              child:
+                  Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+                Divider(
+                  color: Colors.black26,
+                  height: 0.5,
+                  thickness: 1,
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomButton(
+                        color: Colors.white,
+                        text: 'Forget password?',
+                        initialEnabled: true,
+                        onPressedCallback: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: ForgetPasswordPage1()));
+                        },
                       ),
-                    ),
-                  ]),
+                      CustomButton(
+                        color: Colors.black,
+                        text: 'Next',
+                        initialEnabled: isButtonEnabled,
+                        onPressedCallback: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
             ),
           )
         ],
