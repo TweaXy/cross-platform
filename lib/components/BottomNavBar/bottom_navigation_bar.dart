@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:icon_decoration/icon_decoration.dart';
-import 'package:tweaxy/components/BottomNavBar/home_icon.dart';
-import 'package:tweaxy/components/BottomNavBar/notification_icon.dart';
+import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
+import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
+import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
+import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 
 class BottomNaviagtion extends StatefulWidget {
   const BottomNaviagtion({super.key});
@@ -27,56 +29,27 @@ class _BottomNaviagtionState extends State<BottomNaviagtion> {
       items: <BottomNavigationBarItem>[
         //home icon
         BottomNavigationBarItem(
-          icon: IconButton(
-              onPressed: () => _onItemTapped(0),
-              icon:HomeIcon(selectedIndex: _selectedIndex,)),
+          icon: HomeIcon(
+            selectedIndex: _selectedIndex,
+          ),
           label: '',
         ),
         //search icon
         BottomNavigationBarItem(
-            icon: IconButton(
-                onPressed: () => _onItemTapped(1),
-                icon: DecoratedIcon(
-                  icon: Icon(
-                    FontAwesomeIcons.magnifyingGlass,
-                    color: _selectedIndex == 1
-                        ? Colors.black
-                        : Color.fromARGB(255, 137, 137, 137),
-                  ),
-                  decoration: IconDecoration(
-                      border: IconBorder(width: _selectedIndex == 1 ? 2 : 1)),
-                )),
+            icon: SearchIcon(
+              selectedIndex: _selectedIndex,
+            ),
             label: ''),
         //notification icon
         BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () => _onItemTapped(2),
-            icon: NotificationIcon(
-              iconColor: _selectedIndex == 2
-                  ? Colors.black
-                  : Color.fromARGB(255, 93, 93, 93),
-              borderWidth: _selectedIndex == 2 ? 2 : 1,
-            ),
+          icon: NotificationIcon(
+            selectedIndex: _selectedIndex,
           ),
           label: '',
         ),
         //message icon
         BottomNavigationBarItem(
-          icon: IconButton(
-            onPressed: () => _onItemTapped(3),
-            icon: DecoratedIcon(
-              icon: Icon(
-                FontAwesomeIcons.envelope,
-                color: _selectedIndex == 3
-                    ? Colors.black
-                    : Color.fromARGB(255, 93, 93, 93),
-              ),
-              decoration: IconDecoration(
-                  border: IconBorder(width: _selectedIndex == 3 ? 2 : 1)),
-            ),
-          ),
-          label: '',
-        ),
+            icon: MessageIcon(selectedIndex: _selectedIndex), label: ''),
       ],
       currentIndex: _selectedIndex,
       onTap: _onItemTapped, // Handle item selection
