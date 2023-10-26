@@ -33,3 +33,10 @@ String? codeValidation({required String? inputValue}) {
   }
   return null;
 }
+
+String? usernameValidation({required String? inputValue}) {
+  if (inputValue == null || inputValue.isEmpty) {
+    return "username is required";
+  }
+  return null;
+}
