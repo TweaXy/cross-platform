@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-import 'package:tweaxy/constants/theme_validations.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key, required this.setBirthDate});

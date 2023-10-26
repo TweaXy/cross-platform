@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
-import 'package:tweaxy/constants/theme_validations.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CreateAccountDateReview extends StatefulWidget {
   const CreateAccountDateReview(
@@ -75,8 +75,8 @@ class _CreateAccountDateReviewState extends State<CreateAccountDateReview> {
                 widthFactor: 4.8,
                 alignment: Alignment.center,
                 child: Container(
-                  height: MediaQuery.of(context).size.height*0.07,
-                  width: MediaQuery.of(context).size.width*0.8,
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.8,
                   child: ElevatedButton(
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
@@ -87,8 +87,8 @@ class _CreateAccountDateReviewState extends State<CreateAccountDateReview> {
                           side: BorderSide(color: Colors.blueGrey.shade200)),
                     ),
                     child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10, horizontal: 4),
                       child: Text(
                         "Sign up",
                         style: TextStyle(
