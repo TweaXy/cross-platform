@@ -7,7 +7,7 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/add_password_view.dart';
+import 'package:tweaxy/views/signup/add_password_view.dart';
 
 class SingupCodeVerificationView extends StatefulWidget {
   SingupCodeVerificationView({super.key, required this.email});

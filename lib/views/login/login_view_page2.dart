@@ -1,30 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
-import 'package:tweaxy/views/forget_password_page2.dart';
-import 'package:tweaxy/views/login_view_page2.dart';
+import 'package:tweaxy/views/login/forget_password_page1.dart';
 
-class ForgetPasswordPage3 extends StatefulWidget {
-  const ForgetPasswordPage3({super.key});
+// ignore: must_be_immutable
+class LoginViewPage2 extends StatefulWidget {
+  final TextEditingController initialValue;
+  LoginViewPage2({super.key, required this.initialValue});
 
   @override
-  State<ForgetPasswordPage3> createState() => _LoginViewPage1State();
+  State<LoginViewPage2> createState() => _LoginViewPage2State();
 }
 
-class _LoginViewPage1State extends State<ForgetPasswordPage3> {
-  TextEditingController myController = TextEditingController();
+class _LoginViewPage2State extends State<LoginViewPage2> {
+  TextEditingController myControllerPassword = TextEditingController();
   bool isButtonEnabled = false;
   @override
   void initState() {
     super.initState();
-    myController.addListener(_updateButtonState);
+    myControllerPassword.addListener(_updateButtonState);
   }
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myControllerPassword.text.isNotEmpty;
     });
   }
 
@@ -35,9 +36,9 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
         backgroundColor: Colors.white,
         elevation: 0,
         flexibleSpace: Center(
-          child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 20),
             child: Image.asset(
-              alignment: Alignment.center,
               'assets/images/logo-black.png', // Replace with the path to your image
               height: 25,
             ),
@@ -58,35 +59,47 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: const EdgeInsets.only(left: 15),
                 child: Text(
-                  'We sent you a code',
-                  overflow: TextOverflow.clip,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  'Enter your password',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
                 ),
               ),
+              // Other widgets...
             ],
           ),
+          SizedBox(
+            height: 30,
+          ),
           Padding(
-            padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
-            child: Text(
-              'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
-              overflow: TextOverflow.fade,
+            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            child: TextField(
               style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  color: Colors.black54),
+                color: Colors.black,
+              ),
+              controller: widget.initialValue,
+              enabled: false,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 20.0),
+                border: const OutlineInputBorder(),
+                disabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(width: 2, color: Colors.black38)),
+              ),
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 35,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
-              validatorFunc: emailValidation,
-              label: 'Enter your code',
-              controller: myController,
+              validatorFunc: passwordValidation,
+              label: 'Password',
+              controller: myControllerPassword,
             ),
           ),
           Expanded(
@@ -107,15 +120,15 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                     children: [
                       CustomButton(
                         color: Colors.white,
-                        text: 'Back',
+                        text: 'Forget password?',
                         initialEnabled: true,
                         onPressedCallback: () {
-                          // Navigator.pop(context);
-                          // Navigator.push(
-                          //     context,
-                          //     CustomPageRoute(
-                          //         direction: AxisDirection.left,
-                          //         child: ()));
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: ForgetPasswordPage1()));
                         },
                       ),
                       CustomButton(
@@ -124,13 +137,6 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () {
                           Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: LoginViewPage2(
-                                    initialValue: myController,
-                                  )));
                         },
                       ),
                     ],
