@@ -11,8 +11,12 @@ class CustomParagraphText extends StatelessWidget {
       textValue,
       textAlign: textAlign,
       overflow: TextOverflow.fade,
-      style: const TextStyle(
-          fontWeight: FontWeight.w400, fontSize: 20, color: Colors.black54),
+      style: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+          color: Brightness.dark == Theme.of(context).brightness
+              ? Colors.white54
+              : Colors.black54),
     );
   }
 }

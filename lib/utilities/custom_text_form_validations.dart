@@ -26,3 +26,10 @@ String? nameValidation({required String? inputValue}) {
   }
   return null;
 }
+
+String? codeValidation({required String? inputValue}) {
+  if (inputValue == null || inputValue.isEmpty) {
+    return "Code is required";
+  }
+  return null;
+}
