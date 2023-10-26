@@ -16,3 +16,13 @@ String? passwordValidation({required String? inputValue}) {
   }
   return null;
 }
+
+String? nameValidation({required String? inputValue}) {
+  if (inputValue == null || inputValue.isEmpty) {
+    return "Name is required";
+  }
+  if (inputValue.length > 50) {
+    return "Name must be less than 50 character";
+  }
+  return null;
+}
