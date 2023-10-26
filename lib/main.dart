@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/views/create_account_page.dart';
 import 'package:tweaxy/views/login_view_page1.dart';
 
 void main() {
@@ -13,9 +12,22 @@ class tweaxy extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      theme: ThemeData.light(),
+    return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: const Scaffold(body: CrearAccount()));
+        home: Scaffold(body: Center(
+          child: Builder(builder: (BuildContext builderContext) {
+            return CustomButton(
+              initialEnabled: true,
+              onPressedCallback: () {
+                Navigator.push(builderContext,
+                    MaterialPageRoute(builder: (context) {
+                  return LoginViewPage1();
+                }));
+              },
+              text: 'Login',
+              color: Colors.black,
+            );
+          }),
+        )));
   }
 }

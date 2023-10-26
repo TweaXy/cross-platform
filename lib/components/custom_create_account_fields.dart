@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/constants/custom_text_form_validations.dart';
+import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 
 class CustomCreateAccountFields extends StatefulWidget {
   const CustomCreateAccountFields(
@@ -28,7 +28,7 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
     return Column(
       children: [
         Padding(
-          padding:  EdgeInsets.only(top: widget.topPadding),
+          padding: EdgeInsets.only(top: widget.topPadding),
           child: CustomTextField(
               onTap: widget.birthDateHide,
               label: "Name",

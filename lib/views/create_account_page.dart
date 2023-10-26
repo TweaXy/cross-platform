@@ -4,7 +4,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_create_account_fields.dart';
 import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
-import 'package:tweaxy/constants/theme_validations.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CrearAccount extends StatefulWidget {
   const CrearAccount({super.key});
@@ -110,9 +110,7 @@ class _CrearAccountState extends State<CrearAccount> {
                   child: CustomButton(
                       color: forgroundColorTheme(context),
                       text: "Next",
-                      onPressedCallback: () {
-
-                      },
+                      onPressedCallback: () {},
                       initialEnabled: _isnextButtonEnabled),
                 ),
               ],
