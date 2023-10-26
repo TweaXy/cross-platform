@@ -46,6 +46,7 @@ class _CreateAccountDateReviewState extends State<CreateAccountDateReview> {
                     alignment: Alignment.centerLeft,
                     child: CustomHeadText(
                       textValue: "Create your account",
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   Padding(

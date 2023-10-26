@@ -80,6 +80,7 @@ class _CrearAccountState extends State<CrearAccount> {
                     alignment: Alignment.centerLeft,
                     child: CustomHeadText(
                       textValue: "Create your account",
+                      textAlign: TextAlign.center,
                     ),
                   ),
                   CustomCreateAccountFields(
