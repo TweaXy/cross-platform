@@ -62,10 +62,14 @@ class _CrearAccountState extends State<CrearAccount> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: CustomAppbar(
-              iconAction: _naviagationaction,
-              iconShape: Icon(
-                Icons.arrow_back,
-                color: forgroundColorTheme(context),
+              iconButton: IconButton(
+                icon: Icon(
+                  Icons.arrow_back,
+                  color: forgroundColorTheme(context),
+                ),
+                onPressed: () {
+                  _naviagationaction;
+                },
               ),
             ),
           ),
