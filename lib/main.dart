@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/views/login_view_page1.dart';
+import 'package:tweaxy/views/login/login_view_page1.dart';
 
 void main() {
   runApp(const tweaxy());
