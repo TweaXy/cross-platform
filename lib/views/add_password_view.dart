@@ -7,19 +7,18 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/add_password_view.dart';
+import 'package:tweaxy/views/add_username_view.dart';
 
-class SingupCodeVerificationView extends StatefulWidget {
-  SingupCodeVerificationView({super.key, required this.email});
-  final String email;
+class AddPasswordView extends StatefulWidget {
+  AddPasswordView({
+    super.key,
+  });
 
   @override
-  State<SingupCodeVerificationView> createState() =>
-      _SingupCodeVerificationViewState();
+  State<AddPasswordView> createState() => _AddPasswordViewState();
 }
 
-class _SingupCodeVerificationViewState
-    extends State<SingupCodeVerificationView> {
+class _AddPasswordViewState extends State<AddPasswordView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   @override
@@ -42,14 +41,8 @@ class _SingupCodeVerificationViewState
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
-            child: CustomAppbar(
-              iconButton: IconButton(
-                icon: Icon(
-                  Icons.arrow_back,
-                  color: forgroundColorTheme(context),
-                ),
-                onPressed: () {},
-              ),
+            child: const CustomAppbar(
+              iconButton: null,
             ),
           ),
           SizedBox(
@@ -64,30 +57,30 @@ class _SingupCodeVerificationViewState
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: CustomHeadText(
-                      textValue: "We sent you a code",
+                    child: const CustomHeadText(
+                      textValue: "You'll need a password",
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.03),
-                    child: CustomParagraphText(
-                        textValue: "Enter it below to verify ${widget.email} ",
+                    child: const CustomParagraphText(
+                        textValue: "Make sure it's 8 characters or more",
                         textAlign: TextAlign.left),
                   ),
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.02),
                     child: CustomTextField(
-                      label: "Verification Code",
-                      validatorFunc: codeValidation,
+                      label: "Password",
+                      validatorFunc: passwordValidation,
                       controller: myController,
                     ),
                   ),
                   GestureDetector(
                     onTap: () {},
-                    child: Text('Didn\'t receive email?',
+                    child: const Text('Didn\'t receive email?',
                         style: TextStyle(
                           color: Colors.blue,
                         )),
@@ -100,7 +93,7 @@ class _SingupCodeVerificationViewState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Divider(),
+                const Divider(),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: CustomButton(
@@ -112,7 +105,7 @@ class _SingupCodeVerificationViewState
                           context,
                           CustomPageRoute(
                               direction: AxisDirection.left,
-                              child: AddPasswordView()));
+                              child: AddUsernameView()));
                     },
                     initialEnabled: isButtonEnabled,
                   ),

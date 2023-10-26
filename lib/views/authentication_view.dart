@@ -18,10 +18,14 @@ class AuthenticationView extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: CustomAppbar(
-              iconAction: (context) {},
-              iconShape: Icon(
-                Icons.close,
-                color: forgroundColorTheme(context),
+              iconButton: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(
+                  Icons.close,
+                  color: forgroundColorTheme(context),
+                ),
               ),
             ),
           ),
@@ -35,19 +39,19 @@ class AuthenticationView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.shield_outlined,
                   size: 150,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 20.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20.0),
                   child: CustomHeadText(
                     textValue: "Authenticate your account",
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 20),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 20),
                   child: CustomParagraphText(
                     textValue: "We need to make sure that you're a real person",
                     textAlign: TextAlign.center,
@@ -65,7 +69,7 @@ class AuthenticationView extends StatelessWidget {
                           context,
                           CustomPageRoute(
                               direction: AxisDirection.left,
-                              child: NotRobotView()));
+                              child: const NotRobotView()));
                     },
                   ),
                 )
