@@ -5,7 +5,7 @@ import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/not_robot_view.dart';
+import 'package:tweaxy/views/signup/not_robot_view.dart';
 
 class AuthenticationView extends StatelessWidget {
   const AuthenticationView({super.key});
