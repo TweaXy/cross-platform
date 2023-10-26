@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/custom_app_bar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/constants/custom_text_form_validations.dart';
-import 'package:tweaxy/views/forget_password_page2.dart';
-import 'package:tweaxy/views/forget_password_page3.dart';
-import 'package:tweaxy/views/login_view_page2.dart';
+import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/views/login/forget_password_page2.dart';
+import 'package:tweaxy/views/login/forget_password_page3.dart';
+import 'package:tweaxy/views/login/login_view_page2.dart';
 
 class ForgetPasswordPage1 extends StatefulWidget {
   const ForgetPasswordPage1({super.key});
@@ -33,7 +32,28 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(context),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        flexibleSpace: Center(
+          child: SafeArea(
+            child: Image.asset(
+              alignment: Alignment.center,
+              'assets/images/logo-black.png', // Replace with the path to your image
+              height: 25,
+            ),
+          ),
+        ),
+        leading: IconButton(
+          icon: Icon(
+            Icons.close_sharp,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Column(
         children: [
           Row(
@@ -89,7 +109,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                             context,
                             CustomPageRoute(
                                 direction: AxisDirection.left,
-                                child: ForgetPasswordPage2()));
+                                child: ForgetPasswordPage3()));
                       },
                     ),
                   ],

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tweaxy/components/custom_app_bar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/views/forget_password_page3.dart';
+import 'package:tweaxy/views/login/forget_password_page3.dart';
 
 class ForgetPasswordPage2 extends StatelessWidget {
   const ForgetPasswordPage2({super.key});
@@ -68,7 +68,7 @@ class ForgetPasswordPage2 extends StatelessWidget {
                       Navigator.push(
                           context,
                           CustomPageRoute(
-                              child: ForgetPasswordPage3(),
+                              child: const ForgetPasswordPage3(),
                               direction: AxisDirection.left));
                     },
                     initialEnabled: true),

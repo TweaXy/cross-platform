@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/views/forget_password_page1.dart';
-import 'package:tweaxy/views/login_view_page1.dart';
+import 'package:tweaxy/views/login/login_view_page1.dart';
 
 void main() {
   runApp(const tweaxy());
@@ -22,7 +21,7 @@ class tweaxy extends StatelessWidget {
               onPressedCallback: () {
                 Navigator.push(builderContext,
                     MaterialPageRoute(builder: (context) {
-                  return ForgetPasswordPage1();
+                  return LoginViewPage1();
                 }));
               },
               text: 'Login',

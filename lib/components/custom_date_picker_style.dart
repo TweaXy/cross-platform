@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CustomDatePicker extends StatefulWidget {
   const CustomDatePicker({super.key, required this.setBirthDate});
   final Function setBirthDate;
+
   @override
   State<CustomDatePicker> createState() => _CustomDatePickerState();
-}
-
-Color setcolor(BuildContext context) {
-  return Brightness.dark == Theme.of(context).brightness
-      ? Colors.white
-      : Colors.black;
 }
 
 class _CustomDatePickerState extends State<CustomDatePicker> {
@@ -22,8 +18,8 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
       child: DatePickerWidget(
         pickerTheme: DateTimePickerTheme(
             backgroundColor: Colors.transparent,
-            dividerColor: setcolor(context),
-            itemTextStyle: TextStyle(color: setcolor(context))),
+            dividerColor: forgroundColorTheme(context),
+            itemTextStyle: TextStyle(color: forgroundColorTheme(context))),
         dateFormat: "MMM-dd-yyyy",
         lastDate: DateTime.now().add(const Duration(days: 2)),
         firstDate: DateTime(1950, 5, 3),

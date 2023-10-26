@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants/custom_text_form_validations.dart';
-import 'package:tweaxy/views/forget_password_page1.dart';
+import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/views/login/forget_password_page1.dart';
 
 // ignore: must_be_immutable
 class LoginViewPage2 extends StatefulWidget {
