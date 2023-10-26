@@ -2,17 +2,14 @@ import 'package:flutter/material.dart';
 
 class ReviewInputTextField extends StatelessWidget {
   final String label;
-  final String value;
 
-  const ReviewInputTextField({required this.label, required this.value});
+  const ReviewInputTextField({super.key, required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: value,
+    return TextField(
+      enabled: false,
       readOnly: true,
-      cursorHeight: 30.0,
-      cursorColor: Colors.lightBlue[700],
       decoration: InputDecoration(
         filled: true,
         suffixIcon: const Icon(
