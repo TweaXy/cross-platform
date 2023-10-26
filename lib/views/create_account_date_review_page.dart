@@ -50,18 +50,15 @@ class _CreateAccountDateReviewState extends State<CreateAccountDateReview> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
-                    child:
-                        ReviewInputTextField(label: "Name", value: widget.name),
+                    child: ReviewInputTextField(label: widget.name),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
-                    child: ReviewInputTextField(
-                        label: "Email", value: widget.email),
+                    child: ReviewInputTextField(label: widget.email),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 15),
-                    child: ReviewInputTextField(
-                        label: "Date of Birth", value: widget.birthdate),
+                    child: ReviewInputTextField(label: widget.birthdate),
                   )
                 ],
               ),
