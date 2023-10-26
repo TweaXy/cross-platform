@@ -1,87 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/Test.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
+import 'package:tweaxy/models/tweet.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key, required this.tabController});
   final TabController tabController;
 
-  final listitems = const [
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item18',
-    'item19',
-    'item20',
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item18',
-    'item19',
-    'item20',
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item18',
-    'item19',
-    'item20',
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item18',
-    'item19',
-    'item20',
+  final List<Tweet> tweets = const [
+    Tweet(
+        userImage: 'assets/girl.jpg',
+        image: 'assets/nature.jpeg',
+        userName: 'Menna Ahmed',
+        userHandle: 'MennaAhmed71',
+        time: '4h',
+        tweetText:
+            'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+    Tweet(
+        userImage: 'assets/logo2.ico',
+        image: 'assets/nature.jpeg',
+        userName: 'Menna Ahmed',
+        userHandle: 'MennaAhmed71',
+        time: '4h',
+        tweetText:
+            'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+    Tweet(
+        userImage: 'assets/logo2.ico',
+        image: 'assets/nature.jpeg',
+        userName: 'Menna Ahmed',
+        userHandle: 'MennaAhmed71',
+        time: '4h',
+        tweetText:
+            'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+    Tweet(
+        userImage: 'assets/logo2.ico',
+        image: 'assets/nature.jpeg',
+        userName: 'Menna Ahmed',
+        userHandle: 'MennaAhmed71',
+        time: '4h',
+        tweetText:
+            'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+    Tweet(
+        userImage: 'assets/logo2.ico',
+        image: 'assets/nature.jpeg',
+        userName: 'Menna Ahmed',
+        userHandle: 'MennaAhmed71',
+        time: '4h',
+        tweetText:
+            'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
   ];
   @override
   Widget build(BuildContext context) {
@@ -89,13 +54,15 @@ class HomePageBody extends StatelessWidget {
       controller: tabController,
       children: <Widget>[
         ListView.builder(
-          itemCount: listitems.length,
+          itemCount: tweets.length,
           itemBuilder: (context, index) {
-            return Test();
+            return CustomTweet(
+              tweet: tweets[index],
+            );
           },
         ),
         ListView.builder(
-          itemCount: listitems.length,
+          itemCount: tweets.length,
           itemBuilder: (context, index) {
             return Icon(Icons.directions_transit, size: 350);
           },
