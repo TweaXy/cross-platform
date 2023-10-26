@@ -53,6 +53,7 @@ class ForgetPasswordPage2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
+                    key: const ValueKey('cancelForgetScreen2'),
                     color: Colors.white,
                     text: 'Cancel',
                     onPressedCallback: () {
@@ -60,6 +61,7 @@ class ForgetPasswordPage2 extends StatelessWidget {
                     },
                     initialEnabled: true),
                 CustomButton(
+                    key: const ValueKey('nextForgetScreen2'),
                     color: Colors.black87,
                     text: 'Next',
                     onPressedCallback: () {
