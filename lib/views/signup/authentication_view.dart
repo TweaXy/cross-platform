@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/not_robot_view.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
@@ -29,10 +28,11 @@ class AuthenticationView extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: CustomAppbar(
-                        key: ValueKey("AuthenticationAppbar"),
+                        key: const ValueKey("AuthenticationAppbar"),
                         iconButton: IconButton(
                           onPressed: () {
-                            Navigator.pop(context);
+                            Navigator.popUntil(
+                                context, (route) => route.isFirst);
                           },
                           icon: Icon(
                             Icons.close,
@@ -61,7 +61,7 @@ class AuthenticationView extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.2,
                         alignment: Alignment.center,
                         child: WebViewPlus(
-                          key: ValueKey("AuthenticationWebView"),
+                          key: const ValueKey("AuthenticationWebView"),
                           javascriptMode: JavascriptMode.unrestricted,
                           backgroundColor: Colors.transparent,
                           onWebViewCreated: (controller) {
@@ -71,12 +71,11 @@ class AuthenticationView extends StatelessWidget {
                             JavascriptChannel(
                               name: 'Captcha',
                               onMessageReceived: (JavascriptMessage message) {
-                                Navigator.pop(context);
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                     context,
-                                    CustomPageRoute(
-                                        direction: AxisDirection.left,
-                                        child: const NotRobotView()));
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const NotRobotView()));
                               },
                             ),
                           },

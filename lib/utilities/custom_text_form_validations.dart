@@ -3,6 +3,9 @@ String? emailValidation({required String? inputValue}) {
   if (inputValue == null || inputValue.isEmpty) {
     return "Email is required";
   }
+  if (!inputValue.contains('@')) {
+    return "Email is invalid";
+  }
   return null;
 }
 
