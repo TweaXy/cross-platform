@@ -7,7 +7,7 @@ import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class AddProfilePictureView extends StatefulWidget {
-  AddProfilePictureView({
+  const AddProfilePictureView({
     super.key,
   });
 
@@ -40,6 +40,7 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: const CustomAppbar(
+              key: ValueKey("AddProfilePictureAppbar"),
               iconButton: null,
             ),
           ),
@@ -71,12 +72,13 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                     child: DottedBorder(
                       borderType: BorderType.RRect,
                       color: Colors.blue,
-                      dashPattern: [6],
+                      dashPattern: const [6],
                       strokeWidth: 2,
                       padding: const EdgeInsets.symmetric(
                           vertical: 30, horizontal: 40),
                       radius: const Radius.circular(12),
                       child: GestureDetector(
+                        key: const ValueKey("uploadButtonGesture"),
                         onTap: () {
                           //Upload the photo
                         },
@@ -114,12 +116,14 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomButton(
+                      key: const ValueKey("addProfilePicSkipButton"),
                       color: backgroundColorTheme(context),
                       text: "Skip for now",
                       onPressedCallback: () {},
                       initialEnabled: true,
                     ),
                     CustomButton(
+                      key: const ValueKey("addProfilePicsNextButton"),
                       color: forgroundColorTheme(context),
                       text: "Next",
                       onPressedCallback: () {},

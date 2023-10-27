@@ -10,7 +10,7 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/add_password_view.dart';
 
 class SingupCodeVerificationView extends StatefulWidget {
-  SingupCodeVerificationView({super.key, required this.email});
+  const SingupCodeVerificationView({super.key, required this.email});
   final String email;
 
   @override
@@ -43,6 +43,7 @@ class _SingupCodeVerificationViewState
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: CustomAppbar(
+              key: const ValueKey("SingupCodeVerificationAppbar"),
               iconButton: IconButton(
                 icon: Icon(
                   Icons.arrow_back,
@@ -64,7 +65,7 @@ class _SingupCodeVerificationViewState
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: CustomHeadText(
+                    child: const CustomHeadText(
                       textValue: "We sent you a code",
                       textAlign: TextAlign.left,
                     ),
@@ -80,14 +81,17 @@ class _SingupCodeVerificationViewState
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.02),
                     child: CustomTextField(
+                      key: const ValueKey("SingupCodeVerificationTextField"),
                       label: "Verification Code",
                       validatorFunc: codeValidation,
                       controller: myController,
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
+                    key: const ValueKey(
+                        "SingupCodeVerificationDidntReceiveEmail"),
                     onTap: () {},
-                    child: Text('Didn\'t receive email?',
+                    child: const Text('Didn\'t receive email?',
                         style: TextStyle(
                           color: Colors.blue,
                         )),
@@ -100,10 +104,11 @@ class _SingupCodeVerificationViewState
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Divider(),
+                const Divider(),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: CustomButton(
+                    key: const ValueKey("SingupCodeVerificationNextButton"),
                     color: forgroundColorTheme(context),
                     text: "Next",
                     onPressedCallback: () {
@@ -112,7 +117,7 @@ class _SingupCodeVerificationViewState
                           context,
                           CustomPageRoute(
                               direction: AxisDirection.left,
-                              child: AddPasswordView()));
+                              child: const AddPasswordView()));
                     },
                     initialEnabled: isButtonEnabled,
                   ),
