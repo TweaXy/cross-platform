@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CustomTextField extends StatefulWidget {
   CustomTextField(
@@ -25,7 +26,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   void validate({required String inputValue}) {
     _errorText = widget.validatorFunc(
         inputValue:
-            inputValue); //null or errorText -> validate functions in constants folder
+            inputValue); //null or errorText -> validate functions in utilites folder
     if (_errorText == null) {
       setState(() {
         _isValid = 1;
@@ -37,10 +38,44 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
   }
 
+  Widget passwordIcons() {
+    return (IconButton(
+      onPressed: () {
+        setState(() {
+          passwordVisible = !(passwordVisible);
+        });
+      },
+      icon: passwordVisible
+          ? const Icon(Icons.visibility_off)
+          : const Icon(Icons.visibility),
+      color: iconColorTheme(context),
+    ));
+  }
+
+  List<Widget> showIcons() {
+    List<Widget> suffixIcons = [];
+    if (widget.label == "Password") {
+      suffixIcons.add(passwordIcons());
+    }
+    if (_isValid != 0) {
+      suffixIcons.add(_isValid == 1
+          ? const Icon(
+              Icons.check_circle,
+              color: Colors.green,
+            )
+          : const Icon(
+              Icons.error,
+              color: Colors.red,
+            ));
+    }
+    return suffixIcons;
+  }
+
   @override
   Widget build(BuildContext context) {
+    showIcons();
     return TextFormField(
-      readOnly: widget.unreadable?? false ,
+      readOnly: widget.unreadable ?? false,
       controller: widget.controller,
       onTap: () {
         if (widget.onTap != null) {
@@ -50,32 +85,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
       cursorHeight: 30.0,
       cursorColor: Colors.lightBlue[700],
       obscureText: widget.label == 'Password' ? !passwordVisible : false,
+      maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
         filled: true,
         fillColor: _isValid == 2 ? Colors.yellow[200] : Colors.transparent,
-        suffixIcon: widget.label != 'Password'
-            ? _isValid == 1
-                ? const Icon(
-                    Icons.check_circle,
-                    color: Colors.green,
-                  )
-                : _isValid == 2
-                    ? const Icon(
-                        Icons.error,
-                        color: Colors.red,
-                      )
-                    : null
-            : IconButton(
-                onPressed: () {
-                  setState(() {
-                    passwordVisible = !(passwordVisible);
-                  });
-                },
-                icon: passwordVisible
-                    ? const Icon(Icons.visibility_off)
-                    : const Icon(Icons.visibility),
-                color: Theme.of(context).primaryColorDark,
-              ),
+        suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Row(mainAxisSize: MainAxisSize.min, children: showIcons()),
+        ),
         contentPadding:
             const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
         labelText: widget.label,
@@ -88,7 +105,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         errorText: _errorText,
       ),
-      onFieldSubmitted: (value) {
+      onChanged: (value) {
         validate(inputValue: value);
       },
     );
