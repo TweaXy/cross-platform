@@ -49,7 +49,9 @@ class _SingupCodeVerificationViewState
                   Icons.arrow_back,
                   color: forgroundColorTheme(context),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                },
               ),
             ),
           ),
