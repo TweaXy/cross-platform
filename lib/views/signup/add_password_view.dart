@@ -10,7 +10,7 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/add_username_view.dart';
 
 class AddPasswordView extends StatefulWidget {
-  AddPasswordView({
+  const AddPasswordView({
     super.key,
   });
 
@@ -43,6 +43,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
             height: MediaQuery.of(context).size.height * 0.1,
             child: const CustomAppbar(
               iconButton: null,
+              key: ValueKey("addPasswordAppbar"),
             ),
           ),
           SizedBox(
@@ -73,6 +74,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.02),
                     child: CustomTextField(
+                      key: ValueKey("addPasswordTextField"),
                       label: "Password",
                       validatorFunc: passwordValidation,
                       controller: myController,
@@ -97,6 +99,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: CustomButton(
+                    key: ValueKey("addPasswordButton"),
                     color: forgroundColorTheme(context),
                     text: "Next",
                     onPressedCallback: () {
