@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/signup_code_verification.dart';
 
@@ -39,11 +38,10 @@ class _NotRobotViewState extends State<NotRobotView>
           scaleController.reverse();
           checkController.reverse();
           Future.delayed(const Duration(milliseconds: 795), () {
-            Navigator.push(
+            Navigator.pushReplacement(
               context,
-              CustomPageRoute(
-                direction: AxisDirection.left,
-                child: SingupCodeVerificationView(
+              MaterialPageRoute(
+                builder: (context) => const SingupCodeVerificationView(
                   email: "exampleeeeeeeeeeee@gmail.com",
                 ),
               ),
