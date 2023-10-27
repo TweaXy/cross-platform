@@ -44,6 +44,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
           ),
         ),
         leading: IconButton(
+          key: const ValueKey("forgetPassView3BackIcon"),
           icon: Icon(
             Icons.close_sharp,
             color: Colors.black,
@@ -84,6 +85,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
+              key: const ValueKey("forgetPassView3TextField"),
               validatorFunc: emailValidation,
               label: 'Enter your code',
               controller: myController,
@@ -106,6 +108,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButton(
+                        key: const ValueKey("forgetPassView3BackButton"),
                         color: Colors.white,
                         text: 'Back',
                         initialEnabled: true,
@@ -119,6 +122,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         },
                       ),
                       CustomButton(
+                        key: const ValueKey("forgetPassView3NextButton"),
                         color: Colors.black,
                         text: 'Next',
                         initialEnabled: isButtonEnabled,

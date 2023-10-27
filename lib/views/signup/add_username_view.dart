@@ -10,7 +10,7 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/add_profile_picture_view.dart';
 
 class AddUsernameView extends StatefulWidget {
-  AddUsernameView({
+  const AddUsernameView({
     super.key,
   });
 
@@ -42,6 +42,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: const CustomAppbar(
+              key: ValueKey("addUsernameAppbar"),
               iconButton: null,
             ),
           ),
@@ -74,12 +75,14 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.02),
                     child: CustomTextField(
+                      key: const ValueKey("addUsernameTextField"),
                       label: "Username",
                       validatorFunc: usernameValidation,
                       controller: myController,
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
+                    key: const ValueKey("addUsernameSuggestions"),
                     onTap: () {},
                     child:
                         const Text('Suggestions -- Suggestions -- Suggestions',
@@ -101,6 +104,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     CustomButton(
+                      key: const ValueKey("addUsernameSkipButton"),
                       color: backgroundColorTheme(context),
                       text: "Skip for now",
                       onPressedCallback: () {
@@ -109,11 +113,12 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                             context,
                             CustomPageRoute(
                                 direction: AxisDirection.left,
-                                child: AddProfilePictureView()));
+                                child: const AddProfilePictureView()));
                       },
                       initialEnabled: true,
                     ),
                     CustomButton(
+                      key: const ValueKey("addUsernameNextButton"),
                       color: forgroundColorTheme(context),
                       text: "Next",
                       onPressedCallback: () {
@@ -122,7 +127,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                             context,
                             CustomPageRoute(
                                 direction: AxisDirection.left,
-                                child: AddProfilePictureView()));
+                                child: const AddProfilePictureView()));
                       },
                       initialEnabled: isButtonEnabled,
                     ),

@@ -29,6 +29,7 @@ class AuthenticationView extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.1,
                       child: CustomAppbar(
+                        key: ValueKey("AuthenticationAppbar"),
                         iconButton: IconButton(
                           onPressed: () {
                             Navigator.pop(context);
@@ -60,6 +61,7 @@ class AuthenticationView extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.2,
                         alignment: Alignment.center,
                         child: WebViewPlus(
+                          key: ValueKey("AuthenticationWebView"),
                           javascriptMode: JavascriptMode.unrestricted,
                           backgroundColor: Colors.transparent,
                           onWebViewCreated: (controller) {

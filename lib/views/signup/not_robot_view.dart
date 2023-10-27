@@ -71,6 +71,7 @@ class _NotRobotViewState extends State<NotRobotView>
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.1,
             child: CustomAppbar(
+              key: const ValueKey("notRobotAppbar"),
               iconButton: IconButton(
                 onPressed: () {
                   Navigator.pop(context);

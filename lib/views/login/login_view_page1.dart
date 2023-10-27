@@ -44,6 +44,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
           ),
         ),
         leading: IconButton(
+          key: const ValueKey("loginView1BackIcon"),
           icon: Icon(
             Icons.close_sharp,
             color: Colors.black,
@@ -69,6 +70,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
+              key: const ValueKey("loginView1TextField"),
               validatorFunc: emailValidation,
               label: 'Phone, email address, username',
               controller: myController,
@@ -91,6 +93,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButton(
+                        key: const ValueKey("loginView1ForgetPassButton"),
                         color: Colors.white,
                         text: 'Forget password?',
                         initialEnabled: true,
@@ -104,6 +107,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                         },
                       ),
                       CustomButton(
+                        key: const ValueKey("loginView1NextButton"),
                         color: Colors.black,
                         text: 'Next',
                         initialEnabled: isButtonEnabled,

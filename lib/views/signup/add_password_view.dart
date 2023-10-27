@@ -74,13 +74,14 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.02),
                     child: CustomTextField(
-                      key: ValueKey("addPasswordTextField"),
+                      key: const ValueKey("addPasswordTextField"),
                       label: "Password",
                       validatorFunc: passwordValidation,
                       controller: myController,
                     ),
                   ),
-                  GestureDetector(
+                  InkWell(
+                    key: const ValueKey("DidntReceiveEmail"),
                     onTap: () {},
                     child: const Text('Didn\'t receive email?',
                         style: TextStyle(
@@ -99,7 +100,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: CustomButton(
-                    key: ValueKey("addPasswordButton"),
+                    key: const ValueKey("addPasswordButton"),
                     color: forgroundColorTheme(context),
                     text: "Next",
                     onPressedCallback: () {
