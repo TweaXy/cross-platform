@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/Components/sign_choose.dart';
-
+import 'package:tweaxy/Components/start_screen_signup_button.dart';
+import 'package:tweaxy/Components/text_and_link.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -29,37 +30,26 @@ class StartScreen extends StatelessWidget {
               ),
               SizedBox(
                 width: double.infinity,
-                child: SignChoose(isDarkMode: isDarkMode),
+                child: Column(
+                  children: [
+                    SignChoose(isDarkMode: isDarkMode),
+                    StartScreenSignupButton(
+                        key: const ValueKey('signupStartScreen'),
+                        isDarkMode: isDarkMode)
+                  ],
+                ),
               ),
               const Spacer(
                 flex: 1,
               ),
               SizedBox(
                 width: double.infinity,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Have an account already? ',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    InkWell(
-                      key: const ValueKey('loginStartScreen'),
-                      onTap: () {
-                        //TODO: Goto Login Page
-                      },
-                      child: const Text(
-                        'Log in',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blue,
-                        ),
-                      ),
-                    ),
-                  ],
+                child: TextAndLink(
+                  text: 'Have an account already? ',
+                  linkedText: 'Log in',
+                  linkKey: const ValueKey('startScreenLinkLogin'),
+                  onPressed: () {},
+                  fontSize: 16,
                 ),
               ),
             ],
