@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tweaxy/Components/sign_choose.dart';
+import 'package:tweaxy/Components/start_screen_signup_button.dart';
+import 'package:tweaxy/Components/web_main_dialog.dart';
 
 class WebStartScreen extends StatelessWidget {
   const WebStartScreen({super.key});
@@ -9,6 +11,8 @@ class WebStartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
+    var dialogWidth = MediaQuery.of(context).size.width / 3 - 20;
+    var dialogHeight = MediaQuery.of(context).size.height * 0.75 - 20;
     return Scaffold(
       body: Row(
         children: [
@@ -47,12 +51,18 @@ class WebStartScreen extends StatelessWidget {
                   ),
                   SizedBox(
                     width: 350,
-                    child: SignChoose(isDarkMode: isDarkMode),
+                    child: Column(
+                      children: [
+                        SignChoose(isDarkMode: isDarkMode),
+                        StartScreenSignupButton(
+                            key: const ValueKey('webSignupStartScreen'),
+                            isDarkMode: isDarkMode)
+                      ],
+                    ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(top:70.0),
+                    padding: const EdgeInsets.only(top: 70.0),
                     child: Column(
-                      
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Padding(
@@ -69,7 +79,19 @@ class WebStartScreen extends StatelessWidget {
                           width: 350,
                           height: 40,
                           child: OutlinedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => WebMainDialog(
+                                  dialogWidth: dialogWidth,
+                                  dialogHeight: dialogHeight,
+                                  isDarkMode: isDarkMode,
+                                ),
+                                barrierColor:
+                                    const Color.fromARGB(100, 97, 119, 129),
+                                barrierDismissible: false,
+                              );
+                            },
                             key: const ValueKey('webStartScreenLogin'),
                             style: ButtonStyle(
                               shape: MaterialStatePropertyAll(

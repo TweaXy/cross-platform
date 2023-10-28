@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:tweaxy/Components/sign_in_with.dart';
 import 'package:tweaxy/Components/start_screen_divider.dart';
-import 'package:tweaxy/Components/start_screen_signup_button.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({
@@ -47,8 +46,6 @@ class SignChoose extends StatelessWidget {
           ),
         ),
         StartScreenDivider(isDarkMode: isDarkMode),
-        StartScreenSignupButton(
-            key: const ValueKey('signupStartScreen'), isDarkMode: isDarkMode)
       ],
     );
   }
