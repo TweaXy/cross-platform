@@ -21,6 +21,7 @@ class MainMaterialApp extends StatelessWidget {
         brightness: brightness,
         fontFamily: 'Roboto',
         scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+        dialogBackgroundColor: isDarkMode ? Colors.black : Colors.white,
       ),
       routes: {
         kSplashScreen: (context) => const SplashScreen(),
