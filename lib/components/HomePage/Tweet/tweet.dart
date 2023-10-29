@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_mobile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_web.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CustomTweet extends StatelessWidget {
   const CustomTweet({super.key, required this.tweet});
@@ -12,23 +16,13 @@ class CustomTweet extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.transparent,
-          border: Border(
-              bottom: BorderSide(
-            // color: Color.fromARGB(255, 155, 154, 154),
-            width: 0.2,
-          ))),
+          color: Colors.transparent, border: Border.all(width: 0.02)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             margin: EdgeInsets.only(left: 2, right: 7),
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(1000),
-                child: Image(
-                  width: 50,
-                  image: AssetImage(tweet.userImage!),
-                )),
+            child: UserImageForTweet(image: tweet.userImage!),
           ),
           Expanded(
             child: Column(
@@ -53,7 +47,7 @@ class CustomTweet extends StatelessWidget {
                     image: AssetImage(tweet.image!),
                   ),
                 ),
-                TweetInteractions()
+                TweetInteractions(),
                 // ClipRRect(
                 //   borderRadius: BorderRadius.circular(10),
                 //   child: AspectRatio(
