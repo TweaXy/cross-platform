@@ -87,6 +87,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.label == 'Password' ? !passwordVisible : false,
       maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
+        prefix: widget.label == "Username" ? const Text("@") : null,
         filled: true,
         fillColor: _isValid == 2 ? Colors.yellow[200] : Colors.transparent,
         suffixIcon: Padding(

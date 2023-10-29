@@ -86,7 +86,7 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              Icons.camera_alt_outlined,
+                              Icons.add_a_photo_outlined,
                               color: Colors.blue,
                               size: 50,
                             ),
