@@ -58,7 +58,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: const CustomHeadText(
+                    child:  CustomHeadText(
                       textValue: "You'll need a password",
                       textAlign: TextAlign.left,
                     ),
@@ -66,7 +66,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.03),
-                    child: const CustomParagraphText(
+                    child:  CustomParagraphText(
                         textValue: "Make sure it's 8 characters or more",
                         textAlign: TextAlign.left),
                   ),

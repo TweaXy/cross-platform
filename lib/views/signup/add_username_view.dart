@@ -58,7 +58,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: const CustomHeadText(
+                    child:  CustomHeadText(
                       textValue: "What should we call you?",
                       textAlign: TextAlign.left,
                     ),
@@ -66,7 +66,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.03),
-                    child: const CustomParagraphText(
+                    child:  CustomParagraphText(
                         textValue:
                             "Your @username is unique. You can always change it later.",
                         textAlign: TextAlign.left),

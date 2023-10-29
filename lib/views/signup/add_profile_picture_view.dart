@@ -56,7 +56,7 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: const CustomHeadText(
+                    child: CustomHeadText(
                       textValue: "Pick a profile picture",
                       textAlign: TextAlign.left,
                     ),
@@ -64,7 +64,7 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.03),
-                    child: const CustomParagraphText(
+                    child:  CustomParagraphText(
                         textValue: "Have a favourite selfie? Upload it now.",
                         textAlign: TextAlign.left),
                   ),
