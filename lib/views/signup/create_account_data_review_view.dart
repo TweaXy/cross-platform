@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
+import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
@@ -21,8 +22,6 @@ class CreateAccountDataReview extends StatefulWidget {
 }
 
 class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
-  void _naviagationaction(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +39,6 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    // _naviagationaction;
                   },
                 ),
               ),
@@ -48,10 +46,13 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.6,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 16, 30, 0),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    right: MediaQuery.of(context).size.width * 0.1),
                 child: Column(
                   children: [
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: CustomHeadText(
                         textValue: "Create your account",
@@ -59,17 +60,17 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           textValue: widget.name, label: "Name"),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           label: "email", textValue: widget.email),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           label: "Date of Birth", textValue: widget.birthdate),
                     )
@@ -81,41 +82,20 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
               height: MediaQuery.of(context).size.height * 0.15,
             ),
             SizedBox(
-              child: Align(
-                  widthFactor: 4.8,
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: ElevatedButton(
-                      key: const ValueKey("createAccountDataReviewNextButton"),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            CustomPageRoute(
-                                direction: AxisDirection.left,
-                                child: const AuthenticationView()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor:
-                            forgroundColorTheme(context), // Background color
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            side: BorderSide(color: Colors.blueGrey.shade200)),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 4),
-                        child: Text(
-                          "Sign up",
-                          style: TextStyle(
-                              color: backgroundColorTheme(context),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20),
-                        ),
-                      ),
-                    ),
-                  )),
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: CustomButton(
+                key: const ValueKey("CreateAccountSignupButton"),
+                color: forgroundColorTheme(context),
+                text: "Sign up",
+                onPressedCallback: () {
+                  Navigator.push(
+                      context,
+                      CustomPageRoute(
+                          direction: AxisDirection.left,
+                          child: const AuthenticationView()));
+                },
+                initialEnabled: true,
+              ),
             ),
           ],
         ),

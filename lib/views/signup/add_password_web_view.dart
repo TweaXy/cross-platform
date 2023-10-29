@@ -24,7 +24,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.isNotEmpty&(myController.text.length>=8);
     });
   }
 
@@ -61,14 +61,14 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CustomHeadText(
+                     CustomHeadText(
                       textValue: "You'll need a password",
                       textAlign: TextAlign.left,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height * 0.02),
-                      child: const CustomParagraphText(
+                      child: CustomParagraphText(
                           textValue: "Make sure it's 8 characters or more",
                           textAlign: TextAlign.left),
                     ),

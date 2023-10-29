@@ -41,15 +41,15 @@ class AuthenticationView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20.0),
+                     Padding(
+                      padding:const EdgeInsets.only(top: 20.0),
                       child: CustomHeadText(
                         textValue: "Authenticate your account",
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 20),
+                     Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 20),
                       child: CustomParagraphText(
                         textValue:
                             "We need to make sure that you're a real person",

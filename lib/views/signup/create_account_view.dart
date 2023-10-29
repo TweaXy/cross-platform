@@ -16,7 +16,6 @@ class CreateAccountView extends StatefulWidget {
 }
 
 class _CreateAccountViewState extends State<CreateAccountView> {
-  void _naviagationaction(BuildContext context) {}
   TextEditingController nameFieldController = TextEditingController();
   TextEditingController emailFieldController = TextEditingController();
   TextEditingController birthDateFieldController = TextEditingController();
@@ -71,20 +70,21 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                     Icons.arrow_back,
                     color: forgroundColorTheme(context),
                   ),
-                  onPressed: () {
-                    _naviagationaction;
-                  },
+                  onPressed: () {},
                 ),
               ),
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.53,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(30, 16, 30, 0),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.1,
+                    top: MediaQuery.of(context).size.height * 0.02,
+                    right: MediaQuery.of(context).size.width * 0.1),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Align(
+                    Align(
                       alignment: Alignment.centerLeft,
                       child: CustomHeadText(
                         textValue: "Create your account",
@@ -98,7 +98,7 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         birthDateFieldController: birthDateFieldController,
                         emailFieldController: emailFieldController,
                         nameFieldController: nameFieldController,
-                        topPadding: 25)
+                        topPadding: MediaQuery.of(context).size.height * .03)
                   ],
                 ),
               ),

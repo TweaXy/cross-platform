@@ -108,8 +108,8 @@ class _NotRobotViewState extends State<NotRobotView>
                                 child: Icon(Icons.check,
                                     color: Colors.white, size: iconSize))),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 20),
+                       Padding(
+                        padding: const EdgeInsets.only(top: 20),
                         child: CustomParagraphText(
                           textValue:
                               "You've proven you're a human.\nContinue your action.",

@@ -67,7 +67,7 @@ class _SingupCodeVerificationViewState
                   Padding(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).size.height * 0.01),
-                    child: const CustomHeadText(
+                    child:  CustomHeadText(
                       textValue: "We sent you a code",
                       textAlign: TextAlign.left,
                     ),
