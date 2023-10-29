@@ -80,14 +80,6 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                       controller: myController,
                     ),
                   ),
-                  InkWell(
-                    key: const ValueKey("DidntReceiveEmail"),
-                    onTap: () {},
-                    child: const Text('Didn\'t receive email?',
-                        style: TextStyle(
-                          color: Colors.blue,
-                        )),
-                  ),
                 ],
               ),
             ),
