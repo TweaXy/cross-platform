@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
-import 'package:tweaxy/Components/sign_in_with.dart';
-import 'package:tweaxy/Components/start_screen_divider.dart';
+import 'package:tweaxy/components/sign_in_with.dart';
+import 'package:tweaxy/components/start_screen_divider.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({

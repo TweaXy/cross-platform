@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/splash_screen.dart';
-import 'package:tweaxy/Views/start_screen.dart';
-import 'package:tweaxy/Views/start_screen_web.dart';
+import 'package:tweaxy/views/splash_screen.dart';
+import 'package:tweaxy/views/start_screen.dart';
+import 'package:tweaxy/views/start_screen_web.dart';
 import 'package:tweaxy/constants.dart';
 
 void main() {

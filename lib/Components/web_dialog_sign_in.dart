@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Components/sign_choose.dart';
-import 'package:tweaxy/Components/text_and_link.dart';
+import 'package:tweaxy/components/custom_button.dart';
+import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/sign_choose.dart';
+import 'package:tweaxy/components/text_and_link.dart';
+import 'package:tweaxy/components/web_dialog_sign_in_page2.dart';
+import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 
 class WebDialogSignIn extends StatelessWidget {
-  const WebDialogSignIn({
+  WebDialogSignIn({
     super.key,
     required this.dialogWidth,
     required this.isDarkMode,
   });
-
+  TextEditingController myControll = TextEditingController();
   final double dialogWidth;
   final bool isDarkMode;
 
@@ -22,12 +26,44 @@ class WebDialogSignIn extends StatelessWidget {
           width: dialogWidth * 3 / 5,
           child: SignChoose(isDarkMode: isDarkMode),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
+          child: CustomTextField(
+              label: 'Phone, email, or username',
+              validatorFunc: emailValidation,
+              controller: myControll),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 12.0),
+          child: SizedBox(
+              width: 300,
+              height: 40,
+              child: CustomButton(
+                  color: Colors.white,
+                  text: 'Next',
+                  onPressedCallback: () {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        content: WebDialogSignInPage2(
+                          dialogWidth: dialogWidth,
+                          isDarkMode: isDarkMode,
+                          myControll: myControll,
+                        ),
+                      ),
+                      barrierColor: const Color.fromARGB(100, 97, 119, 129),
+                      barrierDismissible: false,
+                    );
+                  },
+                  initialEnabled: true)),
+        ),
         //TODO Add Custom text field here
         //TODO Add Custom Button here
         Padding(
           padding: const EdgeInsets.only(top: 12.0),
           child: SizedBox(
-            width: 350,
+            width: 300,
             height: 40,
             child: OutlinedButton(
               onPressed: () {},
