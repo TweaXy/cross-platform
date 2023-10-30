@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
@@ -32,19 +33,8 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        flexibleSpace: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: Image.asset(
-              'assets/images/logo-black.png', // Replace with the path to your image
-              height: 25,
-            ),
-          ),
-        ),
-        leading: IconButton(
+      appBar: CustomAppbar(
+        iconButton: IconButton(
           key: const ValueKey("loginView2BackIcon"),
           icon: Icon(
             Icons.close_sharp,

@@ -58,22 +58,20 @@ class _CreateAccountViewState extends State<CreateAccountView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppbar(
+        iconButton: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: forgroundColorTheme(context),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: CustomAppbar(
-                key: const ValueKey("createAccountAppbar"),
-                iconButton: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: forgroundColorTheme(context),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.53,
               child: Padding(

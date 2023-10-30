@@ -36,108 +36,105 @@ class _AddUsernameViewState extends State<AddUsernameView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: const CustomAppbar(
+          key: ValueKey("addUsernameAppbar"),
+          iconButton: null,
+        ),
         body: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: const CustomAppbar(
-              key: ValueKey("addUsernameAppbar"),
-              iconButton: null,
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.78,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.05),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.01),
-                    child:  CustomHeadText(
-                      textValue: "What should we call you?",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.03),
-                    child:  CustomParagraphText(
-                        textValue:
-                            "Your @username is unique. You can always change it later.",
-                        textAlign: TextAlign.left),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.02),
-                    child: CustomTextField(
-                      key: const ValueKey("addUsernameTextField"),
-                      label: "Username",
-                      validatorFunc: usernameValidation,
-                      controller: myController,
-                    ),
-                  ),
-                  InkWell(
-                    key: const ValueKey("addUsernameSuggestions"),
-                    onTap: () {},
-                    child:
-                        const Text('Suggestions -- Suggestions -- Suggestions',
+          child: Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.78,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: CustomHeadText(
+                          textValue: "What should we call you?",
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.03),
+                        child: CustomParagraphText(
+                            textValue:
+                                "Your @username is unique. You can always change it later.",
+                            textAlign: TextAlign.left),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.02),
+                        child: CustomTextField(
+                          key: const ValueKey("addUsernameTextField"),
+                          label: "Username",
+                          validatorFunc: usernameValidation,
+                          controller: myController,
+                        ),
+                      ),
+                      InkWell(
+                        key: const ValueKey("addUsernameSuggestions"),
+                        onTap: () {},
+                        child: const Text(
+                            'Suggestions -- Suggestions -- Suggestions',
                             style: TextStyle(
                               color: Colors.blue,
                             )),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.95,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.95,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    CustomButton(
-                      key: const ValueKey("addUsernameSkipButton"),
-                      color: backgroundColorTheme(context),
-                      text: "Skip for now",
-                      onPressedCallback: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            CustomPageRoute(
-                                direction: AxisDirection.left,
-                                child: const AddProfilePictureView()));
-                      },
-                      initialEnabled: true,
-                    ),
-                    CustomButton(
-                      key: const ValueKey("addUsernameNextButton"),
-                      color: forgroundColorTheme(context),
-                      text: "Next",
-                      onPressedCallback: () {
-                        Navigator.pop(context);
-                        Navigator.push(
-                            context,
-                            CustomPageRoute(
-                                direction: AxisDirection.left,
-                                child: const AddProfilePictureView()));
-                      },
-                      initialEnabled: isButtonEnabled,
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomButton(
+                          key: const ValueKey("addUsernameSkipButton"),
+                          color: backgroundColorTheme(context),
+                          text: "Skip for now",
+                          onPressedCallback: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: const AddProfilePictureView()));
+                          },
+                          initialEnabled: true,
+                        ),
+                        CustomButton(
+                          key: const ValueKey("addUsernameNextButton"),
+                          color: forgroundColorTheme(context),
+                          text: "Next",
+                          onPressedCallback: () {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: const AddProfilePictureView()));
+                          },
+                          initialEnabled: isButtonEnabled,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }

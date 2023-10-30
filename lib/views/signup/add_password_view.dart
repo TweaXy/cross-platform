@@ -36,81 +36,79 @@ class _AddPasswordViewState extends State<AddPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: const CustomAppbar(
+          iconButton: null,
+          key: ValueKey("addPasswordAppbar"),
+        ),
         body: SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: const CustomAppbar(
-              iconButton: null,
-              key: ValueKey("addPasswordAppbar"),
-            ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.78,
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: MediaQuery.of(context).size.height * 0.05),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.01),
-                    child:  CustomHeadText(
-                      textValue: "You'll need a password",
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.03),
-                    child:  CustomParagraphText(
-                        textValue: "Make sure it's 8 characters or more",
-                        textAlign: TextAlign.left),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: MediaQuery.of(context).size.height * 0.02),
-                    child: CustomTextField(
-                      key: const ValueKey("addPasswordTextField"),
-                      label: "Password",
-                      validatorFunc: passwordValidation,
-                      controller: myController,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                const Divider(),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: CustomButton(
-                    key: const ValueKey("addPasswordButton"),
-                    color: forgroundColorTheme(context),
-                    text: "Next",
-                    onPressedCallback: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              direction: AxisDirection.left,
-                              child: AddUsernameView()));
-                    },
-                    initialEnabled: isButtonEnabled,
+          child: Column(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.78,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.01),
+                        child: CustomHeadText(
+                          textValue: "You'll need a password",
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.03),
+                        child: CustomParagraphText(
+                            textValue: "Make sure it's 8 characters or more",
+                            textAlign: TextAlign.left),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height * 0.02),
+                        child: CustomTextField(
+                          key: const ValueKey("addPasswordTextField"),
+                          label: "Password",
+                          validatorFunc: passwordValidation,
+                          controller: myController,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Divider(),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      widthFactor: 4.8,
+                      child: CustomButton(
+                        key: const ValueKey("addPasswordButton"),
+                        color: forgroundColorTheme(context),
+                        text: "Next",
+                        onPressedCallback: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const AddUsernameView()));
+                        },
+                        initialEnabled: isButtonEnabled,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    ));
+        ));
   }
 }
