@@ -24,6 +24,8 @@ class ReviewInputTextField extends StatelessWidget {
         labelText: label,
         hintText: textValue,
         border: const OutlineInputBorder(borderSide: BorderSide()),
+        disabledBorder: const OutlineInputBorder(
+            borderSide: BorderSide(width: 2, color: Colors.black38)),
       ),
     );
   }

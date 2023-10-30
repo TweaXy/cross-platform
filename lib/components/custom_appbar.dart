@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppbar({super.key, required this.iconButton});
   final IconButton? iconButton;
   @override
@@ -10,16 +11,17 @@ class CustomAppbar extends StatelessWidget {
       elevation: 0,
       flexibleSpace: Center(
         child: SafeArea(
-          child: Image.asset(
+          child: SvgPicture.asset(
+            'assets/images/logo.svg',
             alignment: Alignment.center,
-            Brightness.dark == Theme.of(context).brightness
-                ? 'assets/images/logo-light.png'
-                : 'assets/images/logo-black.png', // Replace with the path to your image
-            height: 25,
           ),
         ),
       ),
       leading: iconButton,
     );
   }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }
