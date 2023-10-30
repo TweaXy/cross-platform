@@ -19,7 +19,7 @@ class StartScreenSignupButton extends StatelessWidget {
         height: 45,
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, kCreateAcountScreen);
+            Navigator.pushNamed(context, kCreateAcountWebScreen);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(kIsWeb

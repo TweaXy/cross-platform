@@ -6,6 +6,7 @@ const kForgetPass1Screen = 'forget1_screen';
 const kForgetPass2Screen = 'forget2_screen';
 const kForgetPass3Screen = 'forget3_screen';
 const kCreateAcountScreen = 'create_account_screen';
+const kCreateAcountWebScreen = 'create_account_web_screen';
 const kCreateAcountReviewScreen = 'create_account_review_screen';
 const kAuthenticationScreen = 'authentication_screen';
 const kNotRobotScreen = 'not_robot_screen';
