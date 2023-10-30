@@ -5,7 +5,7 @@ class CustomAppbarWeb extends StatelessWidget {
   const CustomAppbarWeb(
       {super.key, required this.icon, required this.pageNumber});
   final String pageNumber;
-  final IconButton icon;
+  final IconButton? icon;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -14,7 +14,7 @@ class CustomAppbarWeb extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.1,
       child: Row(
         children: [
-          icon,
+          icon ?? const SizedBox(),
           Text(
             "Step $pageNumber of 5",
             textAlign: TextAlign.left,

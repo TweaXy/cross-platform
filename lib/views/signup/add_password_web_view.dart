@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
@@ -24,7 +25,8 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty&(myController.text.length>=8);
+      isButtonEnabled =
+          myController.text.isNotEmpty & (myController.text.length >= 8);
     });
   }
 
@@ -42,18 +44,10 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                padding: const EdgeInsets.only(left: 15, top: 15),
-                alignment: Alignment.topLeft,
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: Text(
-                  "Step 5 of 5",
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      color: forgroundColorTheme(context),
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20),
-                ),
+              const CustomAppbarWeb(
+                key: ValueKey("CreateAccountWebAppbar"),
+                pageNumber: "5",
+                icon: null,
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
@@ -61,7 +55,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CustomHeadText(
+                    CustomHeadText(
                       textValue: "You'll need a password",
                       textAlign: TextAlign.left,
                     ),
