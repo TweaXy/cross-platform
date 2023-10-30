@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Components/sign_choose.dart';
-import 'package:tweaxy/Components/start_screen_signup_button.dart';
-import 'package:tweaxy/Components/text_and_link.dart';
+import 'package:tweaxy/components/sign_choose.dart';
+import 'package:tweaxy/components/start_screen_signup_button.dart';
+import 'package:tweaxy/components/text_and_link.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -59,5 +59,3 @@ class StartScreen extends StatelessWidget {
     );
   }
 }
-
-

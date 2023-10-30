@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:tweaxy/Components/sign_choose.dart';
-import 'package:tweaxy/Components/start_screen_signup_button.dart';
-import 'package:tweaxy/Components/web_main_dialog.dart';
+import 'package:tweaxy/components/sign_choose.dart';
+import 'package:tweaxy/components/start_screen_signup_button.dart';
+import 'package:tweaxy/components/web_main_dialog.dart';
 
 class WebStartScreen extends StatelessWidget {
   const WebStartScreen({super.key});
