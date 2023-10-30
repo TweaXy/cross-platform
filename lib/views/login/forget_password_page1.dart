@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
@@ -32,20 +33,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        flexibleSpace: Center(
-          child: SafeArea(
-            child: Image.asset(
-              alignment: Alignment.center,
-              'assets/images/logo-black.png', // Replace with the path to your image
-              height: 25,
-            ),
-          ),
-        ),
-        leading: IconButton(
-          key: const ValueKey("forgetPassView1BackIcon"),
+      appBar: CustomAppbar(iconButton: IconButton(
           icon: Icon(
             Icons.close_sharp,
             color: Colors.black,
@@ -112,7 +100,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                             context,
                             CustomPageRoute(
                                 direction: AxisDirection.left,
-                                child: ForgetPasswordPage3()));
+                                child: ForgetPasswordPage2()));
                       },
                     ),
                   ],

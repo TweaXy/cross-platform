@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/constants.dart';
+
 class StartScreenSignupButton extends StatelessWidget {
   const StartScreenSignupButton({
     super.key,
@@ -17,12 +19,14 @@ class StartScreenSignupButton extends StatelessWidget {
         height: 45,
         child: ElevatedButton(
           onPressed: () {
-            //TODO: Navigate to signup
+            Navigator.pushNamed(context, kCreateAcountScreen);
           },
           style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(
-                kIsWeb?Colors.lightBlue:
-                  isDarkMode ? Colors.white : Colors.black),
+              backgroundColor: MaterialStatePropertyAll(kIsWeb
+                  ? Colors.lightBlue
+                  : isDarkMode
+                      ? Colors.white
+                      : Colors.black),
               shape: const MaterialStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
@@ -33,7 +37,11 @@ class StartScreenSignupButton extends StatelessWidget {
           child: Text(
             'Create Account',
             style: TextStyle(
-              color: kIsWeb?Colors.white: !isDarkMode ? Colors.white : Colors.black87,
+              color: kIsWeb
+                  ? Colors.white
+                  : !isDarkMode
+                      ? Colors.white
+                      : Colors.black87,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),

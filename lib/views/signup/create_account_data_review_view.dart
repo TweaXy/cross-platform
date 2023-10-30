@@ -44,7 +44,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
+              height: MediaQuery.of(context).size.height * 0.8,
               child: Padding(
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width * 0.1,
@@ -78,9 +78,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 ),
               ),
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.15,
-            ),
+
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: CustomButton(
@@ -90,6 +88,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 onPressedCallback: () {
                   Navigator.push(
                       context,
+                      
                       CustomPageRoute(
                           direction: AxisDirection.left,
                           child: const AuthenticationView()));

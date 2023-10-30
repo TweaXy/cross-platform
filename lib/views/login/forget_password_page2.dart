@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tweaxy/components/custom_app_bar.dart';
+import 'package:tweaxy/Components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/views/login/forget_password_page3.dart';
@@ -11,7 +11,16 @@ class ForgetPasswordPage2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(context),
+      appBar: CustomAppbar(iconButton: IconButton(
+          icon: Icon(
+            Icons.close_sharp,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(18, 12, 18, 12),
         child: Column(
