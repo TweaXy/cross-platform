@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/views/login/login_view_page1.dart';
+import 'package:tweaxy/views/signup/add_password_web_view.dart';
+import 'package:tweaxy/views/signup/create_account_view.dart';
+import 'package:tweaxy/views/signup/create_account_web_view.dart';
+import 'package:tweaxy/views/signup/varification_code_web_view.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 import 'package:tweaxy/views/start_screen.dart';
 import 'package:tweaxy/views/start_screen_web.dart';
 import 'package:tweaxy/constants.dart';
 
 void main() {
-  runApp(const MainMaterialApp());
+  runApp(const TweaXy());
 }
 
-class MainMaterialApp extends StatelessWidget {
-  const MainMaterialApp({super.key});
+class TweaXy extends StatelessWidget {
+  const TweaXy({super.key});
 
   @override
   Widget build(BuildContext context) {
