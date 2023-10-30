@@ -12,6 +12,18 @@ class AuthenticationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppbar(
+        key: const ValueKey("AuthenticationAppbar"),
+        iconButton: IconButton(
+          onPressed: () {
+            Navigator.popUntil(context, (route) => route.isFirst);
+          },
+          icon: Icon(
+            Icons.close,
+            color: forgroundColorTheme(context),
+          ),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -25,30 +37,14 @@ class AuthenticationView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      child: CustomAppbar(
-                        key: const ValueKey("AuthenticationAppbar"),
-                        iconButton: IconButton(
-                          onPressed: () {
-                            Navigator.popUntil(
-                                context, (route) => route.isFirst);
-                          },
-                          icon: Icon(
-                            Icons.close,
-                            color: forgroundColorTheme(context),
-                          ),
-                        ),
-                      ),
-                    ),
-                     Padding(
-                      padding:const EdgeInsets.only(top: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
                       child: CustomHeadText(
                         textValue: "Authenticate your account",
                         textAlign: TextAlign.center,
                       ),
                     ),
-                     Padding(
+                    Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 20),
                       child: CustomParagraphText(
                         textValue:

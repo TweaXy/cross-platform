@@ -25,24 +25,21 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppbar(
+        key: const ValueKey("createAccountDataReviewAppbar"),
+        iconButton: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: forgroundColorTheme(context),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: CustomAppbar(
-                key: const ValueKey("createAccountDataReviewAppbar"),
-                iconButton: IconButton(
-                  icon: Icon(
-                    Icons.arrow_back,
-                    color: forgroundColorTheme(context),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.8,
               child: Padding(
@@ -60,17 +57,20 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           textValue: widget.name, label: "Name"),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           label: "email", textValue: widget.email),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(top:  MediaQuery.of(context).size.height * .03),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
                           label: "Date of Birth", textValue: widget.birthdate),
                     )
@@ -78,7 +78,6 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 ),
               ),
             ),
-
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: CustomButton(
@@ -88,7 +87,6 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 onPressedCallback: () {
                   Navigator.push(
                       context,
-                      
                       CustomPageRoute(
                           direction: AxisDirection.left,
                           child: const AuthenticationView()));

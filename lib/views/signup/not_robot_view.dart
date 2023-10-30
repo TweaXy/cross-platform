@@ -64,65 +64,52 @@ class _NotRobotViewState extends State<NotRobotView>
     double circleSize = 140;
     double iconSize = 108;
     return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            child: CustomAppbar(
-              key: const ValueKey("notRobotAppbar"),
-              iconButton: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(
-                  Icons.close,
-                  color: forgroundColorTheme(context),
-                ),
+      appBar: CustomAppbar(
+        key: const ValueKey("notRobotAppbar"),
+        iconButton: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.close,
+            color: forgroundColorTheme(context),
+          ),
+        ),
+      ),
+      body: Center(
+        heightFactor: 2.5,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ScaleTransition(
+              scale: scaleAnimation,
+              child: Column(
+                children: [
+                  Container(
+                    height: circleSize,
+                    width: circleSize,
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                      shape: BoxShape.circle,
+                    ),
+                    child: FadeTransition(
+                        opacity: checkAnimation,
+                        child: Icon(Icons.check,
+                            color: Colors.white, size: iconSize)),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: CustomParagraphText(
+                      textValue:
+                          "You've proven you're a human.\nContinue your action.",
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width * 0.85,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ScaleTransition(
-                  scale: scaleAnimation,
-                  child: Column(
-                    children: [
-                      Container(
-                        height: circleSize,
-                        width: circleSize,
-                        decoration: const BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
-                        ),
-                        child: FadeTransition(
-                            opacity: checkAnimation,
-                            child: Center(
-                                child: Icon(Icons.check,
-                                    color: Colors.white, size: iconSize))),
-                      ),
-                       Padding(
-                        padding: const EdgeInsets.only(top: 20),
-                        child: CustomParagraphText(
-                          textValue:
-                              "You've proven you're a human.\nContinue your action.",
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
