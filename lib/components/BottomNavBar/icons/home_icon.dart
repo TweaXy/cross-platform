@@ -9,7 +9,7 @@ class HomeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Badge(
-      isLabelVisible: true,
+      isLabelVisible: selectedIndex == 0?false:true,
       label: Container(
         width: 7,
         height: 7,

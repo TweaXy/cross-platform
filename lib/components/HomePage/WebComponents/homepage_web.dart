@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/side_nav_Bar.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_Bar.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/models/trending_model.dart';
 
 class HomePageWeb extends StatelessWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
@@ -13,9 +16,12 @@ class HomePageWeb extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
       body: Center(
         child: SizedBox(
-          width: screenWidth * 0.75,
+          width: screenWidth * 0.85,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -26,8 +32,11 @@ class HomePageWeb extends StatelessWidget {
                   child: SideNavBar(),
                 ),
               ),
+              SizedBox(
+                width: screenWidth * 0.02,
+              ),
               Expanded(
-                flex: 6,
+                flex: 8,
                 child: DefaultTabController(
                   length: 2,
                   child: NestedScrollView(
@@ -53,7 +62,14 @@ class HomePageWeb extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(flex: 5, child: Column())
+              SizedBox(
+                width: screenWidth * 0.0009,
+              ),
+              Expanded(
+                  flex: 5,
+                  child: Column(
+                    children: [TrendingList()],
+                  ))
             ],
           ),
         ),

@@ -57,7 +57,14 @@ class HomePageBody extends StatelessWidget {
       children: <Widget>[
         CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: AddPost()),
+            SliverToBoxAdapter(
+              child: kIsWeb
+                  ? AddPost()
+                  : Container(
+                      height: 0,
+                      width: 0,
+                    ),
+            ),
             SliverList(
               delegate: SliverChildBuilderDelegate(childCount: tweets.length,
                   (BuildContext context, int index) {
@@ -70,7 +77,14 @@ class HomePageBody extends StatelessWidget {
         ),
         CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: AddPost()),
+            SliverToBoxAdapter(
+              child: kIsWeb
+                  ? AddPost()
+                  : Container(
+                      height: 0,
+                      width: 0,
+                    ),
+            ),
             SliverList(
                 delegate: SliverChildBuilderDelegate(childCount: tweets.length,
                     (BuildContext context, int index) {

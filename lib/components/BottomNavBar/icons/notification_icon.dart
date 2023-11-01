@@ -8,7 +8,7 @@ class NotificationIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Badge(
-      isLabelVisible: true,
+      isLabelVisible: selectedIndex == 2 ? false : true,
       offset: Offset(6.0, -5.0),
       label: Text('1'),
       backgroundColor: Colors.blue,

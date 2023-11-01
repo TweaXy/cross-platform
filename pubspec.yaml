@@ -40,7 +40,7 @@ dependencies:
   video_player: ^2.7.2
   chewie: ^1.7.1
   like_button: ^2.0.5
-  side_navigation: ^1.0.4
+  dropdown_button2: ^2.3.9
   
   
 
