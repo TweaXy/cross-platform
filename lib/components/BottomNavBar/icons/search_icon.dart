@@ -15,8 +15,8 @@ class SearchIcon extends StatelessWidget {
             ? Colors.black
             : Color.fromARGB(255, 137, 137, 137),
       ),
-      decoration: IconDecoration(
-          border: IconBorder(width: selectedIndex == 1 ? 2 : 1)),
+      // decoration: IconDecoration(
+      // border: IconBorder(width: selectedIndex == 1 ? 1 : 0.1)),
     );
   }
 }
