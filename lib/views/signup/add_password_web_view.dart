@@ -46,7 +46,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
             children: [
               const CustomAppbarWeb(
                 key: ValueKey("CreateAccountWebAppbar"),
-                pageNumber: "5",
+                pageNumber: "4",
                 icon: null,
               ),
               SizedBox(

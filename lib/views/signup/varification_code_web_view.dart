@@ -126,11 +126,12 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: const AddPasswordWebView()));
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AddPasswordWebView() ,
+                      barrierColor: Colors.transparent,
+                      barrierDismissible: false,
+                    );
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/web_dialog_sign_in.dart';
+import 'package:tweaxy/views/login/web_dialog_sign_in.dart';
 
 class WebMainDialog extends StatelessWidget {
   const WebMainDialog({

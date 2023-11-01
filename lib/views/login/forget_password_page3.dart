@@ -4,6 +4,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page2.dart';
 import 'package:tweaxy/views/login/login_view_page2.dart';
 
@@ -31,6 +32,8 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
@@ -53,7 +56,10 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                 child: Text(
                   'We sent you a code',
                   overflow: TextOverflow.clip,
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 30,
+                  ),
                 ),
               ),
             ],
@@ -64,9 +70,10 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
               'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
               overflow: TextOverflow.fade,
               style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                  color: Colors.black54),
+                fontWeight: FontWeight.w400,
+                fontSize: 20,
+                color: !isDarkMode ? Colors.black87 : Colors.white38,
+              ),
             ),
           ),
           SizedBox(
@@ -99,7 +106,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                     children: [
                       CustomButton(
                         key: const ValueKey("forgetPassView3BackButton"),
-                        color: Colors.white,
+                        color: backgroundColorTheme(context),
                         text: 'Back',
                         initialEnabled: true,
                         onPressedCallback: () {
@@ -113,7 +120,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                       ),
                       CustomButton(
                         key: const ValueKey("forgetPassView3NextButton"),
-                        color: Colors.black,
+                        color: forgroundColorTheme(context),
                         text: 'Next',
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () {

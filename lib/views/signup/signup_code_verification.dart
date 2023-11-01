@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/views/signup/add_password_web_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -119,7 +120,7 @@ class _SingupCodeVerificationViewState
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: const AddPasswordView()));
+                                  child: const AddPasswordWebView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),

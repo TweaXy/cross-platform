@@ -171,18 +171,20 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: CreateAccountDataReviewWebView(
-                              name: nameFieldController.text,
-                              email: emailFieldController.text,
-                              dateOfBirth: dateFormating(
-                                  year: _selectedYear,
-                                  month: _selectedMonth,
-                                  day: _selectedDay),
-                            )));
+                    showDialog(
+                      context: context,
+                      builder: (context) => CreateAccountDataReviewWebView(
+                        name: nameFieldController.text,
+                        email: emailFieldController.text,
+                        dateOfBirth: dateFormating(
+                            year: _selectedYear,
+                            month: _selectedMonth,
+                            day: _selectedDay),
+                      ),
+                      barrierColor:  Colors.transparent,
+                      barrierDismissible: false,
+                    );
+                  
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),
