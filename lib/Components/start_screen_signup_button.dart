@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/views/signup/create_account_web_view.dart';
 import 'package:tweaxy/constants.dart';
 
 class StartScreenSignupButton extends StatelessWidget {
@@ -19,7 +20,13 @@ class StartScreenSignupButton extends StatelessWidget {
         height: 45,
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pushNamed(context, kCreateAcountWebScreen);
+            showDialog(
+              context: context,
+              builder: (context) => CreateAccountWebView(),
+              barrierColor: const Color.fromARGB(100, 97, 119, 129),
+              barrierDismissible: false,
+            );
+            // Navigator.pushNamed(context, kCreateAcountWebScreen);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(kIsWeb

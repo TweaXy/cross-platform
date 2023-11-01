@@ -100,13 +100,14 @@ class _CreateAccountDataReviewWebViewState
                   color: forgroundColorTheme(context),
                   text: "Sign up",
                   onPressedCallback: () {
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: VarificationCodeWebView(
-                              email: widget.email,
-                            )));
+                     showDialog(
+                      context: context,
+                      builder: (context) =>
+                          VarificationCodeWebView(email: widget.email),
+                      barrierColor: Colors.transparent,
+                      barrierDismissible: false,
+                    );
+                   
                   },
                   initialEnabled: true,
                 ),

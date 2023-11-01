@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/signup/authentication_view.dart';
-import 'package:tweaxy/Views/signup/not_robot_view.dart';
+import 'package:tweaxy/views/signup/authentication_view.dart';
+import 'package:tweaxy/views/signup/not_robot_view.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/views/login/login_view_page1.dart';
 import 'package:tweaxy/views/login/login_view_page2.dart';

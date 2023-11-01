@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/views/signup/signup_code_verification.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/authentication_view.dart';
+import 'package:tweaxy/views/signup/varification_code_web_view.dart';
 
 class CreateAccountDataReview extends StatefulWidget {
   const CreateAccountDataReview(
@@ -89,7 +92,10 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       context,
                       CustomPageRoute(
                           direction: AxisDirection.left,
-                          child: const AuthenticationView()));
+                          child: SingupCodeVerificationView(email: widget.email
+                          ,)
+                          ));
+                 
                 },
                 initialEnabled: true,
               ),

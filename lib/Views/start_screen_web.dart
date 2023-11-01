@@ -10,7 +10,7 @@ class WebStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var brightness = MediaQuery.of(context).platformBrightness;
-    bool isDarkMode = brightness == Brightness.dark;
+    bool isDarkMode = brightness == Brightness.light;
     var dialogWidth = MediaQuery.of(context).size.width / 3 - 20;
     var dialogHeight = MediaQuery.of(context).size.height * 0.75 - 20;
     return Scaffold(
@@ -53,7 +53,7 @@ class WebStartScreen extends StatelessWidget {
                     width: 350,
                     child: Column(
                       children: [
-                        SignChoose(isDarkMode: isDarkMode),
+                        SignChoose(isDarkMode: !isDarkMode),
                         StartScreenSignupButton(
                             key: const ValueKey('webSignupStartScreen'),
                             isDarkMode: isDarkMode)
