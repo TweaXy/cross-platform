@@ -9,7 +9,7 @@ class HomeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Badge(
-      isLabelVisible: true,
+      isLabelVisible: selectedIndex == 0 ? false : true,
       label: Container(
         width: 7,
         height: 7,
@@ -24,10 +24,17 @@ class HomeIcon extends StatelessWidget {
       child: DecoratedIcon(
         icon: Icon(
           FontAwesomeIcons.house,
-          color: selectedIndex == 0 ? Colors.black : Colors.white,
+          color: Theme.of(context).brightness == Brightness.light
+              ? (selectedIndex == 0 ? Colors.black : Colors.white)
+              : (selectedIndex == 0 ? Colors.white : Colors.black),
         ),
         decoration: IconDecoration(
-          border: IconBorder(color: Colors.black, width: 4),
+          border: IconBorder(
+              color: Theme.of(context).brightness != Brightness.light &&
+                      selectedIndex != 0
+                  ? Colors.white
+                  : Colors.black,
+              width: 4),
         ),
       ),
     );

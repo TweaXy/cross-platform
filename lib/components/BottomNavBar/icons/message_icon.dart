@@ -10,13 +10,18 @@ class MessageIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedIcon(
       icon: Icon(
+        //
         FontAwesomeIcons.envelope,
-        color: selectedIndex == 3
-            ? Colors.black
-            : Color.fromARGB(255, 93, 93, 93),
+        color: Theme.of(context).brightness == Brightness.light
+            ? (selectedIndex == 3
+                ? Colors.black
+                : Color.fromARGB(255, 137, 137, 137))
+            : (selectedIndex == 3
+                ? Colors.white
+                : Color.fromARGB(255, 176, 176, 176)),
       ),
-      decoration: IconDecoration(
-          border: IconBorder(width: selectedIndex == 3 ? 2 : 1)),
+      decoration:
+          IconDecoration(border: IconBorder(width: selectedIndex == 3 ? 2 : 1)),
     );
   }
 }
