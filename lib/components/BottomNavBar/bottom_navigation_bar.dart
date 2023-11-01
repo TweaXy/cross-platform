@@ -23,39 +23,51 @@ class _BottomNaviagtionState extends State<BottomNaviagtion> {
   }
 
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      backgroundColor: Colors.white,
-      items: <BottomNavigationBarItem>[
-        //home icon
-        BottomNavigationBarItem(
-          icon: HomeIcon(
-            selectedIndex: _selectedIndex,
-          ),
-          label: '',
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+        top: BorderSide(
+          color: const Color.fromARGB(255, 138, 138, 138),
+          width: 0.4,
         ),
-        //search icon
-        BottomNavigationBarItem(
-            icon: SearchIcon(
+      )),
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
+
+        items: <BottomNavigationBarItem>[
+          //home icon
+          BottomNavigationBarItem(
+            icon: HomeIcon(
               selectedIndex: _selectedIndex,
             ),
-            label: ''),
-        //notification icon
-        BottomNavigationBarItem(
-          icon: NotificationIcon(
-            selectedIndex: _selectedIndex,
+            label: '',
           ),
-          label: '',
-        ),
-        //message icon
-        BottomNavigationBarItem(
-            icon: MessageIcon(selectedIndex: _selectedIndex), label: ''),
-      ],
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped, // Handle item selection
+          //search icon
+          BottomNavigationBarItem(
+              icon: SearchIcon(
+                selectedIndex: _selectedIndex,
+              ),
+              label: ''),
+          //notification icon
+          BottomNavigationBarItem(
+            icon: NotificationIcon(
+              selectedIndex: _selectedIndex,
+            ),
+            label: '',
+          ),
+          //message icon
+          BottomNavigationBarItem(
+              icon: MessageIcon(selectedIndex: _selectedIndex), label: ''),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped, // Handle item selection
 
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+      ),
     );
   }
 }

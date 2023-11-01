@@ -10,10 +10,19 @@ class SearchIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return DecoratedIcon(
       icon: Icon(
+        // color: Theme.of(context).brightness != Brightness.light &&
+        //         selectedIndex != 0
+        //     ? Colors.white
+        //     : Colors.black,
+        //  Theme.of(context).brightness != Brightness.light
         FontAwesomeIcons.magnifyingGlass,
-        color: selectedIndex == 1
-            ? Colors.black
-            : Color.fromARGB(255, 137, 137, 137),
+        color: Theme.of(context).brightness == Brightness.light
+            ? (selectedIndex == 1
+                ? Colors.black
+                : Color.fromARGB(255, 137, 137, 137))
+            : (selectedIndex == 1
+                ? Colors.white
+                : Color.fromARGB(255, 176, 176, 176)),
       ),
       // decoration: IconDecoration(
       // border: IconBorder(width: selectedIndex == 1 ? 1 : 0.1)),

@@ -22,11 +22,13 @@ class TrendingList extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
     return Center(
       child: Container(
         decoration: BoxDecoration(
-            color: Color(0xfff7f9f9), borderRadius: BorderRadius.circular(10)),
+            color: Theme.of(context).brightness == Brightness.light
+                ? Color(0xfff7f9f9)
+                : Color(0xff16181c),
+            borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.all(screenWidth * 0.01),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,8 +40,8 @@ class TrendingList extends StatelessWidget {
                   right: screenWidth * 0.009,
                   top: screenWidth * 0.009),
               child: Text(
-                'What\'s Happening',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                'What\'s happening',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
             ),
             SizedBox(height: screenHeight * 0.01),
