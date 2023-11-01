@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_Bar.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';

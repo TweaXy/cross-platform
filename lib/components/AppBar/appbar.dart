@@ -40,7 +40,9 @@ class ApplicationBar extends StatelessWidget {
         icon: Icon(
           FontAwesomeIcons.user,
           size: 25,
-          color: Colors.black,
+          color: Theme.of(context).brightness == Brightness.light
+              ? Colors.black
+              : Colors.white,
         ),
       ),
       bottom: CustomTabBar(
