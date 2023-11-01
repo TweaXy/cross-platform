@@ -40,6 +40,9 @@ class _HomePage2State extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
       body: kIsWeb
           ? HomePageWeb(
               tabController: _tabController,

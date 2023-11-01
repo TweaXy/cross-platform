@@ -13,10 +13,21 @@ class NotificationIcon extends StatelessWidget {
       label: Text('1'),
       backgroundColor: Colors.blue,
       child: Icon(
+        //  Theme.of(context).brightness == Brightness.light
+        //     ? (selectedIndex == 1
+        //         ? Colors.black
+        //         : Color.fromARGB(255, 137, 137, 137))
+        //     : (selectedIndex == 1
+        //         ? Colors.white
+        //         : const Color.fromARGB(255, 203, 203, 203)),
         FontAwesomeIcons.bell,
-        color: selectedIndex == 2
-            ? Color.fromARGB(255, 0, 0, 0)
-            : Color.fromARGB(255, 93, 93, 93),
+        color: Theme.of(context).brightness == Brightness.light
+            ? (selectedIndex == 2
+                ? Color.fromARGB(255, 0, 0, 0)
+                : Color.fromARGB(255, 93, 93, 93))
+            : (selectedIndex == 2
+                ? Colors.white
+                : Color.fromARGB(255, 176, 176, 176)),
       ),
     );
   }

@@ -41,6 +41,9 @@ class _HomePage2State extends State<HomePageMobile>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
       body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           controller: controller,

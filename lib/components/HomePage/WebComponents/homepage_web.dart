@@ -16,9 +16,6 @@ class HomePageWeb extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black,
       body: Center(
         child: SizedBox(
           width: screenWidth * 0.85,
@@ -46,8 +43,11 @@ class HomePageWeb extends StatelessWidget {
                         (BuildContext context, bool innerBoxIsScrolled) {
                       return <Widget>[
                         SliverAppBar(
+                          elevation: 0,
                           backgroundColor:
-                              Theme.of(context).colorScheme.surface,
+                              Theme.of(context).brightness == Brightness.light
+                                  ? Colors.white
+                                  : Colors.black,
                           pinned: true,
                           title: CustomTabBar(
                             isVisible: true,

@@ -171,7 +171,13 @@ class _SideNavBarState extends State<SideNavBar> {
           leading: Icon(
             FontAwesomeIcons.user,
             size: 27,
-            color: Colors.black,
+            color: Theme.of(context).brightness == Brightness.light
+                ? (selectedIndex == 4
+                    ? Colors.black
+                    : Color.fromARGB(255, 137, 137, 137))
+                : (selectedIndex == 4
+                    ? Colors.white
+                    : Color.fromARGB(255, 176, 176, 176)),
           ),
           title: SideBarText(
             text: 'Profile',
