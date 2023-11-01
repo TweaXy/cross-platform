@@ -185,7 +185,7 @@ class _SideNavBarState extends State<SideNavBar> {
             });
           },
         ),
-        SettingsAndSupport(),
+        // SettingsAndSupport(),
         PostButton()
       ],
     );
