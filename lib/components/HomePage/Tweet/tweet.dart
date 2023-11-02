@@ -16,7 +16,13 @@ class CustomTweet extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-          color: Colors.transparent, border: Border.all(width: 0.02)),
+        border: Border(
+            bottom: BorderSide(
+                width: 0.2,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 135, 135, 135)
+                    : const Color.fromARGB(255, 233, 233, 233))),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

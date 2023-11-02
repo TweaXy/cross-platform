@@ -16,6 +16,9 @@ class HomePageWeb extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).brightness == Brightness.light
+          ? Colors.white
+          : Colors.black,
       body: Center(
         child: SizedBox(
           width: screenWidth * 0.85,
@@ -56,8 +59,19 @@ class HomePageWeb extends StatelessWidget {
                         ),
                       ];
                     },
-                    body: HomePageBody(
-                      tabController: tabController,
+                    body: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border.all(
+                            width: 0.09,
+                            color:
+                                Theme.of(context).brightness == Brightness.light
+                                    ? const Color.fromARGB(255, 135, 135, 135)
+                                    : const Color.fromARGB(255, 233, 233, 233)),
+                      ),
+                      child: HomePageBody(
+                        tabController: tabController,
+                      ),
                     ),
                   ),
                 ),
