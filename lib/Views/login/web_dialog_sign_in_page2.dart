@@ -10,12 +10,8 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 // ignore: must_be_immutable
 class WebDialogSignInPage2 extends StatefulWidget {
   WebDialogSignInPage2(
-      {super.key,
-      required this.dialogWidth,
-      required this.isDarkMode,
-      required this.myControll});
+      {super.key, required this.isDarkMode, required this.myControll});
   final TextEditingController myControll;
-  final double dialogWidth;
   final bool isDarkMode;
 
   @override
@@ -42,44 +38,50 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.light;
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.7,
+      height: MediaQuery.of(context).size.height * 0.9,
       width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
-          
-          Row(
-            children: [
-              Text(
-                'Enter your password',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 50),
+            child: Row(
+              children: [
+                Text(
+                  'Enter your password',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
+              ],
+            ),
           ),
           SizedBox(
             height: 30,
           ),
-          TextField(
-            style: TextStyle(
-              color: widget.isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
-            ),
-            controller: widget.myControll,
-            enabled: false,
-            decoration: InputDecoration(
-              labelText: 'Username',
-              floatingLabelBehavior: FloatingLabelBehavior.auto,
-              filled: true,
-              fillColor: !widget.isDarkMode
-                  ? Color(0xff101214)
-                  : Colors.white, // Specify the background color
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
-              border: OutlineInputBorder(),
-              disabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(width: 2, color: backgroundColorTheme(context))),
+          SizedBox(
+            width: 500,
+            child: TextField(
+              style: TextStyle(
+                color:
+                    widget.isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
+              ),
+              controller: widget.myControll,
+              enabled: false,
+              decoration: InputDecoration(
+                labelText: 'Username',
+                floatingLabelBehavior: FloatingLabelBehavior.auto,
+                filled: true,
+                fillColor: !widget.isDarkMode
+                    ? Color(0xff101214)
+                    : Colors.white, // Specify the background color
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
+                border: OutlineInputBorder(),
+                disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        width: 2, color: backgroundColorTheme(context))),
+              ),
             ),
           ),
           Padding(

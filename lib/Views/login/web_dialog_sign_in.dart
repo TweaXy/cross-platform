@@ -6,8 +6,10 @@ import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 import 'package:tweaxy/views/login/web_dialog_sign_in_page2.dart';
 
+// ignore: must_be_immutable
 class WebDialogSignIn extends StatelessWidget {
   WebDialogSignIn({
     super.key,
@@ -31,7 +33,6 @@ class WebDialogSignIn extends StatelessWidget {
             padding: const EdgeInsets.only(top: 8.0),
             child: CustomDialogAppBar(isDarkMode: isDarkMode),
           ),
-
           const Spacer(
             flex: 2,
           ),
@@ -46,7 +47,6 @@ class WebDialogSignIn extends StatelessWidget {
                 validatorFunc: emailValidation,
                 controller: myControll),
           ),
-
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: SizedBox(
@@ -61,7 +61,6 @@ class WebDialogSignIn extends StatelessWidget {
                         context: context,
                         builder: (context) => AlertDialog(
                           content: WebDialogSignInPage2(
-                            dialogWidth: dialogWidth,
                             isDarkMode: isDarkMode,
                             myControll: myControll,
                           ),
@@ -72,15 +71,23 @@ class WebDialogSignIn extends StatelessWidget {
                     },
                     initialEnabled: true)),
           ),
-          //TODO Add Custom text field here
-          //TODO Add Custom Button here
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: SizedBox(
               width: 300,
               height: 40,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pop(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) => const AlertDialog(
+                      content: ForgetPasswordWeb1(),
+                    ),
+                    barrierColor: const Color.fromARGB(100, 97, 119, 129),
+                    barrierDismissible: false,
+                  );
+                },
                 style: ButtonStyle(
                   shape: MaterialStatePropertyAll(
                     RoundedRectangleBorder(
@@ -96,7 +103,6 @@ class WebDialogSignIn extends StatelessWidget {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(top: 24.0),
             child: TextAndLink(
@@ -115,4 +121,3 @@ class WebDialogSignIn extends StatelessWidget {
     );
   }
 }
-
