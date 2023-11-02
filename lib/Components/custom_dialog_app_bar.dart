@@ -13,7 +13,7 @@ class CustomDialogAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.white,
+      backgroundColor: !isDarkMode ? Colors.black : Colors.white,
       leading: IconButton(
         padding: EdgeInsets.only(left: 12.0),
         onPressed: () {
