@@ -38,6 +38,17 @@ dependencies:
   loading_indicator: ^3.1.1
   modal_progress_hud_nsn: ^0.4.0
   shared_preferences: ^2.2.2
+  font_awesome_flutter: ^10.6.0
+  icon_decoration: ^2.0.2
+  hidable: ^1.0.3
+  scroll_to_hide: ^2.0.0 
+  video_player: ^2.7.2
+  chewie: ^1.7.1
+  like_button: ^2.0.5
+  dropdown_button2: ^2.3.9
+  
+  
+
   sign_button: ^2.0.6
   webview_flutter_plus:
   google_fonts: ^6.1.0
@@ -47,7 +58,6 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter packages.
@@ -56,6 +66,7 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/

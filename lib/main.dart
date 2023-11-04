@@ -11,6 +11,7 @@ import 'package:tweaxy/views/signup/varification_code_web_view.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 import 'package:tweaxy/views/start_screen.dart';
 import 'package:tweaxy/views/start_screen_web.dart';
+import 'package:tweaxy/views/homepage.dart';
 
 void main() {
   runApp(const TweaXy());
