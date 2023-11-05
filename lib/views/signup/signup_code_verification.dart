@@ -116,11 +116,10 @@ class _SingupCodeVerificationViewState
                         text: "Next",
                         onPressedCallback: () {
                           Navigator.pop(context);
-                          Navigator.push(
-                              context,
+                          Navigator.push( context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: const AddPasswordWebView()));
+                                  child: const AddPasswordView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),

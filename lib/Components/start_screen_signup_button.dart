@@ -20,13 +20,14 @@ class StartScreenSignupButton extends StatelessWidget {
         height: 45,
         child: ElevatedButton(
           onPressed: () {
-            showDialog(
-              context: context,
-              builder: (context) => CreateAccountWebView(),
-              barrierColor: const Color.fromARGB(100, 97, 119, 129),
-              barrierDismissible: false,
-            );
-            // Navigator.pushNamed(context, kCreateAcountWebScreen);
+            kIsWeb
+                ? showDialog(
+                    context: context,
+                    builder: (context) => const CreateAccountWebView(),
+                    barrierColor: const Color.fromARGB(100, 97, 119, 129),
+                    barrierDismissible: false,
+                  )
+                : Navigator.pushNamed(context, kCreateAcountScreen);
           },
           style: ButtonStyle(
               backgroundColor: MaterialStatePropertyAll(kIsWeb
