@@ -23,7 +23,7 @@ class StartScreenSignupButton extends StatelessWidget {
             kIsWeb
                 ? showDialog(
                     context: context,
-                    builder: (context) => CreateAccountWebView(),
+                    builder: (context) => const CreateAccountWebView(),
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),
                     barrierDismissible: false,
                   )
