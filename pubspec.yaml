@@ -45,6 +45,7 @@ dependencies:
   datepicker_dropdown: ^0.0.8
   dio: ^5.3.3
   fluttertoast: ^8.2.2
+  flutter_styled_toast: ^1.5.2+3
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
