@@ -46,7 +46,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
     return Scaffold(
         appBar: CustomAppbar(
           iconButton: IconButton(
-            key: const ValueKey("loginView2BackIcon"),
+            key: const ValueKey("ResetPasswordMobileBackIcon"),
             icon: const Icon(
               Icons.close_sharp,
               color: Colors.black,
@@ -106,7 +106,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                         right: screenwidth * 0.04,
                       ),
                       child: CustomTextField(
-                        key: const ValueKey("addPasswordTextField"),
+                        key: const ValueKey("ResetPasswordMobileNewPass"),
                         label: "Enter a new password",
                         validatorFunc: passwordValidation,
                         controller: myControllerNewPassword,
@@ -119,7 +119,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                         right: screenwidth * 0.04,
                       ),
                       child: CustomTextField(
-                        key: const ValueKey("addPasswordTextField"),
+                        key: const ValueKey("ResetPasswordMobileConfirmPass"),
                         label: "Confirm your password",
                         validatorFunc: passwordValidation,
                         controller: myControllerConfirmPassword,
@@ -138,7 +138,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomButton(
-                          key: const ValueKey("loginView2NextButton"),
+                          key: const ValueKey("ResetPasswordMobileNextButton"),
                           color: forgroundColorTheme(context),
                           text: 'Change Password',
                           initialEnabled: isButtonEnabled,
