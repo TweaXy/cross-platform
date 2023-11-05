@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_mobile.dart';
 // import 'package:tweaxy/Views/login/resetpassword/reset_password_mobile.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -130,9 +131,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: LoginViewPage2(
-                                    initialValue: myController,
-                                  )));
+                                  child: ResetPasswordMobile()));
                         },
                       ),
                     ],
