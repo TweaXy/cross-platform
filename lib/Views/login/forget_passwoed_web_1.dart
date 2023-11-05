@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/login/forget_passwoed_web_3.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_2.dart';
@@ -16,6 +19,8 @@ class ForgetPasswordWeb1 extends StatefulWidget {
 class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
+  bool isSnackBarShown = false; // Added flag to track SnackBar visibility
+
   @override
   void initState() {
     super.initState();
@@ -94,17 +99,31 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
                         child: CustomButton(
                             color: forgroundColorTheme(context),
                             text: 'Login',
-                            onPressedCallback: () {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: ForgetPasswordWeb2(),
-                                ),
-                                barrierColor:
-                                    const Color.fromARGB(100, 97, 119, 129),
-                                barrierDismissible: false,
-                              );
+                            onPressedCallback: () async {
+                              SignInServices forgetPass = SignInServices(Dio());
+                              String res = await forgetPass.forgetPasswordEmail(
+                                  email: myController.text);
+                              print(res);
+                              if (res != 'success') {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('$res'),
+                                    backgroundColor: Colors.blue,
+                                  ),
+                                );
+                              } else {
+                                Navigator.pop(context);
+
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: ForgetPasswordWeb3(),
+                                  ),
+                                  barrierColor:
+                                      const Color.fromARGB(100, 97, 119, 129),
+                                  barrierDismissible: false,
+                                );
+                              }
                             },
                             initialEnabled: isButtonEnabled)),
                   ),

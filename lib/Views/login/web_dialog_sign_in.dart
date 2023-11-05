@@ -81,7 +81,7 @@ class WebDialogSignIn extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                     context: context,
-                    builder: (context) => const AlertDialog(
+                    builder: (context) => AlertDialog(
                       content: ForgetPasswordWeb1(),
                     ),
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),
