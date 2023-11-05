@@ -120,7 +120,7 @@ class _SingupCodeVerificationViewState
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: const AddPasswordWebView()));
+                                  child: const AddPasswordView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),
