@@ -54,7 +54,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   List<Widget> showIcons() {
     List<Widget> suffixIcons = [];
-    if (widget.label == "Password") {
+    if (widget.label == "Password" ||
+        widget.label == "Enter a new password" ||
+        widget.label == "Confirm your password") {
       suffixIcons.add(passwordIcons());
     }
     if (_isValid != 0) {
