@@ -15,3 +15,4 @@ const kAddPassScreen = 'add_pass_screen';
 const kAddUsernameScreen = 'add_username_screen';
 const kAddProfilePicScreen = 'add_profile_pic_screen';
 const kWebStartScreen = 'web_start_screen';
+const kProfileScreen = 'profile_screen';
