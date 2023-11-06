@@ -5,26 +5,17 @@ import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _MyHomePageState extends State<MyHomePage>
+class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   @override
@@ -196,8 +187,9 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             SliverTabBar(
               expandedHeight: 0,
-              backgroundColor: Colors.transparent,
+              backgroundColor: Colors.white,
               tabBar: TabBar(
+                indicatorWeight: 3,
                 indicatorColor: Colors.blue,
                 indicatorSize: TabBarIndicatorSize.label,
                 controller: _tabController,
@@ -253,7 +245,6 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
     final double opacity = shrinkOffset == minExtent
         ? 0
         : 1 - (shrinkOffset.clamp(minExtent, minExtent + 30) - minExtent) / 30;
-
     return Stack(
       children: [
         Positioned(
@@ -268,7 +259,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 child: const _Avatar(),
               ),
               const Spacer(),
-              FollowEditButton(onPressed: () {}, text: 'UnFollow'),
+              FollowEditButton(text: 'Edit Profile'),
             ],
           ),
         ),
@@ -285,9 +276,18 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
             right: 10,
             child: Row(
               children: [
-                _IconButton(
-                  icon: Icons.arrow_back,
-                  onPressed: () {},
+                Row(
+                  children: [
+                    _IconButton(
+                      icon: Icons.arrow_back,
+                      onPressed: () {
+                        // Navigator.of(context).pop();
+                      },
+                      iconColor: Colors.white,
+                      color: Colors.black,
+                    ),
+                    clowsingRate == 1 ? CollapsedAppBarText() : SizedBox(),
+                  ],
                 ),
                 Spacer(),
                 Row(
@@ -296,12 +296,16 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                       padding: const EdgeInsets.only(right: 12.0),
                       child: _IconButton(
                         icon: Icons.search,
+                        iconColor: Colors.white,
+                        color: Colors.black,
                         onPressed: () {},
                       ),
                     ),
                     _IconButton(
                       icon: Icons.more_vert,
                       onPressed: () {},
+                      iconColor: Colors.white,
+                      color: Colors.black,
                     ),
                   ],
                 ),
@@ -322,36 +326,107 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
       true;
 }
 
-class FollowEditButton extends StatelessWidget {
-  const FollowEditButton({
+class CollapsedAppBarText extends StatelessWidget {
+  const CollapsedAppBarText({
     super.key,
-    required this.onPressed,
-    required this.text,
   });
-  final Function() onPressed;
-  final String text;
+
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: text == 'Follow' ? Colors.white : Colors.black,
-          fontSize: 17,
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 18.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Ahmed Samy',
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Text(
+              NumberFormat.compact().format(21300) + ' Posts',
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.white),
+            ),
+          ),
+        ],
       ),
-      style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll(
-            text == 'Follow' ? Colors.black : Colors.white),
-        minimumSize: MaterialStatePropertyAll<Size>(Size(90, 35)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(color: Colors.black),
+    );
+  }
+}
+
+class FollowEditButton extends StatefulWidget {
+  const FollowEditButton({
+    super.key,
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  State<FollowEditButton> createState() => _FollowEditButtonState();
+}
+
+class _FollowEditButtonState extends State<FollowEditButton> {
+  String? text;
+  @override
+  Widget build(BuildContext context) {
+    text = text ?? widget.text;
+    return Row(
+      children: [
+        text == 'Following'
+            ? Padding(
+                padding: const EdgeInsets.only(right: 16),
+                child: _IconButton(
+                  icon: Icons.notification_add_outlined,
+                  onPressed: () {
+                    //TODO: Implement mute notification
+                  },
+                  color: Colors.white,
+                  iconColor: Colors.black,
+                ),
+              )
+            : const SizedBox(),
+        ElevatedButton(
+          onPressed: () {
+            if (text == 'Follow') {
+              //TODO :- Implement the follow logic
+              setState(() {
+                text = 'Following';
+              });
+            } else if (text == 'Following') {
+              //TODO :- Implement the unfollow logic
+              setState(() {
+                text = 'Follow';
+              });
+            } else {
+              Navigator.of(context).pushNamed(kEditProfileScreen);
+            }
+          },
+          child: Text(
+            text!,
+            style: TextStyle(
+              color: text == 'Follow' ? Colors.white : Colors.black,
+              fontSize: 17,
+            ),
+          ),
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+                text == 'Follow' ? Colors.black : Colors.white),
+            minimumSize: MaterialStatePropertyAll<Size>(Size(90, 35)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: BorderSide(color: Colors.grey),
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -396,7 +471,7 @@ class _banner extends StatelessWidget {
             child: Blur(
               blur: 15 * clowsingRate,
               blurColor: Colors.black,
-              colorOpacity: clowsingRate / 4,
+              colorOpacity: clowsingRate / 3,
               child: SizedBox(
                 width: double.maxFinite,
                 height: double.maxFinite,
@@ -428,21 +503,27 @@ class _IconButton extends StatelessWidget {
   const _IconButton({
     required this.icon,
     required this.onPressed,
+    required this.color,
+    required this.iconColor,
   });
   final Function() onPressed;
   final IconData icon;
-
+  final Color color;
+  final Color iconColor;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: Colors.black.withOpacity(0.5),
+        color: color.withOpacity(0.5),
+        border: iconColor != Colors.white
+            ? Border.all(color: Colors.black26, width: 2)
+            : Border.all(color: Colors.transparent),
       ),
       padding: const EdgeInsets.all(4),
       child: Icon(
         icon,
-        color: Colors.white,
+        color: iconColor,
       ),
     );
   }
