@@ -85,7 +85,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
               key: const ValueKey("forgetPassView3TextField"),
-              validatorFunc: emailValidation,
+              validatorFunc: codeValidation,
               label: 'Enter your code',
               controller: myController,
             ),

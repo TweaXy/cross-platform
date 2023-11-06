@@ -138,7 +138,8 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomButton(
-                          key: const ValueKey("ResetPasswordMobileNextButton"),
+                          key: const ValueKey(
+                              "ResetPasswordMobileChangePassButton"),
                           color: forgroundColorTheme(context),
                           text: 'Change Password',
                           initialEnabled: isButtonEnabled,
