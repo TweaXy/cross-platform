@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tweaxy/Components/custom_head_text.dart';
 import 'package:tweaxy/Components/custom_paragraph_text.dart';
 import 'package:tweaxy/Views/login/reset_password/reset_password_mobile2.dart';
@@ -6,6 +7,7 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
@@ -23,6 +25,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
   TextEditingController myControllerConfirmPassword = TextEditingController();
 
   bool isButtonEnabled = false;
+  bool isValidPass = false;
   @override
   void initState() {
     super.initState();
@@ -148,13 +151,26 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                           color: forgroundColorTheme(context),
                           text: 'Change Password',
                           initialEnabled: isButtonEnabled,
-                          onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: ResetPasswordMobile2()));
+                          onPressedCallback: () async {
+                            String res = await SignInServices.ResetPassword(
+                                myControllerNewPassword.text);
+                            if (res != 'success') {
+                              Fluttertoast.showToast(
+                                msg: '$res',
+                                toastLength: Toast.LENGTH_SHORT,
+                                timeInSecForIosWeb: 2,
+                                backgroundColor: Colors.blue,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                            } else {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: ResetPasswordMobile2()));
+                            }
                           },
                         ),
                       ),

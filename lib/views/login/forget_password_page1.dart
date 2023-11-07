@@ -103,9 +103,9 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                         text: 'Next',
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () async {
-                          SignInServices forgetPass = SignInServices(Dio());
-                          String res = await forgetPass.forgetPasswordEmail(
-                              email: myController.text);
+                          SignInServices.setEmail(email: myController.text);
+                          String res = await SignInServices.forgetPasswordEmail();
+
                           print(res);
                           if (res != 'success') {
                             Fluttertoast.showToast(

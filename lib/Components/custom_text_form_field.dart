@@ -56,8 +56,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         });
       },
       icon: passwordVisible
-          ? const Icon(Icons.visibility_off)
-          : const Icon(Icons.visibility),
+          ? const Icon(Icons.visibility)
+          : const Icon(Icons.visibility_off),
       color: iconColorTheme(context),
     ));
   }

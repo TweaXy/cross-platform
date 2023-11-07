@@ -5,6 +5,7 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
@@ -126,6 +127,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         text: 'Next',
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () {
+                          SignInServices.setToken(token: myController.text);
                           Navigator.pop(context);
                           Navigator.push(
                               context,

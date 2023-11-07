@@ -100,9 +100,10 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
                             color: forgroundColorTheme(context),
                             text: 'Login',
                             onPressedCallback: () async {
-                              SignInServices forgetPass = SignInServices(Dio());
-                              String res = await forgetPass.forgetPasswordEmail(
-                                  email: myController.text);
+                              SignInServices.setEmail(email: myController.text);
+                              String res =
+                                  await SignInServices.forgetPasswordEmail();
+
                               print(res);
                               if (res != 'success') {
                                 ScaffoldMessenger.of(context).showSnackBar(

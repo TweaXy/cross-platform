@@ -76,11 +76,8 @@ class ForgetPasswordWeb2 extends StatelessWidget {
                             color: forgroundColorTheme(context),
                             text: 'Next',
                             onPressedCallback: () async {
-                              SignInServices forgetPass =
-                                  await SignInServices(Dio());
+                              String res = SignInServices.forgetPasswordEmail();
 
-                              Future<String> res =
-                                  forgetPass.forgetPasswordEmail(email: email);
                               if (res != 'sucess') {
                                 ScaffoldMessenger.of(scaffoldContext)
                                     .showSnackBar(
