@@ -17,3 +17,4 @@ const kAddProfilePicScreen = 'add_profile_pic_screen';
 const kWebStartScreen = 'web_start_screen';
 const kProfileScreen = 'profile_screen';
 const kEditProfileScreen = 'edit_profile_screen';
+const kHomeScreen = 'home_page';

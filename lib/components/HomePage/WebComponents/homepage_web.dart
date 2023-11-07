@@ -37,44 +37,7 @@ class HomePageWeb extends StatelessWidget {
               ),
               Expanded(
                 flex: 8,
-                child: DefaultTabController(
-                  length: 2,
-                  child: NestedScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    floatHeaderSlivers: true,
-                    headerSliverBuilder:
-                        (BuildContext context, bool innerBoxIsScrolled) {
-                      return <Widget>[
-                        SliverAppBar(
-                          elevation: 0,
-                          backgroundColor:
-                              Theme.of(context).brightness == Brightness.light
-                                  ? Colors.white
-                                  : Colors.black,
-                          pinned: true,
-                          title: CustomTabBar(
-                            isVisible: true,
-                            tabController: tabController,
-                          ),
-                        ),
-                      ];
-                    },
-                    body: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.transparent,
-                        border: Border.all(
-                            width: 0.09,
-                            color:
-                                Theme.of(context).brightness == Brightness.light
-                                    ? const Color.fromARGB(255, 135, 135, 135)
-                                    : const Color.fromARGB(255, 233, 233, 233)),
-                      ),
-                      child: HomePageBody(
-                        tabController: tabController,
-                      ),
-                    ),
-                  ),
-                ),
+                child: HomeTweets(tabController: tabController),
               ),
               SizedBox(
                 width: screenWidth * 0.0009,
@@ -85,6 +48,57 @@ class HomePageWeb extends StatelessWidget {
                     children: [TrendingList()],
                   ))
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomeTweets extends StatelessWidget {
+  const HomeTweets({
+    super.key,
+    required this.tabController,
+  });
+
+  final TabController tabController;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        floatHeaderSlivers: true,
+        headerSliverBuilder:
+            (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            SliverAppBar(
+              elevation: 0,
+              backgroundColor:
+                  Theme.of(context).brightness == Brightness.light
+                      ? Colors.white
+                      : Colors.black,
+              pinned: true,
+              title: CustomTabBar(
+                isVisible: true,
+                tabController: tabController,
+              ),
+            ),
+          ];
+        },
+        body: Container(
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            border: Border.all(
+                width: 0.09,
+                color:
+                    Theme.of(context).brightness == Brightness.light
+                        ? const Color.fromARGB(255, 135, 135, 135)
+                        : const Color.fromARGB(255, 233, 233, 233)),
+          ),
+          child: HomePageBody(
+            tabController: tabController,
           ),
         ),
       ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/Views/profile/profile_screen.dart';
+import 'package:tweaxy/views/homepage.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
 import 'package:tweaxy/views/signup/authentication_view.dart';
@@ -39,9 +40,10 @@ class TweaXy extends StatelessWidget {
         kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
         kAuthenticationScreen: (context) => const AuthenticationView(),
         kProfileScreen: (context) => ProfileScreen(),
-        kEditProfileScreen:(context) => EditProfileScreen()
+        kEditProfileScreen:(context) => EditProfileScreen(),
+        kHomeScreen:(context) => HomePage(),
       },
-      initialRoute: kProfileScreen,
+      initialRoute: kHomeScreen,
     );
   }
 }
