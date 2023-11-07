@@ -7,18 +7,18 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/add_profile_picture_view.dart';
+import 'package:tweaxy/views/signup/mobile/add_username_view.dart';
 
-class AddUsernameView extends StatefulWidget {
-  const AddUsernameView({
+class AddPasswordView extends StatefulWidget {
+  const AddPasswordView({
     super.key,
   });
 
   @override
-  State<AddUsernameView> createState() => _AddUsernameViewState();
+  State<AddPasswordView> createState() => _AddPasswordViewState();
 }
 
-class _AddUsernameViewState extends State<AddUsernameView> {
+class _AddPasswordViewState extends State<AddPasswordView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   @override
@@ -37,8 +37,8 @@ class _AddUsernameViewState extends State<AddUsernameView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const CustomAppbar(
-          key: ValueKey("addUsernameAppbar"),
           iconButton: null,
+          key: ValueKey("addPasswordAppbar"),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -56,7 +56,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.01),
                         child: CustomHeadText(
-                          textValue: "What should we call you?",
+                          textValue: "You'll need a password",
                           textAlign: TextAlign.left,
                         ),
                       ),
@@ -64,71 +64,45 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: CustomParagraphText(
-                            textValue:
-                                "Your @username is unique. You can always change it later.",
+                            textValue: "Make sure it's 8 characters or more",
                             textAlign: TextAlign.left),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
                         child: CustomTextField(
-                          key: const ValueKey("addUsernameTextField"),
-                          label: "Username",
-                          validatorFunc: usernameValidation,
+                          key: const ValueKey("addPasswordTextField"),
+                          label: "Password",
+                          validatorFunc: passwordValidation,
                           controller: myController,
                         ),
-                      ),
-                      InkWell(
-                        key: const ValueKey("addUsernameSuggestions"),
-                        onTap: () {},
-                        child: const Text(
-                            'Suggestions -- Suggestions -- Suggestions',
-                            style: TextStyle(
-                              color: Colors.blue,
-                            )),
                       ),
                     ],
                   ),
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.95,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     const Divider(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomButton(
-                          key: const ValueKey("addUsernameSkipButton"),
-                          color: backgroundColorTheme(context),
-                          text: "Skip for now",
-                          onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
-                          },
-                          initialEnabled: true,
-                        ),
-                        CustomButton(
-                          key: const ValueKey("addUsernameNextButton"),
-                          color: forgroundColorTheme(context),
-                          text: "Next",
-                          onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
-                          },
-                          initialEnabled: isButtonEnabled,
-                        ),
-                      ],
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      widthFactor: 4.8,
+                      child: CustomButton(
+                        key: const ValueKey("addPasswordButton"),
+                        color: forgroundColorTheme(context),
+                        text: "Next",
+                        onPressedCallback: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const AddUsernameView()));
+                        },
+                        initialEnabled: isButtonEnabled,
+                      ),
                     ),
                   ],
                 ),

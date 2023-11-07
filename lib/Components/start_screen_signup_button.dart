@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/views/signup/create_account_web_view.dart';
+import 'package:tweaxy/views/signup/web/create_account_web_view.dart';
 import 'package:tweaxy/constants.dart';
 
 class StartScreenSignupButton extends StatelessWidget {

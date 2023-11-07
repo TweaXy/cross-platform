@@ -7,18 +7,19 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/add_username_view.dart';
+import 'package:tweaxy/views/signup/mobile/add_password_view.dart';
 
-class AddPasswordView extends StatefulWidget {
-  const AddPasswordView({
-    super.key,
-  });
+class SingupCodeVerificationView extends StatefulWidget {
+  const SingupCodeVerificationView({super.key, required this.email});
+  final String email;
 
   @override
-  State<AddPasswordView> createState() => _AddPasswordViewState();
+  State<SingupCodeVerificationView> createState() =>
+      _SingupCodeVerificationViewState();
 }
 
-class _AddPasswordViewState extends State<AddPasswordView> {
+class _SingupCodeVerificationViewState
+    extends State<SingupCodeVerificationView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   @override
@@ -36,9 +37,17 @@ class _AddPasswordViewState extends State<AddPasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const CustomAppbar(
-          iconButton: null,
-          key: ValueKey("addPasswordAppbar"),
+        appBar: CustomAppbar(
+          key: const ValueKey("SingupCodeVerificationAppbar"),
+          iconButton: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: forgroundColorTheme(context),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -56,7 +65,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.01),
                         child: CustomHeadText(
-                          textValue: "You'll need a password",
+                          textValue: "We sent you a code",
                           textAlign: TextAlign.left,
                         ),
                       ),
@@ -64,18 +73,29 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: CustomParagraphText(
-                            textValue: "Make sure it's 8 characters or more",
+                            textValue:
+                                "Enter it below to verify ${widget.email} ",
                             textAlign: TextAlign.left),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
                         child: CustomTextField(
-                          key: const ValueKey("addPasswordTextField"),
-                          label: "Password",
-                          validatorFunc: passwordValidation,
+                          key:
+                              const ValueKey("SingupCodeVerificationTextField"),
+                          label: "Verification Code",
+                          validatorFunc: codeValidation,
                           controller: myController,
                         ),
+                      ),
+                      InkWell(
+                        key: const ValueKey(
+                            "SingupCodeVerificationDidntReceiveEmail"),
+                        onTap: () {},
+                        child: const Text('Didn\'t receive email?',
+                            style: TextStyle(
+                              color: Colors.blue,
+                            )),
                       ),
                     ],
                   ),
@@ -87,10 +107,10 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                   children: [
                     const Divider(),
                     Align(
-                      alignment: Alignment.bottomRight,
                       widthFactor: 4.8,
+                      alignment: Alignment.bottomRight,
                       child: CustomButton(
-                        key: const ValueKey("addPasswordButton"),
+                        key: const ValueKey("SingupCodeVerificationNextButton"),
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () {
@@ -99,7 +119,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: const AddUsernameView()));
+                                  child: const AddPasswordView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),

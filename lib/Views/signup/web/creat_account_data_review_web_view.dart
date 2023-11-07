@@ -3,9 +3,8 @@ import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/varification_code_web_view.dart';
+import 'package:tweaxy/views/signup/web/varification_code_web_view.dart';
 
 class CreateAccountDataReviewWebView extends StatefulWidget {
   const CreateAccountDataReviewWebView(
@@ -100,14 +99,13 @@ class _CreateAccountDataReviewWebViewState
                   color: forgroundColorTheme(context),
                   text: "Sign up",
                   onPressedCallback: () {
-                     showDialog(
+                    showDialog(
                       context: context,
                       builder: (context) =>
                           VarificationCodeWebView(email: widget.email),
                       barrierColor: Colors.transparent,
                       barrierDismissible: false,
                     );
-                   
                   },
                   initialEnabled: true,
                 ),

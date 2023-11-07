@@ -6,7 +6,7 @@ import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/create_account_data_review_view.dart';
+import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 
 class CreateAccountView extends StatefulWidget {
   const CreateAccountView({super.key});

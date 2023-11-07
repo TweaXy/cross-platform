@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/views/signup/authentication_view.dart';
-import 'package:tweaxy/views/signup/not_robot_view.dart';
+import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/views/login/login_view_page1.dart';
-import 'package:tweaxy/views/login/login_view_page2.dart';
-import 'package:tweaxy/views/signup/add_password_web_view.dart';
-import 'package:tweaxy/views/signup/create_account_view.dart';
-import 'package:tweaxy/views/signup/create_account_web_view.dart';
-import 'package:tweaxy/views/signup/varification_code_web_view.dart';
+import 'package:tweaxy/views/signup/mobile/create_account_view.dart';
+import 'package:tweaxy/views/signup/web/create_account_web_view.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 import 'package:tweaxy/views/start_screen.dart';
 import 'package:tweaxy/views/start_screen_web.dart';

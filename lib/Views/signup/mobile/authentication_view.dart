@@ -3,7 +3,7 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/not_robot_view.dart';
+import 'package:tweaxy/views/signup/mobile/not_robot_view.dart';
 import 'package:webview_flutter_plus/webview_flutter_plus.dart';
 
 class AuthenticationView extends StatelessWidget {

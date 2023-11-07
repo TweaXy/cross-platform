@@ -8,7 +8,7 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/date_formating.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/creat_account_data_review_web_view.dart';
+import 'package:tweaxy/views/signup/web/creat_account_data_review_web_view.dart';
 
 class CreateAccountWebView extends StatefulWidget {
   const CreateAccountWebView({super.key});
@@ -181,10 +181,9 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                             month: _selectedMonth,
                             day: _selectedDay),
                       ),
-                      barrierColor:  Colors.transparent,
+                      barrierColor: Colors.transparent,
                       barrierDismissible: false,
                     );
-                  
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),
