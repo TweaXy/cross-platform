@@ -117,14 +117,18 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                           key: const ValueKey("addProfilePicSkipButton"),
                           color: backgroundColorTheme(context),
                           text: "Skip for now",
-                          onPressedCallback: () {},
+                          onPressedCallback: () {
+                            //TODO: Go to home page
+                          },
                           initialEnabled: true,
                         ),
                         CustomButton(
                           key: const ValueKey("addProfilePicsNextButton"),
                           color: forgroundColorTheme(context),
                           text: "Next",
-                          onPressedCallback: () {},
+                          onPressedCallback: () {
+                            //TODO: Go to home page
+                          },
                           initialEnabled: isButtonEnabled,
                         ),
                       ],
