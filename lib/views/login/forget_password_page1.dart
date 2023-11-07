@@ -104,7 +104,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                         initialEnabled: isButtonEnabled,
                         onPressedCallback: () async {
                           SignInServices.setEmail(email: myController.text);
-                          String res = await SignInServices.forgetPasswordEmail();
+                          String res = await SignInServices.forgetPassword();
 
                           print(res);
                           if (res != 'success') {

@@ -76,7 +76,7 @@ class ForgetPasswordWeb2 extends StatelessWidget {
                             color: forgroundColorTheme(context),
                             text: 'Next',
                             onPressedCallback: () async {
-                              String res = SignInServices.forgetPasswordEmail();
+                              String res = SignInServices.forgetPassword();
 
                               if (res != 'sucess') {
                                 ScaffoldMessenger.of(scaffoldContext)

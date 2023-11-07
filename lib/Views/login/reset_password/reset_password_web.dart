@@ -125,7 +125,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                         color: forgroundColorTheme(context),
                         text: 'Change Password',
                         onPressedCallback: () async {
-                          String res = await SignInServices.ResetPassword(
+                          String res = await SignInServices.resetPassword(
                               myControllerNewPassword.text);
                           if (res != 'success') {
                             ScaffoldMessenger.of(context).showSnackBar(

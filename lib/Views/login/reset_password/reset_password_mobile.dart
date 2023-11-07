@@ -152,7 +152,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                           text: 'Change Password',
                           initialEnabled: isButtonEnabled,
                           onPressedCallback: () async {
-                            String res = await SignInServices.ResetPassword(
+                            String res = await SignInServices.resetPassword(
                                 myControllerNewPassword.text);
                             if (res != 'success') {
                               Fluttertoast.showToast(

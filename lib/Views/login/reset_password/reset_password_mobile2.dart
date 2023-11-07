@@ -71,8 +71,7 @@ class _ResetPasswordMobile2State extends State<ResetPasswordMobile2> {
                       child: SizedBox(
                         width: screenwidth - screenwidth * 0.2,
                         child: CustomButton(
-                          key: const ValueKey(
-                              "ResetPasswordMobileChangePassButton"),
+                          key: const ValueKey("ContinueToXButtonMobile"),
                           color: forgroundColorTheme(context),
                           text: 'Continue to X',
                           initialEnabled: true,

@@ -102,7 +102,7 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
                             onPressedCallback: () async {
                               SignInServices.setEmail(email: myController.text);
                               String res =
-                                  await SignInServices.forgetPasswordEmail();
+                                  await SignInServices.forgetPassword();
 
                               print(res);
                               if (res != 'success') {

@@ -19,7 +19,7 @@ class SignInServices {
     SignInServices.token = token;
   }
 
-  static dynamic forgetPasswordEmail() async {
+  static dynamic forgetPassword() async {
     print(email);
     var res = await Api.post(
       body: {'UUID': email},
@@ -32,7 +32,7 @@ class SignInServices {
       return "success";
   }
 
-  static dynamic ResetPassword(String password) async {
+  static dynamic resetPassword(String password) async {
     var res = await Api.post(
       url: '$baseUrl/auth/resetPassword/$email/$token',
       body: {"password": password},
