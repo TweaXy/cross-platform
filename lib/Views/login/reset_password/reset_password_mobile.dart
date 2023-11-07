@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/Components/custom_head_text.dart';
 import 'package:tweaxy/Components/custom_paragraph_text.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_mobile2.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
@@ -31,8 +32,12 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myControllerNewPassword.text.isNotEmpty;
-      isButtonEnabled = myControllerConfirmPassword.text.isNotEmpty;
+      String c1 = myControllerNewPassword.text;
+      String c2 = myControllerConfirmPassword.text;
+      if (!myControllerNewPassword.text.isEmpty && (c1 == c2))
+        isButtonEnabled = true;
+      else
+        isButtonEnabled = false;
     });
   }
 
@@ -145,6 +150,11 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                           initialEnabled: isButtonEnabled,
                           onPressedCallback: () {
                             Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: ResetPasswordMobile2()));
                           },
                         ),
                       ),

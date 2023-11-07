@@ -5,6 +5,7 @@ import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 
 class ForgetPasswordWeb3 extends StatefulWidget {
   const ForgetPasswordWeb3({super.key});
@@ -87,27 +88,30 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(
-                          height: 50,
-                          width: 350,
-                          child: CustomButton(
-                            key: const ValueKey("forgetPassView3BackButton"),
-                            color: forgroundColorTheme(context),
-                            text: 'Next',
-                            initialEnabled: isButtonEnabled,
-                            onPressedCallback: () {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  content: ResetPasswordWeb(),
-                                ),
-                                barrierColor:
-                                    const Color.fromARGB(100, 97, 119, 129),
-                                barrierDismissible: false,
-                              );
-                            },
-                          ),
-                        ),
+                            height: 50,
+                            width: 350,
+                            child: CustomButton(
+                              key: const ValueKey("forgetPassView3BackButton"),
+                              color: isButtonEnabled
+                                  ? forgroundColorTheme(context)
+                                  : backgroundColorTheme(context),
+                              text: isButtonEnabled ? 'Next' : 'Back',
+                              initialEnabled: true,
+                              onPressedCallback: () {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: isButtonEnabled
+                                        ? ResetPasswordWeb()
+                                        : ForgetPasswordWeb1(),
+                                  ),
+                                  barrierColor:
+                                      const Color.fromARGB(100, 97, 119, 129),
+                                  barrierDismissible: false,
+                                );
+                              },
+                            )),
                       ]),
                 ),
               )

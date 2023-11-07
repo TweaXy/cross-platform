@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/Components/custom_dialog_app_bar.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_web2.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -29,9 +30,12 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
 
   void _updateButtonState() {
     setState(() {
-      bool c1 = myControllerNewPassword.text.isNotEmpty;
-      bool c2 = myControllerConfirmPassword.text.isNotEmpty;
-      if (c1 && c1 == c2) isButtonEnabled = true;
+      String c1 = myControllerNewPassword.text;
+      String c2 = myControllerConfirmPassword.text;
+      if (!myControllerNewPassword.text.isEmpty && (c1 == c2))
+        isButtonEnabled = true;
+      else
+        isButtonEnabled = false;
     });
   }
 
@@ -84,8 +88,6 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                   padding: EdgeInsets.only(
                     top: screenheight * 0.02,
                     bottom: screenheight * 0.04,
-                    left: screenwidth * 0.03,
-                    right: screenwidth * 0.03,
                   ),
                   child: CustomTextField(
                     key: const ValueKey("ResetPasswordWebNewPass"),
@@ -97,8 +99,6 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                 Padding(
                   padding: EdgeInsets.only(
                     bottom: screenheight * 0.03,
-                    left: screenwidth * 0.03,
-                    right: screenwidth * 0.03,
                   ),
                   child: CustomTextField(
                     key: const ValueKey("ResetPasswordWebConfirmPass"),
@@ -122,9 +122,18 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                     child: CustomButton(
                         key: const ValueKey("ResetPasswordWebNext"),
                         color: forgroundColorTheme(context),
-                        text: 'Next',
+                        text: 'Change Password',
                         onPressedCallback: () async {
                           Navigator.pop(context);
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: ResetPasswordWeb2(),
+                            ),
+                            barrierColor:
+                                const Color.fromARGB(100, 97, 119, 129),
+                            barrierDismissible: false,
+                          );
                         },
                         initialEnabled: isButtonEnabled)),
               ),
