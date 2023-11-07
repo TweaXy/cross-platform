@@ -104,13 +104,13 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Divider(),
-                    Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomButton(
@@ -129,8 +129,8 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

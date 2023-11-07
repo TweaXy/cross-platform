@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/views/signup/mobile/signup_code_verification.dart';
+import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -89,9 +89,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       context,
                       CustomPageRoute(
                           direction: AxisDirection.left,
-                          child: SingupCodeVerificationView(
-                            email: widget.email,
-                          )));
+                          child: const AuthenticationView()));
                 },
                 initialEnabled: true,
               ),
