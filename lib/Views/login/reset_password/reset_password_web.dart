@@ -6,6 +6,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -124,16 +125,27 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                         color: forgroundColorTheme(context),
                         text: 'Change Password',
                         onPressedCallback: () async {
-                          Navigator.pop(context);
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              content: ResetPasswordWeb2(),
-                            ),
-                            barrierColor:
-                                const Color.fromARGB(100, 97, 119, 129),
-                            barrierDismissible: false,
-                          );
+                          String res = await SignInServices.ResetPassword(
+                              myControllerNewPassword.text);
+                          if (res != 'success') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('$res'),
+                                backgroundColor: Colors.blue,
+                              ),
+                            );
+                          } else {
+                            Navigator.pop(context);
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                content: ResetPasswordWeb2(),
+                              ),
+                              barrierColor:
+                                  const Color.fromARGB(100, 97, 119, 129),
+                              barrierDismissible: false,
+                            );
+                          }
                         },
                         initialEnabled: isButtonEnabled)),
               ),
