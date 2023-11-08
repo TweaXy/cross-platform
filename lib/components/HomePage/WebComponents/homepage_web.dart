@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/trending_model.dart';
 
 class HomePageWeb extends StatelessWidget {
@@ -21,33 +25,47 @@ class HomePageWeb extends StatelessWidget {
           : Colors.black,
       body: Center(
         child: SizedBox(
-          width: screenWidth * 0.85,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Align(
-                  alignment: Alignment.topRight,
-                  child: SideNavBar(),
+          width: screenWidth * 0.65,
+          child: BlocProvider(
+            create: (context) => SidebarCubit(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 3,
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: SideNavBar(),
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: screenWidth * 0.02,
-              ),
-              Expanded(
-                flex: 8,
-                child: HomeTweets(tabController: tabController),
-              ),
-              SizedBox(
-                width: screenWidth * 0.0009,
-              ),
-              Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [TrendingList()],
-                  ))
-            ],
+                SizedBox(
+                  width: screenWidth * 0.02,
+                ),
+                Expanded(
+                  flex: 8,
+                  child: BlocBuilder<SidebarCubit, SidebarState>(
+                    builder: (context, state) {
+                      if (state is SidebarHomeState)
+                        return HomeTweets(tabController: tabController);
+                      else if (state is SidebarProfileState ||
+                          state is SidebarInitialState)
+                        return ProfileComponentWeb();
+                      //TODO:- Provide The rest of the states
+                      else
+                        return Placeholder();
+                    },
+                  ),
+                ),
+                SizedBox(
+                  width: screenWidth * 0.0009,
+                ),
+                Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [TrendingList()],
+                    ))
+              ],
+            ),
           ),
         ),
       ),
@@ -70,15 +88,13 @@ class HomeTweets extends StatelessWidget {
       child: NestedScrollView(
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
-        headerSliverBuilder:
-            (BuildContext context, bool innerBoxIsScrolled) {
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
               elevation: 0,
-              backgroundColor:
-                  Theme.of(context).brightness == Brightness.light
-                      ? Colors.white
-                      : Colors.black,
+              backgroundColor: Theme.of(context).brightness == Brightness.light
+                  ? Colors.white
+                  : Colors.black,
               pinned: true,
               title: CustomTabBar(
                 isVisible: true,
@@ -92,10 +108,9 @@ class HomeTweets extends StatelessWidget {
             color: Colors.transparent,
             border: Border.all(
                 width: 0.09,
-                color:
-                    Theme.of(context).brightness == Brightness.light
-                        ? const Color.fromARGB(255, 135, 135, 135)
-                        : const Color.fromARGB(255, 233, 233, 233)),
+                color: Theme.of(context).brightness == Brightness.light
+                    ? const Color.fromARGB(255, 135, 135, 135)
+                    : const Color.fromARGB(255, 233, 233, 233)),
           ),
           child: HomePageBody(
             tabController: tabController,

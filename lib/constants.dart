@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 const kSplashScreen = 'splash_screen';
 const kStartScreen = 'start_screen';
 const kLogin1Screen = 'login1_screen';
@@ -18,3 +20,4 @@ const kWebStartScreen = 'web_start_screen';
 const kProfileScreen = 'profile_screen';
 const kEditProfileScreen = 'edit_profile_screen';
 const kHomeScreen = 'home_page';
+const kGreyHoveredColor= Color.fromARGB(50, 158, 158, 158);

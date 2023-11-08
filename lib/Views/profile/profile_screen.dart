@@ -1,12 +1,12 @@
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:intl/intl.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -14,6 +14,28 @@ class ProfileScreen extends StatefulWidget {
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
+
+var listitems = [
+  'item1',
+  'item2',
+  'item3',
+  'item4',
+  'item5',
+  'item6',
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+  'item12',
+  'item13',
+  'item14',
+  'item15',
+  'item16',
+  'item18',
+  'item19',
+  'item20'
+];
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
@@ -26,27 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   int _selectedTabIndex = 0;
-  var listitems = [
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item18',
-    'item19',
-    'item20'
-  ];
+
   @override
   Widget build(BuildContext context) {
     var data = ModalRoute.of(context)?.settings.arguments as String?;
@@ -60,129 +62,17 @@ class _ProfileScreenState extends State<ProfileScreen>
               pinned: true,
               delegate: ProfileScreenAppBar(),
             ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 18.0, left: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 250,
-                      child: Row(
-                        children: [
-                          Text(
-                            'Ahmed Samy',
-                            style: TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5.0),
-                            child:
-                                SvgPicture.asset('assets/images/verified.svg'),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      width: 250,
-                      child: Text(
-                        '@ahmedsamy',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.blueGrey[700],
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 5 / 6,
-                        child: Linkify(
-                          text:
-                              'If there\'s no problem then there\'s a problem\nLink 1:- http://google.com\nLink2:- http://facebook.com',
-                          style: const TextStyle(color: Colors.black87),
-                          onOpen: (link) async {
-                            if (!await launchUrl(Uri.parse(link.url))) {
-                              throw Exception('Could not launch ${link.url}');
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                    Row(children: [
-                      Icon(
-                        Icons.calendar_month_outlined,
-                        color: Colors.blueGrey[700],
-                        size: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Text(
-                          'Joined ' +
-                              DateFormat.yMMMM()
-                                  .format(DateTime.parse('2023-08-27')),
-                          style: TextStyle(
-                            color: Colors.blueGrey[700],
-                          ),
-                        ),
-                      ),
-                      Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.blueGrey[700],
-                        size: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                        child: Text(
-                          'Egypt',
-                          style: TextStyle(
-                            color: Colors.blueGrey[700],
-                          ),
-                        ),
-                      ),
-                    ]),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Row(
-                        children: [
-                          Text(
-                            NumberFormat.compact().format(32500),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 17,
-                            ),
-                          ),
-                          Text(
-                            ' Following   ',
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey[700],
-                              fontSize: 15,
-                            ),
-                          ),
-                          Text(
-                            NumberFormat.compact().format(24505000),
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 17,
-                            ),
-                          ),
-                          Text(
-                            ' Followers',
-                            style: TextStyle(
-                              // fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey[700],
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+            const SliverToBoxAdapter(
+              child: AccountInformation(
+                bio:
+                    'If there\'s no problem then there\'s a problem\nLink 1:- http://google.com\nLink2:- http://facebook.com',
+                followers: 21500,
+                following: 1500,
+                joinedDate: '2023-08-27',
+                location: 'Egypt',
+                profileName: 'Ahmed Samy',
+                verified: true,
+                userName: '@ahmedsamy',
               ),
             ),
             SliverTabBar(
@@ -278,7 +168,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
               children: [
                 Row(
                   children: [
-                    _IconButton(
+                    ProfileIconButton(
+                      borderWidth: 2,
                       icon: Icons.arrow_back,
                       onPressed: () {
                         // Navigator.of(context).pop();
@@ -286,22 +177,34 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                       iconColor: Colors.white,
                       color: Colors.black,
                     ),
-                    clowsingRate == 1 ? CollapsedAppBarText() : SizedBox(),
+                    clowsingRate == 1
+                        ? CollapsedAppBarText(
+                            profileNameTextColor: Colors.white,
+                            postsNumberTextColor: Colors.white,
+                            postsNumberTextStyle: FontWeight.bold,
+                            postsNumber: 21300,
+                            postsNumberTextSize: 16,
+                            profileNameTextSize: 16,
+                            profileName: 'Ahmed Samy',
+                          )
+                        : SizedBox(),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(right: 12.0),
-                      child: _IconButton(
+                      child: ProfileIconButton(
+                        borderWidth: 2,
                         icon: Icons.search,
                         iconColor: Colors.white,
                         color: Colors.black,
                         onPressed: () {},
                       ),
                     ),
-                    _IconButton(
+                    ProfileIconButton(
+                      borderWidth: 2,
                       icon: Icons.more_vert,
                       onPressed: () {},
                       iconColor: Colors.white,
@@ -329,8 +232,21 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
 class CollapsedAppBarText extends StatelessWidget {
   const CollapsedAppBarText({
     super.key,
+    required this.profileName,
+    required this.postsNumber,
+    required this.profileNameTextSize,
+    required this.postsNumberTextSize,
+    required this.profileNameTextColor,
+    required this.postsNumberTextColor,
+    required this.postsNumberTextStyle,
   });
-
+  final String profileName;
+  final int postsNumber;
+  final double profileNameTextSize;
+  final double postsNumberTextSize;
+  final Color profileNameTextColor;
+  final Color postsNumberTextColor;
+  final FontWeight postsNumberTextStyle;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -339,18 +255,20 @@ class CollapsedAppBarText extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Ahmed Samy',
+            profileName,
             style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+                fontWeight: FontWeight.bold,
+                fontSize: profileNameTextSize,
+                color: profileNameTextColor),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
-              NumberFormat.compact().format(21300) + ' Posts',
+              NumberFormat.compact().format(postsNumber) + ' Posts',
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.white),
+                  fontWeight: postsNumberTextStyle,
+                  fontSize: postsNumberTextSize,
+                  color: postsNumberTextColor),
             ),
           ),
         ],
@@ -381,7 +299,8 @@ class _FollowEditButtonState extends State<FollowEditButton> {
         text == 'Following'
             ? Padding(
                 padding: const EdgeInsets.only(right: 16),
-                child: _IconButton(
+                child: ProfileIconButton(
+                  borderWidth: 2,
                   icon: Icons.notification_add_outlined,
                   onPressed: () {
                     //TODO: Implement mute notification
@@ -494,36 +413,6 @@ class _banner extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _IconButton extends StatelessWidget {
-  const _IconButton({
-    required this.icon,
-    required this.onPressed,
-    required this.color,
-    required this.iconColor,
-  });
-  final Function() onPressed;
-  final IconData icon;
-  final Color color;
-  final Color iconColor;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color.withOpacity(0.5),
-        border: iconColor != Colors.white
-            ? Border.all(color: Colors.black26, width: 2)
-            : Border.all(color: Colors.transparent),
-      ),
-      padding: const EdgeInsets.all(4),
-      child: Icon(
-        icon,
-        color: iconColor,
       ),
     );
   }
