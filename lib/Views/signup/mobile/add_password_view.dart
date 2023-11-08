@@ -8,7 +8,6 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/mobile/add_username_view.dart';
 
 class AddPasswordView extends StatefulWidget {
   const AddPasswordView({
