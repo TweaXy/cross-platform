@@ -37,19 +37,26 @@ class AuthenticationView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: CustomHeadText(
-                        textValue: "Authenticate your account",
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10, bottom: 20),
-                      child: CustomParagraphText(
-                        textValue:
-                            "We need to make sure that you're a real person",
-                        textAlign: TextAlign.center,
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20.0),
+                            child: CustomHeadText(
+                              textValue: "Authenticate your account",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10, bottom: 20),
+                            child: CustomParagraphText(
+                              textValue:
+                                  "We need to make sure that you're a real person",
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Expanded(
