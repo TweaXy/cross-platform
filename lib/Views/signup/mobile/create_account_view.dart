@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_create_account_fields.dart';
@@ -8,8 +8,7 @@ import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
-import 'package:dio/dio.dart';
-import 'package:tweaxy/services/signup_service.dart';
+
 import 'package:tweaxy/models/user.dart';
 
 class CreateAccountView extends StatefulWidget {
@@ -38,24 +37,24 @@ class _CreateAccountViewState extends State<CreateAccountView> {
     birthDateFieldController.addListener(_updateNextButtonState);
   }
 
-  SignupService serve = SignupService(Dio());
-  Future<bool> emailUnique() async {
-    dynamic res = await serve.emailUniqueness(emailFieldController.text);
-    if (res.statusCode == 200) {
-      return true;
-    } else {
-      Fluttertoast.showToast(
-          msg: res,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.black,
-          textColor: Colors.white,
-          fontSize: 16.0);
+  // SignupService serve = SignupService(Dio());
+  // Future<bool> emailUnique() async {
+  //   dynamic res = await serve.emailUniqueness(emailFieldController.text);
+  //   if (res.statusCode == 200) {
+  //     return true;
+  //   } else {
+  //     Fluttertoast.showToast(
+  //         msg: res,
+  //         toastLength: Toast.LENGTH_SHORT,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 1,
+  //         backgroundColor: Colors.black,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
 
-      return false;
-    }
-  }
+  //     return false;
+  //   }
+  // }
 
   void _updateNextButtonState() async {
     setState(() {
@@ -143,16 +142,14 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () async {
-                          if (await emailUnique()) {
-                            User.email = emailFieldController.text;
-                            User.name = nameFieldController.text;
-                            User.birthdayDate = birthDateFieldController.text;
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: CreateAccountDataReview()));
-                          }
+                          User.email = emailFieldController.text;
+                          User.name = nameFieldController.text;
+                          User.birthdayDate = birthDateFieldController.text;
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: CreateAccountDataReview()));
                         },
                         initialEnabled: _isnextButtonEnabled),
                   ),

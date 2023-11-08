@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -23,18 +25,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
   String? _errorText; //should be null if the input is valid or in initial state
   bool passwordVisible = false;
 
-  void validate({required String inputValue}) {
-    _errorText = widget.validatorFunc(
-        inputValue:
-            inputValue); //null or errorText -> validate functions in utilites folder
-    if (_errorText == null) {
-      setState(() {
-        _isValid = 1;
-      });
-    } else {
-      setState(() {
-        _isValid = 2;
-      });
+  void validate({required String inputValue}) async {
+    try {
+      _errorText = await widget.validatorFunc(
+          inputValue:
+              inputValue); //null or errorText -> validate functions in utilites folder
+      if (_errorText == null) {
+        setState(() {
+          _isValid = 1;
+        });
+      } else {
+        setState(() {
+          _isValid = 2;
+        });
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -108,7 +114,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         errorText: _errorText,
       ),
-      onChanged: (value)async {
+      onChanged: (value) async {
         validate(inputValue: value);
       },
     );

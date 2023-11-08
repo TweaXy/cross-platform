@@ -1,4 +1,9 @@
-String? emailValidation({required String? inputValue}) {
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
+import 'package:tweaxy/services/signup_service.dart';
+
+Future<String?> emailValidation({required String? inputValue}) async {
   //initial validation function
   if (inputValue == null || inputValue.isEmpty) {
     return "Email is required";
@@ -6,8 +11,16 @@ String? emailValidation({required String? inputValue}) {
   if (!inputValue.contains('@') || inputValue.length < 4) {
     return "Email is invalid";
   }
-
-  return null;
+  try {
+    dynamic response = await SignupService(Dio()).emailUniqueness(inputValue);
+    if (response is String) {
+      return response;
+    }
+    return null;
+  } catch (e) {
+    log(e.toString());
+    return "Email Uniqueness Api error ";
+  }
 }
 
 String? passwordValidation({required String? inputValue}) {
@@ -21,7 +34,7 @@ String? passwordValidation({required String? inputValue}) {
   // if (!(inputValue.startsWith(RegExp(r'[A-Z][a-z]')))) {
   //   return 'Password should start with a letters';
   // }
-    if (!(inputValue.contains(RegExp(r'[0-9]')))) {
+  if (!(inputValue.contains(RegExp(r'[0-9]')))) {
     return 'Password should contain a number';
   }
 
@@ -42,9 +55,19 @@ String? codeValidation({required String? inputValue}) {
   return null;
 }
 
-String? usernameValidation({required String? inputValue}) {
+Future<String?> usernameValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
     return "username is required";
   }
-  return null;
+  try {
+    dynamic response =
+        await SignupService(Dio()).usernameUniqueness(inputValue);
+    if (response is String) {
+      return response;
+    }
+    return null;
+  } catch (e) {
+    log(e.toString());
+    return "Username Uniqueness Api error ";
+  }
 }

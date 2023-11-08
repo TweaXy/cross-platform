@@ -47,15 +47,39 @@ class SignupService {
         token: User.emailVerificationToken,
         body: {"email": email},
       );
+      log(response.toString());
       return response;
     } catch (e) {
       if (kDebugMode) {
-        log(e.toString());
+        log(response.toString());
+        log("Service:" + e.toString());
       } //debug mode only
-      throw Exception('Email Uniqueness Api error ');
+      return response;
+      // throw Exception('Email Uniqueness Api error ');
     }
   }
-   Future<dynamic> emailCodeVariication() async {
+
+  Future usernameUniqueness(String username) async {
+    dynamic response;
+    try {
+      response = await Api.post(
+        url: '${baseUrl}users/checkUsernameUniqueness',
+        token: User.emailVerificationToken,
+        body: {"username": username},
+      );
+      log(response.toString());
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(response.toString());
+        log("Service:" + e.toString());
+      } //debug mode only
+      return response;
+      // throw Exception('Email Uniqueness Api error ');
+    }
+  }
+
+  Future<dynamic> emailCodeVariication() async {
     dynamic response;
     try {
       response = await Api.post(
