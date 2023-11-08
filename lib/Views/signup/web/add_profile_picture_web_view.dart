@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/signup/web/add_username_web_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -37,14 +38,14 @@ class AddProfilePictureWebView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CustomHeadText(
+                    CustomHeadText(
                       textValue: "Pick a profile picture",
                       textAlign: TextAlign.left,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height * 0.02),
-                      child:  CustomParagraphText(
+                      child: CustomParagraphText(
                           textValue: "Have a favourite selfie? Upload it now.",
                           textAlign: TextAlign.left),
                     ),
@@ -83,7 +84,12 @@ class AddProfilePictureWebView extends StatelessWidget {
                   color: backgroundColorTheme(context),
                   text: "Skip for now",
                   onPressedCallback: () {
-                    //TODO handle navigation
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AddUsernameWebView(),
+                      barrierColor: Colors.transparent,
+                      barrierDismissible: false,
+                    );
                   },
                   initialEnabled: true,
                 ),

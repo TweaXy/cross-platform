@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/signup/web/add_profile_picture_web_view.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -82,7 +83,12 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
-                    //TODO handle navigation
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AddProfilePictureWebView(),
+                      barrierColor: Colors.transparent,
+                      barrierDismissible: false,
+                    );
                   },
                   initialEnabled: isButtonEnabled,
                 ),

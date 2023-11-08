@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tweaxy/Components/transition/custom_page_route.dart';
+import 'package:tweaxy/Views/signup/mobile/add_username_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -138,7 +140,13 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                         color: backgroundColorTheme(context),
                         text: "Skip for now",
                         onPressedCallback: () {
-                          //TODO: Go to home page with defalut photo
+                          //make the image the default image first
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const AddUsernameView()));
                         },
                         initialEnabled: true,
                       ),
@@ -147,7 +155,12 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () {
-                          //TODO: Go to home page
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const AddUsernameView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),

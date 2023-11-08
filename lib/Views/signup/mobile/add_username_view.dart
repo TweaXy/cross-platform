@@ -105,12 +105,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           color: backgroundColorTheme(context),
                           text: "Skip for now",
                           onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
+                            //TODO go to home page
                           },
                           initialEnabled: true,
                         ),
@@ -119,12 +114,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           color: forgroundColorTheme(context),
                           text: "Next",
                           onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
+                            //TODO go to home page
                           },
                           initialEnabled: isButtonEnabled,
                         ),

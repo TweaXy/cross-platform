@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/signup/mobile/add_profile_picture_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -99,7 +100,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: const AddUsernameView()));
+                                  child: const AddProfilePictureView()));
                         },
                         initialEnabled: isButtonEnabled,
                       ),
