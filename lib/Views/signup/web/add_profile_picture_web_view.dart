@@ -55,22 +55,22 @@ class AddProfilePictureWebView extends StatelessWidget {
                     ),
                     Center(
                       child: Stack(alignment: Alignment.center, children: [
-                        // Image.asset(
-                        //   "assets/images/addProfilePicWeb.jpg",
-
-                        // ),
-                        //TODO Choose a photo with no background
+                        const Icon(
+                          Icons.account_circle,
+                          size: 200,
+                          color: Color(0xFF8d949a),
+                        ),
                         MaterialButton(
                           onPressed: () {
                             //TODO handle image upload
                           },
                           color: Colors.transparent,
-                          child: Icon(
+                          child: const Icon(
                             Icons.add_a_photo_outlined,
                             size: 25,
                           ),
-                          padding: EdgeInsets.all(20),
-                          shape: CircleBorder(),
+                          padding: const EdgeInsets.all(20),
+                          shape: const CircleBorder(),
                         )
                       ]),
                     ),
