@@ -41,9 +41,7 @@ class _NotRobotViewState extends State<NotRobotView>
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SingupCodeVerificationView(
-                  email: "exampleeeeeeeeeeee@gmail.com",
-                ),
+                builder: (context) => const SingupCodeVerificationView(),
               ),
             );
           });

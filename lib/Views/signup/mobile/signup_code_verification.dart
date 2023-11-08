@@ -8,10 +8,10 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/add_password_view.dart';
+import 'package:tweaxy/models/user.dart';
 
 class SingupCodeVerificationView extends StatefulWidget {
-  const SingupCodeVerificationView({super.key, required this.email});
-  final String email;
+  const SingupCodeVerificationView({super.key});
 
   @override
   State<SingupCodeVerificationView> createState() =>
@@ -74,7 +74,7 @@ class _SingupCodeVerificationViewState
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: CustomParagraphText(
                             textValue:
-                                "Enter it below to verify ${widget.email} ",
+                                "Enter it below to verify ${User.email} ",
                             textAlign: TextAlign.left),
                       ),
                       Padding(
@@ -114,6 +114,7 @@ class _SingupCodeVerificationViewState
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () {
+                          User.emailVerificationToken = myController.text;
                           Navigator.pop(context);
                           Navigator.push(
                               context,

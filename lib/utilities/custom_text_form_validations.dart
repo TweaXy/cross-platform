@@ -3,9 +3,10 @@ String? emailValidation({required String? inputValue}) {
   if (inputValue == null || inputValue.isEmpty) {
     return "Email is required";
   }
-  if (!inputValue.contains('@')) {
+  if (!inputValue.contains('@') || inputValue.length < 4) {
     return "Email is invalid";
   }
+
   return null;
 }
 
@@ -17,6 +18,13 @@ String? passwordValidation({required String? inputValue}) {
   if (inputValue.length < 8) {
     return "Password must be at least 8 characters";
   }
+  // if (!(inputValue.startsWith(RegExp(r'[A-Z][a-z]')))) {
+  //   return 'Password should start with a letters';
+  // }
+    if (!(inputValue.contains(RegExp(r'[0-9]')))) {
+    return 'Password should contain a number';
+  }
+
   return null;
 }
 

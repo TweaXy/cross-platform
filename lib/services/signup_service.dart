@@ -15,7 +15,7 @@ class SignupService {
 
   Future createAccount() async {
     //TODO: Handle diffrent errors msgs
-    Response response;
+    dynamic response;
     try {
       response = await Api.post(
         url: '${baseUrl}auth/signup',
@@ -30,12 +30,45 @@ class SignupService {
           "avatar": User.profilePicture
         },
       );
-      return response.data;
+      return response;
     } catch (e) {
       if (kDebugMode) {
         log(e.toString());
       } //debug mode only
       throw Exception('oops something went wrong');
+    }
+  }
+
+  Future emailUniqueness(String email) async {
+    dynamic response;
+    try {
+      response = await Api.post(
+        url: '${baseUrl}users/checkEmailUniqueness',
+        token: User.emailVerificationToken,
+        body: {"email": email},
+      );
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('Email Uniqueness Api error ');
+    }
+  }
+   Future<dynamic> emailCodeVariication() async {
+    dynamic response;
+    try {
+      response = await Api.post(
+        url: '${baseUrl}auth/sendEmailVerification',
+        token: User.emailVerificationToken,
+        body: {"email": User.email},
+      );
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('varification code error ');
     }
   }
 }

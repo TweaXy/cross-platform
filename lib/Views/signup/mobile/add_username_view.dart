@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -6,6 +8,8 @@ import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/signup_service.dart';
 
 class AddUsernameView extends StatefulWidget {
   const AddUsernameView({
@@ -31,6 +35,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
     });
   }
 
+  SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,8 +116,46 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           key: const ValueKey("addUsernameNextButton"),
                           color: forgroundColorTheme(context),
                           text: "Next",
-                          onPressedCallback: () {
-                            //TODO go to home page
+                          onPressedCallback: () async {
+                            User.username = myController.text;
+                            dynamic response = await service.createAccount();
+                            // if (response is String) {
+                            //   Fluttertoast.showToast(
+                            //       msg: response,
+                            //       toastLength: Toast.LENGTH_SHORT,
+                            //       gravity: ToastGravity.CENTER,
+                            //       timeInSecForIosWeb: 1,
+                            //       backgroundColor: Colors.red,
+                            //       textColor: Colors.white,
+                            //       fontSize: 16.0);
+                            // }
+                            // else{
+                            //    Navigator.popUntil(
+                            //       context, (route) => route.isFirst);
+                            // }
+                            if (response.statusCode == 400) {
+                              Fluttertoast.showToast(
+                                  msg: response.data['message'],
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } else if (response.statusCode == 200) {
+                              //TODO go to home page
+                              Fluttertoast.showToast(
+                                  msg: "success",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.black,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            } else {
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                            }
                           },
                           initialEnabled: isButtonEnabled,
                         ),

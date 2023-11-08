@@ -8,6 +8,7 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/models/user.dart';
 
 class AddPasswordView extends StatefulWidget {
   const AddPasswordView({
@@ -94,6 +95,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () {
+                          User.password = myController.text;
                           Navigator.pop(context);
                           Navigator.push(
                               context,
