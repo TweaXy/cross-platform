@@ -39,6 +39,7 @@ class Api {
     }
     return response;
   }
+
   static Future<Response> delete({
     required String url,
     @required dynamic body,

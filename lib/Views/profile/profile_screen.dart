@@ -8,6 +8,8 @@ import 'package:tweaxy/components/HomePage/SharedComponents/account_information.
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
+import 'package:tweaxy/views/loading_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -46,74 +48,92 @@ class _ProfileScreenState extends State<ProfileScreen>
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    GetUserById.instance.excute('clorm9kmt0002ul2xyyolre6y');
   }
 
   int _selectedTabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    User user = ModalRoute.of(context)?.settings.arguments as User;
+    // User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: ProfileScreenAppBar(),
-            ),
-            const SliverToBoxAdapter(
-              child: AccountInformation(
-                birthDate: '2002-08-27',
-                bio:
-                    'If there\'s no problem then there\'s a problem\nLink 1:- http://google.com\nLink2:- http://facebook.com',
-                followers: 21500,
-                following: 1500,
-                joinedDate: '2023-08-27',
-                location: 'Egypt',
-                profileName: 'Ahmed Samy',
-                userName: '@ahmedsamy',
-              ),
-            ),
-            SliverTabBar(
-              expandedHeight: 0,
-              backgroundColor: Colors.white,
-              tabBar: TabBar(
-                indicatorWeight: 3,
-                indicatorColor: Colors.blue,
-                indicatorSize: TabBarIndicatorSize.label,
-                controller: _tabController,
-                labelColor: Colors.black,
-                onTap: (value) => setState(() {
-                  _selectedTabIndex = value;
-                }),
-                tabs: const [
-                  Tab(
-                    text: 'Posts',
+        child: FutureBuilder(
+          future: GetUserById.instance.future,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const LoadingScreen(
+                asyncCall: true,
+              );
+            } else {
+              User user = snapshot.data!;
+
+              return CustomScrollView(
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: ProfileScreenAppBar(
+                      name: user.name!,
+                      postsNumber: 216820,
+                      avatarURL: user.avatar??'',
+                      coverURL: user.cover??'',
+                    ),
                   ),
-                  Tab(
-                    text: 'Replies',
+                  SliverToBoxAdapter(
+                    child: AccountInformation(
+                      birthDate: user.birthdayDate ?? '',
+                      bio: user.bio ?? '',
+                      followers: user.followers ?? 0,
+                      following: user.following ?? 0,
+                      joinedDate: user.joinedDate ?? '',
+                      location: user.location ?? '',
+                      profileName: user.name ?? '',
+                      userName: user.userName ?? '',
+                    ),
                   ),
-                  Tab(
-                    text: 'Likes',
-                  )
+                  SliverTabBar(
+                    expandedHeight: 0,
+                    backgroundColor: Colors.white,
+                    tabBar: TabBar(
+                      indicatorWeight: 3,
+                      indicatorColor: Colors.blue,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      controller: _tabController,
+                      labelColor: Colors.black,
+                      onTap: (value) => setState(() {
+                        _selectedTabIndex = value;
+                      }),
+                      tabs: const [
+                        Tab(
+                          text: 'Posts',
+                        ),
+                        Tab(
+                          text: 'Replies',
+                        ),
+                        Tab(
+                          text: 'Likes',
+                        )
+                      ],
+                    ),
+                  ),
+                  SliverList.builder(
+                    itemCount: listitems.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: ListTile(
+                            title: Text(listitems[index].toString() +
+                                _selectedTabIndex.toString()),
+                            tileColor: Colors.white,
+                          ));
+                    },
+                  ),
                 ],
-              ),
-            ),
-            SliverList.builder(
-              itemCount: listitems.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: ListTile(
-                      title: Text(listitems[index].toString() +
-                          _selectedTabIndex.toString()),
-                      tileColor: Colors.white,
-                    ));
-              },
-            ),
-          ],
+              );
+            }
+          },
         ),
       ),
     );
@@ -121,6 +141,16 @@ class _ProfileScreenState extends State<ProfileScreen>
 }
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
+  const ProfileScreenAppBar({
+    required this.name,
+    required this.postsNumber,
+    required this.avatarURL,
+    required this.coverURL,
+  });
+  final String name;
+  final String avatarURL;
+  final String coverURL;
+  final int postsNumber;
   final bottomHeight = 60;
   final extraRadius = 5;
   @override
@@ -147,7 +177,9 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
               Transform.scale(
                 scale: 1.9 - clowsingRate,
                 alignment: Alignment.bottomCenter,
-                child: const _Avatar(),
+                child: _Avatar(
+                  url: basePhotosURL + avatarURL,
+                ),
               ),
               const Spacer(),
               FollowEditButton(text: 'Edit Profile'),
@@ -160,7 +192,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
             bottomHeight: bottomHeight,
             extraRadius: extraRadius,
             maxExtent: maxExtent,
-            opacity: opacity),
+            opacity: opacity,
+            bannerURL: basePhotosURL + coverURL),
         Positioned(
             top: MediaQuery.of(context).padding.top + 10,
             left: 10,
@@ -183,10 +216,10 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             profileNameTextColor: Colors.white,
                             postsNumberTextColor: Colors.white,
                             postsNumberTextStyle: FontWeight.bold,
-                            postsNumber: 21300,
+                            postsNumber: postsNumber,
                             postsNumberTextSize: 16,
                             profileNameTextSize: 16,
-                            profileName: 'Ahmed Samy',
+                            profileName: name,
                           )
                         : SizedBox(),
                   ],
@@ -265,7 +298,7 @@ class CollapsedAppBarText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
-              NumberFormat.compact().format(postsNumber) + ' Posts',
+              '${NumberFormat.compact().format(postsNumber)} Posts',
               style: TextStyle(
                   fontWeight: postsNumberTextStyle,
                   fontSize: postsNumberTextSize,
@@ -360,6 +393,7 @@ class _banner extends StatelessWidget {
     required this.extraRadius,
     required this.maxExtent,
     required this.opacity,
+    required this.bannerURL,
   });
 
   final double imageTop;
@@ -368,6 +402,7 @@ class _banner extends StatelessWidget {
   final int extraRadius;
   final double maxExtent;
   final double opacity;
+  final String bannerURL;
 
   @override
   Widget build(BuildContext context) {
@@ -397,8 +432,9 @@ class _banner extends StatelessWidget {
                 height: double.maxFinite,
                 child: CachedNetworkImage(
                   fit: BoxFit.contain,
-                  imageUrl:
-                      "https://www.kasandbox.org/programming-images/avatars/mr-pants-purple.png",
+                  imageUrl: bannerURL == basePhotosURL
+                      ? "https://www.kasandbox.org/programming-images/avatars/mr-pants-purple.png"
+                      : bannerURL,
                   placeholder: (context, url) => const Center(
                     child: SizedBox(
                         width: 15,
@@ -465,7 +501,8 @@ class InvertedCircleClipper extends CustomClipper<Path> {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({super.key});
+  const _Avatar({super.key, required this.url});
+  final url;
 
   @override
   Widget build(BuildContext context) {
@@ -479,8 +516,9 @@ class _Avatar extends StatelessWidget {
         borderRadius: BorderRadius.circular(80),
         child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl:
-              "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png",
+          imageUrl: url == basePhotosURL
+              ? "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png"
+              : url,
           placeholder: (context, url) => const Center(
             child: SizedBox(
                 width: 15,

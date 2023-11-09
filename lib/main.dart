@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/Views/profile/profile_screen.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/homepage.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
@@ -43,7 +44,7 @@ class TweaXy extends StatelessWidget {
         kEditProfileScreen: (context) => EditProfileScreen(),
         kHomeScreen: (context) => HomePage(),
       },
-      initialRoute: kHomeScreen,
+      initialRoute: kProfileScreen,
     );
   }
 }
