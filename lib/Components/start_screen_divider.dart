@@ -14,7 +14,7 @@ class StartScreenDivider extends StatelessWidget {
         Divider(
           indent: 24,
           endIndent: 24,
-          color: !isDarkMode?Colors.grey[400]: Colors.black26,
+          color: !isDarkMode ? Colors.grey[400] : Colors.black26,
           thickness: 1,
         ),
         Container(
@@ -24,7 +24,7 @@ class StartScreenDivider extends StatelessWidget {
             'or',
             textAlign: TextAlign.center,
             style: TextStyle(
-              backgroundColor: !isDarkMode ? Colors.white  : Colors.black,
+              backgroundColor: !isDarkMode ? Colors.white : Colors.black,
               color: !isDarkMode ? Colors.black54 : Colors.white70,
               fontSize: 13,
             ),

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/constants.dart';
 
 class ProfileIconButton extends StatefulWidget {
-  const ProfileIconButton({super.key, 
+  const ProfileIconButton({
+    super.key,
     required this.icon,
     required this.onPressed,
     required this.color,
     required this.iconColor,
     required this.borderWidth,
-
   });
   final Function() onPressed;
   final IconData icon;

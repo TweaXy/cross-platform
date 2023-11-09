@@ -13,16 +13,16 @@ class User_TweetInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(1.0),
           child: Text(
-             tweet.userName,
+            tweet.userName,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           child: Text(
-             tweet.userName.length <= 9
-                ? '@' +  tweet.userHandle
-                : '${'@' +  tweet.userHandle.substring(0, 8)}...',
+            tweet.userName.length <= 9
+                ? '@' + tweet.userHandle
+                : '${'@' + tweet.userHandle.substring(0, 8)}...',
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 18,
@@ -43,7 +43,7 @@ class User_TweetInfo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           child: Text(
-             tweet.time,
+            tweet.time,
             style: TextStyle(
               fontSize: 18,
             ),

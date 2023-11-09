@@ -45,10 +45,10 @@ class HomePageWeb extends StatelessWidget {
                   flex: 8,
                   child: BlocBuilder<SidebarCubit, SidebarState>(
                     builder: (context, state) {
-                      if (state is SidebarHomeState)
+                      if (state is SidebarInitialState ||
+                          state is SidebarHomeState)
                         return HomeTweets(tabController: tabController);
-                      else if (state is SidebarProfileState ||
-                          state is SidebarInitialState)
+                      else if (state is SidebarProfileState)
                         return ProfileComponentWeb();
                       //TODO:- Provide The rest of the states
                       else

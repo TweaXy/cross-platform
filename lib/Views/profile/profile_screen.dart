@@ -7,6 +7,7 @@ import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/user.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -51,7 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    var data = ModalRoute.of(context)?.settings.arguments as String?;
+    User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -64,6 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
             const SliverToBoxAdapter(
               child: AccountInformation(
+                birthDate: '2002-08-27',
                 bio:
                     'If there\'s no problem then there\'s a problem\nLink 1:- http://google.com\nLink2:- http://facebook.com',
                 followers: 21500,
@@ -71,7 +73,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                 joinedDate: '2023-08-27',
                 location: 'Egypt',
                 profileName: 'Ahmed Samy',
-                verified: true,
                 userName: '@ahmedsamy',
               ),
             ),

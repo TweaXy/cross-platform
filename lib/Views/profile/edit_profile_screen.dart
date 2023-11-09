@@ -48,7 +48,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         actions: [
           kIsWeb
               ? Center(
-                child: ElevatedButton(
+                  child: ElevatedButton(
                     onPressed: () {},
                     child: Text('Save'),
                     style: ElevatedButton.styleFrom(
@@ -58,7 +58,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                     ),
                   ),
-              )
+                )
               : TextButton(
                   onPressed: () {
                     //TODO: Upload your updates

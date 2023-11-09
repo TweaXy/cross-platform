@@ -9,20 +9,19 @@ class AccountInformation extends StatelessWidget {
     super.key,
     required this.profileName,
     required this.userName,
-    required this.verified,
     required this.followers,
     required this.following,
     required this.bio,
     required this.joinedDate,
-    required this.location,
+    required this.location, required this.birthDate,
   });
   final String profileName;
   final String userName;
-  final bool verified;
   final int followers;
   final int following;
   final String bio;
   final String joinedDate;
+  final String birthDate;
   final String location;
   @override
   Widget build(BuildContext context) {
@@ -43,12 +42,6 @@ class AccountInformation extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                verified
-                    ? Padding(
-                        padding: const EdgeInsets.only(left: 5.0),
-                        child: SvgPicture.asset('assets/images/verified.svg'),
-                      )
-                    : const SizedBox(),
               ],
             ),
           ),
@@ -107,6 +100,15 @@ class AccountInformation extends StatelessWidget {
               ),
             ),
           ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+            child: Text(
+              'Joined ${DateFormat.yMMMM().format(DateTime.parse(birthDate))}',
+              style: TextStyle(
+                color: Colors.blueGrey[700],
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Row(

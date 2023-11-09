@@ -37,14 +37,14 @@ class AddProfilePictureWebView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CustomHeadText(
+                    CustomHeadText(
                       textValue: "Pick a profile picture",
                       textAlign: TextAlign.left,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height * 0.02),
-                      child:  CustomParagraphText(
+                      child: CustomParagraphText(
                           textValue: "Have a favourite selfie? Upload it now.",
                           textAlign: TextAlign.left),
                     ),

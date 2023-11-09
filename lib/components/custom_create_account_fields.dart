@@ -36,7 +36,8 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
               controller: widget.nameFieldController),
         ),
         Padding(
-          padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height * .01),
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * .01),
           child: CustomTextField(
               onTap: widget.birthDateHide,
               label: "Email",
@@ -44,7 +45,8 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
               controller: widget.emailFieldController),
         ),
         Padding(
-          padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height * .03),
+          padding:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * .03),
           child: CustomTextField(
               label: "Date of birth",
               validatorFunc: nameValidation,

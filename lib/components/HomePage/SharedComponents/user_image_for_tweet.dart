@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class UserImageForTweet extends StatelessWidget {
-  const UserImageForTweet({super.key,required this.image});
+  const UserImageForTweet({super.key, required this.image});
 
   final String image;
   @override
