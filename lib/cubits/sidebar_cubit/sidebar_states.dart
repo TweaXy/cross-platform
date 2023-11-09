@@ -10,6 +10,7 @@ class SidebarNotificationState extends SidebarState {}
 
 class SidebarMessageState extends SidebarState {}
 
-class SidebarProfileState extends SidebarState {}
+class SidebarProfileState extends SidebarState {
+}
 
 class SidebarSettingsState extends SidebarState {}

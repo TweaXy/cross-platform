@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_bar.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
-import 'package:tweaxy/models/trending_model.dart';
 
 class HomePageWeb extends StatelessWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
-
+  final profileID = 'clorm9kmt0002ul2xyyolre6y';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -31,7 +29,7 @@ class HomePageWeb extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
+                const Expanded(
                   flex: 3,
                   child: Align(
                     alignment: Alignment.topRight,
@@ -49,7 +47,8 @@ class HomePageWeb extends StatelessWidget {
                           state is SidebarHomeState)
                         return HomeTweets(tabController: tabController);
                       else if (state is SidebarProfileState)
-                        return ProfileComponentWeb();
+                        return ProfileComponentWeb(
+                            id: profileID);
                       //TODO:- Provide The rest of the states
                       else
                         return Placeholder();

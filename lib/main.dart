@@ -44,7 +44,7 @@ class TweaXy extends StatelessWidget {
         kEditProfileScreen: (context) => EditProfileScreen(),
         kHomeScreen: (context) => HomePage(),
       },
-      initialRoute: kProfileScreen,
+      initialRoute: kHomeScreen,
     );
   }
 }
