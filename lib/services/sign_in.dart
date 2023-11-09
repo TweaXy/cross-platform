@@ -6,10 +6,11 @@ class SignInServices {
   SignInServices._();
   static SignInServices? _instance;
   static String email = '';
+  // http://16.171.65.142:3000/api/v1/docs/
   static String token = ''; //code sent to email
   static String baseUrl = kIsWeb
-      ? 'http://localhost:3000/api/v1'
-      : 'http://192.168.1.31:3000/api/v1';
+      ? 'http://16.171.65.142:3000/api/v1'
+      : 'http://192.168.1.47:3000/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     SignInServices.email = email;
@@ -37,7 +38,7 @@ class SignInServices {
       url: '$baseUrl/auth/resetPassword/$email/$token',
       body: {"password": password},
     );
-      print('reset' + res.toString());
+    print('reset' + res.toString());
     if (res is String)
       return res;
     else
