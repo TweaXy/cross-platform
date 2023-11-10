@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Api {
-  static Future<Response> get(String url) async {
+  static Future<dynamic> get(String url) async {
     Response response;
     try {
       response = await Dio().get(url);
@@ -13,7 +13,7 @@ class Api {
             'There\'s an error status code = ${response.statusCode} \nThe message is ${response.statusMessage}');
       }
     } on Exception catch (e) {
-      throw Exception(e.toString());
+      return (e.toString());
     }
   }
 

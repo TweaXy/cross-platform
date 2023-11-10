@@ -1,26 +1,30 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Views/login/forget_passwoed_web_3.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/custom_web_toast.dart';
+import 'package:tweaxy/components/sign_choose.dart';
+import 'package:tweaxy/components/text_and_link.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/login/forget_passwoed_web_2.dart';
 
+// ignore: must_be_immutable
 class ForgetPasswordWeb1 extends StatefulWidget {
-  const ForgetPasswordWeb1({super.key});
+  ForgetPasswordWeb1({super.key});
 
   @override
-  State<ForgetPasswordWeb1> createState() => _ForgetPasswordWeb1State();
+  State<ForgetPasswordWeb1> createState() => _WebDialogSignInPage2State();
 }
 
-class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
+class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   bool isSnackBarShown = false; // Added flag to track SnackBar visibility
-
   @override
   void initState() {
     super.initState();
@@ -45,7 +49,7 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
-          Padding(
+          const Padding(
             padding: const EdgeInsets.only(left: 50),
             child: Row(
               children: [
@@ -94,8 +98,8 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
-                        width: 500,
-                        height: 50,
+                        width: 300,
+                        height: 40,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
                             text: 'Login',
@@ -106,12 +110,12 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
 
                               print(res);
                               if (res != 'success') {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('$res'),
-                                    backgroundColor: Colors.blue,
-                                  ),
-                                );
+                                showToastWidget(
+                                    CustomWebToast(
+                                      message: res,
+                                    ),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2));
                               } else {
                                 Navigator.pop(context);
 
@@ -128,6 +132,7 @@ class _ForgetPasswordWeb1State extends State<ForgetPasswordWeb1> {
                             },
                             initialEnabled: isButtonEnabled)),
                   ),
+                  Container(height: 30)
                 ],
               ),
             ),
