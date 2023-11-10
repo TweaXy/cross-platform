@@ -7,6 +7,8 @@ import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 
+import '../../services/sign_in.dart';
+
 class ForgetPasswordWeb3 extends StatefulWidget {
   const ForgetPasswordWeb3({super.key});
 
@@ -98,6 +100,10 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                               text: isButtonEnabled ? 'Next' : 'Back',
                               initialEnabled: true,
                               onPressedCallback: () {
+                                if (isButtonEnabled)
+                                  SignInServices.setToken(
+                                      token: myController.text);
+
                                 Navigator.pop(context);
                                 showDialog(
                                   context: context,

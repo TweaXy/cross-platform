@@ -63,7 +63,7 @@ class _ResetPasswordWeb2State extends State<ResetPasswordWeb2> {
                 width: 500,
                 height: 50,
                 child: CustomButton(
-                    key: const ValueKey("ResetPasswordWebNext"),
+                    key: const ValueKey("ContinueToXButtonWeb"),
                     color: forgroundColorTheme(context),
                     text: 'Continue to X',
                     onPressedCallback: () async {
