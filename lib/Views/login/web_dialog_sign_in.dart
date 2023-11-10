@@ -1,10 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
+import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 import 'package:tweaxy/views/login/web_dialog_sign_in_page2.dart';
@@ -55,19 +58,35 @@ class WebDialogSignIn extends StatelessWidget {
                 child: CustomButton(
                     color: forgroundColorTheme(context),
                     text: 'Next',
-                    onPressedCallback: () {
-                      Navigator.pop(context);
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: WebDialogSignInPage2(
-                            isDarkMode: isDarkMode,
-                            myControll: myControll,
-                          ),
-                        ),
-                        barrierColor: const Color.fromARGB(100, 97, 119, 129),
-                        barrierDismissible: false,
-                      );
+                    onPressedCallback: () async {
+                      try {
+                        Map<String, dynamic> check = await LoginApi()
+                            .getEmailExist({"UUID": myControll.text});
+                        if (check['status'] == "success") {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: WebDialogSignInPage2(
+                                isDarkMode: isDarkMode,
+                                myControll: myControll,
+                              ),
+                            ),
+                            barrierColor:
+                                const Color.fromARGB(100, 97, 119, 129),
+                            barrierDismissible: false,
+                          );
+                        }
+                      } on DioException catch (e) {
+                        print(e.toString());
+                        // ignore: use_build_context_synchronously
+                        showSnackBar(context, e.response!.data['message']);
+                      } on Exception catch (e) {
+                        // ignore: use_build_context_synchronously
+                        showSnackBar(context, e);
+                      }
                     },
                     initialEnabled: true)),
           ),

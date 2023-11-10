@@ -1,10 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
+import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/users.dart';
+import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 // ignore: must_be_immutable
@@ -110,8 +115,25 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                         child: CustomButton(
                             color: forgroundColorTheme(context),
                             text: 'Login',
-                            onPressedCallback: () {
-                              // return WebDialogSignInPage2(); // Replace with the actual widget for the second screen
+                            onPressedCallback: () async {
+                              try {
+                                Map<String, dynamic> user = await LoginApi()
+                                    .postUser({
+                                  'UUID': '${widget.myControll.text}',
+                                  'password': '${myControllerPassword.text}'
+                                }) as Map<String, dynamic>;
+                                //go to home page
+                                print(user);
+                                Navigator.pushNamed(context, kStartScreen);
+                              } on DioException catch (e) {
+                                print(e.toString());
+                                // ignore: use_build_context_synchronously
+                                showSnackBar(
+                                    context, e.response!.data['message']);
+                              } on Exception catch (e) {
+                                // ignore: use_build_context_synchronously
+                                showSnackBar(context, e);
+                              }
                             },
                             initialEnabled: isButtonEnabled)),
                   ),
