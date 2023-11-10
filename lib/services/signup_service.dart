@@ -7,9 +7,7 @@ import 'package:tweaxy/models/user.dart';
 
 class SignupService {
   final Dio dio;
-  final String baseUrl = kIsWeb
-      ? 'http://localhost:3000/api/v1'
-      : 'http://16.171.65.142:3000/api/v1/';
+  final String baseUrl = 'http://16.171.65.142:3000/api/v1/';
 
   SignupService(this.dio);
 
