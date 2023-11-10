@@ -61,17 +61,10 @@ Future<String?> codeValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
     return "Code is required";
   }
-  try {
-    dynamic response =
-        await SignupService(Dio()).checkEmailCodeVerification(code: inputValue);
-    if (response is String) {
-      return response;
-    }
-    return null;
-  } catch (e) {
-    log(e.toString());
-    return "Username Uniqueness Api error ";
+  if (inputValue.length < 8) {
+    return "Code must be exactly 8 characters";
   }
+  return null;
 }
 
 Future<String?> usernameValidation({required String? inputValue}) async {

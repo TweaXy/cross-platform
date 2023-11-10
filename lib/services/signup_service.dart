@@ -96,18 +96,19 @@ class SignupService {
     }
   }
 
-  Future<dynamic> checkEmailCodeVerification({required String code}) async {
+  Future checkEmailCodeVerification({required String code}) async {
     dynamic response;
     try {
       response = await Api.get(
-        '${baseUrl}auth/sendEmailVerification/${User.email}/$code',
+        '${baseUrl}auth/checkEmailVerification/${User.email}/$code',
       );
+      log("response " + response.toString());
+
       return response;
     } catch (e) {
-      if (kDebugMode) {
-        log(e.toString());
-      } //debug mode only
-      throw Exception('check varification code error');
+      log(e.toString());
+      log("response " + response.toString());
+      return response;
     }
   }
 }

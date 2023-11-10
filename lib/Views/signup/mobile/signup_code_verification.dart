@@ -1,10 +1,15 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/add_password_view.dart';
@@ -36,6 +41,7 @@ class _SingupCodeVerificationViewState
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: CustomAppbar(
           key: const ValueKey("SingupCodeVerificationAppbar"),
@@ -53,7 +59,7 @@ class _SingupCodeVerificationViewState
           child: Column(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: screenWidth * 0.9,
                 height: MediaQuery.of(context).size.height * 0.78,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -113,14 +119,33 @@ class _SingupCodeVerificationViewState
                         key: const ValueKey("SingupCodeVerificationNextButton"),
                         color: forgroundColorTheme(context),
                         text: "Next",
-                        onPressedCallback: () {
-                          User.emailVerificationToken = myController.text;
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: const AddPasswordView()));
+                        onPressedCallback: () async {
+                          try {
+                            dynamic response = await SignupService(Dio())
+                                .checkEmailCodeVerification(
+                                    code: myController.text);
+
+                            if (response is String) {
+                              showToastWidget(
+                                CustomToast(
+                                    message: response,
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            } else if (mounted) {
+                              User.emailVerificationToken = myController.text;
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: const AddPasswordView()));
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                            return "Code Uniqueness Api error ";
+                          }
                         },
                         initialEnabled: isButtonEnabled,
                       ),

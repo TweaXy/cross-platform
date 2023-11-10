@@ -46,6 +46,7 @@ dependencies:
   fluttertoast: ^8.2.2
   dio: ^5.3.3
   image_picker: ^1.0.4
+  oktoast: ^3.3.2+1
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
