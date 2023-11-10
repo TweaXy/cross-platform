@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
@@ -89,20 +91,26 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 color: forgroundColorTheme(context),
                 text: "Sign up",
                 onPressedCallback: () async {
-                  dynamic response = await service.sendEmailCodeVerification();
-                  if (response is! String) {
-                    //TODO go to home page
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: const AuthenticationView()));
-                  } else {
-                    showToastWidget(
-                      CustomToast(message: response, screenWidth: screenWidth),
-                      position: ToastPosition.bottom,
-                      duration: const Duration(seconds: 2),
-                    );
+                  try {
+                    dynamic response =
+                        await service.sendEmailCodeVerification();
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                            message: response, screenWidth: screenWidth),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      //TODO go to home page
+                      Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              direction: AxisDirection.left,
+                              child: const AuthenticationView()));
+                    }
+                  } on Exception catch (e) {
+                    log(e.toString());
                   }
                 },
                 initialEnabled: true,

@@ -5,6 +5,7 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class AddProfilePictureWebView extends StatefulWidget {
@@ -144,22 +145,37 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
-                child: CustomButton(
-                  key: const ValueKey("addUsernameWebSkipButton"),
-                  color: image == null
-                      ? backgroundColorTheme(context)
-                      : forgroundColorTheme(context),
-                  text: image == null ? "Skip for now" : "Next",
-                  onPressedCallback: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const AddUsernameWebView(),
-                      barrierColor: Colors.transparent,
-                      barrierDismissible: false,
-                    );
-                  },
-                  initialEnabled: true,
-                ),
+                child: image == null
+                    ? CustomButton(
+                        key: const ValueKey("addUsernameWebSkipButton"),
+                        color: backgroundColorTheme(context),
+                        text: "Skip for now",
+                        onPressedCallback: () {
+                          //TODO: use the default profile picture
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddUsernameWebView(),
+                            barrierColor: Colors.transparent,
+                            barrierDismissible: false,
+                          );
+                        },
+                        initialEnabled: true,
+                      )
+                    : CustomButton(
+                        key: const ValueKey("addUsernameWebNextButton"),
+                        color: forgroundColorTheme(context),
+                        text: "Next",
+                        onPressedCallback: () {
+                          User.profilePicture = image!.path;
+                          showDialog(
+                            context: context,
+                            builder: (context) => AddUsernameWebView(),
+                            barrierColor: Colors.transparent,
+                            barrierDismissible: false,
+                          );
+                        },
+                        initialEnabled: true,
+                      ),
               ),
             ],
           ),

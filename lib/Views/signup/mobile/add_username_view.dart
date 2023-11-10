@@ -117,7 +117,8 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           color: backgroundColorTheme(context),
                           text: "Skip for now",
                           onPressedCallback: () {
-                            //TODO go to home page
+                            //TODO: Use the suggestions
+                            //TODO: go to home page
                           },
                           initialEnabled: true,
                         ),
@@ -128,29 +129,34 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           onPressedCallback: () async {
                             if (_formKey.currentState!.validate()) {
                               User.username = myController.text;
-                              dynamic response = await service.createAccount();
-                              log(response.toString());
-                              if (response is String) {
-                                showToastWidget(
-                                  CustomToast(
-                                      message: response,
-                                      screenWidth: screenWidth),
-                                  position: ToastPosition.bottom,
-                                  duration: const Duration(seconds: 2),
-                                );
-                              } else if (response.statusCode == 200) {
-                                //TODO go to home page
-                                Fluttertoast.showToast(
-                                    msg: "success",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.black,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0);
-                              } else if (mounted) {
-                                Navigator.popUntil(
-                                    context, (route) => route.isFirst);
+                              try {
+                                dynamic response =
+                                    await service.createAccount();
+                                log(response.toString());
+                                if (response is String) {
+                                  showToastWidget(
+                                    CustomToast(
+                                        message: response,
+                                        screenWidth: screenWidth),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2),
+                                  );
+                                } else if (response.statusCode == 200) {
+                                  //TODO: go to home page
+                                  Fluttertoast.showToast(
+                                      msg: "success",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else if (mounted) {
+                                  Navigator.popUntil(
+                                      context, (route) => route.isFirst);
+                                }
+                              } on Exception catch (e) {
+                                log(e.toString());
                               }
                             } else {
                               showToastWidget(

@@ -1,9 +1,12 @@
 import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/date_formating.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
@@ -40,6 +43,7 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -98,12 +102,15 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                         Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.01),
-                          child: CustomTextField(
-                              key: const ValueKey(
-                                  "CreateAccountWebEmailTextField"),
-                              label: "Email",
-                              validatorFunc: emailValidation,
-                              controller: emailFieldController),
+                          child: Form(
+                            key: _formKey,
+                            child: CustomTextField(
+                                key: const ValueKey(
+                                    "CreateAccountWebEmailTextField"),
+                                label: "Email",
+                                validatorFunc: emailValidation,
+                                controller: emailFieldController),
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
@@ -170,19 +177,29 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => CreateAccountDataReviewWebView(
-                        name: nameFieldController.text,
-                        email: emailFieldController.text,
-                        dateOfBirth: dateFormating(
-                            year: _selectedYear,
-                            month: _selectedMonth,
-                            day: _selectedDay),
-                      ),
-                      barrierColor: Colors.transparent,
-                      barrierDismissible: false,
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      User.name = nameFieldController.text;
+                      User.email = emailFieldController.text;
+                      User.birthdayDate = dateFormating(
+                          year: _selectedYear,
+                          month: _selectedMonth,
+                          day: _selectedDay);
+                      showDialog(
+                        context: context,
+                        builder: (context) =>
+                            const CreateAccountDataReviewWebView(),
+                        barrierColor: Colors.transparent,
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showToastWidget(
+                        const CustomWebToast(
+                          message: "Please enter a valid data.",
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    }
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

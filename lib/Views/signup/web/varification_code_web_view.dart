@@ -8,6 +8,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
@@ -16,10 +17,7 @@ import 'package:tweaxy/views/signup/web/add_password_web_view.dart';
 class VarificationCodeWebView extends StatefulWidget {
   const VarificationCodeWebView({
     super.key,
-    required this.email,
   });
-
-  final String email;
 
   @override
   State<VarificationCodeWebView> createState() =>
@@ -91,7 +89,7 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                           child: CustomParagraphText(
                               size: 15,
                               textValue:
-                                  "Enter it below to verify ${widget.email} ",
+                                  "Enter it below to verify ${User.email} ",
                               textAlign: TextAlign.left),
                         ),
                         Padding(
@@ -143,6 +141,8 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                           duration: const Duration(seconds: 2),
                         );
                       } else if (mounted) {
+                        User.emailVerificationToken =
+                            varificationCodeController.text;
                         showDialog(
                           context: context,
                           builder: (context) => const AddPasswordWebView(),
