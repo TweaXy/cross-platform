@@ -86,7 +86,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 color: forgroundColorTheme(context),
                 text: "Sign up",
                 onPressedCallback: () async {
-                  dynamic response = await service.emailCodeVariication();
+                  dynamic response = await service.sendEmailCodeVerification();
                   if (response.statusCode == 200) {
                     //TODO go to home page
                     Navigator.push(
