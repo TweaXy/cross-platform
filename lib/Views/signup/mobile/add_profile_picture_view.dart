@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/Components/transition/custom_page_route.dart';
 import 'package:tweaxy/Views/signup/mobile/add_username_view.dart';
@@ -20,13 +21,17 @@ class AddProfilePictureView extends StatefulWidget {
 }
 
 class _AddProfilePictureViewState extends State<AddProfilePictureView> {
-  XFile? image;
+  XFile? image, imageTemporary;
   bool isButtonEnabled = false;
 
   Future pickImage({required ImageSource source}) async {
     final ImagePicker picker = ImagePicker();
     try {
-      final XFile? imageTemporary = await picker.pickImage(source: source);
+      imageTemporary = await picker.pickImage(source: source);
+      if (imageTemporary != null) {
+        imageTemporary = await _cropImage();
+      }
+
       setState(() {
         image = imageTemporary;
         isButtonEnabled = true;
@@ -37,6 +42,29 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
         isButtonEnabled = false;
       });
     }
+  }
+
+  Future<XFile?> _cropImage() async {
+    CroppedFile? cropped = await ImageCropper().cropImage(
+      sourcePath: imageTemporary!.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        AndroidUiSettings(
+            showCropGrid: false,
+            hideBottomControls: true,
+            cropFrameColor: Colors.transparent,
+            toolbarTitle: 'Move and Scale',
+            backgroundColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: true),
+      ],
+      cropStyle: CropStyle.circle,
+    );
+
+    if (cropped != null) {
+      return XFile(cropped.path);
+    }
+    return null;
   }
 
   @override

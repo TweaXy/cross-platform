@@ -47,6 +47,7 @@ dependencies:
   dio: ^5.3.3
   image_picker: ^1.0.4
   oktoast: ^3.3.2+1
+  image_cropper: ^5.0.0
 dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_test:
