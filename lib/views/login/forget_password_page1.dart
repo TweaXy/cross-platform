@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
+import 'package:tweaxy/Components/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
@@ -108,14 +111,17 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
 
                           print(res);
                           if (res != 'success') {
-                            Fluttertoast.showToast(
-                              msg: '$res',
-                              toastLength: Toast.LENGTH_SHORT,
-                              timeInSecForIosWeb: 1,
-                              backgroundColor: Colors.blue,
-                              textColor: Colors.white,
-                              fontSize: 16.0,
-                            );
+                            showToastWidget(
+                                CustomToast(
+                                  message: res,
+                                ),
+                                // toastLength: Toast.LENGTH_SHORT,
+                                // timeInSecForIosWeb: 1,
+                                // backgroundColor: Colors.blue,
+                                // textColor: Colors.white,
+                                // fontSize: 16.0,
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2));
                           } else {
                             Navigator.pop(context);
                             Navigator.push(
