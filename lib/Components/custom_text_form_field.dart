@@ -25,6 +25,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
   String? _errorText; //should be null if the input is valid or in initial state
   bool passwordVisible = false;
 
+  bool isPassword({required String label}) {
+    if (label == "Password" ||
+        label == "Enter a new password" ||
+        label == "Confirm your password") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   void validate({required String inputValue}) async {
     try {
       _errorText = await widget.validatorFunc(
@@ -60,9 +70,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   List<Widget> showIcons() {
     List<Widget> suffixIcons = [];
-    if (widget.label == "Password" ||
-        widget.label == "Enter a new password" ||
-        widget.label == "Confirm your password") {
+    if (isPassword(label: widget.label)) {
       suffixIcons.add(passwordIcons());
     }
     if (_isValid != 0) {
@@ -92,7 +100,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       },
       cursorHeight: 30.0,
       cursorColor: Colors.lightBlue[700],
-      obscureText: widget.label == 'Password' ? !passwordVisible : false,
+      obscureText: isPassword(label: widget.label) ? !passwordVisible : false,
       maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
         prefix: widget.label == "Username" ? const Text("@") : null,

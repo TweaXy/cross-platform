@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 
-class ForgetPasswordWeb3 extends StatelessWidget {
+class ForgetPasswordWeb3 extends StatefulWidget {
   const ForgetPasswordWeb3({super.key});
 
   @override
+  State<ForgetPasswordWeb3> createState() => _ForgetPasswordWeb3State();
+}
+
+class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
+  bool isButtonEnabled = false;
+  TextEditingController myController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    myController.addListener(_updateButtonState);
+  }
+
+  void _updateButtonState() {
+    setState(() {
+      isButtonEnabled = myController.text.isNotEmpty;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    TextEditingController myController = TextEditingController();
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return SizedBox(
@@ -55,7 +76,7 @@ class ForgetPasswordWeb3 extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: CustomTextField(
                   key: const ValueKey("forgetPassView3TextField"),
-                  validatorFunc: emailValidation,
+                  validatorFunc: codeValidation,
                   label: 'Enter your code',
                   controller: myController,
                 ),
@@ -67,18 +88,30 @@ class ForgetPasswordWeb3 extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(
-                          height: 50,
-                          width: 350,
-                          child: CustomButton(
-                            key: const ValueKey("forgetPassView3BackButton"),
-                            color: backgroundColorTheme(context),
-                            text: 'Back',
-                            initialEnabled: true,
-                            onPressedCallback: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
+                            height: 50,
+                            width: 350,
+                            child: CustomButton(
+                              key: const ValueKey("forgetPassView3BackButton"),
+                              color: isButtonEnabled
+                                  ? forgroundColorTheme(context)
+                                  : backgroundColorTheme(context),
+                              text: isButtonEnabled ? 'Next' : 'Back',
+                              initialEnabled: true,
+                              onPressedCallback: () {
+                                Navigator.pop(context);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    content: isButtonEnabled
+                                        ? ResetPasswordWeb()
+                                        : ForgetPasswordWeb1(),
+                                  ),
+                                  barrierColor:
+                                      const Color.fromARGB(100, 97, 119, 129),
+                                  barrierDismissible: false,
+                                );
+                              },
+                            )),
                       ]),
                 ),
               )
