@@ -39,14 +39,14 @@ class LoginApi {
   }
 
   Future<dynamic> SignInWithGoogle() async {
-    String googleSignInUrl =
-        Uri.encodeFull("http://16.171.65.142:3000/api/v1/auth/google");
+    String googleSignInUrl = Uri.encodeFull(
+        "http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/google/callback");
 
     // Launch the Google Sign-In URL in the default web browser or a WebView
     if (await canLaunch(googleSignInUrl)) {
       await launch(googleSignInUrl, forceWebView: true);
-      Response response = await dio
-          .get("http://16.171.65.142:3000/api/v1/auth/google-response");
+      Response response = await dio.get(
+          "http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/google/callback");
 
       return response.data;
     } else {

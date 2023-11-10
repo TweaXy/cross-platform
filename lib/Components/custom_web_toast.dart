@@ -12,7 +12,7 @@ class CustomWebToast extends StatelessWidget {
         top: MediaQuery.of(context).size.height * 0.88,
         left: MediaQuery.of(context).size.width * 0.37,
         right: MediaQuery.of(context).size.width * 0.37,
-        bottom: MediaQuery.of(context).size.height * 0.03,
+        bottom: MediaQuery.of(context).size.height * 0.02,
       ),
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       decoration: BoxDecoration(

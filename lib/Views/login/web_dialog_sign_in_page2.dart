@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/custom_web_toast.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/constants.dart';
@@ -50,8 +52,8 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
-          Padding(
-            padding: const EdgeInsets.only(left: 50),
+          const Padding(
+            padding: EdgeInsets.only(left: 50),
             child: Row(
               children: [
                 Text(
@@ -81,7 +83,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                     ? Color(0xff101214)
                     : Colors.white, // Specify the background color
                 contentPadding:
-                    EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
+                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
                 border: OutlineInputBorder(),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -124,15 +126,30 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                 }) as Map<String, dynamic>;
                                 //go to home page
                                 print(user);
+                                // ignore: use_build_context_synchronously
                                 Navigator.pushNamed(context, kStartScreen);
                               } on DioException catch (e) {
-                                print(e.toString());
+                                print('DioException: ${e.toString()}');
                                 // ignore: use_build_context_synchronously
-                                showSnackBar(
-                                    context, e.response!.data['message']);
+                                // showSnackBar(context, e.response!.data['message']);
+                                showToastWidget(
+                                  CustomWebToast(
+                                    message: e.response!.data['message'],
+                                  ),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2),
+                                );
                               } on Exception catch (e) {
+                                print(e.toString());
+                                showToastWidget(
+                                  CustomWebToast(
+                                    message: e.toString(),
+                                  ),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2),
+                                );
                                 // ignore: use_build_context_synchronously
-                                showSnackBar(context, e);
+                                // showSnackBar(context, e);
                               }
                             },
                             initialEnabled: isButtonEnabled)),

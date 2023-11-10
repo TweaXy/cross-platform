@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/custom_web_toast.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
-import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
 import 'package:tweaxy/views/login/web_dialog_sign_in_page2.dart';
@@ -80,12 +81,27 @@ class WebDialogSignIn extends StatelessWidget {
                           );
                         }
                       } on DioException catch (e) {
-                        print(e.toString());
+                        print('DioException: ${e.toString()}');
                         // ignore: use_build_context_synchronously
-                        showSnackBar(context, e.response!.data['message']);
+                        // showSnackBar(context, e.response!.data['message']);
+                        showToastWidget(
+                          CustomWebToast(
+                            message: e.response!.data['message'],
+                          ),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
                       } on Exception catch (e) {
+                        print(e.toString());
+                        showToastWidget(
+                          CustomWebToast(
+                            message: e.toString(),
+                          ),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
                         // ignore: use_build_context_synchronously
-                        showSnackBar(context, e);
+                        // showSnackBar(context, e);
                       }
                     },
                     initialEnabled: true)),

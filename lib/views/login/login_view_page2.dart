@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/users.dart';
@@ -38,6 +40,8 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
@@ -151,10 +155,25 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                             Navigator.pushNamed(context, kStartScreen);
                           } on DioException catch (e) {
                             print(e.toString());
-                            showSnackBar(context, e.response!.data['message']);
+                            // ignore: use_build_context_synchronously
+                            // showSnackBar(context, e.response!.data['message']);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.response!.data['message'],
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
                           } on Exception catch (e) {
                             // ignore: use_build_context_synchronously
-                            showSnackBar(context, e);
+                            // showSnackBar(context, e);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.toString(),
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
                           }
                         },
                       ),

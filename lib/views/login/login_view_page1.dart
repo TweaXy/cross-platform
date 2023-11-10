@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
+import 'package:tweaxy/components/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/login_api.dart';
@@ -35,6 +37,8 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
@@ -125,10 +129,24 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                           } on DioException catch (e) {
                             print(e.toString());
                             // ignore: use_build_context_synchronously
-                            showSnackBar(context, e.response!.data['message']);
+                            // showSnackBar(context, e.response!.data['message']);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.response!.data['message'],
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
                           } on Exception catch (e) {
                             // ignore: use_build_context_synchronously
-                            showSnackBar(context, e);
+                            // showSnackBar(context, e);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.toString(),
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
                           }
                         },
                       ),
