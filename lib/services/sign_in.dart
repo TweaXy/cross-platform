@@ -10,7 +10,7 @@ class SignInServices {
   static String token = ''; //code sent to email
   static String baseUrl = kIsWeb
       ? 'http://16.171.65.142:3000/api/v1'
-      : 'http://192.168.1.47:3000/api/v1';
+      : 'http://16.171.65.142:3000/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     SignInServices.email = email;
