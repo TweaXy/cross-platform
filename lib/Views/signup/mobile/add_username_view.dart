@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -38,6 +40,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
   SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: const CustomAppbar(
           key: ValueKey("addUsernameAppbar"),
@@ -134,14 +137,13 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                             //       context, (route) => route.isFirst);
                             // }
                             if (response.statusCode == 400) {
-                              Fluttertoast.showToast(
-                                  msg: response.data['message'],
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.red,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
+                              showToastWidget(
+                                CustomToast(
+                                    message: response,
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
                             } else if (response.statusCode == 200) {
                               //TODO go to home page
                               Fluttertoast.showToast(
@@ -152,7 +154,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                                   backgroundColor: Colors.black,
                                   textColor: Colors.white,
                                   fontSize: 16.0);
-                            } else {
+                            } else if (mounted) {
                               Navigator.popUntil(
                                   context, (route) => route.isFirst);
                             }

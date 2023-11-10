@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -25,6 +26,8 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
   SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: CustomAppbar(
         key: const ValueKey("createAccountDataReviewAppbar"),
@@ -95,14 +98,11 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                             direction: AxisDirection.left,
                             child: const AuthenticationView()));
                   } else {
-                    Fluttertoast.showToast(
-                        msg: response.data['message'],
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
+                    showToastWidget(
+                      CustomToast(message: response, screenWidth: screenWidth),
+                      position: ToastPosition.bottom,
+                      duration: const Duration(seconds: 2),
+                    );
                   }
                 },
                 initialEnabled: true,
