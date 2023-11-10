@@ -39,6 +39,8 @@ class _SingupCodeVerificationViewState
     });
   }
 
+  SignupService service = SignupService(Dio());
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -97,7 +99,30 @@ class _SingupCodeVerificationViewState
                       InkWell(
                         key: const ValueKey(
                             "SingupCodeVerificationDidntReceiveEmail"),
-                        onTap: () {},
+                        onTap: () async {
+                          try {
+                            dynamic response =
+                                await service.sendEmailCodeVerification();
+
+                            showToastWidget(
+                              CustomToast(
+                                  message: response is String
+                                      ? response
+                                      : "Email has been resent successfully",
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          } catch (e) {
+                            log(e.toString());
+                            showToastWidget(
+                                CustomToast(
+                                    message: e.toString(),
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2));
+                          }
+                        },
                         child: const Text('Didn\'t receive email?',
                             style: TextStyle(
                               color: Colors.blue,

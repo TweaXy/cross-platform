@@ -125,6 +125,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       onChanged: (value) async {
         validate(inputValue: value);
       },
+      autovalidateMode: AutovalidateMode.always,
+      validator: (value) => _errorText,
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
 import 'package:tweaxy/Views/signup/mobile/add_profile_picture_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -34,6 +36,8 @@ class _AddPasswordViewState extends State<AddPasswordView> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,74 +46,91 @@ class _AddPasswordViewState extends State<AddPasswordView> {
           key: ValueKey("addPasswordAppbar"),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.78,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: MediaQuery.of(context).size.height * 0.05),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.01),
-                        child: CustomHeadText(
-                          textValue: "You'll need a password",
-                          textAlign: TextAlign.left,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: MediaQuery.of(context).size.height * 0.78,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.05),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.01),
+                          child: CustomHeadText(
+                            textValue: "You'll need a password",
+                            textAlign: TextAlign.left,
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.03),
-                        child: CustomParagraphText(
-                            textValue: "Make sure it's 8 characters or more",
-                            textAlign: TextAlign.left),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height * 0.02),
-                        child: CustomTextField(
-                          key: const ValueKey("addPasswordTextField"),
-                          label: "Password",
-                          validatorFunc: passwordValidation,
-                          controller: myController,
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.03),
+                          child: CustomParagraphText(
+                              textValue: "Make sure it's 8 characters or more",
+                              textAlign: TextAlign.left),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom:
+                                  MediaQuery.of(context).size.height * 0.02),
+                          child: CustomTextField(
+                            key: const ValueKey("addPasswordTextField"),
+                            label: "Password",
+                            validatorFunc: passwordValidation,
+                            controller: myController,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const Divider(),
+                      Align(
+                        alignment: Alignment.bottomRight,
+                        widthFactor: 4.8,
+                        child: CustomButton(
+                          key: const ValueKey("addPasswordButton"),
+                          color: forgroundColorTheme(context),
+                          text: "Next",
+                          onPressedCallback: () {
+                            if (_formKey.currentState!.validate()) {
+                              User.password = myController.text;
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: const AddProfilePictureView()));
+                            } else {
+                              showToastWidget(
+                                CustomToast(
+                                    message: "Please enter a valid password.",
+                                    screenWidth:
+                                        MediaQuery.of(context).size.width),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            }
+                          },
+                          initialEnabled: isButtonEnabled,
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Divider(),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      widthFactor: 4.8,
-                      child: CustomButton(
-                        key: const ValueKey("addPasswordButton"),
-                        color: forgroundColorTheme(context),
-                        text: "Next",
-                        onPressedCallback: () {
-                          User.password = myController.text;
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: const AddProfilePictureView()));
-                        },
-                        initialEnabled: isButtonEnabled,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ));
   }

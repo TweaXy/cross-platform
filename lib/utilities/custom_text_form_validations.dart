@@ -69,7 +69,10 @@ Future<String?> codeValidation({required String? inputValue}) async {
 
 Future<String?> usernameValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
-    return "username is required";
+    return "Username is required";
+  }
+  if (inputValue.length < 4) {
+    return "Username must be at least 4 characters";
   }
   try {
     dynamic response =

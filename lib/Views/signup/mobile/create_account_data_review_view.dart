@@ -90,7 +90,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 text: "Sign up",
                 onPressedCallback: () async {
                   dynamic response = await service.sendEmailCodeVerification();
-                  if (response.statusCode == 200) {
+                  if (response is! String) {
                     //TODO go to home page
                     Navigator.push(
                         context,

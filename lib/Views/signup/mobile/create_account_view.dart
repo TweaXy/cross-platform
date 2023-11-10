@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_toast.dart';
 
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -77,6 +79,8 @@ class _CreateAccountViewState extends State<CreateAccountView> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -111,14 +115,17 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    CustomCreateAccountFields(
-                        key: const ValueKey("createAccountFields"),
-                        birthDateHide: hideBirthDatePicker,
-                        birthDateshow: showdatepicker,
-                        birthDateFieldController: birthDateFieldController,
-                        emailFieldController: emailFieldController,
-                        nameFieldController: nameFieldController,
-                        topPadding: MediaQuery.of(context).size.height * .03)
+                    Form(
+                      key: _formKey,
+                      child: CustomCreateAccountFields(
+                          key: const ValueKey("createAccountFields"),
+                          birthDateHide: hideBirthDatePicker,
+                          birthDateshow: showdatepicker,
+                          birthDateFieldController: birthDateFieldController,
+                          emailFieldController: emailFieldController,
+                          nameFieldController: nameFieldController,
+                          topPadding: MediaQuery.of(context).size.height * .03),
+                    )
                   ],
                 ),
               ),
@@ -142,14 +149,23 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () async {
-                          User.email = emailFieldController.text;
-                          User.name = nameFieldController.text;
-                          User.birthdayDate = birthDateFieldController.text;
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: CreateAccountDataReview()));
+                          if (_formKey.currentState!.validate()) {
+                            User.email = emailFieldController.text;
+                            User.name = nameFieldController.text;
+                            User.birthdayDate = birthDateFieldController.text;
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: const CreateAccountDataReview()));
+                          } else {
+                            showToastWidget(
+                              const CustomToast(
+                                  message: "Please enter a valid data."),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          }
                         },
                         initialEnabled: _isnextButtonEnabled),
                   ),

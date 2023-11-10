@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -37,6 +39,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
   SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
@@ -77,11 +80,14 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                       Padding(
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
-                        child: CustomTextField(
-                          key: const ValueKey("addUsernameTextField"),
-                          label: "Username",
-                          validatorFunc: usernameValidation,
-                          controller: myController,
+                        child: Form(
+                          key: _formKey,
+                          child: CustomTextField(
+                            key: const ValueKey("addUsernameTextField"),
+                            label: "Username",
+                            validatorFunc: usernameValidation,
+                            controller: myController,
+                          ),
                         ),
                       ),
                       InkWell(
@@ -120,43 +126,40 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           color: forgroundColorTheme(context),
                           text: "Next",
                           onPressedCallback: () async {
-                            User.username = myController.text;
-                            dynamic response = await service.createAccount();
-                            // if (response is String) {
-                            //   Fluttertoast.showToast(
-                            //       msg: response,
-                            //       toastLength: Toast.LENGTH_SHORT,
-                            //       gravity: ToastGravity.CENTER,
-                            //       timeInSecForIosWeb: 1,
-                            //       backgroundColor: Colors.red,
-                            //       textColor: Colors.white,
-                            //       fontSize: 16.0);
-                            // }
-                            // else{
-                            //    Navigator.popUntil(
-                            //       context, (route) => route.isFirst);
-                            // }
-                            if (response.statusCode == 400) {
+                            if (_formKey.currentState!.validate()) {
+                              User.username = myController.text;
+                              dynamic response = await service.createAccount();
+                              log(response.toString());
+                              if (response is String) {
+                                showToastWidget(
+                                  CustomToast(
+                                      message: response,
+                                      screenWidth: screenWidth),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2),
+                                );
+                              } else if (response.statusCode == 200) {
+                                //TODO go to home page
+                                Fluttertoast.showToast(
+                                    msg: "success",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.black,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0);
+                              } else if (mounted) {
+                                Navigator.popUntil(
+                                    context, (route) => route.isFirst);
+                              }
+                            } else {
                               showToastWidget(
                                 CustomToast(
-                                    message: response,
+                                    message: "Please enter a valid username.",
                                     screenWidth: screenWidth),
                                 position: ToastPosition.bottom,
                                 duration: const Duration(seconds: 2),
                               );
-                            } else if (response.statusCode == 200) {
-                              //TODO go to home page
-                              Fluttertoast.showToast(
-                                  msg: "success",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: Colors.black,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0);
-                            } else if (mounted) {
-                              Navigator.popUntil(
-                                  context, (route) => route.isFirst);
                             }
                           },
                           initialEnabled: isButtonEnabled,
