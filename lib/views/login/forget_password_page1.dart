@@ -2,10 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Components/custom_toast.dart';
-import 'package:tweaxy/Components/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/sign_in.dart';
@@ -39,6 +38,8 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
@@ -114,6 +115,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                             showToastWidget(
                                 CustomToast(
                                   message: res,
+                                  screenWidth: screenWidth,
                                 ),
                                 // toastLength: Toast.LENGTH_SHORT,
                                 // timeInSecForIosWeb: 1,

@@ -4,7 +4,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/components/custom_toast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/users.dart';
