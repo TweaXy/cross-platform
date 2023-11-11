@@ -92,10 +92,9 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       context,
                       CustomPageRoute(
                           direction: AxisDirection.left,
-                          child: SingupCodeVerificationView(email: widget.email
-                          ,)
-                          ));
-                 
+                          child: SingupCodeVerificationView(
+                            email: widget.email,
+                          )));
                 },
                 initialEnabled: true,
               ),

@@ -38,14 +38,14 @@ class AddUsernameWebView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                     CustomHeadText(
+                    CustomHeadText(
                       textValue: "What should we call you?",
                       textAlign: TextAlign.left,
                     ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: MediaQuery.of(context).size.height * 0.02),
-                      child:  CustomParagraphText(
+                      child: CustomParagraphText(
                           textValue:
                               "Your @username is unique. You can always change it later.",
                           textAlign: TextAlign.left),

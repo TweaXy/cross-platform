@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
@@ -6,9 +7,8 @@ import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/droptemp.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/post_button.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/settings_drop_down.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/settings_drop_down.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 
 class SideNavBar extends StatefulWidget {
   const SideNavBar({Key? key}) : super(key: key);
@@ -93,9 +93,7 @@ class _SideNavBarState extends State<SideNavBar> {
             ),
             onTap: () {
               // Navigator.pop(context);
-              setState(() {
-                selectedIndex = 0;
-              });
+              _globalOnTap(0);
             },
           ),
         ),
@@ -115,9 +113,7 @@ class _SideNavBarState extends State<SideNavBar> {
           ),
           onTap: () {
             // Navigator.pop(context);
-            setState(() {
-              selectedIndex = 1;
-            });
+            _globalOnTap(1);
           },
         ),
         ListTile(
@@ -136,9 +132,7 @@ class _SideNavBarState extends State<SideNavBar> {
           ),
           onTap: () {
             // Navigator.pop(context);
-            setState(() {
-              selectedIndex = 2;
-            });
+            _globalOnTap(2);
           },
         ),
         ListTile(
@@ -157,9 +151,7 @@ class _SideNavBarState extends State<SideNavBar> {
           ),
           onTap: () {
             // Navigator.pop(context);
-            setState(() {
-              selectedIndex = 3;
-            });
+            _globalOnTap(3);
           },
         ),
         ListTile(
@@ -186,14 +178,19 @@ class _SideNavBarState extends State<SideNavBar> {
           ),
           onTap: () {
             // Navigator.pop(context);
-            setState(() {
-              selectedIndex = 4;
-            });
+            _globalOnTap(4);
           },
         ),
         // SettingsAndSupport(),
         PostButton()
       ],
     );
+  }
+
+  void _globalOnTap(index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    BlocProvider.of<SidebarCubit>(context).toggleMenu(selectedIndex);
   }
 }

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Views/profile/profile_screen.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
+import 'package:tweaxy/views/homepage.dart';
+import 'package:tweaxy/views/profile/edit_profile_screen.dart';
+
 import 'package:tweaxy/views/signup/authentication_view.dart';
-import 'package:tweaxy/views/signup/not_robot_view.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/views/login/login_view_page1.dart';
-import 'package:tweaxy/views/login/login_view_page2.dart';
-import 'package:tweaxy/views/signup/add_password_web_view.dart';
 import 'package:tweaxy/views/signup/create_account_view.dart';
 import 'package:tweaxy/views/signup/create_account_web_view.dart';
-import 'package:tweaxy/views/signup/varification_code_web_view.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 import 'package:tweaxy/views/start_screen.dart';
 import 'package:tweaxy/views/start_screen_web.dart';
-import 'package:tweaxy/views/homepage.dart';
 
 void main() {
   runApp(const TweaXy());
@@ -40,8 +40,11 @@ class TweaXy extends StatelessWidget {
         kCreateAcountScreen: (context) => const CreateAccountView(),
         kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
         kAuthenticationScreen: (context) => const AuthenticationView(),
+        kProfileScreen: (context) => ProfileScreen(),
+        kEditProfileScreen: (context) => EditProfileScreen(),
+        kHomeScreen: (context) => HomePage(),
       },
-      initialRoute: kSplashScreen,
+      initialRoute: kHomeScreen,
     );
   }
 }

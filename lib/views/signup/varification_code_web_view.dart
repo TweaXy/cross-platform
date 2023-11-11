@@ -128,7 +128,7 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                   onPressedCallback: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const AddPasswordWebView() ,
+                      builder: (context) => const AddPasswordWebView(),
                       barrierColor: Colors.transparent,
                       barrierDismissible: false,
                     );

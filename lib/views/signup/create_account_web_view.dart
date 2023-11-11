@@ -181,10 +181,9 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                             month: _selectedMonth,
                             day: _selectedDay),
                       ),
-                      barrierColor:  Colors.transparent,
+                      barrierColor: Colors.transparent,
                       barrierDismissible: false,
                     );
-                  
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 class SideBarText extends StatelessWidget {
   const SideBarText(
-      {super.key, required this.text, required this.selectedIndex,required this.curindex});
+      {super.key,
+      required this.text,
+      required this.selectedIndex,
+      required this.curindex});
   final String text;
   final int selectedIndex;
   final int curindex;
@@ -12,9 +15,8 @@ class SideBarText extends StatelessWidget {
       text,
       style: TextStyle(
           fontSize: 20,
-          fontWeight: curindex == selectedIndex
-              ? FontWeight.bold
-              : FontWeight.normal),
+          fontWeight:
+              curindex == selectedIndex ? FontWeight.bold : FontWeight.normal),
     );
   }
 }
