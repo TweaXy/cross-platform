@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:tweaxy/components/sign_in_with.dart';
 import 'package:tweaxy/components/start_screen_divider.dart';
+import 'package:tweaxy/services/sign_in.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({
@@ -41,6 +42,8 @@ class SignChoose extends StatelessWidget {
             type: !isDarkMode ? ButtonType.github : ButtonType.githubDark,
             onPressed: () {
               //TODO: implement continue with github logic
+              var res = SignInServices.signInGithub();
+              // print("sign in" + res.toString());
             },
             size: ButtonSize.medium,
           ),

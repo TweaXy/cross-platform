@@ -1,17 +1,28 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/helpers/api.dart';
+import 'package:url_launcher/url_launcher.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInServices {
-  String baseUrl = kIsWeb
-      ? 'http://localhost:3000/api/v1'
-      : 'http://192.168.1.31:3000/api/v1';
+  SignInServices._();
+  static SignInServices? _instance;
+  static String email = '';
+  // http://16.171.65.142:3000/api/v1/docs/
+  static String token = ''; //code sent to email
+  static String baseUrl = kIsWeb
+      ? 'http://16.171.65.142:3000/api/v1'
+      : 'http://16.171.65.142:3000/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
+  static void setEmail({required String email}) {
+    SignInServices.email = email;
+  }
 
-  final Dio dio;
-  SignInServices(this.dio);
+  static void setToken({required String token}) {
+    SignInServices.token = token;
+  }
 
-  dynamic forgetPasswordEmail({required String email}) async {
+  static dynamic forgetPassword() async {
     print(email);
     var res = await Api.post(
       body: {'UUID': email},
@@ -22,39 +33,65 @@ class SignInServices {
       return res;
     else
       return "success";
-    // Response? response;
-    // Binary data
-    // try {
-    //   response = await dio.post(
-    //     '$baseUrl/auth/forgetPassword',
-    //     data: {'UUID': email},
-    //   );
-    //   print(response.data);
-    //   return 'success';
-    // } on DioException catch (e) {
-    //   print(response);
-    //   // var res = e.response!;
-    //   // print(res.extra);
-    //   // print("mmmmmm=" + res.extra['message'].toString());
-    //   // final String errorMessage =
-    //   //     e.response?.data['error']['message'] ?? res == 403
-    //   //         ? "email or phone or username is required field"
-    //   //         : res == 404
-    //   //             ? "User not found"
-    //   //             : res == 429
-    //   //                 ? "More than one request in less than 30 seconds"
-    //   //                 : "oops there is an error, try again later";
-    //   return e.response!.statusMessage!;
-    //   // if (res == 403)
-    //   //   return "email or phone or username is required field";
-    //   // else if (res == 404)
-    //   //   return "User not found";
-    //   // else if (res == 429)
-    //   //   return "More than one request in less than 30 seconds";
-    //   // else
-    //   //   return "oops there is an error, try again later";
-    // } catch (e) {
-    //   return "oops there is an error, try again later";
-    // }
   }
+
+  static dynamic resetPassword(String password) async {
+    var res = await Api.post(
+      url: '$baseUrl/auth/resetPassword/$email/$token',
+      body: {"password": password},
+    );
+    print('reset' + res.toString());
+    if (res is String)
+      return res;
+    else
+      return "success";
+  }
+
+  static Future<String> signInGithub() async {
+    String _url = Uri.encodeFull(
+        'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback');
+    if (await canLaunch(_url)) {
+      await launch(_url, forceWebView: true);
+      Response res = await Api.get(
+        'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback',
+      );
+      print('reset' + res.data);
+    } else {
+      print('couldn\'t launch');
+    }
+    return "h";
+  }
+// static Future<void> _handleDeepLink() async {
+//     String initialLink;
+//     try {
+//       initialLink = await getInitialLink();
+//       // Process the returned data from the deep link
+//       // Example: handleReturnedData(initialLink);
+//     } catch (e) {
+//       print(e.toString());
+//     }
+//   }
+
+  // Add your logic to handle the returned data
+  // void handleReturnedData(String data) {
+  //   // Your implementation here
+  // }
+// }
+
+// Future<UserCredential> signInWithGoogle() async {
+//   // Trigger the authentication flow
+//   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+//   // Obtain the auth details from the request
+//   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+//   // Create a new credential
+//   final credential = GoogleAuthProvider.credential(
+//     accessToken: googleAuth?.accessToken,
+//     idToken: googleAuth?.idToken,
+//   );
+
+//   // Once signed in, return the UserCredential
+//   return await FirebaseAuth.instance.signInWithCredential(credential);
+// }
 }
