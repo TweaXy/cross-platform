@@ -98,7 +98,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
-                        width: 300,
+                        width: 500,
                         height: 40,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
