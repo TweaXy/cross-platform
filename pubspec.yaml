@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  url_launcher: ^6.0.13
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -42,10 +43,9 @@ dependencies:
   webview_flutter_plus:
   google_fonts: ^6.1.0
   dotted_border: ^2.1.0
+  fluttertoast: ^8.2.2
   datepicker_dropdown: ^0.0.8
-  fluttertoast: ^8.0.7
   dio: ^5.3.3
-  url_launcher: ^6.0.9
   image_picker: ^1.0.4
   oktoast: ^3.3.2+1
   image_cropper: ^5.0.0
