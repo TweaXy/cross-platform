@@ -49,17 +49,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           kIsWeb
               ? Center(
                   child: ElevatedButton(
+                    key: const ValueKey('editScreenSaveChangesWeb'),
                     onPressed: () {},
-                    child: Text('Save'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
                     ),
+                    child: const Text('Save'),
                   ),
                 )
               : TextButton(
+                  key: const ValueKey('editScreenSaveChangesMobile'),
                   onPressed: () {
                     //TODO: Upload your updates
                   },
@@ -83,6 +85,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Column(
                       children: [
                         AddImage(
+                          key: const ValueKey('editScreenBanner'),
                           path: newBannerPath,
                           url:
                               'https://socialsizes.io/static/facebook-cover-photo-size-b4dd6123feb0ded4531a05cbd0bccd30.jpg',
@@ -120,6 +123,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           (kIsWeb ? 7 : 6.7),
                       left: 15,
                       child: CircleAvatar(
+                        key: const ValueKey('editScreenAvatar'),
                         radius: kIsWeb ? 60 : 40,
                         backgroundColor: Colors.white,
                         child: Padding(
@@ -161,6 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   vertical: 16,
                 ),
                 child: TextFormField(
+                  key: const ValueKey('nameTextFormField'),
                   maxLines: 1,
                   keyboardType: TextInputType.name,
                   controller: _nameController,
@@ -181,6 +186,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   vertical: 16,
                 ),
                 child: TextFormField(
+                  key: const ValueKey('bioTextFormField'),
                   controller: _bioController,
                   minLines: 3,
                   maxLines: 20,
@@ -199,6 +205,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   vertical: 16,
                 ),
                 child: TextFormField(
+                  key: const ValueKey('locationTextFormField'),
                   controller: _locationController,
                   decoration: InputDecoration(
                     labelText: 'Location',
@@ -216,6 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   vertical: 16,
                 ),
                 child: TextFormField(
+                  key: const ValueKey('birthTextFormField'),
                   controller: _birthDateController,
                   decoration: InputDecoration(
                     labelText: 'Birth date',

@@ -182,7 +182,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(text: 'Edit Profile'),
+              FollowEditButton(text: 'Edit Profile',key: ValueKey('followEditButton'),),
             ],
           ),
         ),
