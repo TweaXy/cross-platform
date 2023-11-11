@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -33,18 +35,22 @@ class _CustomTextFieldState extends State<CustomTextField> {
     }
   }
 
-  void validate({required String inputValue}) {
-    _errorText = widget.validatorFunc(
-        inputValue:
-            inputValue); //null or errorText -> validate functions in utilites folder
-    if (_errorText == null) {
-      setState(() {
-        _isValid = 1;
-      });
-    } else {
-      setState(() {
-        _isValid = 2;
-      });
+  void validate({required String inputValue}) async {
+    try {
+      _errorText = await widget.validatorFunc(
+          inputValue:
+              inputValue); //null or errorText -> validate functions in utilites folder
+      if (_errorText == null) {
+        setState(() {
+          _isValid = 1;
+        });
+      } else {
+        setState(() {
+          _isValid = 2;
+        });
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -116,9 +122,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         errorText: _errorText,
       ),
-      onChanged: (value) {
+      onChanged: (value) async {
         validate(inputValue: value);
       },
+      autovalidateMode: AutovalidateMode.always,
+      validator: (value) => _errorText,
     );
   }
 }

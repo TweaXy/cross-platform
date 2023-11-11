@@ -1,21 +1,23 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/add_password_web_view.dart';
+import 'package:tweaxy/views/signup/web/add_password_web_view.dart';
 
 class VarificationCodeWebView extends StatefulWidget {
   const VarificationCodeWebView({
     super.key,
-    required this.email,
   });
-
-  final String email;
 
   @override
   State<VarificationCodeWebView> createState() =>
@@ -87,7 +89,7 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                           child: CustomParagraphText(
                               size: 15,
                               textValue:
-                                  "Enter it below to verify ${widget.email} ",
+                                  "Enter it below to verify ${User.email} ",
                               textAlign: TextAlign.left),
                         ),
                         Padding(
@@ -125,13 +127,32 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                   key: const ValueKey("AccountReviewDataSignupButton"),
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const AddPasswordWebView() ,
-                      barrierColor: Colors.transparent,
-                      barrierDismissible: false,
-                    );
+                  onPressedCallback: () async {
+                    try {
+                      dynamic response = await SignupService(Dio())
+                          .checkEmailCodeVerification(
+                              code: varificationCodeController.text);
+                      if (response is String) {
+                        showToastWidget(
+                          CustomWebToast(
+                            message: response,
+                          ),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } else if (mounted) {
+                        User.emailVerificationToken =
+                            varificationCodeController.text;
+                        showDialog(
+                          context: context,
+                          builder: (context) => const AddPasswordWebView(),
+                          barrierColor: Colors.transparent,
+                          barrierDismissible: false,
+                        );
+                      }
+                    } catch (e) {
+                      log(e.toString());
+                    }
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

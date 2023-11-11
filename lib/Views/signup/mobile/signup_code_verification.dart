@@ -1,18 +1,22 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:tweaxy/views/signup/add_password_web_view.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/add_password_view.dart';
+import 'package:tweaxy/views/signup/mobile/add_password_view.dart';
+import 'package:tweaxy/models/user.dart';
 
 class SingupCodeVerificationView extends StatefulWidget {
-  const SingupCodeVerificationView({super.key, required this.email});
-  final String email;
+  const SingupCodeVerificationView({super.key});
 
   @override
   State<SingupCodeVerificationView> createState() =>
@@ -35,8 +39,11 @@ class _SingupCodeVerificationViewState
     });
   }
 
+  SignupService service = SignupService(Dio());
+
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: CustomAppbar(
           key: const ValueKey("SingupCodeVerificationAppbar"),
@@ -54,7 +61,7 @@ class _SingupCodeVerificationViewState
           child: Column(
             children: [
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
+                width: screenWidth * 0.9,
                 height: MediaQuery.of(context).size.height * 0.78,
                 child: Padding(
                   padding: EdgeInsets.symmetric(
@@ -75,7 +82,7 @@ class _SingupCodeVerificationViewState
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: CustomParagraphText(
                             textValue:
-                                "Enter it below to verify ${widget.email} ",
+                                "Enter it below to verify ${User.email} ",
                             textAlign: TextAlign.left),
                       ),
                       Padding(
@@ -92,7 +99,30 @@ class _SingupCodeVerificationViewState
                       InkWell(
                         key: const ValueKey(
                             "SingupCodeVerificationDidntReceiveEmail"),
-                        onTap: () {},
+                        onTap: () async {
+                          try {
+                            dynamic response =
+                                await service.sendEmailCodeVerification();
+
+                            showToastWidget(
+                              CustomToast(
+                                  message: response is String
+                                      ? response
+                                      : "Email has been resent successfully",
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          } catch (e) {
+                            log(e.toString());
+                            showToastWidget(
+                                CustomToast(
+                                    message: e.toString(),
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2));
+                          }
+                        },
                         child: const Text('Didn\'t receive email?',
                             style: TextStyle(
                               color: Colors.blue,
@@ -114,12 +144,33 @@ class _SingupCodeVerificationViewState
                         key: const ValueKey("SingupCodeVerificationNextButton"),
                         color: forgroundColorTheme(context),
                         text: "Next",
-                        onPressedCallback: () {
-                          Navigator.pop(context);
-                          Navigator.push( context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: const AddPasswordView()));
+                        onPressedCallback: () async {
+                          try {
+                            dynamic response = await SignupService(Dio())
+                                .checkEmailCodeVerification(
+                                    code: myController.text);
+
+                            if (response is String) {
+                              showToastWidget(
+                                CustomToast(
+                                    message: response,
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            } else if (mounted) {
+                              User.emailVerificationToken = myController.text;
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: const AddPasswordView()));
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                            return "Code Uniqueness Api error ";
+                          }
                         },
                         initialEnabled: isButtonEnabled,
                       ),

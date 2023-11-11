@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/signup_code_verification.dart';
+import 'package:tweaxy/views/signup/mobile/signup_code_verification.dart';
 
 class NotRobotView extends StatefulWidget {
   const NotRobotView({super.key});
@@ -41,9 +41,7 @@ class _NotRobotViewState extends State<NotRobotView>
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SingupCodeVerificationView(
-                  email: "exampleeeeeeeeeeee@gmail.com",
-                ),
+                builder: (context) => const SingupCodeVerificationView(),
               ),
             );
           });

@@ -1,20 +1,20 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 class Api {
   static Future<dynamic> get(String url) async {
-    Response response;
+    Response? response;
     try {
       response = await Dio().get(url);
-      if (response.statusCode == 200) {
-        return response;
-      } else {
-        throw Exception(
-            'There\'s an error status code = ${response.statusCode} \nThe message is ${response.statusMessage}');
-      }
-    } on Exception catch (e) {
-      return (e.toString());
+    } on DioException catch (e) {
+      log("API: " + e.response!.data['message']);
+      return e.response!.data['message'];
     }
+    log("API: " + response.toString());
+
+    return response;
   }
 
   static Future<dynamic> post({
