@@ -1,9 +1,16 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/users.dart';
+import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
 
@@ -33,6 +40,8 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
@@ -132,10 +141,40 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                       CustomButton(
                         key: const ValueKey("loginView2NextButton"),
                         color: forgroundColorTheme(context),
-                        text: 'Next',
+                        text: 'Log in',
                         initialEnabled: isButtonEnabled,
-                        onPressedCallback: () {
-                          Navigator.pop(context);
+                        onPressedCallback: () async {
+                          try {
+                            Map<String, dynamic> user =
+                                await LoginApi().postUser({
+                              'UUID': '${widget.initialValue.text}',
+                              'password': '${myControllerPassword.text}'
+                            }) as Map<String, dynamic>;
+                            //go to home page
+                            print(user);
+                            Navigator.pushNamed(context, kStartScreen);
+                          } on DioException catch (e) {
+                            print(e.toString());
+                            // ignore: use_build_context_synchronously
+                            // showSnackBar(context, e.response!.data['message']);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.response!.data['message'],
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          } on Exception catch (e) {
+                            // ignore: use_build_context_synchronously
+                            // showSnackBar(context, e);
+                            showToastWidget(
+                              CustomToast(
+                                  message: e.toString(),
+                                  screenWidth: screenWidth),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          }
                         },
                       ),
                     ],
