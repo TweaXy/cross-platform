@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/Views/signup/web/add_username_web_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -17,12 +18,14 @@ class AddProfilePictureWebView extends StatefulWidget {
 }
 
 class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
-  XFile? image;
+  XFile? image, imageTemporary;
   Future pickImage() async {
     final ImagePicker picker = ImagePicker();
     try {
-      final XFile? imageTemporary =
-          await picker.pickImage(source: ImageSource.gallery);
+      imageTemporary = await picker.pickImage(source: ImageSource.gallery);
+      if (imageTemporary != null) {
+        imageTemporary = await _cropImage();
+      }
       setState(() {
         image = imageTemporary;
       });
@@ -31,6 +34,115 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
         image = null;
       });
     }
+  }
+
+  Future<XFile?> _cropImage() async {
+    CroppedFile? cropped = await ImageCropper().cropImage(
+      sourcePath: imageTemporary!.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        WebUiSettings(
+          context: context,
+          enableZoom: true,
+          enableOrientation: false,
+          customDialogBuilder: (cropper, crop, rotate) {
+            return Dialog(
+              backgroundColor: backgroundColorTheme(context),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              elevation: 10,
+              child: Builder(
+                builder: (context) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.topLeft,
+                            height: MediaQuery.of(context).size.height * 0.065,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  padding: const EdgeInsets.only(top: 8),
+                                  // iconSize: 20,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_back,
+                                    color: forgroundColorTheme(context),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      left: MediaQuery.of(context).size.width *
+                                          0.02,
+                                      right: MediaQuery.of(context).size.width *
+                                          0.23,
+                                      top: 10),
+                                  child: Text(
+                                    "Edit Media",
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: forgroundColorTheme(context),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 5.0),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      final result = await crop();
+                                      Navigator.of(context).pop(result);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Colors.black, // Background color
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                    child: const Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 10),
+                                      child: Text(
+                                        "Apply",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 15),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.6,
+                              child: cropper),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+
+    if (cropped != null) {
+      return XFile(cropped.path);
+    }
+    return null;
   }
 
   @override
@@ -154,7 +266,7 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                           //TODO: use the default profile picture
                           showDialog(
                             context: context,
-                            builder: (context) => AddUsernameWebView(),
+                            builder: (context) => const AddUsernameWebView(),
                             barrierColor: Colors.transparent,
                             barrierDismissible: false,
                           );
@@ -169,7 +281,7 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                           User.profilePicture = image!.path;
                           showDialog(
                             context: context,
-                            builder: (context) => AddUsernameWebView(),
+                            builder: (context) => const AddUsernameWebView(),
                             barrierColor: Colors.transparent,
                             barrierDismissible: false,
                           );
