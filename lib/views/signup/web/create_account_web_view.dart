@@ -62,7 +62,9 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                 key: const ValueKey("CreateAccountWebAppbar"),
                 pageNumber: "1",
                 icon: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: Icon(
                     Icons.close_sharp,
                     color: forgroundColorTheme(context),
