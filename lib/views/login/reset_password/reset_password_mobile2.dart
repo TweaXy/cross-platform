@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tweaxy/Components/custom_head_text.dart';
-import 'package:tweaxy/Components/custom_paragraph_text.dart';
+import 'package:tweaxy/components/custom_head_text.dart';
+import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
