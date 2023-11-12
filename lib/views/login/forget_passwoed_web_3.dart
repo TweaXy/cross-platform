@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Views/login/reset_password/reset_password_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
@@ -99,23 +101,37 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                                   : backgroundColorTheme(context),
                               text: isButtonEnabled ? 'Next' : 'Back',
                               initialEnabled: true,
-                              onPressedCallback: () {
-                                if (isButtonEnabled)
-                                  SignInServices.setToken(
-                                      token: myController.text);
+                              onPressedCallback: () async {
+                                // if (isButtonEnabled)
+                                SignInServices.setToken(
+                                    token: myController.text);
+                                String res =
+                                    await SignInServices.checkResetToken();
 
-                                Navigator.pop(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: isButtonEnabled
-                                        ? ResetPasswordWeb()
-                                        : ForgetPasswordWeb1(),
-                                  ),
-                                  barrierColor:
-                                      const Color.fromARGB(100, 97, 119, 129),
-                                  barrierDismissible: false,
-                                );
+                                print(res);
+                                res = "success";
+
+                                if (res != 'success') {
+                                  showToastWidget(
+                                      CustomWebToast(
+                                        message: res,
+                                      ),
+                                      position: ToastPosition.bottom,
+                                      duration: const Duration(seconds: 2));
+                                } else {
+                                  Navigator.pop(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: isButtonEnabled
+                                          ? ResetPasswordWeb()
+                                          : ForgetPasswordWeb1(),
+                                    ),
+                                    barrierColor:
+                                        const Color.fromARGB(100, 97, 119, 129),
+                                    barrierDismissible: false,
+                                  );
+                                }
                               },
                             )),
                       ]),

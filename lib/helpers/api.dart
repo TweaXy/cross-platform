@@ -22,6 +22,7 @@ class Api {
     @required dynamic body,
     @required String? token,
   }) async {
+    print(url);
     Response? response;
     try {
       Map<String, dynamic> headers = {};
