@@ -157,16 +157,11 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                             String res = await SignInServices.resetPassword(
                                 myControllerNewPassword.text);
                             if (res != 'success') {
+                              print(myControllerNewPassword.text);
                               showToastWidget(
                                   CustomToast(
                                     message: res,
-                                    screenWidth: screenwidth,
                                   ),
-                                  // toastLength: Toast.LENGTH_SHORT,
-                                  // timeInSecForIosWeb: 1,
-                                  // backgroundColor: Colors.blue,
-                                  // textColor: Colors.white,
-                                  // fontSize: 16.0,
                                   position: ToastPosition.bottom,
                                   duration: const Duration(seconds: 2));
                             } else {

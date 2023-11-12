@@ -6,6 +6,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -67,7 +68,8 @@ class _ResetPasswordWeb2State extends State<ResetPasswordWeb2> {
                     color: forgroundColorTheme(context),
                     text: 'Continue to X',
                     onPressedCallback: () async {
-                      Navigator.pop(context);
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pushReplacementNamed(context, kHomeScreen);
                     },
                     initialEnabled: true)),
           ),
