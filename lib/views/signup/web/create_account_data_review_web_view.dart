@@ -8,7 +8,7 @@ import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/web/varification_code_web_view.dart';
@@ -76,20 +76,20 @@ class _CreateAccountDataReviewWebViewState
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
-                              textValue: User.name, label: "Name"),
+                              textValue: UserSignup.name, label: "Name"),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
-                              label: "email", textValue: User.email),
+                              label: "email", textValue: UserSignup.email),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
                               label: "Date of Birth",
-                              textValue: User.birthdayDate),
+                              textValue: UserSignup.birthdayDate),
                         )
                       ],
                     ),

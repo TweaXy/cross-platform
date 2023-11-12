@@ -180,9 +180,9 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                   text: "Next",
                   onPressedCallback: () {
                     if (_formKey.currentState!.validate()) {
-                      User.name = nameFieldController.text;
-                      User.email = emailFieldController.text;
-                      User.birthdayDate = dateFormating(
+                      UserSignup.name = nameFieldController.text;
+                      UserSignup.email = emailFieldController.text;
+                      UserSignup.birthdayDate = dateFormating(
                           year: _selectedYear,
                           month: _selectedMonth,
                           day: _selectedDay);
