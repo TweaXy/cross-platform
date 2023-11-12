@@ -45,3 +45,6 @@ app.*.map.json
 
 # Integration tests files
 /integration_tests/
+
+# Pubspec.lock
+pubspec.lock
