@@ -25,6 +25,7 @@ class AddUsernameWebView extends StatefulWidget {
 class _AddUsernameWebViewState extends State<AddUsernameWebView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
+  bool isUsernameValid = false;
   final _formKey = GlobalKey<FormState>();
   SignupService service = SignupService(Dio());
 
@@ -108,37 +109,8 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
-                child: _formKey.currentState!.validate()
+                child: _formKey.currentState == null
                     ? CustomButton(
-                        key: const ValueKey("addUsernameWebNextButton"),
-                        color: forgroundColorTheme(context),
-                        text: "Next",
-                        onPressedCallback: () async {
-                          UserSignup.username = myController.text;
-                          try {
-                            dynamic response = await service.createAccount();
-
-                            if (response is String) {
-                              showToastWidget(
-                                CustomWebToast(
-                                  message: response,
-                                ),
-                                position: ToastPosition.bottom,
-                                duration: const Duration(seconds: 2),
-                              );
-                            } else if (mounted) {
-                              Navigator.popUntil(
-                                  context, (route) => route.isFirst);
-                              Navigator.pushReplacementNamed(
-                                  context, kHomeScreen);
-                            }
-                          } catch (e) {
-                            log(e.toString());
-                          }
-                        },
-                        initialEnabled: true,
-                      )
-                    : CustomButton(
                         key: const ValueKey("addUsernameWebSkipButton"),
                         color: backgroundColorTheme(context),
                         text: "Skip for now",
@@ -147,7 +119,49 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                           //TODO handle navigation
                         },
                         initialEnabled: true,
-                      ),
+                      )
+                    : _formKey.currentState!.validate()
+                        ? CustomButton(
+                            key: const ValueKey("addUsernameWebNextButton"),
+                            color: forgroundColorTheme(context),
+                            text: "Next",
+                            onPressedCallback: () async {
+                              UserSignup.username = myController.text;
+                              try {
+                                dynamic response =
+                                    await service.createAccount();
+
+                                if (response is String) {
+                                  log(response);
+                                  showToastWidget(
+                                    CustomWebToast(
+                                      message: response,
+                                    ),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2),
+                                  );
+                                } else if (mounted) {
+                                  Navigator.popUntil(
+                                      context, (route) => route.isFirst);
+                                  Navigator.pushReplacementNamed(
+                                      context, kHomeScreen);
+                                }
+                              } catch (e) {
+                                log(e.toString());
+                              }
+                            },
+                            initialEnabled: true,
+                          )
+                        : CustomButton(
+                            key: const ValueKey("addUsernameWebSkipButton"),
+                            color: backgroundColorTheme(context),
+                            text: "Skip for now",
+                            onPressedCallback: () {
+                              //TODO use suggestions
+                              //TODO handle navigation
+                            },
+                            initialEnabled: true,
+                          ),
               ),
             ],
           ),
