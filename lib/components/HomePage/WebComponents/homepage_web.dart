@@ -23,7 +23,7 @@ class HomePageWeb extends StatelessWidget {
           : Colors.black,
       body: Center(
         child: SizedBox(
-          width: screenWidth * 0.65,
+          width: screenWidth * 0.85,
           child: BlocProvider(
             create: (context) => SidebarCubit(),
             child: Row(
@@ -47,8 +47,7 @@ class HomePageWeb extends StatelessWidget {
                           state is SidebarHomeState)
                         return HomeTweets(tabController: tabController);
                       else if (state is SidebarProfileState)
-                        return ProfileComponentWeb(
-                            id: profileID);
+                        return ProfileComponentWeb(id: profileID);
                       //TODO:- Provide The rest of the states
                       else
                         return Placeholder();
