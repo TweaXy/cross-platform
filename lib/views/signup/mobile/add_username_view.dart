@@ -1,13 +1,19 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/add_profile_picture_view.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/signup_service.dart';
 
 class AddUsernameView extends StatefulWidget {
   const AddUsernameView({
@@ -33,8 +39,11 @@ class _AddUsernameViewState extends State<AddUsernameView> {
     });
   }
 
+  final _formKey = GlobalKey<FormState>();
+  SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: const CustomAppbar(
           key: ValueKey("addUsernameAppbar"),
@@ -71,11 +80,14 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                       Padding(
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
-                        child: CustomTextField(
-                          key: const ValueKey("addUsernameTextField"),
-                          label: "Username",
-                          validatorFunc: usernameValidation,
-                          controller: myController,
+                        child: Form(
+                          key: _formKey,
+                          child: CustomTextField(
+                            key: const ValueKey("addUsernameTextField"),
+                            label: "Username",
+                            validatorFunc: usernameValidation,
+                            controller: myController,
+                          ),
                         ),
                       ),
                       InkWell(
@@ -91,13 +103,13 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.95,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Divider(),
-                    Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  const Divider(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomButton(
@@ -105,12 +117,8 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           color: backgroundColorTheme(context),
                           text: "Skip for now",
                           onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
+                            //TODO: Use the suggestions
+                            //TODO: go to home page
                           },
                           initialEnabled: true,
                         ),
@@ -118,20 +126,54 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           key: const ValueKey("addUsernameNextButton"),
                           color: forgroundColorTheme(context),
                           text: "Next",
-                          onPressedCallback: () {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: const AddProfilePictureView()));
+                          onPressedCallback: () async {
+                            if (_formKey.currentState!.validate()) {
+                              User.username = myController.text;
+                              try {
+                                dynamic response =
+                                    await service.createAccount();
+                                log(response.toString());
+                                if (response is String) {
+                                  showToastWidget(
+                                    CustomToast(
+                                        message: response,
+                                        screenWidth: screenWidth),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2),
+                                  );
+                                } else if (response.statusCode == 200) {
+                                  //TODO: go to home page
+                                  Fluttertoast.showToast(
+                                      msg: "success",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.black,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
+                                } else if (mounted) {
+                                  Navigator.popUntil(
+                                      context, (route) => route.isFirst);
+                                }
+                              } on Exception catch (e) {
+                                log(e.toString());
+                              }
+                            } else {
+                              showToastWidget(
+                                CustomToast(
+                                    message: "Please enter a valid username.",
+                                    screenWidth: screenWidth),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            }
                           },
                           initialEnabled: isButtonEnabled,
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),

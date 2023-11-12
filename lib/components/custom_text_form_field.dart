@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -23,18 +25,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
   String? _errorText; //should be null if the input is valid or in initial state
   bool passwordVisible = false;
 
-  void validate({required String inputValue}) {
-    _errorText = widget.validatorFunc(
-        inputValue:
-            inputValue); //null or errorText -> validate functions in utilites folder
-    if (_errorText == null) {
-      setState(() {
-        _isValid = 1;
-      });
+  bool isPassword({required String label}) {
+    if (label == "Password" ||
+        label == "Enter a new password" ||
+        label == "Confirm your password") {
+      return true;
     } else {
-      setState(() {
-        _isValid = 2;
-      });
+      return false;
+    }
+  }
+
+  void validate({required String inputValue}) async {
+    try {
+      _errorText = await widget.validatorFunc(
+          inputValue:
+              inputValue); //null or errorText -> validate functions in utilites folder
+      if (_errorText == null) {
+        setState(() {
+          _isValid = 1;
+        });
+      } else {
+        setState(() {
+          _isValid = 2;
+        });
+      }
+    } catch (e) {
+      log(e.toString());
     }
   }
 
@@ -46,15 +62,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
         });
       },
       icon: passwordVisible
-          ? const Icon(Icons.visibility_off)
-          : const Icon(Icons.visibility),
+          ? const Icon(Icons.visibility)
+          : const Icon(Icons.visibility_off),
       color: iconColorTheme(context),
     ));
   }
 
   List<Widget> showIcons() {
     List<Widget> suffixIcons = [];
-    if (widget.label == "Password") {
+    if (isPassword(label: widget.label)) {
       suffixIcons.add(passwordIcons());
     }
     if (_isValid != 0) {
@@ -84,7 +100,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       },
       cursorHeight: 30.0,
       cursorColor: Colors.lightBlue[700],
-      obscureText: widget.label == 'Password' ? !passwordVisible : false,
+      obscureText: isPassword(label: widget.label) ? !passwordVisible : false,
       maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
         prefix: widget.label == "Username" ? const Text("@") : null,
@@ -106,9 +122,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         errorText: _errorText,
       ),
-      onChanged: (value) {
+      onChanged: (value) async {
         validate(inputValue: value);
       },
+      autovalidateMode: AutovalidateMode.always,
+      validator: (value) => _errorText,
     );
   }
 }

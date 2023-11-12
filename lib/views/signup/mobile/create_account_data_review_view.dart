@@ -1,32 +1,35 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:tweaxy/views/signup/signup_code_verification.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/signup_service.dart';
+import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/authentication_view.dart';
-import 'package:tweaxy/views/signup/varification_code_web_view.dart';
+import 'package:tweaxy/models/UserSignup_signup.dart';
 
 class CreateAccountDataReview extends StatefulWidget {
-  const CreateAccountDataReview(
-      {super.key,
-      required this.birthdate,
-      required this.email,
-      required this.name});
-  final String name;
-  final String email;
-  final String birthdate;
+  const CreateAccountDataReview({
+    super.key,
+  });
+
   @override
   State<CreateAccountDataReview> createState() =>
       _CreateAccountDataReviewState();
 }
 
 class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
+  SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: CustomAppbar(
         key: const ValueKey("createAccountDataReviewAppbar"),
@@ -63,19 +66,19 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          textValue: widget.name, label: "Name"),
+                          textValue: UserSignup.name, label: "Name"),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          label: "email", textValue: widget.email),
+                          label: "email", textValue: UserSignup.email),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          label: "Date of Birth", textValue: widget.birthdate),
+                          label: "Date of Birth", textValue: UserSignup.birthdayDate),
                     )
                   ],
                 ),
@@ -87,14 +90,28 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                 key: const ValueKey("CreateAccountSignupButton"),
                 color: forgroundColorTheme(context),
                 text: "Sign up",
-                onPressedCallback: () {
-                  Navigator.push(
-                      context,
-                      CustomPageRoute(
-                          direction: AxisDirection.left,
-                          child: SingupCodeVerificationView(
-                            email: widget.email,
-                          )));
+                onPressedCallback: () async {
+                  try {
+                    dynamic response =
+                        await service.sendEmailCodeVerification();
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                            message: response, screenWidth: screenWidth),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      //TODO go to home page
+                      Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              direction: AxisDirection.left,
+                              child: const AuthenticationView()));
+                    }
+                  } on Exception catch (e) {
+                    log(e.toString());
+                  }
                 },
                 initialEnabled: true,
               ),

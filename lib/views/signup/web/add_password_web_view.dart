@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/Views/signup/web/add_profile_picture_web_view.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -17,6 +21,8 @@ class AddPasswordWebView extends StatefulWidget {
 class _AddPasswordWebViewState extends State<AddPasswordWebView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -66,11 +72,14 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                           textValue: "Make sure it's 8 characters or more",
                           textAlign: TextAlign.left),
                     ),
-                    CustomTextField(
-                      key: const ValueKey("addPasswordWebTextField"),
-                      label: "Password",
-                      validatorFunc: passwordValidation,
-                      controller: myController,
+                    Form(
+                      key: _formKey,
+                      child: CustomTextField(
+                        key: const ValueKey("addPasswordWebTextField"),
+                        label: "Password",
+                        validatorFunc: passwordValidation,
+                        controller: myController,
+                      ),
                     ),
                   ],
                 ),
@@ -82,7 +91,23 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
-                    //TODO handle navigation
+                    if (_formKey.currentState!.validate()) {
+                      User.password = myController.text;
+                      showDialog(
+                        context: context,
+                        builder: (context) => const AddProfilePictureWebView(),
+                        barrierColor: Colors.transparent,
+                        barrierDismissible: false,
+                      );
+                    } else {
+                      showToastWidget(
+                        const CustomWebToast(
+                          message: "Please enter a valid password.",
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    }
                   },
                   initialEnabled: isButtonEnabled,
                 ),

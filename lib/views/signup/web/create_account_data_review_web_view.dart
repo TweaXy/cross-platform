@@ -1,21 +1,23 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/varification_code_web_view.dart';
+import 'package:tweaxy/views/signup/web/varification_code_web_view.dart';
 
 class CreateAccountDataReviewWebView extends StatefulWidget {
-  const CreateAccountDataReviewWebView(
-      {super.key,
-      required this.dateOfBirth,
-      required this.email,
-      required this.name});
-  final String name;
-  final String email;
-  final String dateOfBirth;
+  const CreateAccountDataReviewWebView({
+    super.key,
+  });
+
   @override
   State<CreateAccountDataReviewWebView> createState() =>
       _CreateAccountDataReviewWebViewState();
@@ -23,6 +25,7 @@ class CreateAccountDataReviewWebView extends StatefulWidget {
 
 class _CreateAccountDataReviewWebViewState
     extends State<CreateAccountDataReviewWebView> {
+  SignupService service = SignupService(Dio());
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -73,20 +76,20 @@ class _CreateAccountDataReviewWebViewState
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
-                              textValue: widget.name, label: "Name"),
+                              textValue: User.name, label: "Name"),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
-                              label: "email", textValue: widget.email),
+                              label: "email", textValue: User.email),
                         ),
                         Padding(
                           padding: EdgeInsets.only(
                               top: MediaQuery.of(context).size.height * 0.05),
                           child: ReviewInputTextField(
                               label: "Date of Birth",
-                              textValue: widget.dateOfBirth),
+                              textValue: User.birthdayDate),
                         )
                       ],
                     ),
@@ -99,14 +102,27 @@ class _CreateAccountDataReviewWebViewState
                   key: const ValueKey("AccountReviewDataSignupButton"),
                   color: forgroundColorTheme(context),
                   text: "Sign up",
-                  onPressedCallback: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) =>
-                          VarificationCodeWebView(email: widget.email),
-                      barrierColor: Colors.transparent,
-                      barrierDismissible: false,
-                    );
+                  onPressedCallback: () async {
+                    try {
+                      dynamic response =
+                          await service.sendEmailCodeVerification();
+                      if (response is String) {
+                        showToastWidget(
+                          CustomWebToast(message: response),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } else if (mounted) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => const VarificationCodeWebView(),
+                          barrierColor: Colors.transparent,
+                          barrierDismissible: false,
+                        );
+                      }
+                    } on Exception catch (e) {
+                      log(e.toString());
+                    }
                   },
                   initialEnabled: true,
                 ),

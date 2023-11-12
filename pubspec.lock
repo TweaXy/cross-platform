@@ -105,14 +105,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.17.2"
-  cross_file:
-    dependency: transitive
-    description:
-      name: cross_file
-      sha256: "445db18de832dba8d851e287aff8ccf169bed30d2e94243cb54c7d2f1ed2142c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.3+6"
   crypto:
     dependency: transitive
     description:
@@ -312,14 +304,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  font_awesome_flutter:
+  fluttertoast:
     dependency: "direct main"
     description:
-      name: font_awesome_flutter
-      sha256: "52671aea66da73b58d42ec6d0912b727a42248dd9a7c76d6c20f275783c48c08"
+      name: fluttertoast
+      sha256: dfdde255317af381bfc1c486ed968d5a43a2ded9c931e87cbecd88767d6a71c1
       url: "https://pub.dev"
     source: hosted
-    version: "10.6.0"
+    version: "8.2.4"
   google_fonts:
     dependency: "direct main"
     description:
@@ -360,14 +352,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-  icon_decoration:
-    dependency: "direct main"
-    description:
-      name: icon_decoration
-      sha256: f2b8be923906bd1d73a3ab02155a863f5bd4fc23b04c6ecb32bbc005b43eb9e1
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   image_cropper:
     dependency: "direct main"
     description:
@@ -472,22 +456,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.7"
-  like_button:
-    dependency: "direct main"
-    description:
-      name: like_button
-      sha256: "08e6a45b78888412df5d351786c550205ad3a677e72a0820d5bbc0b063c8a463"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.5"
-  linkify:
-    dependency: transitive
-    description:
-      name: linkify
-      sha256: "4139ea77f4651ab9c315b577da2dd108d9aa0bd84b5d03d33323f1970c645832"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.0"
   lints:
     dependency: transitive
     description:
