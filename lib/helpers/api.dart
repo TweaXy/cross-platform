@@ -40,6 +40,29 @@ class Api {
     return response;
   }
 
+  static Future<Response> delete({
+    required String url,
+    @required dynamic body,
+    @required String? token,
+  }) async {
+    Response? response;
+    try {
+      Map<String, dynamic> headers = {};
+      if (token != null) {
+        headers.addAll({'Authorization': 'Bearer $token'});
+      }
+      response = await Dio().delete(
+        url,
+        data: body,
+      );
+      print(response.statusCode);
+    } on DioException catch (e) {
+      print(e.response!.data['message']);
+      throw Exception(e.response!.statusMessage);
+    }
+    return response;
+  }
+
   static Future<Response> put({
     required String url,
     required String id,

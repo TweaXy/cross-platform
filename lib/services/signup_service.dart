@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 
 class SignupService {
   final Dio dio;
@@ -17,15 +17,15 @@ class SignupService {
     try {
       response = await Api.post(
         url: '${baseUrl}auth/signup',
-        token: User.emailVerificationToken,
+        token: UserSignup.emailVerificationToken,
         body: {
-          "email": User.email,
-          "username": User.username,
-          "name": User.name,
-          "birthdayDate": User.birthdayDate,
-          "password": User.password,
-          "emailVerificationToken": User.emailVerificationToken,
-          "avatar": User.profilePicture
+          "email": UserSignup.email,
+          "username": UserSignup.username,
+          "name": UserSignup.name,
+          "birthdayDate": UserSignup.birthdayDate,
+          "password": UserSignup.password,
+          "emailVerificationToken": UserSignup.emailVerificationToken,
+          "avatar": UserSignup.profilePicture
         },
       );
       return response;
@@ -42,7 +42,7 @@ class SignupService {
     try {
       response = await Api.post(
         url: '${baseUrl}users/checkEmailUniqueness',
-        token: User.emailVerificationToken,
+        token: UserSignup.emailVerificationToken,
         body: {"email": email},
       );
       log(response.toString());
@@ -62,7 +62,7 @@ class SignupService {
     try {
       response = await Api.post(
         url: '${baseUrl}users/checkUsernameUniqueness',
-        token: User.emailVerificationToken,
+        token: UserSignup.emailVerificationToken,
         body: {"username": username},
       );
       log(response.toString());
@@ -82,8 +82,8 @@ class SignupService {
     try {
       response = await Api.post(
         url: '${baseUrl}auth/sendEmailVerification',
-        token: User.emailVerificationToken,
-        body: {"email": User.email},
+        token: UserSignup.emailVerificationToken,
+        body: {"email": UserSignup.email},
       );
       return response;
     } catch (e) {
@@ -98,7 +98,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.get(
-        '${baseUrl}auth/checkEmailVerification/${User.email}/$code',
+        '${baseUrl}auth/checkEmailVerification/${UserSignup.email}/$code',
       );
       log("response " + response.toString());
 

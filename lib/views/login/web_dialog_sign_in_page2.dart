@@ -124,7 +124,8 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                 //go to home page
                                 print(user);
                                 // ignore: use_build_context_synchronously
-                                Navigator.pushNamed(context, kStartScreen);
+                                Navigator.pushNamed(context, 
+                                kHomeScreen);
                               } on DioException catch (e) {
                                 print('DioException: ${e.toString()}');
                                 // ignore: use_build_context_synchronously

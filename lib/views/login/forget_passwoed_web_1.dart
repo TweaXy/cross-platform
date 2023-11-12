@@ -1,16 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Views/login/forget_passwoed_web_3.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/components/sign_choose.dart';
-import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/sign_in.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 // ignore: must_be_immutable
@@ -84,7 +79,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               height: 70,
               child: CustomTextField(
                   label: 'Phone, email address, username',
-                  validatorFunc: emailValidation,
+                  validatorFunc: (){},
                   controller: myController),
             ),
           ),

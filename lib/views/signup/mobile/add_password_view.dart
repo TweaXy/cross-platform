@@ -10,7 +10,7 @@ import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 
 class AddPasswordView extends StatefulWidget {
   const AddPasswordView({
@@ -105,7 +105,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                           text: "Next",
                           onPressedCallback: () {
                             if (_formKey.currentState!.validate()) {
-                              User.password = myController.text;
+                              UserSignup.password = myController.text;
                               Navigator.pop(context);
                               Navigator.push(
                                   context,

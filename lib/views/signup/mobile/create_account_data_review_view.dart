@@ -12,7 +12,7 @@ import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/review_input_text_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/models/UserSignup_signup.dart';
+import 'package:tweaxy/models/user_signup.dart';
 
 class CreateAccountDataReview extends StatefulWidget {
   const CreateAccountDataReview({

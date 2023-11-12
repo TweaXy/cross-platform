@@ -104,8 +104,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
         prefix: widget.label == "Username" ? const Text("@") : null,
-        filled: true,
-        fillColor: _isValid == 2 ? Colors.yellow[200] : Colors.transparent,
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Row(mainAxisSize: MainAxisSize.min, children: showIcons()),

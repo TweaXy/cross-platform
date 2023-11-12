@@ -152,7 +152,9 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                             }) as Map<String, dynamic>;
                             //go to home page
                             print(user);
-                            Navigator.pushNamed(context, kStartScreen);
+                            
+                            Navigator.pushNamed(context, 
+                            kHomeScreen);
                           } on DioException catch (e) {
                             print(e.toString());
                             // ignore: use_build_context_synchronously

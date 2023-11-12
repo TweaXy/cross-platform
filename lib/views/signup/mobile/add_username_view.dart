@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -10,9 +9,10 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
 
 class AddUsernameView extends StatefulWidget {
@@ -128,7 +128,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           text: "Next",
                           onPressedCallback: () async {
                             if (_formKey.currentState!.validate()) {
-                              User.username = myController.text;
+                              UserSignup.username = myController.text;
                               try {
                                 dynamic response =
                                     await service.createAccount();
@@ -141,16 +141,12 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                                     position: ToastPosition.bottom,
                                     duration: const Duration(seconds: 2),
                                   );
-                                } else if (response.statusCode == 200) {
-                                  //TODO: go to home page
-                                  Fluttertoast.showToast(
-                                      msg: "success",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.CENTER,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.black,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
+                                } else if (response.statusCode == 200 &&
+                                    mounted) {
+                                  Navigator.popUntil(
+                                      context, (route) => route.isFirst);
+                                  Navigator.pushReplacementNamed(
+                                      context, kHomeScreen);
                                 } else if (mounted) {
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);

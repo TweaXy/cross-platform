@@ -61,37 +61,5 @@ class SignInServices {
     }
     return "h";
   }
-// static Future<void> _handleDeepLink() async {
-//     String initialLink;
-//     try {
-//       initialLink = await getInitialLink();
-//       // Process the returned data from the deep link
-//       // Example: handleReturnedData(initialLink);
-//     } catch (e) {
-//       print(e.toString());
-//     }
-//   }
 
-  // Add your logic to handle the returned data
-  // void handleReturnedData(String data) {
-  //   // Your implementation here
-  // }
-// }
-
-// Future<UserCredential> signInWithGoogle() async {
-//   // Trigger the authentication flow
-//   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-//   // Obtain the auth details from the request
-//   final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-//   // Create a new credential
-//   final credential = GoogleAuthProvider.credential(
-//     accessToken: googleAuth?.accessToken,
-//     idToken: googleAuth?.idToken,
-//   );
-
-//   // Once signed in, return the UserCredential
-//   return await FirebaseAuth.instance.signInWithCredential(credential);
-// }
 }

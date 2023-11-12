@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/signup_service.dart';
 
 Future<String?> emailValidation({required String? inputValue}) async {
@@ -20,6 +21,22 @@ Future<String?> emailValidation({required String? inputValue}) async {
   } catch (e) {
     log(e.toString());
     return "Email Uniqueness Api error ";
+  }
+}
+
+Future<String?> emailExists({required String? inputValue}) async {
+  if (inputValue == null || inputValue.isEmpty) {
+    return "Email is required";
+  }
+  if (!inputValue.contains('@') || inputValue.length < 4) {
+    return "Email is invalid";
+  }
+  try {
+    String response = await SignInServices.forgetPassword();
+    return response;
+  } catch (e) {
+    log(e.toString());
+    return "Email Exists Api error";
   }
 }
 

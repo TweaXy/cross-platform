@@ -1,10 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/login/reset_password/reset_password_web.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
@@ -45,7 +48,7 @@ class WebDialogSignIn extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
             child: CustomTextField(
                 label: 'Phone, email, or username',
-                validatorFunc: emailValidation,
+                validatorFunc: (){},
                 controller: myControll),
           ),
           Padding(
@@ -56,19 +59,50 @@ class WebDialogSignIn extends StatelessWidget {
                 child: CustomButton(
                     color: forgroundColorTheme(context),
                     text: 'Next',
-                    onPressedCallback: () {
-                      Navigator.pop(context);
-                      showDialog(
-                        context: context,
-                        builder: (context) => AlertDialog(
-                          content: WebDialogSignInPage2(
-                            isDarkMode: isDarkMode,
-                            myControll: myControll,
+                    onPressedCallback: () async {
+                      try {
+                        Map<String, dynamic> check = await LoginApi()
+                            .getEmailExist({"UUID": myControll.text});
+                        if (check['status'] == "success") {
+                          // ignore: use_build_context_synchronously
+                          Navigator.pop(context);
+                          // ignore: use_build_context_synchronously
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              content: WebDialogSignInPage2(
+                                isDarkMode: isDarkMode,
+                                myControll: myControll,
+                              ),
+                            ),
+                            barrierColor:
+                                const Color.fromARGB(100, 97, 119, 129),
+                            barrierDismissible: false,
+                          );
+                        }
+                      } on DioException catch (e) {
+                        print('DioException: ${e.toString()}');
+                        // ignore: use_build_context_synchronously
+                        // showSnackBar(context, e.response!.data['message']);
+                        showToastWidget(
+                          CustomWebToast(
+                            message: e.response!.data['message'],
                           ),
-                        ),
-                        barrierColor: const Color.fromARGB(100, 97, 119, 129),
-                        barrierDismissible: false,
-                      );
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } on Exception catch (e) {
+                        print(e.toString());
+                        showToastWidget(
+                          CustomWebToast(
+                            message: e.toString(),
+                          ),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                        // ignore: use_build_context_synchronously
+                        // showSnackBar(context, e);
+                      }
                     },
                     initialEnabled: true)),
           ),
@@ -82,7 +116,7 @@ class WebDialogSignIn extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                     context: context,
-                    builder: (context) => AlertDialog(
+                    builder: (context) =>  AlertDialog(
                       content: ForgetPasswordWeb1(),
                     ),
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),

@@ -6,7 +6,7 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class AddProfilePictureWebView extends StatefulWidget {
@@ -278,7 +278,7 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () {
-                          User.profilePicture = image!.path;
+                          UserSignup.profilePicture = image!.path;
                           showDialog(
                             context: context,
                             builder: (context) => const AddUsernameWebView(),

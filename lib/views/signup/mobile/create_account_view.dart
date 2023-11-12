@@ -11,7 +11,7 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_signup.dart';
 
 class CreateAccountView extends StatefulWidget {
   const CreateAccountView({super.key});
@@ -150,9 +150,9 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                         text: "Next",
                         onPressedCallback: () async {
                           if (_formKey.currentState!.validate()) {
-                            User.email = emailFieldController.text;
-                            User.name = nameFieldController.text;
-                            User.birthdayDate = birthDateFieldController.text;
+                            UserSignup.email = emailFieldController.text;
+                            UserSignup.name = nameFieldController.text;
+                            UserSignup.birthdayDate = birthDateFieldController.text;
                             Navigator.push(
                                 context,
                                 CustomPageRoute(
