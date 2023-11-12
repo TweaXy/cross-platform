@@ -198,7 +198,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                 radius: 70,
                                 backgroundColor: Colors.white,
                                 backgroundImage: CachedNetworkImageProvider(
-                                  user.avatar != null
+                                  user.avatar ==null
                                       ? "https://www.gstatic.com/webp/gallery2/4.png"
                                       : '$basePhotosURL${user.avatar}',
                                 ),
