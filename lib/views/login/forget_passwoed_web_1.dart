@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/login/forget_passwoed_web_3.dart';
+import 'package:tweaxy/views/login/forget_passwoed_web_3.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
@@ -79,7 +79,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               height: 70,
               child: CustomTextField(
                   label: 'Phone, email address, username',
-                  validatorFunc: (){},
+                  validatorFunc: () {},
                   controller: myController),
             ),
           ),

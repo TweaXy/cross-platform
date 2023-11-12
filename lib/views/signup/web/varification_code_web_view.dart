@@ -26,6 +26,8 @@ class VarificationCodeWebView extends StatefulWidget {
 
 class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
   TextEditingController varificationCodeController = TextEditingController();
+
+  @override
   void initState() {
     super.initState();
     varificationCodeController.addListener(_updateNextButtonState);

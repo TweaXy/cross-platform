@@ -42,3 +42,9 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Integration tests files
+/integration_tests/
+
+# Pubspec.lock
+pubspec.lock
