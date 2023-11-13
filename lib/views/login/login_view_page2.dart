@@ -9,6 +9,7 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/users.dart';
 import 'package:tweaxy/services/login_api.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
@@ -107,7 +108,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.04),
             child: CustomTextField(
-              key: const ValueKey("loginView2TextField"),
+              key: const ValueKey(passwordTextFieldKey),
               validatorFunc: passwordValidation,
               label: 'Password',
               controller: myControllerPassword,
@@ -145,7 +146,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                         },
                       ),
                       CustomButton(
-                        key: const ValueKey("loginView2NextButton"),
+                        key: const ValueKey(logInView2NextButtonKey),
                         color: forgroundColorTheme(context),
                         text: 'Log in',
                         initialEnabled: isButtonEnabled,

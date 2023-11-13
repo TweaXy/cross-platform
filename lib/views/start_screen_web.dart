@@ -93,7 +93,7 @@ class WebStartScreen extends StatelessWidget {
                                 barrierDismissible: false,
                               );
                             },
-                            key: const ValueKey(logInButtonKey),
+                            key: const ValueKey(welcomePagelogInButtonKey),
                             style: ButtonStyle(
                               shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(

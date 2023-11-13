@@ -19,7 +19,7 @@ class SideNavBar extends StatefulWidget {
 }
 
 class _SideNavBarState extends State<SideNavBar> {
-  /// Views to display
+  /// views to display
   List<String> items = [
     'Home',
     'Explore',

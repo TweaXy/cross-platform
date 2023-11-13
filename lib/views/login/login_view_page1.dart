@@ -7,6 +7,7 @@ import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/login_api.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
@@ -70,9 +71,9 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.04),
             child: CustomTextField(
-              key: const ValueKey("loginView1TextField"),
+              key: const ValueKey(emailTextFieldKey),
               validatorFunc: () {},
-              label: 'Phone, email address, username',
+              label: 'Phone, email, or username',
               controller: myController,
             ),
           ),
@@ -108,7 +109,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                         },
                       ),
                       CustomButton(
-                        key: const ValueKey("loginView1NextButton"),
+                        key: const ValueKey(logInView1NextButtonKey),
                         color: forgroundColorTheme(context),
                         text: 'Next',
                         initialEnabled: isButtonEnabled,

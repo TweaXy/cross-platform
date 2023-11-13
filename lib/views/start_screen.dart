@@ -3,6 +3,7 @@ import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/start_screen_signup_button.dart';
 import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({Key? key});
@@ -53,7 +54,7 @@ class StartScreen extends StatelessWidget {
                   child: TextAndLink(
                     text: 'Have an account already? ',
                     linkedText: 'Log in',
-                    linkKey: const ValueKey('startScreenLinkLogin'),
+                    linkKey: const ValueKey(welcomePagelogInButtonKey),
                     onPressed: () {
                       Navigator.pushNamed(context, kLogin1Screen);
                     },
