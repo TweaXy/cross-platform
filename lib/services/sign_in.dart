@@ -23,12 +23,12 @@ class SignInServices {
   }
 
   static dynamic forgetPassword() async {
-    print(email);
+    //  print(email);
     var res = await Api.post(
       body: {'UUID': email},
       url: '$baseUrl/auth/forgetPassword',
     );
-    print('signin' + res.toString());
+    //   print('signin' + res.toString());
     if (res is String)
       return res;
     else
@@ -52,10 +52,10 @@ class SignInServices {
     var res = await Api.get(
       '$baseUrl/auth/checkResetToken/$email/$token',
     );
-    print(email);
-    print(token);
-    print(res);
-    print('reset' + res.toString());
+    // print(email);
+    // print(token);
+    // print(res);
+    // print('reset' + res.toString());
     if (res is String)
       return res;
     else
@@ -70,9 +70,9 @@ class SignInServices {
       Response res = await Api.get(
         'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback',
       );
-      print('reset' + res.data);
+      // print('reset' + res.data);
     } else {
-      print('couldn\'t launch');
+      //    print('couldn\'t launch');
     }
     return "h";
   }

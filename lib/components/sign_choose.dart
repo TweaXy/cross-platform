@@ -37,7 +37,7 @@ class SignChoose extends StatelessWidget {
                   Navigator.pushNamed(context, kStartScreen);
                 }
               } on DioException catch (e) {
-                print('DioException: ${e.toString()}');
+                //    print('DioException: ${e.toString()}');
                 // ignore: use_build_context_synchronously
                 // showSnackBar(context, e.response!.data['message']);
                 showToastWidget(
@@ -48,7 +48,7 @@ class SignChoose extends StatelessWidget {
                   duration: const Duration(seconds: 2),
                 );
               } on Exception catch (e) {
-                print(e.toString());
+                //   print(e.toString());
                 if (kIsWeb) {
                   showToastWidget(
                     CustomWebToast(

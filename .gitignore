@@ -46,6 +46,7 @@ app.*.map.json
 # Integration tests files
 /integration_tests/
 /test_driver/
+/coverage/
 
 # Pubspec.lock
 pubspec.lock

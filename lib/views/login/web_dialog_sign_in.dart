@@ -84,7 +84,7 @@ class WebDialogSignIn extends StatelessWidget {
                           );
                         }
                       } on DioException catch (e) {
-                        print('DioException: ${e.toString()}');
+                        //          print('DioException: ${e.toString()}');
                         // ignore: use_build_context_synchronously
                         // showSnackBar(context, e.response!.data['message']);
                         showToastWidget(
@@ -95,7 +95,7 @@ class WebDialogSignIn extends StatelessWidget {
                           duration: const Duration(seconds: 10),
                         );
                       } on Exception catch (e) {
-                        print(e.toString());
+                        //    print(e.toString());
                         showToastWidget(
                           CustomWebToast(
                             message: e.toString(),

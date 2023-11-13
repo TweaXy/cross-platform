@@ -132,7 +132,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                               );
                             }
                           } on DioException catch (e) {
-                            print(e.toString());
+                            //   print(e.toString());
                             // ignore: use_build_context_synchronously
                             // showSnackBar(context, e.response!.data['message']);
                             showToastWidget(

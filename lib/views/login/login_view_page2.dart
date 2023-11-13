@@ -158,11 +158,11 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               'password': '${myControllerPassword.text}'
                             }) as Map<String, dynamic>;
                             //go to home page
-                            print(user);
+                            //  print(user);
 
                             Navigator.pushNamed(context, kHomeScreen);
                           } on DioException catch (e) {
-                            print(e.toString());
+                            //    print(e.toString());
                             // ignore: use_build_context_synchronously
                             // showSnackBar(context, e.response!.data['message']);
                             showToastWidget(

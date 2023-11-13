@@ -125,11 +125,11 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                   'password': '${myControllerPassword.text}'
                                 }) as Map<String, dynamic>;
                                 //go to home page
-                                print(user);
+                                //    print(user);
                                 // ignore: use_build_context_synchronously
                                 Navigator.pushNamed(context, kHomeScreen);
                               } on DioException catch (e) {
-                                print('DioException: ${e.toString()}');
+                                //        print('DioException: ${e.toString()}');
                                 // ignore: use_build_context_synchronously
                                 // showSnackBar(context, e.response!.data['message']);
                                 showToastWidget(
@@ -140,7 +140,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                   duration: const Duration(seconds: 2),
                                 );
                               } on Exception catch (e) {
-                                print(e.toString());
+                                //  print(e.toString());
                                 showToastWidget(
                                   CustomWebToast(
                                     message: e.toString(),

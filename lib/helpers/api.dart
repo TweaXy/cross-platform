@@ -22,7 +22,7 @@ class Api {
     @required dynamic body,
     @required String? token,
   }) async {
-    print(url);
+    // print(url);
     Response? response;
     try {
       Map<String, dynamic> headers = {};
@@ -33,7 +33,7 @@ class Api {
         url,
         data: body,
       );
-      print("code=" + response.statusCode.toString());
+      //  print("code=" + response.statusCode.toString());
     } on DioException catch (e) {
       return (e.response!.data['message']);
       // throw Exception(e.response!.statusMessage);
@@ -56,9 +56,9 @@ class Api {
         url,
         data: body,
       );
-      print(response.statusCode);
+      //  print(response.statusCode);
     } on DioException catch (e) {
-      print(e.response!.data['message']);
+      //  print(e.response!.data['message']);
       throw Exception(e.response!.statusMessage);
     }
     return response;

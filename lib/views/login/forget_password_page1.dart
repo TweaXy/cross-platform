@@ -127,7 +127,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                               String res =
                                   await SignInServices.forgetPassword();
 
-                              print(res);
+                              //  print(res);
                               if (res != 'success') {
                                 showToastWidget(
                                     CustomToast(
