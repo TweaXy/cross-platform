@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_mobile.dart';
 // import 'package:tweaxy/views/login/resetpassword/reset_password_mobile.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -126,14 +128,28 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         color: forgroundColorTheme(context),
                         text: 'Next',
                         initialEnabled: isButtonEnabled,
-                        onPressedCallback: () {
+                        onPressedCallback: () async {
                           SignInServices.setToken(token: myController.text);
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: ResetPasswordMobile()));
+                          String res = await SignInServices.checkResetToken();
+
+                          print(res);
+
+                          if (res != 'success') {
+                            showToastWidget(
+                                CustomToast(
+                                  message: res,
+                                ),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2));
+                          } else {
+                            SignInServices.setToken(token: myController.text);
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: ResetPasswordMobile()));
+                          }
                         },
                       ),
                     ],
