@@ -82,7 +82,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
                 child: SizedBox(
-                  height: 70,
+                  height: 90,
                   width: 500,
                   child: CustomTextField(
                     key: const ValueKey("forgetPassView3TextField"),

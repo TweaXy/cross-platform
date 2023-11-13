@@ -50,7 +50,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
           const Padding(
-            padding: EdgeInsets.only(left: 50),
+            padding: EdgeInsets.only(left: 60, top: 30),
             child: Row(
               children: [
                 Text(
@@ -78,9 +78,9 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                 filled: true,
                 fillColor: !widget.isDarkMode
                     ? Color(0xff101214)
-                    : Colors.white, // Specify the background color
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
+                    : Color(0xfff7f9f9), // Specify the background color
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 20.0),
                 border: OutlineInputBorder(),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -92,7 +92,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: SizedBox(
               width: 500,
-              height: 70,
+              height: 90,
               child: CustomTextField(
                   label: 'Password',
                   validatorFunc: passwordValidation,
@@ -109,8 +109,8 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                   Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
-                        width: 300,
-                        height: 40,
+                        width: 500,
+                        height: 50,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
                             text: 'Login',
@@ -124,8 +124,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                 //go to home page
                                 print(user);
                                 // ignore: use_build_context_synchronously
-                                Navigator.pushNamed(context, 
-                                kHomeScreen);
+                                Navigator.pushNamed(context, kHomeScreen);
                               } on DioException catch (e) {
                                 print('DioException: ${e.toString()}');
                                 // ignore: use_build_context_synchronously
