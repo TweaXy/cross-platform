@@ -48,7 +48,7 @@ class WebDialogSignIn extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
             child: CustomTextField(
                 label: 'Phone, email, or username',
-                validatorFunc: (){},
+                validatorFunc: () {},
                 controller: myControll),
           ),
           Padding(
@@ -116,7 +116,7 @@ class WebDialogSignIn extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                     context: context,
-                    builder: (context) =>  AlertDialog(
+                    builder: (context) => AlertDialog(
                       content: ForgetPasswordWeb1(),
                     ),
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),

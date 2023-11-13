@@ -45,7 +45,10 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
           const Padding(
-            padding: const EdgeInsets.only(left: 50),
+            padding: const EdgeInsets.only(
+              left: 55,
+              top: 30,
+            ),
             child: Row(
               children: [
                 Text(
@@ -56,7 +59,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 50, top: 15),
+            padding: const EdgeInsets.only(left: 55, top: 15),
             child: Row(
               children: [
                 Flexible(
@@ -94,15 +97,14 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
                     padding: const EdgeInsets.only(top: 12.0),
                     child: SizedBox(
                         width: 500,
-                        height: 40,
+                        height: 50,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
-                            text: 'Login',
+                            text: 'Next',
                             onPressedCallback: () async {
                               SignInServices.setEmail(email: myController.text);
                               String res =
                                   await SignInServices.forgetPassword();
-
                               print(res);
                               if (res != 'success') {
                                 showToastWidget(
@@ -113,7 +115,6 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
                                     duration: const Duration(seconds: 2));
                               } else {
                                 Navigator.pop(context);
-
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(

@@ -49,7 +49,10 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      top: 20,
+                    ),
                     child: Text(
                       'We sent you a code',
                       overflow: TextOverflow.clip,
@@ -62,7 +65,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 40, right: 40),
                 child: Text(
                   'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
                   overflow: TextOverflow.fade,
@@ -78,11 +81,15 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: CustomTextField(
-                  key: const ValueKey("forgetPassView3TextField"),
-                  validatorFunc: codeValidation,
-                  label: 'Enter your code',
-                  controller: myController,
+                child: SizedBox(
+                  height: 70,
+                  width: 500,
+                  child: CustomTextField(
+                    key: const ValueKey("forgetPassView3TextField"),
+                    validatorFunc: codeValidation,
+                    label: 'Enter your code',
+                    controller: myController,
+                  ),
                 ),
               ),
               Expanded(
@@ -93,7 +100,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                       children: [
                         SizedBox(
                             height: 50,
-                            width: 350,
+                            width: 480,
                             child: CustomButton(
                               key: const ValueKey("forgetPassView3BackButton"),
                               color: isButtonEnabled

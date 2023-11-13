@@ -60,7 +60,7 @@ String? passwordValidation({required String? inputValue}) {
     return 'Password should contain a number';
   }
 
-  if (!(inputValue.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]')))) {
+  if (!(inputValue.contains(RegExp(r'[!@#$%^&*(),.?_":{}|<>]')))) {
     return 'Password should contain at least one special character';
   }
 

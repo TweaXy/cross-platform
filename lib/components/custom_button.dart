@@ -32,7 +32,8 @@ class _CustomButtonState extends State<CustomButton> {
       style: ElevatedButton.styleFrom(
         backgroundColor: widget.color, // Background color
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius:
+                BorderRadius.circular(MediaQuery.of(context).size.width * 0.5),
             side: BorderSide(color: Colors.blueGrey.shade200)),
       ),
       child: Padding(

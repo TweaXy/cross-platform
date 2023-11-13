@@ -54,7 +54,9 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04,
+                vertical: MediaQuery.of(context).size.height * 0.03),
             child: Text(
               'To get started, first enter your phone, email address or @username',
               overflow: TextOverflow.clip,
@@ -62,13 +64,14 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
             ),
           ),
           SizedBox(
-            height: 30,
+            height: MediaQuery.of(context).size.width * 0.01,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04),
             child: CustomTextField(
               key: const ValueKey("loginView1TextField"),
-              validatorFunc: (){},
+              validatorFunc: () {},
               label: 'Phone, email address, username',
               controller: myController,
             ),
@@ -80,12 +83,13 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Divider(
                   color: Colors.black26,
-                  height: 0.5,
+                  height: MediaQuery.of(context).size.height * 0.01,
                   thickness: 1,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.03,
+                      vertical: MediaQuery.of(context).size.height * 0.015),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
