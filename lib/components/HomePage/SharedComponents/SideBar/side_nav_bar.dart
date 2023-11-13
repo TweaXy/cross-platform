@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
@@ -40,43 +41,15 @@ class _SideNavBarState extends State<SideNavBar> {
       padding: EdgeInsets.only(top: 5),
       children: [
         ListTile(
-          leading: Icon(
-            FontAwesomeIcons.xTwitter,
-            size: screenWidth * 0.02,
+          leading: SvgPicture.asset(
+            'assets/images/logo.svg',
+            width: 40, // Adjust the width as needed
+            height: 40, // Adjust the height as needed
+            alignment: Alignment.center,
           ),
         ),
-        // InkWell(
-        //   customBorder:
-        //       RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        //   onTap: () {
-        //     setState(() {
-        //       hoveredIndex = 0;
-        //     });
-        //   },
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.start,
-        //     children: [
-        //       HomeIcon(
-        //         selectedIndex: selectedIndex,
-        //       ),
-        //       SideBarText(
-        //         selectedIndex: selectedIndex,
-        //         curindex: 0,
-        //         text: 'Home',
-        //       ),
-        //     ],
-        //   ),
-        // ),
+
         InkWell(
-          // onTap: () {
-          //   setState(() {
-          //     _isHovered[0] = !_isHovered[0];
-          //   });
-          // },
-          // customBorder:
-          //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          // // borderRadius: BorderRadius.circular(30),
-          // hoverColor: _isHovered[0] ? Colors.grey : Colors.transparent,
           child: ListTile(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(

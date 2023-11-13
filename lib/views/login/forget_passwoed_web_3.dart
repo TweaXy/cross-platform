@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/views/login/reset_password/reset_password_web.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
@@ -47,7 +49,10 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    padding: const EdgeInsets.only(
+                      left: 40,
+                      top: 20,
+                    ),
                     child: Text(
                       'We sent you a code',
                       overflow: TextOverflow.clip,
@@ -60,7 +65,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+                padding: const EdgeInsets.only(top: 15, left: 40, right: 40),
                 child: Text(
                   'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
                   overflow: TextOverflow.fade,
@@ -76,11 +81,15 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                child: CustomTextField(
-                  key: const ValueKey("forgetPassView3TextField"),
-                  validatorFunc: codeValidation,
-                  label: 'Enter your code',
-                  controller: myController,
+                child: SizedBox(
+                  height: 90,
+                  width: 500,
+                  child: CustomTextField(
+                    key: const ValueKey("forgetPassView3TextField"),
+                    validatorFunc: codeValidation,
+                    label: 'Enter your code',
+                    controller: myController,
+                  ),
                 ),
               ),
               Expanded(
@@ -91,7 +100,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                       children: [
                         SizedBox(
                             height: 50,
-                            width: 350,
+                            width: 480,
                             child: CustomButton(
                               key: const ValueKey("forgetPassView3BackButton"),
                               color: isButtonEnabled
@@ -99,23 +108,37 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                                   : backgroundColorTheme(context),
                               text: isButtonEnabled ? 'Next' : 'Back',
                               initialEnabled: true,
-                              onPressedCallback: () {
-                                if (isButtonEnabled)
-                                  SignInServices.setToken(
-                                      token: myController.text);
+                              onPressedCallback: () async {
+                                // if (isButtonEnabled)
+                                SignInServices.setToken(
+                                    token: myController.text);
+                                String res =
+                                    await SignInServices.checkResetToken();
 
-                                Navigator.pop(context);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: isButtonEnabled
-                                        ? ResetPasswordWeb()
-                                        : ForgetPasswordWeb1(),
-                                  ),
-                                  barrierColor:
-                                      const Color.fromARGB(100, 97, 119, 129),
-                                  barrierDismissible: false,
-                                );
+                                print(res);
+                                res = "success";
+
+                                if (res != 'success') {
+                                  showToastWidget(
+                                      CustomWebToast(
+                                        message: res,
+                                      ),
+                                      position: ToastPosition.bottom,
+                                      duration: const Duration(seconds: 2));
+                                } else {
+                                  Navigator.pop(context);
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: isButtonEnabled
+                                          ? ResetPasswordWeb()
+                                          : ForgetPasswordWeb1(),
+                                    ),
+                                    barrierColor:
+                                        const Color.fromARGB(100, 97, 119, 129),
+                                    barrierDismissible: false,
+                                  );
+                                }
                               },
                             )),
                       ]),

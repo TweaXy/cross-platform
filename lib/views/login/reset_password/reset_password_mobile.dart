@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:tweaxy/components/custom_head_text.dart';
-import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/views/login/reset_password/reset_password_mobile2.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_head_text.dart';
+import 'package:tweaxy/Components/custom_paragraph_text.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_mobile2.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
@@ -155,14 +157,13 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                             String res = await SignInServices.resetPassword(
                                 myControllerNewPassword.text);
                             if (res != 'success') {
-                              Fluttertoast.showToast(
-                                msg: '$res',
-                                toastLength: Toast.LENGTH_SHORT,
-                                timeInSecForIosWeb: 2,
-                                backgroundColor: Colors.blue,
-                                textColor: Colors.white,
-                                fontSize: 16.0,
-                              );
+                              print(myControllerNewPassword.text);
+                              showToastWidget(
+                                  CustomToast(
+                                    message: res,
+                                  ),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2));
                             } else {
                               Navigator.pop(context);
                               Navigator.push(

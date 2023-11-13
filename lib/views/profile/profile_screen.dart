@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    GetUserById.instance.excute('clorm9kmt0002ul2xyyolre6y');
+    GetUserById.instance.excute('clovwlprc0009qd0xcxrlnrxa');
   }
 
   int _selectedTabIndex = 0;
@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               );
             } else {
               User user = snapshot.data!;
-
+              print(user.avatar);
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -77,8 +77,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                     delegate: ProfileScreenAppBar(
                       name: user.name!,
                       postsNumber: 216820,
-                      avatarURL: user.avatar??'',
-                      coverURL: user.cover??'',
+                      avatarURL: user.avatar ?? '',
+                      coverURL: user.cover ?? '',
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -178,11 +178,14 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 scale: 1.9 - clowsingRate,
                 alignment: Alignment.bottomCenter,
                 child: _Avatar(
-                  url: basePhotosURL + avatarURL,
+                  url: 'http://16.171.65.142:3000/' + avatarURL,
                 ),
               ),
               const Spacer(),
-              FollowEditButton(text: 'Edit Profile',key: ValueKey('followEditButton'),),
+              FollowEditButton(
+                text: 'Edit Profile',
+                key: ValueKey('followEditButton'),
+              ),
             ],
           ),
         ),
@@ -506,6 +509,7 @@ class _Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(url);
     return Container(
       height: 60,
       width: 60,
@@ -516,7 +520,7 @@ class _Avatar extends StatelessWidget {
         borderRadius: BorderRadius.circular(80),
         child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl: url == basePhotosURL
+          imageUrl: url == baseURL
               ? "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png"
               : url,
           placeholder: (context, url) => const Center(

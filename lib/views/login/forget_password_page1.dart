@@ -60,7 +60,10 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.04,
+                      right: MediaQuery.of(context).size.width * 0.04,
+                      top: MediaQuery.of(context).size.height * 0.03),
                   child: Text(
                     'Find your X account',
                     overflow: TextOverflow.clip,
@@ -70,7 +73,10 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.02,
+                  left: MediaQuery.of(context).size.width * 0.04,
+                  right: MediaQuery.of(context).size.width * 0.04),
               child: Text(
                 'Enter the email, phone number or username associated with your account to change your password',
                 overflow: TextOverflow.fade,
@@ -81,13 +87,14 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: MediaQuery.of(context).size.width * 0.06,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.04),
               child: CustomTextField(
                 key: const ValueKey("forgetPassView1TextField"),
-                validatorFunc: (){},
+                validatorFunc: () {},
                 label: 'Phone, email address, username',
                 controller: myController,
               ),
@@ -95,47 +102,54 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      CustomButton(
-                        key: const ValueKey("forgetPassView1NextButton"),
-                        color: forgroundColorTheme(context),
-                        text: 'Next',
-                        initialEnabled: isButtonEnabled,
-                        onPressedCallback: () async {
-                          SignInServices.setEmail(email: myController.text);
-                          String res = await SignInServices.forgetPassword();
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Divider(
+                      color: Colors.black26,
+                      height: MediaQuery.of(context).size.height * 0.01,
+                      thickness: 1,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.03,
+                          vertical: MediaQuery.of(context).size.height * 0.015),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          CustomButton(
+                            key: const ValueKey("forgetPassView1NextButton"),
+                            color: forgroundColorTheme(context),
+                            text: 'Next',
+                            initialEnabled: isButtonEnabled,
+                            onPressedCallback: () async {
+                              SignInServices.setEmail(email: myController.text);
+                              String res =
+                                  await SignInServices.forgetPassword();
 
-                          print(res);
-                          if (res != 'success') {
-                            showToastWidget(
-                                CustomToast(
-                                  message: res,
-                                  screenWidth: screenWidth,
-                                ),
-                                // toastLength: Toast.LENGTH_SHORT,
-                                // timeInSecForIosWeb: 1,
-                                // backgroundColor: Colors.blue,
-                                // textColor: Colors.white,
-                                // fontSize: 16.0,
-                                position: ToastPosition.bottom,
-                                duration: const Duration(seconds: 2));
-                          } else {
-                            Navigator.pop(context);
-                            Navigator.push(
-                                context,
-                                CustomPageRoute(
-                                    direction: AxisDirection.left,
-                                    child: ForgetPasswordPage3()));
-                          }
-                        },
+                              print(res);
+                              if (res != 'success') {
+                                showToastWidget(
+                                    CustomToast(
+                                      message: res,
+                                      screenWidth: screenWidth,
+                                    ),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2));
+                              } else {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    CustomPageRoute(
+                                        direction: AxisDirection.left,
+                                        child: ForgetPasswordPage3()));
+                              }
+                            },
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             )

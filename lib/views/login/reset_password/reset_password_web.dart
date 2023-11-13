@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/custom_dialog_app_bar.dart';
-import 'package:tweaxy/views/login/reset_password/reset_password_web2.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Components/custom_dialog_app_bar.dart';
+import 'package:tweaxy/Views/login/reset_password/reset_password_web2.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
@@ -128,12 +130,13 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                           String res = await SignInServices.resetPassword(
                               myControllerNewPassword.text);
                           if (res != 'success') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('$res'),
-                                backgroundColor: Colors.blue,
-                              ),
-                            );
+                            print(myControllerNewPassword.text);
+                            showToastWidget(
+                                CustomWebToast(
+                                  message: res,
+                                ),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2));
                           } else {
                             Navigator.pop(context);
                             showDialog(

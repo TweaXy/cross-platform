@@ -56,7 +56,9 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.04,
+                    top: MediaQuery.of(context).size.height * 0.02),
                 child: Text(
                   'We sent you a code',
                   overflow: TextOverflow.clip,
@@ -69,7 +71,10 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 15.0, left: 15, right: 15),
+            padding: EdgeInsets.only(
+                top: MediaQuery.of(context).size.height * 0.02,
+                left: MediaQuery.of(context).size.width * 0.04,
+                right: MediaQuery.of(context).size.width * 0.04),
             child: Text(
               'Check your phone to get your confirmation code. if you need to request a new code, go back and reselect a confimation method.',
               overflow: TextOverflow.fade,
@@ -80,10 +85,11 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
             ),
           ),
           SizedBox(
-            height: 20,
+            height: MediaQuery.of(context).size.width * 0.05,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.03),
             child: CustomTextField(
               key: const ValueKey("forgetPassView3TextField"),
               validatorFunc: codeValidation,
@@ -98,12 +104,13 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Divider(
                   color: Colors.black26,
-                  height: 0.5,
+                  height: MediaQuery.of(context).size.height * 0.01,
                   thickness: 1,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.03,
+                      vertical: MediaQuery.of(context).size.height * 0.015),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

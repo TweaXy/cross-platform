@@ -40,6 +40,21 @@ class SignInServices {
       url: '$baseUrl/auth/resetPassword/$email/$token',
       body: {"password": password},
     );
+    // print();
+    print('reset' + res.toString());
+    if (res is String)
+      return res;
+    else
+      return "success";
+  }
+
+  static dynamic checkResetToken() async {
+    var res = await Api.get(
+      '$baseUrl/auth/checkResetToken/$email/$token',
+    );
+    print(email);
+    print(token);
+    print(res);
     print('reset' + res.toString());
     if (res is String)
       return res;
@@ -61,5 +76,4 @@ class SignInServices {
     }
     return "h";
   }
-
 }

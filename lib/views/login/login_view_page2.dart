@@ -62,7 +62,9 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 15),
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.04,
+                    top: MediaQuery.of(context).size.height * 0.03),
                 child: Text(
                   'Enter your password',
                   style: TextStyle(
@@ -75,10 +77,11 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
             ],
           ),
           SizedBox(
-            height: 30,
+            height: MediaQuery.of(context).size.height * 0.03,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04),
             child: TextField(
               style: TextStyle(
                 color: isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
@@ -86,21 +89,23 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
               controller: widget.initialValue,
               enabled: false,
               decoration: InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(
-                    vertical: 25.0, horizontal: 20.0),
+                contentPadding: EdgeInsets.symmetric(
+                    vertical: MediaQuery.of(context).size.height * 0.03,
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
                 border: const OutlineInputBorder(),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
-                        width: 2,
+                        width: 1,
                         color: !isDarkMode ? Colors.black87 : Colors.white10)),
               ),
             ),
           ),
           SizedBox(
-            height: 35,
+            height: MediaQuery.of(context).size.height * 0.05,
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: EdgeInsets.symmetric(
+                horizontal: MediaQuery.of(context).size.width * 0.04),
             child: CustomTextField(
               key: const ValueKey("loginView2TextField"),
               validatorFunc: passwordValidation,
@@ -115,12 +120,13 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
                 Divider(
                   color: Colors.black26,
-                  height: 0.5,
+                  height: MediaQuery.of(context).size.height * 0.01,
                   thickness: 1,
                 ),
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.03,
+                      vertical: MediaQuery.of(context).size.height * 0.015),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -152,9 +158,8 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                             }) as Map<String, dynamic>;
                             //go to home page
                             print(user);
-                            
-                            Navigator.pushNamed(context, 
-                            kHomeScreen);
+
+                            Navigator.pushNamed(context, kHomeScreen);
                           } on DioException catch (e) {
                             print(e.toString());
                             // ignore: use_build_context_synchronously

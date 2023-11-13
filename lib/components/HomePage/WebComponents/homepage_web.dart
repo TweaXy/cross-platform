@@ -12,7 +12,7 @@ import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 class HomePageWeb extends StatelessWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
-  final profileID = 'clorm9kmt0002ul2xyyolre6y';
+  final profileID = 'clovwlprc0009qd0xcxrlnrxa';
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -23,7 +23,7 @@ class HomePageWeb extends StatelessWidget {
           : Colors.black,
       body: Center(
         child: SizedBox(
-          width: screenWidth * 0.65,
+          width: screenWidth * 0.85,
           child: BlocProvider(
             create: (context) => SidebarCubit(),
             child: Row(
@@ -47,8 +47,7 @@ class HomePageWeb extends StatelessWidget {
                           state is SidebarHomeState)
                         return HomeTweets(tabController: tabController);
                       else if (state is SidebarProfileState)
-                        return ProfileComponentWeb(
-                            id: profileID);
+                        return ProfileComponentWeb(id: profileID);
                       //TODO:- Provide The rest of the states
                       else
                         return Placeholder();

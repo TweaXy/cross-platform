@@ -43,6 +43,8 @@ class TweaXy extends StatelessWidget {
           kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
           kAuthenticationScreen: (context) => const AuthenticationView(),
           kHomeScreen: (context) => HomePage(),
+          kProfileScreen: (context) => ProfileScreen(),
+          kEditProfileScreen: (context) => EditProfileScreen(),
         },
         initialRoute: kSplashScreen,
       ),
