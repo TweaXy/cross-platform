@@ -8,6 +8,7 @@ import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/login_api.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_passwoed_web_1.dart';
@@ -47,8 +48,9 @@ class WebDialogSignIn extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
             child: CustomTextField(
+                key: const ValueKey(emailTextFieldKey),
                 label: 'Phone, email, or username',
-                validatorFunc: (){},
+                validatorFunc: () {},
                 controller: myControll),
           ),
           Padding(
@@ -58,6 +60,7 @@ class WebDialogSignIn extends StatelessWidget {
                 height: 40,
                 child: CustomButton(
                     color: forgroundColorTheme(context),
+                    key: const ValueKey(logInView1NextButtonKey),
                     text: 'Next',
                     onPressedCallback: () async {
                       try {
@@ -89,7 +92,7 @@ class WebDialogSignIn extends StatelessWidget {
                             message: e.response!.data['message'],
                           ),
                           position: ToastPosition.bottom,
-                          duration: const Duration(seconds: 2),
+                          duration: const Duration(seconds: 10),
                         );
                       } on Exception catch (e) {
                         print(e.toString());
@@ -98,7 +101,7 @@ class WebDialogSignIn extends StatelessWidget {
                             message: e.toString(),
                           ),
                           position: ToastPosition.bottom,
-                          duration: const Duration(seconds: 2),
+                          duration: const Duration(seconds: 10),
                         );
                         // ignore: use_build_context_synchronously
                         // showSnackBar(context, e);
@@ -116,7 +119,7 @@ class WebDialogSignIn extends StatelessWidget {
                   Navigator.pop(context);
                   showDialog(
                     context: context,
-                    builder: (context) =>  AlertDialog(
+                    builder: (context) => AlertDialog(
                       content: ForgetPasswordWeb1(),
                     ),
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),

@@ -8,6 +8,7 @@ import 'package:tweaxy/components/text_and_link.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/login_api.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -79,8 +80,8 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                 fillColor: !widget.isDarkMode
                     ? Color(0xff101214)
                     : Colors.white, // Specify the background color
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 25.0, horizontal: 20.0),
+                contentPadding: const EdgeInsets.symmetric(
+                    vertical: 25.0, horizontal: 20.0),
                 border: OutlineInputBorder(),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
@@ -94,6 +95,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
               width: 500,
               height: 70,
               child: CustomTextField(
+                  key: const ValueKey(passwordTextFieldKey),
                   label: 'Password',
                   validatorFunc: passwordValidation,
                   controller: myControllerPassword),
@@ -113,6 +115,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                         height: 40,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
+                            key: const ValueKey(logInView2NextButtonKey),
                             text: 'Login',
                             onPressedCallback: () async {
                               try {
@@ -124,8 +127,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                                 //go to home page
                                 print(user);
                                 // ignore: use_build_context_synchronously
-                                Navigator.pushNamed(context, 
-                                kHomeScreen);
+                                Navigator.pushNamed(context, kHomeScreen);
                               } on DioException catch (e) {
                                 print('DioException: ${e.toString()}');
                                 // ignore: use_build_context_synchronously

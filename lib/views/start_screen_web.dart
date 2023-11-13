@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tweaxy/components/sign_choose.dart';
 import 'package:tweaxy/components/start_screen_signup_button.dart';
 import 'package:tweaxy/components/web_main_dialog.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 
 class WebStartScreen extends StatelessWidget {
   const WebStartScreen({super.key});
@@ -92,7 +93,7 @@ class WebStartScreen extends StatelessWidget {
                                 barrierDismissible: false,
                               );
                             },
-                            key: const ValueKey('webStartScreenLogin'),
+                            key: const ValueKey(logInButtonKey),
                             style: ButtonStyle(
                               shape: MaterialStatePropertyAll(
                                 RoundedRectangleBorder(

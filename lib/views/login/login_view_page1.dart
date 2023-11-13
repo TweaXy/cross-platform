@@ -68,7 +68,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: CustomTextField(
               key: const ValueKey("loginView1TextField"),
-              validatorFunc: (){},
+              validatorFunc: () {},
               label: 'Phone, email address, username',
               controller: myController,
             ),
