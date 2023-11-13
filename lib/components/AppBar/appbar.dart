@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 
@@ -25,10 +26,10 @@ class ApplicationBar extends StatelessWidget {
           color: Colors.transparent,
           // Set the desired height
           child: Transform.scale(
-            scale: 2.0,
-            child: ImageIcon(
-              AssetImage('assets/logo2.ico'),
-              color: Colors.blue[900],
+            scale: 1.5,
+            child: SvgPicture.asset(
+              'assets/images/logo.svg',
+              alignment: Alignment.center,
             ),
           ),
         ),
