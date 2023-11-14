@@ -14,6 +14,7 @@ import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/add_password_view.dart';
 import 'package:tweaxy/models/user_signup.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 
 class SingupCodeVerificationView extends StatefulWidget {
   const SingupCodeVerificationView({super.key});
@@ -89,8 +90,8 @@ class _SingupCodeVerificationViewState
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
                         child: CustomTextField(
-                          key:
-                              const ValueKey("SingupCodeVerificationTextField"),
+                          key: const ValueKey(
+                              SignUpKeys.verificationCodeFieldKey),
                           label: "Verification Code",
                           validatorFunc: codeValidation,
                           controller: myController,
@@ -141,7 +142,8 @@ class _SingupCodeVerificationViewState
                       widthFactor: 4.8,
                       alignment: Alignment.bottomRight,
                       child: CustomButton(
-                        key: const ValueKey("SingupCodeVerificationNextButton"),
+                        key: const ValueKey(
+                            SignUpKeys.verificationNextButtonKey),
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () async {
@@ -159,7 +161,8 @@ class _SingupCodeVerificationViewState
                                 duration: const Duration(seconds: 2),
                               );
                             } else if (mounted) {
-                              UserSignup.emailVerificationToken = myController.text;
+                              UserSignup.emailVerificationToken =
+                                  myController.text;
                               Navigator.pop(context);
                               Navigator.push(
                                   context,

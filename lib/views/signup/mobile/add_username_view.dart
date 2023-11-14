@@ -14,6 +14,7 @@ import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 
 class AddUsernameView extends StatefulWidget {
   const AddUsernameView({
@@ -83,7 +84,7 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                         child: Form(
                           key: _formKey,
                           child: CustomTextField(
-                            key: const ValueKey("addUsernameTextField"),
+                            key: const ValueKey(SignUpKeys.userNameFieldKey),
                             label: "Username",
                             validatorFunc: usernameValidation,
                             controller: myController,
@@ -113,7 +114,8 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomButton(
-                          key: const ValueKey("addUsernameSkipButton"),
+                          key: const ValueKey(
+                              SignUpKeys.addUserNameSkipButtonKey),
                           color: backgroundColorTheme(context),
                           text: "Skip for now",
                           onPressedCallback: () {
@@ -123,7 +125,8 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                           initialEnabled: true,
                         ),
                         CustomButton(
-                          key: const ValueKey("addUsernameNextButton"),
+                          key: const ValueKey(
+                              SignUpKeys.addUserNameNextButtonKey),
                           color: forgroundColorTheme(context),
                           text: "Next",
                           onPressedCallback: () async {

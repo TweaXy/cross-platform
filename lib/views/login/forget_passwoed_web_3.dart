@@ -116,7 +116,6 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                                     await SignInServices.checkResetToken();
 
                                 print(res);
-                                res = "success";
 
                                 if (res != 'success') {
                                   showToastWidget(
@@ -141,6 +140,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                                 }
                               },
                             )),
+                        Container(height: 30)
                       ]),
                 ),
               )

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/views/signup/mobile/add_profile_picture_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -81,7 +82,7 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                               bottom:
                                   MediaQuery.of(context).size.height * 0.02),
                           child: CustomTextField(
-                            key: const ValueKey("addPasswordTextField"),
+                            key: const ValueKey(SignUpKeys.addPasswordFieldKey),
                             label: "Password",
                             validatorFunc: passwordValidation,
                             controller: myController,
@@ -100,7 +101,8 @@ class _AddPasswordViewState extends State<AddPasswordView> {
                         alignment: Alignment.bottomRight,
                         widthFactor: 4.8,
                         child: CustomButton(
-                          key: const ValueKey("addPasswordButton"),
+                          key: const ValueKey(
+                              SignUpKeys.addPasswordNextButtonKey),
                           color: forgroundColorTheme(context),
                           text: "Next",
                           onPressedCallback: () {
