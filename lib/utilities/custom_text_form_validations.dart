@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/signup_service.dart';
+import 'package:tweaxy/shared/errors/validation_errors.dart';
 
 Future<String?> emailValidation({required String? inputValue}) async {
   //initial validation function
   if (inputValue == null || inputValue.isEmpty) {
-    return "Email is required";
+    return ValidationErrors.emptyEmailError;
   }
   if (!inputValue.contains('@') || inputValue.length < 4) {
-    return "Email is invalid";
+    return ValidationErrors.invalidEmailError;
   }
   try {
     dynamic response = await SignupService(Dio()).emailUniqueness(inputValue);
@@ -26,10 +27,10 @@ Future<String?> emailValidation({required String? inputValue}) async {
 
 Future<String?> emailExists({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
-    return "Email is required";
+    return ValidationErrors.emptyEmailError;
   }
   if (!inputValue.contains('@') || inputValue.length < 4) {
-    return "Email is invalid";
+    return ValidationErrors.invalidEmailError;
   }
   try {
     String response = await SignInServices.forgetPassword();
@@ -43,25 +44,25 @@ Future<String?> emailExists({required String? inputValue}) async {
 String? passwordValidation({required String? inputValue}) {
   //initial validation function
   if (inputValue == null || inputValue.isEmpty) {
-    return "Password is required";
+    return ValidationErrors.emptyPasswordError;
   }
   if (inputValue.length < 8) {
-    return "Password must be at least 8 characters";
+    return ValidationErrors.passwordLengthError;
   }
   if (!(inputValue.contains(RegExp(r'[a-z]')))) {
-    return 'Password should contain at least one small letter';
+    return ValidationErrors.passwordSmallLetterError;
   }
 
   if (!(inputValue.contains(RegExp(r'[A-Z]')))) {
-    return 'Password should contain at least one capital letter';
+    return ValidationErrors.passwordCapitalLetterError;
   }
 
   if (!(inputValue.contains(RegExp(r'[0-9]')))) {
-    return 'Password should contain a number';
+    return ValidationErrors.passwordNumberError;
   }
 
   if (!(inputValue.contains(RegExp(r'[!@#$%^&*(),.?_":{}|<>]')))) {
-    return 'Password should contain at least one special character';
+    return ValidationErrors.passwordSpecialCharacterError;
   }
 
   return null;
@@ -69,27 +70,27 @@ String? passwordValidation({required String? inputValue}) {
 
 String? nameValidation({required String? inputValue}) {
   if (inputValue == null || inputValue.isEmpty) {
-    return "Name is required";
+    return ValidationErrors.emptyNameError;
   }
   return null;
 }
 
 Future<String?> codeValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
-    return "Code is required";
+    return ValidationErrors.emptyCodeError;
   }
   if (inputValue.length < 8) {
-    return "Code must be exactly 8 characters";
+    return ValidationErrors.codeLengthError;
   }
   return null;
 }
 
 Future<String?> usernameValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.isEmpty) {
-    return "Username is required";
+    return ValidationErrors.emptyUsernameError;
   }
   if (inputValue.length < 4) {
-    return "Username must be at least 4 characters";
+    return ValidationErrors.usernameLengthError;
   }
   try {
     dynamic response =
