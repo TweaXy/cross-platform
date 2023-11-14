@@ -138,42 +138,41 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                   ],
                 ),
               ),
-              SizedBox(
+              Align(
+                alignment: Alignment.bottomCenter,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     const Divider(),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CustomButton(
-                          key: const ValueKey(
-                              "ResetPasswordMobileChangePassButton"),
-                          color: forgroundColorTheme(context),
-                          text: 'Change Password',
-                          initialEnabled: isButtonEnabled,
-                          onPressedCallback: () async {
-                            String res = await SignInServices.resetPassword(
-                                myControllerNewPassword.text);
-                            if (res != 'success') {
-                              print(myControllerNewPassword.text);
-                              showToastWidget(
-                                  CustomToast(
-                                    message: res,
-                                  ),
-                                  position: ToastPosition.bottom,
-                                  duration: const Duration(seconds: 2));
-                            } else {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  CustomPageRoute(
-                                      direction: AxisDirection.left,
-                                      child: ResetPasswordMobile2()));
-                            }
-                          },
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: CustomButton(
+                        key: const ValueKey(
+                            "ResetPasswordMobileChangePassButton"),
+                        color: forgroundColorTheme(context),
+                        text: 'Change Password',
+                        initialEnabled: isButtonEnabled,
+                        onPressedCallback: () async {
+                          String res = await SignInServices.resetPassword(
+                              myControllerNewPassword.text);
+                          if (res != 'success') {
+                            print(myControllerNewPassword.text);
+                            showToastWidget(
+                                CustomToast(
+                                  message: res,
+                                ),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 4));
+                          } else {
+                            Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: ResetPasswordMobile2()));
+                          }
+                        },
                       ),
                     ),
                   ],
