@@ -10,6 +10,7 @@ import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 
 class AddProfilePictureView extends StatefulWidget {
   const AddProfilePictureView({
@@ -108,7 +109,8 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                               backgroundImage: FileImage(File(image!.path)),
                             )
                           : GestureDetector(
-                              key: const ValueKey("addProfilePicUploadButton"),
+                              key: const ValueKey(
+                                  SignUpKeys.addProfilePicLoadButtonKey),
                               onTap: () async {
                                 showDialog(
                                     context: context,
@@ -164,7 +166,8 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButton(
-                        key: const ValueKey("addProfilePicSkipButton"),
+                        key: const ValueKey(
+                            SignUpKeys.addProfilePicSkipButtonKey),
                         color: backgroundColorTheme(context),
                         text: "Skip for now",
                         onPressedCallback: () {

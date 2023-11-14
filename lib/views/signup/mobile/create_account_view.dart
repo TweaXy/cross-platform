@@ -8,6 +8,7 @@ import 'package:tweaxy/components/custom_create_account_fields.dart';
 import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 
@@ -118,7 +119,8 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                     Form(
                       key: _formKey,
                       child: CustomCreateAccountFields(
-                          key: const ValueKey("createAccountFields"),
+                          key:
+                              const ValueKey(SignUpKeys.createAccountFieldsKey),
                           birthDateHide: hideBirthDatePicker,
                           birthDateshow: showdatepicker,
                           birthDateFieldController: birthDateFieldController,
@@ -145,14 +147,15 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                     widthFactor: 4.8,
                     alignment: Alignment.bottomRight,
                     child: CustomButton(
-                        key: const ValueKey("createAccountNextButton"),
+                        key: const ValueKey(SignUpKeys.nextButtonKey),
                         color: forgroundColorTheme(context),
                         text: "Next",
                         onPressedCallback: () async {
                           if (_formKey.currentState!.validate()) {
                             UserSignup.email = emailFieldController.text;
                             UserSignup.name = nameFieldController.text;
-                            UserSignup.birthdayDate = birthDateFieldController.text;
+                            UserSignup.birthdayDate =
+                                birthDateFieldController.text;
                             Navigator.push(
                                 context,
                                 CustomPageRoute(

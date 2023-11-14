@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/services/signup_service.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -66,19 +67,26 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          textValue: UserSignup.name, label: "Name"),
+                          key: const ValueKey(SignUpKeys.reviewNameFieldKey),
+                          textValue: UserSignup.name,
+                          label: "Name"),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          label: "email", textValue: UserSignup.email),
+                          key: const ValueKey(SignUpKeys.reviewEmailFieldKey),
+                          label: "email",
+                          textValue: UserSignup.email),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
                       child: ReviewInputTextField(
-                          label: "Date of Birth", textValue: UserSignup.birthdayDate),
+                          key: const ValueKey(
+                              SignUpKeys.reviewBirthDateFieldKey),
+                          label: "Date of Birth",
+                          textValue: UserSignup.birthdayDate),
                     )
                   ],
                 ),
@@ -87,7 +95,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
               child: CustomButton(
-                key: const ValueKey("CreateAccountSignupButton"),
+                key: const ValueKey(SignUpKeys.signUpButtonKey),
                 color: forgroundColorTheme(context),
                 text: "Sign up",
                 onPressedCallback: () async {

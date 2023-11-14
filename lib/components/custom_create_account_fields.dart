@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 
 class CustomCreateAccountFields extends StatefulWidget {
   const CustomCreateAccountFields(
@@ -30,6 +32,7 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
         Padding(
           padding: EdgeInsets.only(top: widget.topPadding),
           child: CustomTextField(
+              key: const ValueKey(SignUpKeys.nameFieldKey),
               onTap: widget.birthDateHide,
               label: "Name",
               validatorFunc: nameValidation,
@@ -39,6 +42,7 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
           padding:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * .01),
           child: CustomTextField(
+              key: const ValueKey(SignUpKeys.emailFieldKey),
               onTap: widget.birthDateHide,
               label: "Email",
               validatorFunc: emailValidation,
@@ -48,6 +52,7 @@ class _CustomCreateAccountFieldsState extends State<CustomCreateAccountFields> {
           padding:
               EdgeInsets.only(top: MediaQuery.of(context).size.height * .03),
           child: CustomTextField(
+              key: const ValueKey(SignUpKeys.birthDateFieldKey),
               label: "Date of birth",
               validatorFunc: nameValidation,
               onTap: widget.birthDateshow,
