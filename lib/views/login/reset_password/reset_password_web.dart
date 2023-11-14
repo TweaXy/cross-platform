@@ -69,6 +69,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                   padding: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height * 0.02),
                   child: RichText(
+                    key: const ValueKey("newPasswordInstructions"),
                     text: const TextSpan(
                       text:
                           "Make sure your new password is 8 characters or more. Try including numbers, letters, and punctuation marks for a",

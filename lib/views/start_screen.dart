@@ -54,7 +54,7 @@ class StartScreen extends StatelessWidget {
                   child: TextAndLink(
                     text: 'Have an account already? ',
                     linkedText: 'Log in',
-                    linkKey: const ValueKey(welcomePagelogInButtonKey),
+                    linkKey: const ValueKey(SignInKeys.welcomePageLogInButton),
                     onPressed: () {
                       Navigator.pushNamed(context, kLogin1Screen);
                     },

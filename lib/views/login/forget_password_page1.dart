@@ -8,6 +8,7 @@ import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/sign_in.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page2.dart';
@@ -93,7 +94,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
               padding: EdgeInsets.symmetric(
                   horizontal: MediaQuery.of(context).size.width * 0.04),
               child: CustomTextField(
-                key: const ValueKey("forgetPassView1TextField"),
+                key: const ValueKey(SignInKeys.forgetPasswordEmailFieldKey),
                 validatorFunc: () {},
                 label: 'Phone, email address, username',
                 controller: myController,
@@ -118,7 +119,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           CustomButton(
-                            key: const ValueKey("forgetPassView1NextButton"),
+                            key: const ValueKey(SignInKeys.nextButtonKey),
                             color: forgroundColorTheme(context),
                             text: 'Next',
                             initialEnabled: isButtonEnabled,

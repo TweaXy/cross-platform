@@ -71,7 +71,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.04),
             child: CustomTextField(
-              key: const ValueKey(emailTextFieldKey),
+              key: const ValueKey(SignInKeys.emailFieldKey),
               validatorFunc: () {},
               label: 'Phone, email, or username',
               controller: myController,
@@ -95,7 +95,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButton(
-                        key: const ValueKey("loginView1ForgetPassButton"),
+                        key: const ValueKey(SignInKeys.forgetPasswordButtonKey),
                         color: backgroundColorTheme(context),
                         text: 'Forget password?',
                         initialEnabled: true,
@@ -109,7 +109,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                         },
                       ),
                       CustomButton(
-                        key: const ValueKey(logInView1NextButtonKey),
+                        key: const ValueKey(SignInKeys.nextButtonKey),
                         color: forgroundColorTheme(context),
                         text: 'Next',
                         initialEnabled: isButtonEnabled,

@@ -95,7 +95,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
               width: 500,
               height: 90,
               child: CustomTextField(
-                  key: const ValueKey(passwordTextFieldKey),
+                  key: const ValueKey(SignInKeys.passwordFieldKey),
                   label: 'Password',
                   validatorFunc: passwordValidation,
                   controller: myControllerPassword),
@@ -115,7 +115,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                         height: 50,
                         child: CustomButton(
                             color: forgroundColorTheme(context),
-                            key: const ValueKey(logInView2NextButtonKey),
+                            key: const ValueKey(SignInKeys.nextButtonKey),
                             text: 'Login',
                             onPressedCallback: () async {
                               try {

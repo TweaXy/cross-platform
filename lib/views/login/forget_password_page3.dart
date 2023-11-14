@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_mobile.dart';
 // import 'package:tweaxy/views/login/resetpassword/reset_password_mobile.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -93,7 +94,8 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.03),
             child: CustomTextField(
-              key: const ValueKey("forgetPassView3TextField"),
+              key:
+                  const ValueKey(SignInKeys.forgetPasswordVerificationFieldKey),
               validatorFunc: codeValidation,
               label: 'Enter your code',
               controller: myController,
@@ -131,7 +133,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                         },
                       ),
                       CustomButton(
-                        key: const ValueKey("forgetPassView3NextButton"),
+                        key: const ValueKey(SignInKeys.nextButtonKey),
                         color: forgroundColorTheme(context),
                         text: 'Next',
                         initialEnabled: isButtonEnabled,

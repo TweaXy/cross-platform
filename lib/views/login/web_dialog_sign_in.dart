@@ -48,7 +48,7 @@ class WebDialogSignIn extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 10),
             child: CustomTextField(
-                key: const ValueKey(emailTextFieldKey),
+                key: const ValueKey(SignInKeys.emailFieldKey),
                 label: 'Phone, email, or username',
                 validatorFunc: () {},
                 controller: myControll),
@@ -60,7 +60,7 @@ class WebDialogSignIn extends StatelessWidget {
                 height: 40,
                 child: CustomButton(
                     color: forgroundColorTheme(context),
-                    key: const ValueKey(logInView1NextButtonKey),
+                    key: const ValueKey(SignInKeys.nextButtonKey),
                     text: 'Next',
                     onPressedCallback: () async {
                       try {

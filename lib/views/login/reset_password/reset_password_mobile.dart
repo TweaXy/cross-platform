@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_mobile2.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -116,7 +117,8 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                         right: screenwidth * 0.04,
                       ),
                       child: CustomTextField(
-                        key: const ValueKey("ResetPasswordMobileNewPass"),
+                        key: const ValueKey(
+                            SignInKeys.forgetPasswordNewPasswordFieldKey),
                         label: "Enter a new password",
                         validatorFunc: passwordValidation,
                         controller: myControllerNewPassword,
@@ -129,7 +131,8 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                         right: screenwidth * 0.04,
                       ),
                       child: CustomTextField(
-                        key: const ValueKey("ResetPasswordMobileConfirmPass"),
+                        key: const ValueKey(SignInKeys
+                            .forgetPasswordConfirmNewPasswordFieldKey),
                         label: "Confirm your password",
                         validatorFunc: passwordValidation,
                         controller: myControllerConfirmPassword,
@@ -148,8 +151,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: CustomButton(
-                          key: const ValueKey(
-                              "ResetPasswordMobileChangePassButton"),
+                          key: const ValueKey(SignInKeys.nextButtonKey),
                           color: forgroundColorTheme(context),
                           text: 'Change Password',
                           initialEnabled: isButtonEnabled,

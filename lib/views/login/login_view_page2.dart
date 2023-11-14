@@ -117,7 +117,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                     padding: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width * 0.04),
                     child: CustomTextField(
-                      key: const ValueKey(passwordTextFieldKey),
+                      key: const ValueKey(SignInKeys.passwordFieldKey),
                       validatorFunc: passwordValidation,
                       label: 'Password',
                       controller: myControllerPassword,
@@ -157,7 +157,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                         },
                       ),
                       CustomButton(
-                        key: const ValueKey(logInView2NextButtonKey),
+                        key: const ValueKey(SignInKeys.nextButtonKey),
                         color: forgroundColorTheme(context),
                         text: 'Log in',
                         initialEnabled: isButtonEnabled,

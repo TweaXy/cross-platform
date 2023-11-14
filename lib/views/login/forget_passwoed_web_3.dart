@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
@@ -85,7 +86,8 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                   height: 90,
                   width: 500,
                   child: CustomTextField(
-                    key: const ValueKey("forgetPassView3TextField"),
+                    key: const ValueKey(
+                        SignInKeys.forgetPasswordVerificationFieldKey),
                     validatorFunc: codeValidation,
                     label: 'Enter your code',
                     controller: myController,
