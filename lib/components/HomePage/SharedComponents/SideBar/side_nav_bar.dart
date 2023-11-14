@@ -10,6 +10,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/droptemp.dar
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class SideNavBar extends StatefulWidget {
   const SideNavBar({Key? key}) : super(key: key);
@@ -37,126 +38,136 @@ class _SideNavBarState extends State<SideNavBar> {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    return ListView(
-      padding: EdgeInsets.only(top: 5),
-      children: [
-        ListTile(
-          leading: SvgPicture.asset(
-            'assets/images/logo.svg',
-            width: 40, // Adjust the width as needed
-            height: 40, // Adjust the height as needed
-            alignment: Alignment.center,
-          ),
-        ),
+    double screenHeight = MediaQuery.of(context).size.height;
 
-        InkWell(
-          child: ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30,
+    return Padding(
+      padding: !kIsWeb
+          ? EdgeInsets.symmetric(
+              horizontal: screenWidth * 0.07, vertical: screenHeight * 0.1)
+          : EdgeInsets.all(0),
+      child: Visibility(
+        child: ListView(
+          padding: EdgeInsets.only(top: 5),
+          children: [
+            ListTile(
+              leading: SvgPicture.asset(
+                'assets/images/logo.svg',
+                width: 40, // Adjust the width as needed
+                height: 40, // Adjust the height as needed
+                alignment: Alignment.center,
               ),
             ),
-            leading: HomeIcon(
-              selectedIndex: selectedIndex,
+
+            InkWell(
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    30,
+                  ),
+                ),
+                leading: HomeIcon(
+                  selectedIndex: selectedIndex,
+                ),
+                title: SideBarText(
+                  selectedIndex: selectedIndex,
+                  curindex: 0,
+                  text: 'Home',
+                ),
+                onTap: () {
+                  // Navigator.pop(context);
+                  _globalOnTap(0);
+                },
+              ),
             ),
-            title: SideBarText(
-              selectedIndex: selectedIndex,
-              curindex: 0,
-              text: 'Home',
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  30,
+                ),
+              ),
+              leading: SearchIcon(
+                selectedIndex: selectedIndex,
+              ),
+              title: SideBarText(
+                curindex: 1,
+                selectedIndex: selectedIndex,
+                text: 'Explore',
+              ),
+              onTap: () {
+                // Navigator.pop(context);
+                _globalOnTap(1);
+              },
             ),
-            onTap: () {
-              // Navigator.pop(context);
-              _globalOnTap(0);
-            },
-          ),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  30,
+                ),
+              ),
+              leading: NotificationIcon(
+                selectedIndex: selectedIndex,
+              ),
+              title: SideBarText(
+                text: 'Notifications',
+                selectedIndex: selectedIndex,
+                curindex: 2,
+              ),
+              onTap: () {
+                // Navigator.pop(context);
+                _globalOnTap(2);
+              },
+            ),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  30,
+                ),
+              ),
+              leading: MessageIcon(
+                selectedIndex: selectedIndex,
+              ),
+              title: SideBarText(
+                text: 'Message',
+                selectedIndex: selectedIndex,
+                curindex: 3,
+              ),
+              onTap: () {
+                // Navigator.pop(context);
+                _globalOnTap(3);
+              },
+            ),
+            ListTile(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(
+                  30,
+                ),
+              ),
+              leading: Icon(
+                FontAwesomeIcons.user,
+                size: 27,
+                color: Theme.of(context).brightness == Brightness.light
+                    ? (selectedIndex == 4
+                        ? Colors.black
+                        : Color.fromARGB(255, 137, 137, 137))
+                    : (selectedIndex == 4
+                        ? Colors.white
+                        : Color.fromARGB(255, 176, 176, 176)),
+              ),
+              title: SideBarText(
+                text: 'Profile',
+                selectedIndex: selectedIndex,
+                curindex: 4,
+              ),
+              onTap: () {
+                // Navigator.pop(context);
+                _globalOnTap(4);
+              },
+            ),
+            // SettingsAndSupport(),
+            PostButton()
+          ],
         ),
-        ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ),
-          ),
-          leading: SearchIcon(
-            selectedIndex: selectedIndex,
-          ),
-          title: SideBarText(
-            curindex: 1,
-            selectedIndex: selectedIndex,
-            text: 'Explore',
-          ),
-          onTap: () {
-            // Navigator.pop(context);
-            _globalOnTap(1);
-          },
-        ),
-        ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ),
-          ),
-          leading: NotificationIcon(
-            selectedIndex: selectedIndex,
-          ),
-          title: SideBarText(
-            text: 'Notifications',
-            selectedIndex: selectedIndex,
-            curindex: 2,
-          ),
-          onTap: () {
-            // Navigator.pop(context);
-            _globalOnTap(2);
-          },
-        ),
-        ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ),
-          ),
-          leading: MessageIcon(
-            selectedIndex: selectedIndex,
-          ),
-          title: SideBarText(
-            text: 'Message',
-            selectedIndex: selectedIndex,
-            curindex: 3,
-          ),
-          onTap: () {
-            // Navigator.pop(context);
-            _globalOnTap(3);
-          },
-        ),
-        ListTile(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(
-              30,
-            ),
-          ),
-          leading: Icon(
-            FontAwesomeIcons.user,
-            size: 27,
-            color: Theme.of(context).brightness == Brightness.light
-                ? (selectedIndex == 4
-                    ? Colors.black
-                    : Color.fromARGB(255, 137, 137, 137))
-                : (selectedIndex == 4
-                    ? Colors.white
-                    : Color.fromARGB(255, 176, 176, 176)),
-          ),
-          title: SideBarText(
-            text: 'Profile',
-            selectedIndex: selectedIndex,
-            curindex: 4,
-          ),
-          onTap: () {
-            // Navigator.pop(context);
-            _globalOnTap(4);
-          },
-        ),
-        // SettingsAndSupport(),
-        PostButton()
-      ],
+      ),
     );
   }
 

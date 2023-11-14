@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/appbar.dart';
 import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/homepage_web.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
@@ -66,6 +68,9 @@ class _HomePage2State extends State<HomePageMobile>
       floatingActionButton: FloatingButton(),
       bottomNavigationBar:
           Offstage(offstage: !_isVisible, child: BottomNaviagtion()),
+      drawer:
+          Drawer(child: CustomDrawer() // Populate the Drawer in the next step.
+              ),
     );
   }
 }

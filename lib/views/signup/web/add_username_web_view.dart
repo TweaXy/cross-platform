@@ -25,7 +25,6 @@ class AddUsernameWebView extends StatefulWidget {
 class _AddUsernameWebViewState extends State<AddUsernameWebView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
-  bool isUsernameValid = false;
   final _formKey = GlobalKey<FormState>();
   SignupService service = SignupService(Dio());
 
@@ -153,7 +152,7 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                             initialEnabled: true,
                           )
                         : CustomButton(
-                            key: const ValueKey("addUsernameWebSkipButton"),
+                            key: const ValueKey("addUsernameWebSkipButton2"),
                             color: backgroundColorTheme(context),
                             text: "Skip for now",
                             onPressedCallback: () {

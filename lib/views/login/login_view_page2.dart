@@ -58,64 +58,75 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
           },
         ),
       ),
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.04,
-                    top: MediaQuery.of(context).size.height * 0.03),
-                child: Text(
-                  'Enter your password',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.775,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.04,
+                            top: MediaQuery.of(context).size.height * 0.03),
+                        child: Text(
+                          'Enter your password',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30,
+                          ),
+                        ),
+                      ),
+                      // Other widgets...
+                    ],
                   ),
-                ),
-              ),
-              // Other widgets...
-            ],
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.04),
-            child: TextField(
-              style: TextStyle(
-                color: isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
-              ),
-              controller: widget.initialValue,
-              enabled: false,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                    vertical: MediaQuery.of(context).size.height * 0.03,
-                    horizontal: MediaQuery.of(context).size.width * 0.05),
-                border: const OutlineInputBorder(),
-                disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 1,
-                        color: !isDarkMode ? Colors.black87 : Colors.white10)),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.04),
+                    child: TextField(
+                      style: TextStyle(
+                        color:
+                            isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
+                      ),
+                      controller: widget.initialValue,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(
+                            vertical: MediaQuery.of(context).size.height * 0.03,
+                            horizontal:
+                                MediaQuery.of(context).size.width * 0.05),
+                        border: const OutlineInputBorder(),
+                        disabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                width: 1,
+                                color: !isDarkMode
+                                    ? Colors.black87
+                                    : Colors.white10)),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.04),
+                    child: CustomTextField(
+                      key: const ValueKey(passwordTextFieldKey),
+                      validatorFunc: passwordValidation,
+                      label: 'Password',
+                      controller: myControllerPassword,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.of(context).size.width * 0.04),
-            child: CustomTextField(
-              key: const ValueKey(passwordTextFieldKey),
-              validatorFunc: passwordValidation,
-              label: 'Password',
-              controller: myControllerPassword,
-            ),
-          ),
-          Expanded(
-            child: Align(
+            Align(
               alignment: Alignment.bottomCenter,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -189,9 +200,9 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                   ),
                 ),
               ]),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
