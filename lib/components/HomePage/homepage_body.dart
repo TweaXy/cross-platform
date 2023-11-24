@@ -56,6 +56,8 @@ class HomePageBody extends StatelessWidget {
       controller: tabController,
       children: <Widget>[
         CustomScrollView(
+          scrollBehavior:
+              ScrollConfiguration.of(context).copyWith(scrollbars: false),
           slivers: [
             SliverToBoxAdapter(
               child: kIsWeb

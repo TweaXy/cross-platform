@@ -89,6 +89,11 @@ class HomeTweets extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
+              shape: ContinuousRectangleBorder(
+                side: BorderSide(
+                    width: 0.2,
+                    color: const Color.fromARGB(255, 135, 135, 135)),
+              ),
               elevation: 0,
               backgroundColor: Theme.of(context).brightness == Brightness.light
                   ? Colors.white
@@ -105,7 +110,7 @@ class HomeTweets extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.transparent,
             border: Border.all(
-                width: 0.09,
+                width: 0.03,
                 color: Theme.of(context).brightness == Brightness.light
                     ? const Color.fromARGB(255, 135, 135, 135)
                     : const Color.fromARGB(255, 233, 233, 233)),
