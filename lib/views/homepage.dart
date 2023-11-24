@@ -22,7 +22,7 @@ class _HomePage2State extends State<HomePage>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(vsync: this, length: 2);
+    _tabController = TabController(vsync: this, length: 1);
 
     _tabController.addListener(_handleTabSelection);
   }

@@ -8,8 +8,8 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet});
-
+  const CustomTweet({super.key, required this.tweet, required this.forProfile});
+  final bool forProfile;
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,7 @@ class CustomTweet extends StatelessWidget {
               children: [
                 User_TweetInfo(
                   tweet: tweet,
+                  forProfile: forProfile,
                 ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
@@ -54,17 +55,6 @@ class CustomTweet extends StatelessWidget {
                   ),
                 ),
                 TweetInteractions(),
-                // ClipRRect(
-                //   borderRadius: BorderRadius.circular(10),
-                //   child: AspectRatio(
-                //     aspectRatio: 16 / 9,
-                //     child: Chewie(
-                //       controller: _chewieController,
-                //     ),
-                //   ),
-                // ),
-
-                // Expanded(child: Container( child: VideoPlayerScreen()))
               ],
             ),
           ),

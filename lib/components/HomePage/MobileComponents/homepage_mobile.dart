@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/appbar.dart';
 import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/side_nav_bar.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/homepage_web.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class HomePageMobile extends StatefulWidget {
   HomePageMobile({super.key, required this.tabController});
@@ -42,35 +46,66 @@ class _HomePage2State extends State<HomePageMobile>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black,
-      body: NestedScrollView(
-          physics: const BouncingScrollPhysics(),
-          controller: controller,
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-            return <Widget>[
-              ApplicationBar(
-                  isVisible: _isVisible, tabController: widget.tabController),
-              SliverToBoxAdapter(
-                child: Divider(
-                  height: 1,
-                  color: Color.fromARGB(255, 184, 189, 193),
-                ),
-              )
-            ];
+    return BlocProvider(
+      create: (context) => SidebarCubit(),
+      child: Scaffold(
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.white
+            : Colors.black,
+        body: BlocBuilder<SidebarCubit, SidebarState>(
+          builder: (context, state) {
+            if (state is SidebarInitialState || state is SidebarHomeState)
+              return HomeTweetsMobile(
+                tabController: widget.tabController,
+                controller: controller,
+                isVisible: _isVisible,
+              );
+            else if (state is SidebarProfileState)
+              return ProfileScreen();
+            //TODO:- Provide The rest of the states
+            else
+              return Placeholder();
           },
-          body: HomePageBody(
-            tabController: widget.tabController,
-          )),
-      floatingActionButton: FloatingButton(),
-      bottomNavigationBar:
-          Offstage(offstage: !_isVisible, child: BottomNaviagtion()),
-      drawer:
-          Drawer(child: CustomDrawer() // Populate the Drawer in the next step.
-              ),
+        ),
+        floatingActionButton: FloatingButton(),
+        bottomNavigationBar:
+            Offstage(offstage: !_isVisible, child: BottomNaviagtion()),
+        drawer: Drawer(
+            child: CustomDrawer() // Populate the Drawer in the next step.
+            ),
+      ),
     );
+  }
+}
+
+class HomeTweetsMobile extends StatelessWidget {
+  const HomeTweetsMobile(
+      {super.key,
+      required this.controller,
+      required this.tabController,
+      required this.isVisible});
+  final ScrollController controller;
+  final TabController tabController;
+  final bool isVisible;
+  @override
+  Widget build(BuildContext context) {
+    return NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        controller: controller,
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[
+            ApplicationBar(isVisible: isVisible, tabController: tabController),
+            SliverToBoxAdapter(
+              child: Divider(
+                height: 1,
+                color: Color.fromARGB(255, 184, 189, 193),
+              ),
+            )
+          ];
+        },
+        body: HomePageBody(
+          tabController: tabController,
+        ));
   }
 }
