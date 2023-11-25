@@ -86,7 +86,7 @@ Future<String?> codeValidation({required String? inputValue}) async {
 }
 
 Future<String?> usernameValidation({required String? inputValue}) async {
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyUsernameError;
   }
   if (inputValue.length < 4) {
