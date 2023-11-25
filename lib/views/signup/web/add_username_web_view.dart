@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -140,6 +141,9 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                     duration: const Duration(seconds: 2),
                                   );
                                 } else if (mounted) {
+                                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                                  prefs.setString( "email",UserSignup.email);
+                                  // prefs.setString( "password", UserSignup.password);
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                   Navigator.pushReplacementNamed(

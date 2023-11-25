@@ -27,6 +27,7 @@ class AddPost extends StatelessWidget {
               UserImageForTweet(image: 'assets/girl.jpg'),
               Expanded(
                 child: TextField(
+                  maxLength: 30,
                   decoration: InputDecoration(
                     hintText: 'What is hapenning?!',
                     hintStyle: TextStyle(

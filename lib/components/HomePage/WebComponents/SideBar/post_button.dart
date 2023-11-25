@@ -1,5 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Components/HomePage/WebComponents/add_post.dart';
+import 'package:tweaxy/Components/HomePage/WebComponents/add_post_dialogbox.dart';
+import 'package:tweaxy/Components/custom_appbar.dart';
+import 'package:tweaxy/Components/custom_appbar_web.dart';
+import 'package:tweaxy/Views/signup/web/add_password_web_view.dart';
 
 class PostButton extends StatelessWidget {
   const PostButton({super.key});
@@ -10,7 +15,15 @@ class PostButton extends StatelessWidget {
 
     return ElevatedButton(
       // statesController:,
-      onPressed: () {},
+      onPressed: () {
+        showDialog(
+          barrierColor: const Color.fromARGB(100, 97, 119, 129),
+          context: context,
+          builder: (BuildContext context) {
+            return const AddPostDialogBox(); // Use the custom dialog widget
+          },
+        );
+      },
 
       child: Text(
         'Post',
