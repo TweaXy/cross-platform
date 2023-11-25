@@ -32,7 +32,11 @@ class User {
     this.followers,
     this.following,
   });
+  @override
+  bool operator ==(Object other) => other is User && other.name == name;
 
+  @override
+  int get hashCode => name.hashCode;
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,

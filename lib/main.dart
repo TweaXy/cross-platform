@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
-import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/homepage.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
@@ -46,7 +45,7 @@ class TweaXy extends StatelessWidget {
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
         },
-        initialRoute: kSplashScreen,
+        initialRoute: kHomeScreen,
       ),
     );
   }

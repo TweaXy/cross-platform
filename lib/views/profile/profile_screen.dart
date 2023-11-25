@@ -9,6 +9,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
+import 'package:tweaxy/views/error_screen.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -42,13 +43,14 @@ var listitems = [
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
+  String id = 'clpe7z04p0003pu0xnd75rqxo';
   late TabController _tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    GetUserById.instance.excute('clovwlprc0009qd0xcxrlnrxa');
+    GetUserById.instance.excute(id);
   }
 
   int _selectedTabIndex = 0;
@@ -59,10 +61,13 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: FutureBuilder(
-          future: GetUserById.instance.future,
+        child: StreamBuilder<User>(
+          stream: Stream.fromFuture(GetUserById.instance.future!
+              .timeout(const Duration(seconds: 20))),
           builder: (context, snapshot) {
-            if (!snapshot.hasData) {
+            if (snapshot.hasError) {
+              return const ErrorScreen();
+            } else if (!snapshot.hasData) {
               return const LoadingScreen(
                 asyncCall: true,
               );
@@ -139,6 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 }
+
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   const ProfileScreenAppBar({
