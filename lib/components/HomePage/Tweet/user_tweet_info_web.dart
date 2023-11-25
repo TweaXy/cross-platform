@@ -54,18 +54,18 @@ class User_TweetInfoWeb extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        // if (forProfile)
-        TweetSettingsProfile()
-        // else
-        //   IconButton(
-        //     splashRadius: 15,
-        //     hoverColor: const Color.fromARGB(255, 207, 232, 253),
-        //     icon: const Icon(FontAwesomeIcons.ellipsis),
-        //     iconSize: 16,
-        //     onPressed: () {
-        //       // if (isProfile)
-        //     },
-        //   ),
+        if (forProfile)
+          TweetSettingsProfile()
+        else
+          IconButton(
+            splashRadius: 15,
+            hoverColor: const Color.fromARGB(255, 207, 232, 253),
+            icon: const Icon(FontAwesomeIcons.ellipsis),
+            iconSize: 16,
+            onPressed: () {
+              // if (isProfile)
+            },
+          ),
       ],
     );
   }
