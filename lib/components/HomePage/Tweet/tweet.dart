@@ -4,7 +4,9 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_mobile.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_web.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
+import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CustomTweet extends StatelessWidget {
@@ -34,10 +36,15 @@ class CustomTweet extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                User_TweetInfo(
-                  tweet: tweet,
-                  forProfile: forProfile,
-                ),
+                kIsWeb
+                    ? User_TweetInfoWeb(
+                        tweet: tweet,
+                        forProfile: forProfile,
+                      )
+                    : User_TweetInfo(
+                        tweet: tweet,
+                        forProfile: forProfile,
+                      ),
                 Container(
                   margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
                   child: Text(
