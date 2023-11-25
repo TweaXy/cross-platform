@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/appbar.dart';
 import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
@@ -11,6 +12,7 @@ import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class HomePageMobile extends StatefulWidget {
@@ -24,6 +26,10 @@ class HomePageMobile extends StatefulWidget {
 class _HomePage2State extends State<HomePageMobile>
     with SingleTickerProviderStateMixin {
   var _isVisible = true;
+
+  ValueNotifier<bool> isDialOpen = ValueNotifier(false);
+  bool customDialRoot = true;
+  bool rmIcons = false;
 
   late ScrollController controller;
   @override
@@ -67,6 +73,7 @@ class _HomePage2State extends State<HomePageMobile>
               return Placeholder();
           },
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingButton(),
         bottomNavigationBar:
             Offstage(offstage: !_isVisible, child: BottomNaviagtion()),
