@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/models/app_icons.dart';
 
 class FloatingButton extends StatelessWidget {
   const FloatingButton({super.key});
@@ -7,7 +8,7 @@ class FloatingButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Theme(
       data: ThemeData(
-        floatingActionButtonTheme: FloatingActionButtonThemeData(
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
           splashColor: Color.fromARGB(255, 156, 203, 250),
           highlightElevation: 0,
         ),
@@ -16,7 +17,7 @@ class FloatingButton extends StatelessWidget {
         scale: 1.2, // Adjust the scale factor to increase the size
         child: FloatingActionButton(
           onPressed: () {},
-          child: Icon(Icons.add),
+          child: const Icon(AppIcon.fabTweet),
         ),
       ),
     );
