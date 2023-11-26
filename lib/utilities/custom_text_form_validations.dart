@@ -72,6 +72,9 @@ String? nameValidation({required String? inputValue}) {
   if (inputValue == null || inputValue.isEmpty) {
     return ValidationErrors.emptyNameError;
   }
+  if (inputValue.length < 3) {
+    return ValidationErrors.nameLengthError;
+  }
   return null;
 }
 
@@ -86,7 +89,7 @@ Future<String?> codeValidation({required String? inputValue}) async {
 }
 
 Future<String?> usernameValidation({required String? inputValue}) async {
-  if (inputValue == null || inputValue.trim().isEmpty) {
+  if (inputValue == null || inputValue.isEmpty) {
     return ValidationErrors.emptyUsernameError;
   }
   if (inputValue.length < 4) {
