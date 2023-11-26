@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -45,6 +46,7 @@ class TweaXy extends StatelessWidget {
           kHomeScreen: (context) => HomePage(),
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
+          kAddTweetScreen: (context) => AddTweetView(),
         },
         initialRoute: kHomeScreen,
       ),

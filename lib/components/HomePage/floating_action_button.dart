@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 
 class FloatingButton extends StatelessWidget {
@@ -59,7 +60,7 @@ class FloatingButton extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                //TODO :- Add Post Functionality
+                Navigator.pushNamed(context, kAddTweetScreen);
               },
             ),
             SpeedDialChild(
