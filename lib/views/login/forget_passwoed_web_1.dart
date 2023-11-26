@@ -28,7 +28,9 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.trim().isNotEmpty;
+
+      // print(myController.text);
     });
   }
 

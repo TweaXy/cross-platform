@@ -31,7 +31,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.trim().isNotEmpty;
     });
   }
 

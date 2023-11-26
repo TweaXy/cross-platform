@@ -35,7 +35,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
     setState(() {
       String c1 = myControllerNewPassword.text;
       String c2 = myControllerConfirmPassword.text;
-      if (!myControllerNewPassword.text.isEmpty && (c1 == c2))
+      if (!myControllerNewPassword.text.trim().isEmpty && (c1 == c2))
         isButtonEnabled = true;
       else
         isButtonEnabled = false;

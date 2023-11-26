@@ -33,7 +33,8 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+           isButtonEnabled = myController.text.trim().isNotEmpty;
+
     });
   }
 
