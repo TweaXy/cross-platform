@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
@@ -12,6 +13,13 @@ import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 class HomePageWeb extends StatelessWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
+
+  getID() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('id');
+    return id;
+  }
+
   final profileID = 'clovwlprc0009qd0xcxrlnrxa';
   @override
   Widget build(BuildContext context) {
