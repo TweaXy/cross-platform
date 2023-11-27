@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -46,10 +47,12 @@ class TweaXy extends StatelessWidget {
           kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
           kAuthenticationScreen: (context) => const AuthenticationView(),
           kHomeScreen: (context) => HomePage(),
+           kCreateAcountReviewScreen: (context) => CreateAccountDataReview(),
+
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
         },
-        initialRoute: kHomeScreen,
+        initialRoute: kCreateAcountScreen,
       ),
     );
   }

@@ -1301,7 +1301,7 @@ packages:
     source: hosted
     version: "6.2.1"
   video_player_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: video_player_web
       sha256: ab7a462b07d9ca80bed579e30fb3bce372468f1b78642e0911b10600f2c5cb5b

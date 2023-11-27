@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
 class ImageViewer extends StatefulWidget {
-  const ImageViewer( {super.key, required this.pickedfiles});
-final List<XFile> pickedfiles;
+  const ImageViewer({super.key, required this.pickedfiles});
+  final List<XFile> pickedfiles;
   @override
   State<ImageViewer> createState() => _ImageViewerState();
 }
@@ -11,40 +13,38 @@ final List<XFile> pickedfiles;
 class _ImageViewerState extends State<ImageViewer> {
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
-                      width: MediaQuery.of(context)
-                          .size
-                          .width, // Set width to maximum
-                      height:widget. pickedfiles.isNotEmpty
-                          ? MediaQuery.of(context).size.height * 0.4
-                          : 0,
-                      child: IntrinsicHeight(
-                        child: GridView.builder(
-                          addRepaintBoundaries: false,
-                          itemCount:widget. pickedfiles.length,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 0,
-                            mainAxisSpacing: 0,
-                            childAspectRatio: 2,
-                          ),
-                          itemBuilder: (BuildContext context, int index) {
-                            if (widget. pickedfiles[index].name.contains('.mp4') ||
-                            widget.  pickedfiles[index].name.endsWith('.mov')) {
-                              return Card();
-                            } else {
-                              return buildImageElement(widget. pickedfiles[index]);
-                            }
-                          },
-                        ),
-                      ),
-                    );
+    return SizedBox(
+      width: MediaQuery.of(context).size.width, // Set width to maximum
+      height: widget.pickedfiles.isNotEmpty
+          ? MediaQuery.of(context).size.height * 0.4
+          : 0,
+      child: IntrinsicHeight(
+        child: GridView.builder(
+          key: const ValueKey("grid display for images"),
+          addRepaintBoundaries: false,
+          itemCount: widget.pickedfiles.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 0,
+            mainAxisSpacing: 0,
+            childAspectRatio: 2,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            if (widget.pickedfiles[index].name.contains('.mp4') ||
+                widget.pickedfiles[index].name.endsWith('.mov')) {
+              return buildVideoElement(widget.pickedfiles[index]);
+            } else {
+              return buildImageElement(widget.pickedfiles[index]);
+            }
+          },
+        ),
+      ),
+    );
   }
-  
+
   void deleteFile(int index) {
     setState(() {
-   widget.   pickedfiles.removeAt(index);
+      widget.pickedfiles.removeAt(index);
     });
   }
 
@@ -61,8 +61,9 @@ class _ImageViewerState extends State<ImageViewer> {
           top: 8,
           left: 8,
           child: GestureDetector(
+            key: const ValueKey("image removal button"),
             onTap: () {
-              int index =widget. pickedfiles.indexOf(image);
+              int index = widget.pickedfiles.indexOf(image);
               deleteFile(index);
             },
             child: const Icon(
@@ -76,40 +77,43 @@ class _ImageViewerState extends State<ImageViewer> {
     );
   }
 
-  // Widget buildVideoElement(File videoFile) {
-  //   final VideoPlayerController videoController = VideoPlayerController.asset(
-  //     'assets/video (2160p).mp4',
-  //     videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-  //   )
-  //     ..setLooping(true)
-  //     ..initialize().then((_) {
-  //       setState(() {});
-  //     }).catchError((error) {
-  //       print("Error initializing video: $error");
-  //     });
-  //   return Stack(
-  //     children: [
-  //       AspectRatio(
-  //         aspectRatio: videoController.value.aspectRatio,
-  //         child: VideoPlayer(videoController),
-  //       ),
-  //       Positioned(
-  //         top: 8,
-  //         left: 8,
-  //         child: GestureDetector(
-  //           onTap: () {
-  //             int index = selectedImages.indexOf(videoFile);
-  //             deleteFile(index);
-  //           },
-  //           child: const Icon(
-  //             Icons.close,
-  //             color: Colors.white,
-  //             size: 24,
-  //           ),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
-  
+  Widget buildVideoElement(XFile video) {
+    final VideoPlayerController videoController =
+        VideoPlayerController.networkUrl(
+      Uri.parse(video.path),
+      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    )
+          ..setLooping(true)
+          ..initialize().then((_) {
+            setState(() {});
+          }).catchError((error) {
+            if (kDebugMode) {
+              print("Error initializing video: $error");
+            }
+          });
+    return Stack(
+      children: [
+        AspectRatio(
+          aspectRatio: videoController.value.aspectRatio,
+          child: VideoPlayer(videoController),
+        ),
+        Positioned(
+          top: 8,
+          left: 8,
+          child: GestureDetector(
+            key: const ValueKey("video removal button"),
+            onTap: () {
+              int index = widget.pickedfiles.indexOf(video);
+              deleteFile(index);
+            },
+            child: const Icon(
+              Icons.close,
+              color: Colors.black,
+              size: 24,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 }

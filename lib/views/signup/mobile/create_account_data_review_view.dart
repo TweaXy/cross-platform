@@ -66,27 +66,42 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
-                      child: ReviewInputTextField(
-                          key: const ValueKey(SignUpKeys.reviewNameFieldKey),
-                          textValue: UserSignup.name,
-                          label: "Name"),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: ReviewInputTextField(
+                            key: const ValueKey(SignUpKeys.reviewNameFieldKey),
+                            textValue: UserSignup.name,
+                            label: "Name"),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
-                      child: ReviewInputTextField(
-                          key: const ValueKey(SignUpKeys.reviewEmailFieldKey),
-                          label: "email",
-                          textValue: UserSignup.email),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: ReviewInputTextField(
+                            key: const ValueKey(SignUpKeys.reviewEmailFieldKey),
+                            label: "email",
+                            textValue: UserSignup.email),
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                           top: MediaQuery.of(context).size.height * .03),
-                      child: ReviewInputTextField(
-                          key: const ValueKey(
-                              SignUpKeys.reviewBirthDateFieldKey),
-                          label: "Date of Birth",
-                          textValue: UserSignup.birthdayDate),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: ReviewInputTextField(
+                            key: const ValueKey(
+                                SignUpKeys.reviewBirthDateFieldKey),
+                            label: "Date of Birth",
+                            textValue: UserSignup.birthdayDate),
+                      ),
                     )
                   ],
                 ),

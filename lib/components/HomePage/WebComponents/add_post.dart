@@ -15,7 +15,7 @@ class _AddPostState extends State<AddPost> {
   List<XFile> xfilePick = [];
   bool showimages = false;
   final picker = ImagePicker();
-TextEditingController tweetcontent=TextEditingController();
+  TextEditingController tweetcontent = TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -31,44 +31,43 @@ TextEditingController tweetcontent=TextEditingController();
                     : const Color.fromARGB(255, 233, 233, 233))),
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const UserImageForTweet(image: 'assets/girl.jpg'),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.01),
-                          child: TextField(
-                            controller: tweetcontent,
-                            maxLines: 7,
-                            minLines: 1,
-                            maxLength: 280,
-                            decoration: const InputDecoration(
-                              counterText: "",
-                              hintText: 'What is hapenning?!',
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 12),
-                              hintStyle: TextStyle(
-                                fontSize: 20,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const UserImageForTweet(image: 'assets/girl.jpg'),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width * 0.01),
+                  child: TextField(
+                    key: const ValueKey("quick tweet add content"),
+                    controller: tweetcontent,
+                    maxLines: 7,
+                    minLines: 1,
+                    maxLength: 280,
+                    decoration: const InputDecoration(
+                      counterText: "",
+                      hintText: 'What is hapenning?!',
+                      contentPadding: EdgeInsets.symmetric(vertical: 12),
+                      hintStyle: TextStyle(
+                        fontSize: 20,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Colors.transparent),
+                      ),
+                    ),
                   ),
+                ),
+              )
+            ],
+          ),
           if (showimages) ImageViewer(pickedfiles: xfilePick),
           Padding(
             padding: EdgeInsets.only(
@@ -77,17 +76,19 @@ TextEditingController tweetcontent=TextEditingController();
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
+                  key: const ValueKey("quick tweet add images upload button"),
                   splashRadius: 20,
                   hoverColor: const Color.fromARGB(255, 207, 232, 253),
                   icon: const Icon(FontAwesomeIcons.image),
                   color: Colors.blue.shade400,
                   iconSize: 17,
-                  onPressed: () {getImages();},
+                  onPressed: () {
+                    getImages();
+                  },
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    
-                  },
+                  key: const ValueKey("quick tweet add post button"),
+                  onPressed: () {},
                   style: ElevatedButton.styleFrom(
                     shadowColor: Colors.transparent,
                     splashFactory: NoSplash.splashFactory,
@@ -97,7 +98,7 @@ TextEditingController tweetcontent=TextEditingController();
                       borderRadius: BorderRadius.circular(22),
                     ),
                   ),
-                   child: const Text(
+                  child: const Text(
                     'Post',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),

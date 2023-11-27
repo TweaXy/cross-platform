@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
             : Navigator.pushReplacementNamed(context, kStartScreen);
       } else {
         Navigator.pushReplacementNamed(context, kHomeScreen);
-      }
+      }  
     });
   }
 
