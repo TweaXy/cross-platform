@@ -50,7 +50,7 @@ class TweaXy extends StatelessWidget {
           kFollowers: (context) => FollowersPage(),
           kFollowing: (context) => FollowingPage(),
         },
-        initialRoute: kSplashScreen,
+        initialRoute: kFollowing,
       ),
     );
   }

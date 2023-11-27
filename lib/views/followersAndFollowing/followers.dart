@@ -1,10 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/components/showallFollowers.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/FollowersAndFollwing.dart';
 
 class FollowersPage extends StatefulWidget {
   const FollowersPage({super.key});
@@ -13,13 +16,10 @@ class FollowersPage extends StatefulWidget {
   State<FollowersPage> createState() => _FollowersPageState();
 }
 
-class _FollowersPageState extends State<FollowersPage>
-    with SingleTickerProviderStateMixin {
-  var future;
-  @override
-  void initState() {
-    super.initState();
-    // future=
+class _FollowersPageState extends State<FollowersPage> {
+  Future<void> _refresh() async {
+    // You can add the logic to fetch new data here
+    await followApi().getFollowers();
   }
 
   @override
@@ -60,18 +60,21 @@ class _FollowersPageState extends State<FollowersPage>
           ),
         ],
       ),
-      body: FutureBuilder(
-        future: future,
-        builder: (context, snapshot) {
-          // if (snapshot.hasData) {
-          return ShowAllFollowersAndFollowing(
-            follow: [1, 1, 1, 11, 1, 1, 1, 1, 1],
-          );
-          // } else if (snapshot.hasError) {
-          // return CustomToast(message: "We have a problem");
-          // } else {
-          // return Center(child: CircularProgressIndicator());
-        },
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        child: FutureBuilder(
+          future: followApi().getFollowers(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ShowAllFollowersAndFollowing(
+                  follow: snapshot.data ?? [], isFollower: true);
+            } else if (snapshot.hasError) {
+              return CustomToast(message: "We have a problem");
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

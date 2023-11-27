@@ -33,7 +33,8 @@ Future<void> signInWithGoogle() async {
     // String userPhotoUrl = googleSignInAccount.photoUrl;
     // ...
   } catch (error) {
-    print('Google Sign-In error: $error');
+    print('Google Sign-In error: $error'
+      );
     // Handle the sign-in error
   }
 }

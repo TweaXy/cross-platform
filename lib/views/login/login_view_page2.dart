@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
@@ -14,6 +15,7 @@ import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class LoginViewPage2 extends StatefulWidget {
@@ -168,8 +170,9 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               'UUID': '${widget.initialValue.text}',
                               'password': '${myControllerPassword.text}'
                             }) as Map<String, dynamic>;
-                            //go to home page
-                            //  print(user);
+                            SharedPreferences clint =
+                                await SharedPreferences.getInstance();
+                            clint.setString('username', user['data']['user']['username']);
 
                             Navigator.pushNamed(context, kHomeScreen);
                           } on DioException catch (e) {
