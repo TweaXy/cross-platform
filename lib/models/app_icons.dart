@@ -23,6 +23,7 @@ class AppIcon {
   static const IconData reply = IconData(0xf151, fontFamily: _kFontFam);
   static const IconData retweet = IconData(0xf152, fontFamily: _kFontFam);
   static const IconData image = IconData(0xf109, fontFamily: _kFontFam);
+  static const IconData gif = IconData(0xf028, fontFamily: _kFontFam);
   static const IconData camera = IconData(0xf110, fontFamily: _kFontFam);
   static const IconData arrowDown = IconData(0xf196, fontFamily: _kFontFam);
   static const IconData blueTick = IconData(0xf099, fontFamily: _kFontFam);

@@ -34,6 +34,9 @@ class TweaXy extends StatelessWidget {
           fontFamily: 'Roboto',
           scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
           dialogBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+          bottomSheetTheme: BottomSheetThemeData(
+            backgroundColor: Colors.white,
+          ),
         ),
         routes: {
           kSplashScreen: (context) => const SplashScreen(),
