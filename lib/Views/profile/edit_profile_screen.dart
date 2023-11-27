@@ -35,6 +35,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool removedAvatar = false;
   User? user;
   String? initDate;
+  final Function() _onPressed = () async{
+    
+  };
   @override
   Widget build(BuildContext context) {
     user = widget.user;
@@ -78,9 +81,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 )
               : TextButton(
-                  onPressed: () {
-                    //TODO: Upload your updates
-                  },
+                  onPressed: _onPressed,
                   child: const Text(
                     'Save',
                     style: TextStyle(color: Colors.black, fontSize: 17),
