@@ -10,6 +10,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/loading_screen.dart';
+import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -48,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    GetUserById.instance.excute('clorm9kmt0002ul2xyyolre6y');
+    GetUserById.instance.excute('clpgk814d000knn0xwvfrxt4b');
   }
 
   int _selectedTabIndex = 0;
@@ -59,8 +60,9 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: FutureBuilder(
-          future: GetUserById.instance.future,
+        child: StreamBuilder(
+          stream: Stream.fromFuture(
+              GetUserById.instance.getUserById('clpgk814d000knn0xwvfrxt4b')),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const LoadingScreen(
@@ -68,17 +70,16 @@ class _ProfileScreenState extends State<ProfileScreen>
               );
             } else {
               User user = snapshot.data!;
-
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverPersistentHeader(
                     pinned: true,
                     delegate: ProfileScreenAppBar(
-                      name: user.name!,
+                      user: user,
                       postsNumber: 216820,
-                      avatarURL: user.avatar??'',
-                      coverURL: user.cover??'',
+                      avatarURL: user.avatar ?? '',
+                      coverURL: user.cover ?? '',
                     ),
                   ),
                   SliverToBoxAdapter(
@@ -142,12 +143,12 @@ class _ProfileScreenState extends State<ProfileScreen>
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   const ProfileScreenAppBar({
-    required this.name,
+    required this.user,
     required this.postsNumber,
     required this.avatarURL,
     required this.coverURL,
   });
-  final String name;
+  final User user;
   final String avatarURL;
   final String coverURL;
   final int postsNumber;
@@ -182,7 +183,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(text: 'Edit Profile'),
+              FollowEditButton(text: 'Edit Profile', user: user),
             ],
           ),
         ),
@@ -219,7 +220,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             postsNumber: postsNumber,
                             postsNumberTextSize: 16,
                             profileNameTextSize: 16,
-                            profileName: name,
+                            profileName: user.name!,
                           )
                         : SizedBox(),
                   ],
@@ -315,9 +316,11 @@ class FollowEditButton extends StatefulWidget {
   const FollowEditButton({
     super.key,
     required this.text,
+    required this.user,
   });
 
   final String text;
+  final User user;
 
   @override
   State<FollowEditButton> createState() => _FollowEditButtonState();
@@ -357,7 +360,11 @@ class _FollowEditButtonState extends State<FollowEditButton> {
                 text = 'Follow';
               });
             } else {
-              Navigator.of(context).pushNamed(kEditProfileScreen);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EditProfileScreen(
+                  user: widget.user,
+                ),
+              ));
             }
           },
           child: Text(

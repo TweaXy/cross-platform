@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
@@ -176,7 +177,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                         ],
                                       )
                                     : const SizedBox(),
-                                _followEditButton(),
+                                _followEditButton(user),
                               ],
                             ),
                           ),
@@ -292,7 +293,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     );
   }
 
-  Widget _followEditButton() {
+  Widget _followEditButton(User user) {
     if (text == 'Follow') {
       textColor = Colors.white;
       buttonColor = Colors.black;
@@ -323,7 +324,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
             content: SizedBox(
               width: 500,
               height: 700,
-              child: EditProfileScreen(),
+              child: EditProfileScreen(user: user),
             ),
           ),
         );
