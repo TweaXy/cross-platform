@@ -19,7 +19,7 @@ class _AddTweetViewState extends State<AddTweetView> {
   final TextEditingController _tweetController = TextEditingController();
   bool isButtonEnabled = false;
   List<XFile> media = [], mediaTemporary = [];
-  List<VideoPlayerController> videoControllers = [];
+  List videoControllers = [];
 
   @override
   void initState() {
@@ -41,10 +41,17 @@ class _AddTweetViewState extends State<AddTweetView> {
       mediaTemporary = await picker.pickMultipleMedia();
       setState(() {
         media.addAll(mediaTemporary);
-        videoControllers.add(VideoPlayerController.file(File(media.last.path))
-          ..setLooping(false)
-          ..initialize().then((_) => videoControllers.last.pause()));
-
+        for (XFile mediaItem in mediaTemporary) {
+          if (mediaItem.name.endsWith('mp4')) {
+            videoControllers.add(
+                (VideoPlayerController.file(File(mediaItem.path)))
+                  ..setLooping(false)
+                  ..initialize().then((_) =>
+                      videoControllers[media.indexOf(mediaItem)]!.pause()));
+          } else {
+            videoControllers.add(0);
+          }
+        }
         isButtonEnabled = true;
       });
     } catch (e) {
@@ -152,7 +159,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: media[index].name.endsWith('mp4')
+                          child: videoControllers[index]
+                                  is VideoPlayerController
                               ? AspectRatio(
                                   aspectRatio:
                                       videoControllers[index].value.aspectRatio,
@@ -193,6 +201,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         onPressed: () {
                                           setState(() {
                                             media.removeAt(index);
+                                            videoControllers.removeAt(index);
                                           });
                                         },
                                         icon: Container(
