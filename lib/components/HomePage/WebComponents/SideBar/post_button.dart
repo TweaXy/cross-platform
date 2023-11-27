@@ -17,6 +17,7 @@ class PostButton extends StatelessWidget {
       // statesController:,
       onPressed: () {
         showDialog(
+          useSafeArea: false,
           barrierColor: const Color.fromARGB(100, 97, 119, 129),
           context: context,
           builder: (BuildContext context) {

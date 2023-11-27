@@ -13,14 +13,14 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-String? email;
+String? token;
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 2), () {
-      if (email == null) {
+      if (token == null) {
         kIsWeb
             ? Navigator.pushReplacementNamed(context, kWebStartScreen)
             : Navigator.pushReplacementNamed(context, kStartScreen);
@@ -32,10 +32,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    email = null;
+    token = null;
     // Save user information
-    var retrivedemail = prefs.getString("email");
-    email = retrivedemail;
+    var retrivedtoken = prefs.getString("token");
+    token = retrivedtoken;
   }
 
   @override

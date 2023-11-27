@@ -1,10 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Components/HomePage/SharedComponents/user_image_for_tweet.dart';
-import 'package:tweaxy/Components/custom_appbar_web.dart';
-import 'dart:io';
-import 'package:tweaxy/Components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/Components/HomePage/WebComponents/image_viewer.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/add_tweet.dart';
+import 'package:video_player/video_player.dart';
 
 class AddPostDialogBox extends StatefulWidget {
   const AddPostDialogBox({super.key});
@@ -14,250 +17,158 @@ class AddPostDialogBox extends StatefulWidget {
 }
 
 class _AddPostDialogBoxState extends State<AddPostDialogBox> {
-  List<File> selectedImages = [];
-  List<String> selectedImagesstrings = []; // List of selected image
+  List<XFile> xfilePick = [];
   final picker = ImagePicker();
   double dialogHight = 0;
-  // XFile? image, imageTemporary;
-  // Future pickImage() async {
-  //   final ImagePicker picker = ImagePicker();
-  //   try {
-  //     imageTemporary = await picker.pickImage(source: ImageSource.gallery);
-  //     setState(() {
-  //       image = imageTemporary;
-  //       dialogHight = MediaQuery.of(context).size.height * 0.9;
-  //     });
-  //   } catch (e) {
-  //     setState(() {
-  //       image = null;
-  //     });
-  //   }
-  // }
-
+  TextEditingController tweetcontent = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    if (selectedImagesstrings.isEmpty) {
+    if (xfilePick.isEmpty) {
       setState(() {
-        dialogHight = MediaQuery.of(context).size.height * .5;
+        dialogHight = MediaQuery.of(context).size.height * .3;
       });
     }
 
-    return AlertDialog(
-      content: SizedBox(
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      backgroundColor: Colors.white,
+      child: SizedBox(
         width: MediaQuery.of(context).size.width * .5, // Set width to maximum
         height: dialogHight,
         child: Scaffold(
-          backgroundColor: Colors.transparent,
+          extendBody: true,
+          appBar: AppBar(
+              leading: IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.close_sharp))),
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-                CustomAppbarWeb(
-                  icon: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: const Icon(Icons.close_sharp)),
-                ),
-                 Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                        const  Align(alignment:Alignment.topLeft,  child:    UserImageForTweet(image: 'assets/girl.jpg')),
-                            Expanded(
-                              child: Padding(
-                                padding: EdgeInsets.only(left:MediaQuery.of(context).size.width*0.005),
-                                child:const TextField(
-                                  maxLines: 7,
-                                  maxLength: 280,
-                                  decoration: InputDecoration(
-                                    hintText: 'What is hapenning?!',
-                                    contentPadding:
-                                        EdgeInsets.symmetric(vertical: 12),
-                                    hintStyle: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                  ),
-                                ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.01),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const UserImageForTweet(image: 'assets/girl.jpg'),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.4,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.01),
+                          child: TextField(
+                            controller: tweetcontent,
+                            maxLines: 7,
+                            minLines: 1,
+                            maxLength: 280,
+                            decoration: const InputDecoration(
+                              counterText: "",
+                              hintText: 'What is hapenning?!',
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 12),
+                              hintStyle: TextStyle(
+                                fontSize: 20,
                               ),
-                            )
-                          ],
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                            ),
+                          ),
                         ),
-                          if (selectedImagesstrings.isNotEmpty)
-                  SizedBox(
-                    width: MediaQuery.of(context)
-                        .size
-                        .width, // Set width to maximum
-                    height: selectedImagesstrings.isNotEmpty
-                        ? MediaQuery.of(context).size.height * 0.4
-                        : 0,
-                    child: GridView.builder(
-                      addRepaintBoundaries: false,
-                      itemCount: selectedImages.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 0,
-                        mainAxisSpacing: 0,
-                        childAspectRatio: 2,
-                      ),
-                      itemBuilder: (BuildContext context, int index) {
-                        return Stack(
-                          alignment: Alignment.topRight,
-                          children: [
-                            Image.network(
-                              selectedImagesstrings[index],
-                              width: double.infinity,
-                              height: 200.0,
-                              fit: BoxFit.cover,
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.clear),
-                              onPressed: () {
-                                setState(() {
-                                  selectedImagesstrings.removeAt(index);
-                                  selectedImages.removeAt(index);
-                                });
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    ),
+                      )
+                    ],
                   ),
-                        // if (image != null)
-                        //   SizedBox(
-                        //     width: MediaQuery.of(context).size.width * .2,
-                        //     height: MediaQuery.of(context).size.height * .2,
-                        //     child: Image.network( image!.path, fit: BoxFit.contain, ),
-                        //   ),
-                        // if (image != null)
-                        //   SizedBox(
-                        //     height: MediaQuery.of(context).size.height * 0.2,
-                        //   ),
-
-                        // if (selectedImages.length > 4)
-                        //   const CustomWebToast(
-                        //       message: "you can add more than 4 images"),
-
-                        // Container(
-                        //   child: MultiImagePickerView(
-                        //     initialContainerBuilder: (context, pickfunction) {
-                        //       return IconButton(
-                        //           splashRadius: 20,
-                        //           hoverColor:
-                        //               const Color.fromARGB(255, 207, 232, 253),
-                        //           icon: const Icon(FontAwesomeIcons.image),
-                        //           color: Colors.blue.shade400,
-                        //           iconSize: 17,
-                        //           onPressed: () {
-                        //             pickfunction();
-                        //           });
-                        //     },
-                        //     addMoreBuilder: (context, pickfunction) {
-                        //       return IconButton(
-                        //           splashRadius: 20,
-                        //           hoverColor:
-                        //               const Color.fromARGB(255, 207, 232, 253),
-                        //           icon: const Icon(FontAwesomeIcons.image),
-                        //           color: Colors.blue.shade400,
-                        //           iconSize: 17,
-                        //           onPressed: () {
-                        //             pickfunction();
-                        //           });
-                        //     },
-                        //     onChange: (list) {
-                        //       debugPrint(list.toString());
-                        //     },
-                        //     controller: controller,
-                        //   ),
-                        // ),
-                      ],
-                    )),
-              ],
+                  if (xfilePick.isNotEmpty)
+                   ImageViewer(pickedfiles: xfilePick)
+                ],
+              ),
             ),
           ),
-          bottomSheet: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Divider(
-                  thickness: 2,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      splashRadius: 20,
-                      hoverColor: const Color.fromARGB(255, 207, 232, 253),
-                      icon: const Icon(FontAwesomeIcons.image),
-                      color: Colors.blue.shade400,
-                      iconSize: 17,
-                      onPressed: () {
-                        getImages();
-                        // await pickImage();
-                      },
+          bottomSheet: Container(
+            color: Colors.white,
+            child: Column(mainAxisSize: MainAxisSize.min, children: [
+              const Divider(
+                thickness: 2,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    splashRadius: 20,
+                    hoverColor: const Color.fromARGB(255, 207, 232, 253),
+                    icon: const Icon(FontAwesomeIcons.image),
+                    color: Colors.blue.shade400,
+                    iconSize: 17,
+                    onPressed: () {
+                      getImages();
+                      // await pickImage();
+                    },
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      if (tweetcontent.text.isNotEmpty ||
+                          xfilePick.isNotEmpty) {
+                        AddTweet service = AddTweet(Dio());
+                        Future response = await service.addTweet(
+                            tweetcontent.text, xfilePick);
+                      } else {
+                        // showToastWidget(const CustomWebToast(
+                        //     message: "the tweet cant be empty"));
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shadowColor: Colors.transparent,
+                      splashFactory: NoSplash.splashFactory,
+                      elevation: 20,
+                      padding: const EdgeInsets.all(16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(22),
+                      ),
                     ),
-                    SizedBox(width: MediaQuery.of(context).size.width * .2),
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        shadowColor: Colors.transparent,
-                        splashFactory: NoSplash.splashFactory,
-                        elevation: 20,
-                        padding: const EdgeInsets.all(16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(22),
-                        ),
-                      ),
-                      child: const Text(
-                        'Post',
-                        style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-              ]),
+                    child: const Text(
+                      'Post',
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
+            ]),
+          ),
         ),
       ),
     );
   }
-
-  Future getImages() async {
-    final pickedFile = await picker.pickMultiImage(
+ Future getImages() async {
+    final pickedFile = await picker.pickMultipleMedia(
+        requestFullMetadata: true,
         imageQuality: 4, // To set quality of images
         maxHeight: MediaQuery.of(context).size.height *
             0.4, // To set maxheight of images that you want in your app
         maxWidth: MediaQuery.of(context).size.width *
             0.4); // To set maxheight of images that you want in your app
-    List<XFile> xfilePick = pickedFile;
-
+    xfilePick.addAll(pickedFile);
     if (xfilePick.isNotEmpty) {
       setState(() {
         dialogHight = MediaQuery.of(context).size.height * .8;
       });
-      if (xfilePick.length <= 4) {
-        for (var i = 0; i < xfilePick.length; i++) {
-          selectedImages.add(File(xfilePick[i].path));
-          selectedImagesstrings.add(selectedImages[i].path);
-        }
-      } else {
-        selectedImagesstrings = [];
+      if (xfilePick.length > 4) {
         setState(() {
-          dialogHight = MediaQuery.of(context).size.height * .5;
+          dialogHight = MediaQuery.of(context).size.height * .4;
         });
       }
     }
   }
+ 
 }

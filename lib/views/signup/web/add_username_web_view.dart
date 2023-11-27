@@ -140,14 +140,15 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                     position: ToastPosition.bottom,
                                     duration: const Duration(seconds: 2),
                                   );
-                                } else if (mounted) {
+                                } else  {
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  prefs.setString( "email",UserSignup.email);
-                                  // prefs.setString( "password", UserSignup.password);
-                                  Navigator.popUntil(
+                                  prefs.setString( "id",response["data"]["user"]["id"]);
+                                  prefs.setString( "token", response["data"]["token"]);
+                                  if(mounted)
+                                 { Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                   Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);
+                                      context, kHomeScreen);}
                                 }
                               } catch (e) {
                                 log(e.toString());

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -144,12 +145,19 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                                     position: ToastPosition.bottom,
                                     duration: const Duration(seconds: 2),
                                   );
-                                } else if (response.statusCode == 200 &&
-                                    mounted) {
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);
+                                } else if (response.statusCode == 200) {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString(
+                                      "id", response["data"]["user"]["id"]);
+                                  prefs.setString(
+                                      "token", response["data"]["token"]);
+                                  if (mounted) {
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    Navigator.pushReplacementNamed(
+                                        context, kHomeScreen);
+                                  }
                                 } else if (mounted) {
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);

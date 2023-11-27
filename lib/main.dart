@@ -31,7 +31,7 @@ class TweaXy extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
            bottomSheetTheme:
-               BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0.0)),
+               BottomSheetThemeData(backgroundColor: Colors.white),
           brightness: brightness,
           fontFamily: 'Roboto',
           scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -49,7 +49,7 @@ class TweaXy extends StatelessWidget {
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
         },
-        initialRoute: kSplashScreen,
+        initialRoute: kHomeScreen,
       ),
     );
   }
