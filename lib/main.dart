@@ -27,8 +27,11 @@ class TweaXy extends StatelessWidget {
     bool isDarkMode = brightness == Brightness.dark;
     return OKToast(
       child: MaterialApp(
+        
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+           bottomSheetTheme:
+               BottomSheetThemeData(backgroundColor: Colors.black.withOpacity(0.0)),
           brightness: brightness,
           fontFamily: 'Roboto',
           scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,

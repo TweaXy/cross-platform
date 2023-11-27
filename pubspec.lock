@@ -209,6 +209,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.9"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -233,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      sha256: be325344c1f3070354a1d84a231a1ba75ea85d413774ec4bdf444c023342e030
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.5.0"
   file_selector_linux:
     dependency: transitive
     description:
@@ -323,6 +339,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.17"
+  flutter_reorderable_grid_view:
+    dependency: transitive
+    description:
+      name: flutter_reorderable_grid_view
+      sha256: d32931c43c48ab45c58eb8a76ac03ce0f5228684d7aa777ff4d70e61fff5dbd9
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.3"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -466,6 +490,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  image_downloader:
+    dependency: transitive
+    description:
+      name: image_downloader
+      sha256: "2b1c1d1fcfb6677175d009af3fc86914aee07684c12ea061f380ef1f44cae8df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.31.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -522,6 +554,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.1"
+  image_picker_web:
+    dependency: "direct main"
+    description:
+      name: image_picker_web
+      sha256: e1656f1ce48a614aefdf22ab73c0cc7e498fa7b78893ffdcc83171e7289092e0
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.1"
   image_picker_windows:
     dependency: transitive
     description:
@@ -639,6 +679,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.0"
+  multi_image_layout:
+    dependency: "direct main"
+    description:
+      name: multi_image_layout
+      sha256: b5f127b958c2cc023c5ff8844b057e799ac7810b4adf2a6e187d36a04fdc6afd
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
+  multi_image_picker_view:
+    dependency: "direct main"
+    description:
+      name: multi_image_picker_view
+      sha256: d7619628accec059f5b04343c047691b066cc7c1f8430f1c3648927379f67892
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.17"
   nested:
     dependency: transitive
     description:
@@ -775,6 +831,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.1"
+  photo_view:
+    dependency: transitive
+    description:
+      name: photo_view
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:
@@ -839,6 +903,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  readmore:
+    dependency: transitive
+    description:
+      name: readmore
+      sha256: "99c2483202f7c7e98c50834d72be2b119aefecf4497ca1960ae9d5f418eb1481"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   rxdart:
     dependency: transitive
     description:
