@@ -64,7 +64,7 @@ class FloatingButton extends StatelessWidget {
               },
             ),
             SpeedDialChild(
-              child: const Icon(Icons.photo_outlined),
+              child: const Icon(AppIcon.image, weight: 30),
               backgroundColor: Colors.white,
               foregroundColor: Colors.blueAccent,
               labelWidget: const Padding(
