@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
@@ -57,6 +58,38 @@ class _AddTweetViewState extends State<AddTweetView> {
     } catch (e) {
       setState(() {
         media = [];
+      });
+    }
+  }
+
+  cropImage({required int index}) async {
+    CroppedFile? cropped = await ImageCropper().cropImage(
+      sourcePath: media[index].path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatioPresets: [
+        CropAspectRatioPreset.square,
+        CropAspectRatioPreset.ratio3x2,
+        CropAspectRatioPreset.original,
+        CropAspectRatioPreset.ratio4x3,
+        CropAspectRatioPreset.ratio16x9
+      ],
+      uiSettings: [
+        AndroidUiSettings(
+            showCropGrid: false,
+            hideBottomControls: false,
+            cropFrameColor: Colors.transparent,
+            toolbarTitle: 'Edit photo',
+            backgroundColor: Colors.black,
+            initAspectRatio: CropAspectRatioPreset.square,
+            lockAspectRatio: false,
+            dimmedLayerColor: Colors.black.withOpacity(0.5)),
+      ],
+      cropStyle: CropStyle.rectangle,
+    );
+
+    if (cropped != null) {
+      setState(() {
+        media[index] = XFile(cropped.path);
       });
     }
   }
@@ -240,6 +273,27 @@ class _AddTweetViewState extends State<AddTweetView> {
                                           Icons.close,
                                           color: Colors.white,
                                           size: 20,
+                                        ),
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            cropImage(index: index);
+                                          });
+                                        },
+                                        icon: Container(
+                                          decoration: const BoxDecoration(
+                                            color: Colors.black87,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Icon(
+                                            Icons.more_vert,
+                                            color: Colors.white,
+                                            size: 20,
+                                          ),
                                         ),
                                       ),
                                     ),
