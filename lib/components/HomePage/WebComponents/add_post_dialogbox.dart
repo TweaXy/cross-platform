@@ -25,7 +25,7 @@ class _AddPostDialogBoxState extends State<AddPostDialogBox> {
   Widget build(BuildContext context) {
     if (xfilePick.isEmpty) {
       setState(() {
-        dialogHight = MediaQuery.of(context).size.height * .3;
+        // dialogHight = MediaQuery.of(context).size.height * .3;
       });
     }
 
@@ -34,120 +34,122 @@ class _AddPostDialogBoxState extends State<AddPostDialogBox> {
         borderRadius: BorderRadius.circular(20),
       ),
       backgroundColor: Colors.white,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * .5, // Set width to maximum
-        height: dialogHight,
-        child: Scaffold(
-          extendBody: true,
-          appBar: AppBar(
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(Icons.close_sharp))),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.01),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const UserImageForTweet(image: 'assets/girl.jpg'),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width * 0.01),
-                          child: TextField(
-                            controller: tweetcontent,
-                            maxLines: 7,
-                            minLines: 1,
-                            maxLength: 280,
-                            decoration: const InputDecoration(
-                              counterText: "",
-                              hintText: 'What is hapenning?!',
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 12),
-                              hintStyle: TextStyle(
-                                fontSize: 20,
-                              ),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
+      child:  IntrinsicHeight(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width*.5,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.01),
+                child: Column(
+                  
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                                        onPressed: () {
+                      Navigator.pop(context);
+                                        },
+                                        icon: const Icon(Icons.close_sharp)),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const UserImageForTweet(image: 'assets/girl.jpg'),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.4,
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                left: MediaQuery.of(context).size.width * 0.0001),
+                            child: TextField(
+                              controller: tweetcontent,
+                              maxLines: 7,
+                              minLines: 1,
+                              maxLength: 280,
+                              decoration: const InputDecoration(
+                                counterText: "",
+                                hintText: 'What is hapenning?!',
+                                
+                                hintStyle: TextStyle(
+                                  fontSize: 20,
+                                ),
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.transparent),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.transparent),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                  if (xfilePick.isNotEmpty)
-                   ImageViewer(pickedfiles: xfilePick)
-                ],
+                        )
+                      ],
+                    ),
+                    if (xfilePick.isNotEmpty)
+                     Padding(
+                       padding:  EdgeInsets.only(top:MediaQuery.of(context).size.height*.01),
+                       child: SizedBox(
+                        child: ImageViewer(pickedfiles: xfilePick)),
+                     ),
+                     Column(mainAxisSize: MainAxisSize.min, children: [
+                       const Divider(
+                         thickness: 2,
+                       ),
+                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                         children: [
+                           IconButton(
+                             splashRadius: 20,
+                             hoverColor: const Color.fromARGB(255, 207, 232, 253),
+                             icon: const Icon(FontAwesomeIcons.image),
+                             color: Colors.blue.shade400,
+                             iconSize: 17,
+                             onPressed: () {
+                               getImages();
+                               // await pickImage();
+                             },
+                           ),
+                           ElevatedButton(
+                             onPressed: () async {
+                               if (tweetcontent.text.isNotEmpty ||
+                                   xfilePick.isNotEmpty) {
+                                 AddTweet service = AddTweet(Dio());
+                                 Future response = await service.addTweet(
+                                     tweetcontent.text, xfilePick);
+                               } else {
+                                 // showToastWidget(const CustomWebToast(
+                                 //     message: "the tweet cant be empty"));
+                               }
+                             },
+                             style: ElevatedButton.styleFrom(
+                               shadowColor: Colors.transparent,
+                               splashFactory: NoSplash.splashFactory,
+                               elevation: 20,
+                               padding: const EdgeInsets.all(16),
+                               shape: RoundedRectangleBorder(
+                                 borderRadius: BorderRadius.circular(22),
+                               ),
+                             ),
+                             child: const Text(
+                               'Post',
+                               style:
+                                   TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                             ),
+                           )
+                         ],
+                       ),
+                     ]),
+                  ],
+                ),
               ),
             ),
           ),
-          bottomSheet: Container(
-            color: Colors.white,
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Divider(
-                thickness: 2,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    splashRadius: 20,
-                    hoverColor: const Color.fromARGB(255, 207, 232, 253),
-                    icon: const Icon(FontAwesomeIcons.image),
-                    color: Colors.blue.shade400,
-                    iconSize: 17,
-                    onPressed: () {
-                      getImages();
-                      // await pickImage();
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (tweetcontent.text.isNotEmpty ||
-                          xfilePick.isNotEmpty) {
-                        AddTweet service = AddTweet(Dio());
-                        Future response = await service.addTweet(
-                            tweetcontent.text, xfilePick);
-                      } else {
-                        // showToastWidget(const CustomWebToast(
-                        //     message: "the tweet cant be empty"));
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shadowColor: Colors.transparent,
-                      splashFactory: NoSplash.splashFactory,
-                      elevation: 20,
-                      padding: const EdgeInsets.all(16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(22),
-                      ),
-                    ),
-                    child: const Text(
-                      'Post',
-                      style:
-                          TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
-              ),
-            ]),
-          ),
         ),
-      ),
+
     );
   }
  Future getImages() async {
@@ -164,6 +166,7 @@ class _AddPostDialogBoxState extends State<AddPostDialogBox> {
         dialogHight = MediaQuery.of(context).size.height * .8;
       });
       if (xfilePick.length > 4) {
+        xfilePick=[];
         setState(() {
           dialogHight = MediaQuery.of(context).size.height * .4;
         });

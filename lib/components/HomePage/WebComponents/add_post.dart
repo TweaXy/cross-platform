@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tweaxy/Components/HomePage/WebComponents/image_viewer.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 
-class AddPost extends StatelessWidget {
+class AddPost extends StatefulWidget {
   const AddPost({super.key});
 
+  @override
+  State<AddPost> createState() => _AddPostState();
+}
+
+class _AddPostState extends State<AddPost> {
+  List<XFile> xfilePick = [];
+  bool showimages = false;
+  final picker = ImagePicker();
+TextEditingController tweetcontent=TextEditingController();
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -22,32 +32,44 @@ class AddPost extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
-            children: [
-              UserImageForTweet(image: 'assets/girl.jpg'),
-              Expanded(
-                child: TextField(
-                  maxLength: 30,
-                  decoration: InputDecoration(
-                    hintText: 'What is hapenning?!',
-                    hintStyle: TextStyle(
-                      fontSize: 20, // Customize the font size of the hint text
-                      // Customize the font style of the hint text
-                      // Add any other desired style properties here
-                    ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 32, horizontal: 10),
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                    ),
+           Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const UserImageForTweet(image: 'assets/girl.jpg'),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.01),
+                          child: TextField(
+                            controller: tweetcontent,
+                            maxLines: 7,
+                            minLines: 1,
+                            maxLength: 280,
+                            decoration: const InputDecoration(
+                              counterText: "",
+                              hintText: 'What is hapenning?!',
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 12),
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                              ),
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              )
-            ],
-          ),
+          if (showimages) ImageViewer(pickedfiles: xfilePick),
           Padding(
             padding: EdgeInsets.only(
                 left: screenwidth * 0.03, bottom: screenheight * 0.007),
@@ -60,22 +82,24 @@ class AddPost extends StatelessWidget {
                   icon: const Icon(FontAwesomeIcons.image),
                   color: Colors.blue.shade400,
                   iconSize: 17,
-                  onPressed: () {},
+                  onPressed: () {getImages();},
                 ),
                 ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Post',
-                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
+                  onPressed: () {
+                    
+                  },
                   style: ElevatedButton.styleFrom(
                     shadowColor: Colors.transparent,
                     splashFactory: NoSplash.splashFactory,
                     elevation: 20,
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22),
                     ),
+                  ),
+                   child: const Text(
+                    'Post',
+                    style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 )
                 // IconButton(
@@ -110,5 +134,27 @@ class AddPost extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future getImages() async {
+    final pickedFile = await picker.pickMultipleMedia(
+        requestFullMetadata: true,
+        imageQuality: 4, // To set quality of images
+        maxHeight: MediaQuery.of(context).size.height *
+            0.4, // To set maxheight of images that you want in your app
+        maxWidth: MediaQuery.of(context).size.width *
+            0.4); // To set maxheight of images that you want in your app
+    xfilePick.addAll(pickedFile);
+    if (xfilePick.isNotEmpty) {
+      setState(() {
+        showimages = true;
+      });
+      if (xfilePick.length > 4) {
+        setState(() {
+          showimages = false;
+          xfilePick = [];
+        });
+      }
+    }
   }
 }

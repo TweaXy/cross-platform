@@ -18,24 +18,26 @@ class _ImageViewerState extends State<ImageViewer> {
                       height:widget. pickedfiles.isNotEmpty
                           ? MediaQuery.of(context).size.height * 0.4
                           : 0,
-                      child: GridView.builder(
-                        addRepaintBoundaries: false,
-                        itemCount:widget. pickedfiles.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 0,
-                          mainAxisSpacing: 0,
-                          childAspectRatio: 2,
+                      child: IntrinsicHeight(
+                        child: GridView.builder(
+                          addRepaintBoundaries: false,
+                          itemCount:widget. pickedfiles.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0,
+                            mainAxisSpacing: 0,
+                            childAspectRatio: 2,
+                          ),
+                          itemBuilder: (BuildContext context, int index) {
+                            if (widget. pickedfiles[index].name.contains('.mp4') ||
+                            widget.  pickedfiles[index].name.endsWith('.mov')) {
+                              return Card();
+                            } else {
+                              return buildImageElement(widget. pickedfiles[index]);
+                            }
+                          },
                         ),
-                        itemBuilder: (BuildContext context, int index) {
-                          if (widget. pickedfiles[index].name.contains('.mp4') ||
-                          widget.  pickedfiles[index].name.endsWith('.mov')) {
-                            return Card();
-                          } else {
-                            return buildImageElement(widget. pickedfiles[index]);
-                          }
-                        },
                       ),
                     );
   }
