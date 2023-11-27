@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:video_player/video_player.dart';
@@ -126,54 +126,24 @@ class _AddTweetViewState extends State<AddTweetView> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width * 0.02,
                   left: MediaQuery.of(context).size.width * 0.01,
                   right: MediaQuery.of(context).size.width * 0.01),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CircleAvatar(
-                    radius: 23,
-                    backgroundImage:
-                        AssetImage('assets/girl.jpg'), //TODO : image of
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, left: 8),
+                    child: const CircleAvatar(
+                      radius: 21,
+                      backgroundImage:
+                          AssetImage('assets/girl.jpg'), //TODO : image of
+                    ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.84,
-                    child: TextFormField(
-                      controller: _tweetController,
-                      maxLength: 280,
-                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
-                      maxLines: 9,
-                      keyboardType: TextInputType.multiline,
-                      decoration: const InputDecoration(
-                        counterText: '',
-                        hintText: 'What\'s happening?',
-                        hintStyle:
-                            TextStyle(color: Colors.black54, fontSize: 18),
-                        border: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 1.0),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(0.0),
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 1.0),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(0.0),
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide:
-                              BorderSide(color: Colors.transparent, width: 1.0),
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(0.0),
-                          ),
-                        ),
-                      ),
-                    ),
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: CustomAddTweetTextField(
+                        tweetController: _tweetController),
                   ),
                 ],
               ),
