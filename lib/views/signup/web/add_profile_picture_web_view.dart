@@ -282,7 +282,8 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                           showDialog(
                             context: context,
                             builder: (context) => const AddUsernameWebView(),
-                            barrierColor: Colors.transparent,
+                            barrierColor:
+                                const Color.fromARGB(100, 97, 119, 129),
                             barrierDismissible: false,
                           );
                         },

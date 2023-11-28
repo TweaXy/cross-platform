@@ -99,7 +99,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                       showDialog(
                         context: context,
                         builder: (context) => const AddProfilePictureWebView(),
-                        barrierColor: Colors.transparent,
+                        barrierColor: const Color.fromARGB(100, 97, 119, 129),
                         barrierDismissible: false,
                       );
                     } else {

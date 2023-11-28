@@ -116,7 +116,7 @@ class _CreateAccountDataReviewWebViewState
                         showDialog(
                           context: context,
                           builder: (context) => const VarificationCodeWebView(),
-                          barrierColor: Colors.transparent,
+                          barrierColor: const Color.fromARGB(100, 97, 119, 129),
                           barrierDismissible: false,
                         );
                       }
