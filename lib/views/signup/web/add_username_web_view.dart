@@ -131,42 +131,35 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                             try {
                               dynamic response = await service.createAccount();
 
-                                if (response is String) {
-                                  log(response);
-                                  showToastWidget(
-                                    CustomWebToast(
-                                      message: response,
-                                    ),
-                                    position: ToastPosition.bottom,
-                                    duration: const Duration(seconds: 2),
-                                  );
-                                } else  {
-                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  prefs.setString( "id",response["data"]["user"]["id"]);
-                                  prefs.setString( "token", response["data"]["token"]);
-                                  if(mounted)
-                                 { Navigator.popUntil(
+                              if (response is String) {
+                                log(response);
+                                showToastWidget(
+                                  CustomWebToast(
+                                    message: response,
+                                  ),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2),
+                                );
+                              } else {
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+                                prefs.setString(
+                                    "id", response["data"]["user"]["id"]);
+                                prefs.setString(
+                                    "token", response["data"]["token"]);
+                                if (mounted) {
+                                  Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                   Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);}
+                                      context, kHomeScreen);
                                 }
-                              } catch (e) {
-                                log(e.toString());
                               }
-                            },
-                            initialEnabled: true,
-                          )
-                        : CustomButton(
-                            key: const ValueKey("addUsernameWebSkipButton2"),
-                            color: backgroundColorTheme(context),
-                            text: "Skip for now",
-                            onPressedCallback: () {
-                              //TODO use suggestions
-                              //TODO handle navigation
-                            },
-                            initialEnabled: true,
-                          ),
-              ),
+                            } catch (e) {
+                              log(e.toString());
+                            }
+                          },
+                          initialEnabled: true,
+                        )),
             ],
           ),
         ),
