@@ -58,29 +58,35 @@ class AccountInformation extends StatelessWidget {
               ),
             ),
           ),
-          bio!=''?Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 5 / 6,
-              child: Linkify(
-                text: bio,
-                style: const TextStyle(color: Colors.black87),
-                onOpen: (link) async {
-                  if (!await launchUrl(Uri.parse(link.url))) {
-                    throw Exception('Could not launch ${link.url}');
-                  }
-                },
-              ),
-            ),
-          ):const SizedBox(),
+          bio != ''
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 5 / 6,
+                    child: Linkify(
+                      text: bio,
+                      style: const TextStyle(color: Colors.black87),
+                      onOpen: (link) async {
+                        if (!await launchUrl(Uri.parse(link.url))) {
+                          throw Exception('Could not launch ${link.url}');
+                        }
+                      },
+                    ),
+                  ),
+                )
+              : const SizedBox(),
           Row(children: [
             AccountJoinedDateBar(joinedDate: joinedDate),
             location != ''
                 ? AccountLocationBar(location: location)
                 : const SizedBox(),
           ]),
-          
-          AccountBirthdateBar(birthDate: birthDate),
+          Row(children: [
+            AccountBirthdateBar(birthDate: birthDate),
+            location != ''
+                ? AccountLocationBar(location: location)
+                : const SizedBox(),
+          ]),
           FollowingAndFollowersBar(following: following, followers: followers)
         ],
       ),

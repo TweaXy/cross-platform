@@ -51,10 +51,8 @@ class Api {
       if (token != null) {
         headers.addAll({'Authorization': 'Bearer $token'});
       }
-      response = await Dio().delete(
-        url,
-        data: body,
-      );
+      response = await Dio()
+          .delete(url, data: body, options: Options(headers: headers));
       print(response.statusCode);
     } on DioException catch (e) {
       print(e.response!.data['message']);
@@ -83,8 +81,31 @@ class Api {
           contentType: Headers.formUrlEncodedContentType,
         ),
       );
+    } on DioException catch (e) {
+      print(e.response!.data['message']);
+      throw Exception(e.response!.statusMessage);
     } catch (e) {
       throw Exception(e.toString());
+    }
+    return response;
+  }
+    static Future<Response> patch({
+    required String url,
+    @required dynamic body,
+    @required String? token,
+  }) async {
+    Response? response;
+    try {
+      Map<String, dynamic> headers = {};
+      if (token != null) {
+        headers.addAll({'Authorization': 'Bearer $token'});
+      }
+      response = await Dio()
+          .patch(url, data: body, options: Options(headers: headers));
+      print(response.statusCode);
+    } on DioException catch (e) {
+      print(e.response!.data['message']);
+      throw Exception(e.response!.statusMessage);
     }
     return response;
   }

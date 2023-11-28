@@ -25,8 +25,6 @@ class EditProfile {
     required bool removedBanner,
     @required String? token,
   }) async {
-    var dio = Dio();
-
     FormData formData;
     Map<String, dynamic> data = {
       'name': user.name,
@@ -35,25 +33,31 @@ class EditProfile {
       'website': user.website ?? '',
       'location': user.location ?? '',
     };
+    print(newAvatar);
     if (removedAvatar) {
       await Api.delete(
           url: baseURL + _editProfileEndpoint + _removeProfilePictureEndpoint,
           body: {},
           token: token);
     } else {
-      data['avatar'] = MultipartFile.fromBytes(newAvatar!);
+      if (newAvatar != null) {
+        data['avatar'] = MultipartFile.fromBytes(newAvatar);
+      }
     }
+
     if (removedBanner) {
       await Api.delete(
           url: baseURL + _editProfileEndpoint + _removeProfileBannerEndpoint,
           body: {},
           token: token);
     } else {
-      data['cover'] = MultipartFile.fromBytes(newBanner!);
+      if (newBanner != null) data['cover'] = MultipartFile.fromBytes(newBanner);
     }
     formData = FormData.fromMap(data);
-    final response = await dio.post('/info',
-        data: formData,
-        options: Options(headers: {'Authorization': 'Bearer $token'}));
+    await Api.patch(
+      url: baseURL + _editProfileEndpoint,
+      body: formData,
+      token: token,
+    );
   }
 }

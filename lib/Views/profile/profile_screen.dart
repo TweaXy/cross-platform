@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -43,13 +45,26 @@ var listitems = [
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
+  final Stream<User> _bids = (() {
+    late final StreamController<User> controller;
+    controller = StreamController<User>(
+      onListen: () async {
+        var u =
+            await GetUserById.instance.getUserById('clphjh4ed0000s113c13ma5f4');
+
+        controller.add(u);
+        controller.close();
+      },
+    );
+    return controller.stream;
+  })();
+
   late TabController _tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    GetUserById.instance.excute('clpgk814d000knn0xwvfrxt4b');
   }
 
   int _selectedTabIndex = 0;
@@ -61,8 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       backgroundColor: Colors.white,
       body: SafeArea(
         child: StreamBuilder(
-          stream: Stream.fromFuture(
-              GetUserById.instance.getUserById('clpgk814d000knn0xwvfrxt4b')),
+          stream: _bids,
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const LoadingScreen(
@@ -70,6 +84,7 @@ class _ProfileScreenState extends State<ProfileScreen>
               );
             } else {
               User user = snapshot.data!;
+              print(user.birthdayDate);
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -438,9 +453,9 @@ class _banner extends StatelessWidget {
                 width: double.maxFinite,
                 height: double.maxFinite,
                 child: CachedNetworkImage(
-                  fit: BoxFit.contain,
+                  fit: BoxFit.fill,
                   imageUrl: bannerURL == basePhotosURL
-                      ? "https://www.kasandbox.org/programming-images/avatars/mr-pants-purple.png"
+                      ? kDefaultBannerPhoto
                       : bannerURL,
                   placeholder: (context, url) => const Center(
                     child: SizedBox(
@@ -523,9 +538,7 @@ class _Avatar extends StatelessWidget {
         borderRadius: BorderRadius.circular(80),
         child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl: url == basePhotosURL
-              ? "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png"
-              : url,
+          imageUrl: url,
           placeholder: (context, url) => const Center(
             child: SizedBox(
                 width: 15,

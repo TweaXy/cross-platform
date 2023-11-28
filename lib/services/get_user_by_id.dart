@@ -16,4 +16,5 @@ class GetUserById {
     var data = response.data;
     return User.fromMap(data['data']['user']);
   }
+  
 }

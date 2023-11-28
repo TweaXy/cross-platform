@@ -10,6 +10,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.
 import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/edit_profile.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.user});
@@ -35,15 +36,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool removedAvatar = false;
   User? user;
   String? initDate;
-  final Function() _onPressed = () async{
-    
-  };
+  final String token =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwaGpoNGVkMDAwMHMxMTNjMTNtYTVmNFwiIiwiaWF0IjoxNzAxMTI3NjQyLCJleHAiOjE3MDM3MTk2NDJ9.GdpgNR9R6eCO1jjHduosoHHhBewb9QlXal5VX6g7i1s';
   @override
   Widget build(BuildContext context) {
     user = widget.user;
-    _nameController.text = user!.name!;
-    _bioController.text = user!.bio ?? '';
+
     if (!initiallized) {
+      _nameController.text = user!.name!;
+      _bioController.text = user!.bio ?? '';
       initDate = user!.birthdayDate ?? '1974-03-20 00:00:00.000';
       _birthDateController.text =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(initDate!));
@@ -81,7 +82,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   ),
                 )
               : TextButton(
-                  onPressed: _onPressed,
+                  onPressed: () async {
+                    var tempUser = user!;
+                    tempUser.name = _nameController.text;
+                    tempUser.bio = _bioController.text;
+                    tempUser.birthdayDate =
+                        DateTime.parse(_birthDateController.text).toString();
+                    tempUser.location = _locationController.text;
+                    tempUser.website = _websiteController.text;
+                    await EditProfile.instance.editProfile(
+                        user: user!,
+                        newAvatar: avatarByte,
+                        newBanner: bannerByte,
+                        removedAvatar: removedAvatar,
+                        removedBanner: removedBanner,
+                        token: token);
+                    Navigator.pop(context);
+                  },
                   child: const Text(
                     'Save',
                     style: TextStyle(color: Colors.black, fontSize: 17),
