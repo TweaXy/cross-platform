@@ -9,15 +9,6 @@ class LoginApi {
   final dio = Dio();
 
   LoginApi();
-  // Future<dynamic> postUser(Map<String, String> data) async {
-  //   try {
-  //     var res = await Api.post(
-  //         url: 'http://localhost:3000/api/v1/auth/login', body: data);
-  //     return res;
-  //   } on DioException catch (e) {
-  //     return e.response;
-  //   }
-  // }
   Future<dynamic> postUser(Map<String, String> data) async {
     Response response =
         await dio.post('http://16.171.65.142:3000/api/v1/auth/login',

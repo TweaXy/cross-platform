@@ -22,7 +22,7 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
       controller: tabController,
       isScrollable: false,
       indicatorSize: TabBarIndicatorSize.label,
-      indicatorColor: Color(0xff2a91d6),
+      indicatorColor: Colors.white,
       indicatorWeight: 4,
       indicatorPadding: EdgeInsets.only(bottom: 1.0),
       tabs: !isVisible
@@ -34,30 +34,11 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
                   width: 0,
                 ),
               ),
-              Tab(
-                child: Container(
-                  color: Colors.transparent,
-                  height: 0,
-                  width: 0,
-                ),
-              ),
             ]
           : [
               Tab(
                 child: Text(
-                  'For you',
-                  style: TextStyle(
-                    color: tabController.index == 0
-                        ? selectedTextColor
-                        : unselectedTextColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              Tab(
-                child: Text(
-                  'Following',
+                  "ALL",
                   style: TextStyle(
                     color: tabController.index == 1
                         ? selectedTextColor

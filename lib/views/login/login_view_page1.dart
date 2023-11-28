@@ -132,9 +132,6 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                               );
                             }
                           } on DioException catch (e) {
-                            //   print(e.toString());
-                            // ignore: use_build_context_synchronously
-                            // showSnackBar(context, e.response!.data['message']);
                             showToastWidget(
                               CustomToast(
                                   message: e.response!.data['message'],
@@ -143,8 +140,6 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                               duration: const Duration(seconds: 2),
                             );
                           } on Exception catch (e) {
-                            // ignore: use_build_context_synchronously
-                            // showSnackBar(context, e);
                             showToastWidget(
                               CustomToast(
                                   message: e.toString(),

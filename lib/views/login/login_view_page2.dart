@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
@@ -14,6 +15,7 @@ import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class LoginViewPage2 extends StatefulWidget {
@@ -58,75 +60,69 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.775,
-              child: Column(
+      body: Column(
+        children: [
+          Column(
+            children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width * 0.04,
-                            top: MediaQuery.of(context).size.height * 0.03),
-                        child: Text(
-                          'Enter your password',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 30,
-                          ),
-                        ),
-                      ),
-                      // Other widgets...
-                    ],
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.03,
-                  ),
                   Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.04),
-                    child: TextField(
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.04,
+                        top: MediaQuery.of(context).size.height * 0.03),
+                    child: Text(
+                      'Enter your password',
                       style: TextStyle(
-                        color:
-                            isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
-                      ),
-                      controller: widget.initialValue,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: MediaQuery.of(context).size.height * 0.03,
-                            horizontal:
-                                MediaQuery.of(context).size.width * 0.05),
-                        border: const OutlineInputBorder(),
-                        disabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                width: 1,
-                                color: !isDarkMode
-                                    ? Colors.black87
-                                    : Colors.white10)),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: MediaQuery.of(context).size.width * 0.04),
-                    child: CustomTextField(
-                      key: const ValueKey(SignInKeys.passwordFieldKey),
-                      validatorFunc: passwordValidation,
-                      label: 'Password',
-                      controller: myControllerPassword,
-                    ),
-                  ),
+                  // Other widgets...
                 ],
               ),
-            ),
-            Align(
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.03,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.04),
+                child: TextField(
+                  style: TextStyle(
+                    color: isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
+                  ),
+                  controller: widget.initialValue,
+                  enabled: false,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.height * 0.03,
+                        horizontal: MediaQuery.of(context).size.width * 0.05),
+                    border: const OutlineInputBorder(),
+                    disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            width: 1,
+                            color:
+                                !isDarkMode ? Colors.black87 : Colors.white10)),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.05,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.04),
+                child: CustomTextField(
+                  key: const ValueKey(SignInKeys.passwordFieldKey),
+                  validatorFunc: () {},
+                  label: 'Password',
+                  controller: myControllerPassword,
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Align(
               alignment: Alignment.bottomCenter,
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -168,14 +164,13 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               'UUID': '${widget.initialValue.text}',
                               'password': '${myControllerPassword.text}'
                             }) as Map<String, dynamic>;
-                            //go to home page
-                            //  print(user);
+                            SharedPreferences clint =
+                                await SharedPreferences.getInstance();
+                            clint.setString(
+                                'username', user['data']['user']['username']);
 
                             Navigator.pushNamed(context, kHomeScreen);
                           } on DioException catch (e) {
-                            //    print(e.toString());
-                            // ignore: use_build_context_synchronously
-                            // showSnackBar(context, e.response!.data['message']);
                             showToastWidget(
                               CustomToast(
                                   message: e.response!.data['message'],
@@ -200,9 +195,9 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                   ),
                 ),
               ]),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

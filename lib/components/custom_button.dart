@@ -41,7 +41,9 @@ class _CustomButtonState extends State<CustomButton> {
         child: Text(
           widget.text,
           style: TextStyle(
-              color: getTextColor(), fontWeight: FontWeight.w600, fontSize: 20),
+              color: getTextColor(),
+              fontWeight: FontWeight.w600,
+              fontSize: widget.text == "follow back" ? 16 : 20),
         ),
       ),
     );
