@@ -157,8 +157,11 @@ class _AddTweetViewState extends State<AddTweetView> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
-                    child:
-                        CustomAddTweetButton(isButtonEnabled: isButtonEnabled),
+                    child: CustomAddTweetButton(
+                      isButtonEnabled: isButtonEnabled,
+                      textPadding:
+                        const   EdgeInsets.symmetric(vertical: 1.0, horizontal: 2.0),
+                    ),
                   ),
                 ],
               ),

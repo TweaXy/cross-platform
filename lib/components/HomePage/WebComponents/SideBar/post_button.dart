@@ -1,10 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Components/HomePage/WebComponents/add_post.dart';
-import 'package:tweaxy/Components/HomePage/WebComponents/add_post_dialogbox.dart';
-import 'package:tweaxy/Components/custom_appbar.dart';
-import 'package:tweaxy/Components/custom_appbar_web.dart';
-import 'package:tweaxy/Views/signup/web/add_password_web_view.dart';
+
+import 'package:tweaxy/Views/add_tweet/add_tweet_web_view.dart';
 
 class PostButton extends StatelessWidget {
   const PostButton({super.key});
@@ -21,23 +17,24 @@ class PostButton extends StatelessWidget {
           barrierColor: const Color.fromARGB(100, 97, 119, 129),
           context: context,
           builder: (BuildContext context) {
-            return const AddPostDialogBox(); // Use the custom dialog widget
+            return const AddTweetWebView(); // Use the custom dialog widget
           },
         );
       },
-
-      child: Text(
-        'Post',
-        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-      ),
       style: ElevatedButton.styleFrom(
-        shadowColor: Colors.transparent,
+         backgroundColor:  const Color(0xFF1e9aeb),
+         shadowColor: Colors.transparent,
         splashFactory: NoSplash.splashFactory,
         elevation: 20,
         padding: EdgeInsets.all(screenWidth * 0.015),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
+      ),
+
+      child: const Text(
+        'Post',
+        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: Colors.white),
       ),
     );
   }

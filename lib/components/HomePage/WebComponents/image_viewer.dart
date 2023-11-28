@@ -5,8 +5,10 @@ import 'package:video_player/video_player.dart';
 import 'package:video_player_web/video_player_web.dart';
 
 class ImageViewer extends StatefulWidget {
-  const ImageViewer({super.key, required this.pickedfiles});
+  const ImageViewer(
+      {super.key, required this.pickedfiles, required this.checkimagelist});
   final List<XFile> pickedfiles;
+  final Function checkimagelist;
   @override
   State<ImageViewer> createState() => _ImageViewerState();
 }
@@ -46,6 +48,7 @@ class _ImageViewerState extends State<ImageViewer> {
   void deleteFile(int index) {
     setState(() {
       widget.pickedfiles.removeAt(index);
+      widget.checkimagelist();
     });
   }
 
@@ -87,9 +90,7 @@ class _ImageViewerState extends State<ImageViewer> {
           ..setLooping(true)
           ..play()
           ..initialize().then((_) {
-            setState(() {
-              
-            });
+            setState(() {});
           }).catchError((error) {
             if (kDebugMode) {
               print("Error initializing video: $error");
@@ -99,7 +100,7 @@ class _ImageViewerState extends State<ImageViewer> {
       children: [
         AspectRatio(
           aspectRatio: videoController.value.aspectRatio,
-          child:VideoPlayer (videoController),
+          child: VideoPlayer(videoController),
         ),
         Positioned(
           top: 8,
