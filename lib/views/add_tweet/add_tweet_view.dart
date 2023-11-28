@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
@@ -145,34 +146,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                     onPressed: () {
                       showDialog<String>(
                         context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Discard Tweet?'),
-                          content: const Text(
-                              'Are you sure you want to discard this tweet?'),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Yes');
-                                Navigator.pop(context, 'Yes');
-                              },
-                              child: const Text(
-                                'Yes',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'NO'),
-                              child: const Text(
-                                'No',
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ],
-                        ),
+                        builder: (BuildContext context) =>
+                            const CustomAddTweetAlertDialog(),
                       );
                     },
                   ),
