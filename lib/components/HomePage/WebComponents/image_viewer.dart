@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
+import 'package:video_player_web/video_player_web.dart';
 
 class ImageViewer extends StatefulWidget {
   const ImageViewer({super.key, required this.pickedfiles});
@@ -84,8 +85,11 @@ class _ImageViewerState extends State<ImageViewer> {
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     )
           ..setLooping(true)
+          ..play()
           ..initialize().then((_) {
-            setState(() {});
+            setState(() {
+              
+            });
           }).catchError((error) {
             if (kDebugMode) {
               print("Error initializing video: $error");
@@ -95,7 +99,7 @@ class _ImageViewerState extends State<ImageViewer> {
       children: [
         AspectRatio(
           aspectRatio: videoController.value.aspectRatio,
-          child: VideoPlayer(videoController),
+          child:VideoPlayer (videoController),
         ),
         Positioned(
           top: 8,
