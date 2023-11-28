@@ -10,7 +10,7 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/services/sign_in.dart';
-import 'package:tweaxy/services/signinwithgoolge.dart';
+import 'package:tweaxy/services/sign_in_google.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({

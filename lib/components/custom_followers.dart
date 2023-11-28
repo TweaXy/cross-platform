@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/models/followers_model.dart';
@@ -22,13 +23,35 @@ class _CustomFollowersState extends State<CustomFollowers> {
       onPressed: () {},
       child: Container(
         width: double.infinity,
-        // height: MediaQuery.of(context).size.height * 0.12,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (!kIsWeb)
+              Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.06,
+                    top: MediaQuery.of(context).size.height * 0.01),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: Color.fromARGB(255, 96, 110, 121),
+                      size: 15,
+                    ),
+                    Text(
+                      "  Follwers you",
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 12,
+                        color: Color.fromARGB(255, 96, 110, 121),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.02),
+                  top: MediaQuery.of(context).size.height * 0.00),
               child: Row(
                 children: [
                   Padding(
@@ -46,14 +69,14 @@ class _CustomFollowersState extends State<CustomFollowers> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.user.name,
+                          "widget.user",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.black),
                         ),
                         Text(
-                          widget.user.username,
+                          "widget.user.username",
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
@@ -71,10 +94,10 @@ class _CustomFollowersState extends State<CustomFollowers> {
                           child: SizedBox(
                             // width: 150,
                             child: CustomButton(
-                                color: widget.isFollower
+                                color: !widget.user.followedByMe
                                     ? Colors.black
                                     : Colors.white,
-                                text: widget.isFollower
+                                text: !widget.user.followedByMe
                                     ? 'Follow Back'
                                     : 'Following',
                                 onPressedCallback: () {
@@ -91,20 +114,22 @@ class _CustomFollowersState extends State<CustomFollowers> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width * 0.16),
-              child: Text(
-                widget.user.bio,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    height: 1.4,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 18,
-                    color: Colors.black),
+            if (widget.user.bio != "")
+              Padding(
+                padding: EdgeInsets.only(
+                    left: MediaQuery.of(context).size.width * 0.16,
+                    bottom: MediaQuery.of(context).size.height * 0.015),
+                child: Text(
+                  widget.user.bio != "" ? widget.user.bio : "",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      height: 1.4,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18,
+                      color: Colors.black),
+                ),
               ),
-            ),
           ],
         ),
       ),
