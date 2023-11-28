@@ -56,6 +56,8 @@ class HomePageBody extends StatelessWidget {
       controller: tabController,
       children: <Widget>[
         CustomScrollView(
+          scrollBehavior:
+              ScrollConfiguration.of(context).copyWith(scrollbars: false),
           slivers: [
             SliverToBoxAdapter(
               child: kIsWeb
@@ -69,29 +71,30 @@ class HomePageBody extends StatelessWidget {
               delegate: SliverChildBuilderDelegate(childCount: tweets.length,
                   (BuildContext context, int index) {
                 return CustomTweet(
+                  forProfile: false,
                   tweet: tweets[index],
                 );
               }),
             ),
           ],
         ),
-        CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(
-              child: kIsWeb
-                  ? AddPost()
-                  : Container(
-                      height: 0,
-                      width: 0,
-                    ),
-            ),
-            SliverList(
-                delegate: SliverChildBuilderDelegate(childCount: tweets.length,
-                    (BuildContext context, int index) {
-              return Icon(Icons.directions_transit, size: 350);
-            }))
-          ],
-        )
+        // CustomScrollView(
+        //   slivers: [
+        //     SliverToBoxAdapter(
+        //       child: kIsWeb
+        //           ? AddPost()
+        //           : Container(
+        //               height: 0,
+        //               width: 0,
+        //             ),
+        //     ),
+        //     SliverList(
+        //         delegate: SliverChildBuilderDelegate(childCount: tweets.length,
+        //             (BuildContext context, int index) {
+        //       return Icon(Icons.directions_transit, size: 350);
+        //     }))
+        //   ],
+        // )
       ],
     );
   }

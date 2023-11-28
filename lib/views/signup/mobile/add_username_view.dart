@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -46,12 +47,16 @@ class _AddUsernameViewState extends State<AddUsernameView> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: const CustomAppbar(
-          key: ValueKey("addUsernameAppbar"),
-          iconButton: null,
-        ),
-        body: SingleChildScrollView(
+      appBar: const CustomAppbar(
+        key: ValueKey("addUsernameAppbar"),
+        iconButton: null,
+      ),
+      body: Center(
+        heightFactor: 1,
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
@@ -144,18 +149,57 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                                     position: ToastPosition.bottom,
                                     duration: const Duration(seconds: 2),
                                   );
-                                } else if (response.statusCode == 200 &&
-                                    mounted) {
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);
+                                } else if (response.statusCode == 200) {
+                                  log(response);
+                                  Map<String, dynamic> jsonResponse =
+                                      response.data;
+                                  try {
+                                    log(response);
+                                    log(jsonResponse.values.toString());
+
+                                    if (response.data != null &&
+                                        response.data is Map<String, dynamic> &&
+                                        response.data.containsKey('data') &&
+                                        response.data['data']
+                                            is Map<String, dynamic> &&
+                                        response.data['data']
+                                            .containsKey('token') &&
+                                        response.data['data']
+                                            .containsKey('user') &&
+                                        response.data['data']['user']
+                                            is Map<String, dynamic> &&
+                                        response.data['data']['user']
+                                            .containsKey('id')) {
+                                      // Extract values
+                                      var token = jsonResponse['data']['token']
+                                          as String;
+                                      var id = jsonResponse['data']['user']
+                                          ['id'] as String;
+                                      print(id);
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      prefs.setString("id", id.toString());
+                                      prefs.setString(
+                                          "token", token.toString());
+                                      if (mounted) {
+                                        Navigator.popUntil(
+                                            context, (route) => route.isFirst);
+                                        Navigator.pushReplacementNamed(
+                                            context, kHomeScreen);
+                                      }
+                                    }
+                                  } catch (e) {
+                                    log(e.toString());
+                                    log("hiii");
+                                    log(response);
+                                  }
                                 } else if (mounted) {
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                 }
                               } on Exception catch (e) {
                                 log(e.toString());
+                                print("errororrooror");
                               }
                             } else {
                               showToastWidget(
@@ -176,6 +220,72 @@ class _AddUsernameViewState extends State<AddUsernameView> {
               ),
             ],
           ),
-        ));
+        ),
+      ),
+      bottomSheet: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Divider(),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                  key: const ValueKey(SignUpKeys.addUserNameSkipButtonKey),
+                  color: backgroundColorTheme(context),
+                  text: "Skip for now",
+                  onPressedCallback: () {
+                    //TODO: Use the suggestions
+                    //TODO: go to home page
+                  },
+                  initialEnabled: true,
+                ),
+                CustomButton(
+                  key: const ValueKey(SignUpKeys.addUserNameNextButtonKey),
+                  color: forgroundColorTheme(context),
+                  text: "Next",
+                  onPressedCallback: () async {
+                    if (_formKey.currentState!.validate()) {
+                      UserSignup.username = myController.text;
+                      try {
+                        dynamic response = await service.createAccount();
+                        log(response.toString());
+                        if (response is String) {
+                          showToastWidget(
+                            CustomToast(
+                                message: response, screenWidth: screenWidth),
+                            position: ToastPosition.bottom,
+                            duration: const Duration(seconds: 2),
+                          );
+                        } else if (response.statusCode == 200 && mounted) {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                          Navigator.pushReplacementNamed(context, kHomeScreen);
+                        } else if (mounted) {
+                          Navigator.popUntil(context, (route) => route.isFirst);
+                        }
+                      } on Exception catch (e) {
+                        log(e.toString());
+                      }
+                    } else {
+                      showToastWidget(
+                        CustomToast(
+                            message: "Please enter a valid username.",
+                            screenWidth: screenWidth),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    }
+                  },
+                  initialEnabled: isButtonEnabled,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
@@ -198,7 +199,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                 radius: 70,
                                 backgroundColor: Colors.white,
                                 backgroundImage: CachedNetworkImageProvider(
-                                  user.avatar ==null
+                                  user.avatar == null
                                       ? "https://www.gstatic.com/webp/gallery2/4.png"
                                       : '$basePhotosURL${user.avatar}',
                                 ),
@@ -254,17 +255,15 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     ],
                   ),
                 ),
-                SliverList.builder(
-                  itemCount: listitems.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: ListTile(
-                          title: Text(listitems[index].toString() +
-                              _selectedTabIndex.toString()),
-                          tileColor: Colors.white,
-                        ));
-                  },
+                SliverList(
+                  delegate:
+                      SliverChildBuilderDelegate(childCount: tweets.length,
+                          (BuildContext context, int index) {
+                    return CustomTweet(
+                      forProfile: true,
+                      tweet: tweets[index],
+                    );
+                  }),
                 ),
               ],
             ),
