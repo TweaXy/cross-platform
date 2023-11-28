@@ -190,7 +190,7 @@ class _CreateAccountWebViewState extends State<CreateAccountWebView> {
                         context: context,
                         builder: (context) =>
                             const CreateAccountDataReviewWebView(),
-                        barrierColor: const Color.fromARGB(100, 97, 119, 129),
+                        barrierColor: Colors.transparent,
                         barrierDismissible: false,
                       );
                     } else {
