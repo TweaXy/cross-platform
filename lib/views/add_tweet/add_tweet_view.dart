@@ -73,7 +73,9 @@ class _AddTweetViewState extends State<AddTweetView> {
                           .value
                           .position)) {
                 // Triggered when the video reaches the end
-                setState(() {});
+                setState(() {
+                  videoControllers[media.indexOf(mediaItem)].pause();
+                });
               }
             });
 
@@ -196,7 +198,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
-                    itemCount: media.length,
+                    itemCount: videoControllers.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
