@@ -15,7 +15,7 @@ class CustomAddTweetTextField extends StatelessWidget {
       controller: _tweetController,
       maxLength: 280,
       maxLengthEnforcement: MaxLengthEnforcement.enforced,
-      maxLines: 9,
+      maxLines: 30,
       minLines: 1,
       keyboardType: TextInputType.multiline,
       decoration: const InputDecoration(

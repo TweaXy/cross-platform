@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 class FloatingButton extends StatelessWidget {
   const FloatingButton({super.key});
@@ -60,7 +61,12 @@ class FloatingButton extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                Navigator.pushNamed(context, kAddTweetScreen);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddTweetView(
+                              photoIconPressed: false,
+                            )));
               },
             ),
             SpeedDialChild(
@@ -75,7 +81,12 @@ class FloatingButton extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                //TODO :- Add Photos Functionality
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const AddTweetView(
+                              photoIconPressed: true,
+                            )));
               },
             ),
           ],

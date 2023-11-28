@@ -10,7 +10,8 @@ import 'package:tweaxy/models/app_icons.dart';
 import 'package:video_player/video_player.dart';
 
 class AddTweetView extends StatefulWidget {
-  const AddTweetView({super.key});
+  const AddTweetView({super.key, required this.photoIconPressed});
+  final bool photoIconPressed;
 
   @override
   State<AddTweetView> createState() => _AddTweetViewState();
@@ -26,6 +27,9 @@ class _AddTweetViewState extends State<AddTweetView> {
   void initState() {
     super.initState();
     _tweetController.addListener(_updateButtonState);
+    if (widget.photoIconPressed) {
+      pickMedia();
+    }
   }
 
   void _updateButtonState() {
@@ -40,21 +44,47 @@ class _AddTweetViewState extends State<AddTweetView> {
     final ImagePicker picker = ImagePicker();
     try {
       mediaTemporary = await picker.pickMultipleMedia();
+
       setState(() {
         media.addAll(mediaTemporary);
-        for (XFile mediaItem in mediaTemporary) {
-          if (mediaItem.name.endsWith('mp4')) {
-            videoControllers.add(
-                (VideoPlayerController.file(File(mediaItem.path)))
-                  ..setLooping(false)
-                  ..initialize().then((_) =>
-                      videoControllers[media.indexOf(mediaItem)]!.pause()));
-          } else {
-            videoControllers.add(0);
-          }
-        }
-        isButtonEnabled = true;
       });
+
+      for (XFile mediaItem in mediaTemporary) {
+        if (mediaItem.name.endsWith('mp4')) {
+          VideoPlayerController controller =
+              VideoPlayerController.file(File(mediaItem.path))
+                ..setLooping(false);
+
+          controller.initialize().then((_) {
+            // Adding the initialized controller to the list
+            setState(() {
+              videoControllers.add(controller);
+            });
+
+            // Add a listener to the VideoPlayerController
+            videoControllers[media.indexOf(mediaItem)].addListener(() {
+              if (!videoControllers[media.indexOf(mediaItem)].value.isPlaying &&
+                  videoControllers[media.indexOf(mediaItem)]
+                      .value
+                      .isInitialized &&
+                  (videoControllers[media.indexOf(mediaItem)].value.duration ==
+                      videoControllers[media.indexOf(mediaItem)]
+                          .value
+                          .position)) {
+                // Triggered when the video reaches the end
+                setState(() {});
+              }
+            });
+
+            // Set state after the VideoPlayerController is initialized
+            setState(() {
+              // Perform any state updates here after initialization
+            });
+          });
+        } else {
+          videoControllers.add(0);
+        }
+      }
     } catch (e) {
       setState(() {
         media = [];
@@ -113,7 +143,37 @@ class _AddTweetViewState extends State<AddTweetView> {
                       color: Colors.black,
                     ),
                     onPressed: () {
-                      Navigator.pop(context);
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                          title: const Text('Discard Tweet?'),
+                          content: const Text(
+                              'Are you sure you want to discard this tweet?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'Yes');
+                                Navigator.pop(context, 'Yes');
+                              },
+                              child: const Text(
+                                'Yes',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'NO'),
+                              child: const Text(
+                                'No',
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                   Padding(
@@ -132,23 +192,28 @@ class _AddTweetViewState extends State<AddTweetView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 8),
-                    child: const CircleAvatar(
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8.0, left: 0),
+                    child: CircleAvatar(
                       radius: 21,
                       backgroundImage:
                           AssetImage('assets/girl.jpg'), //TODO : image of
                     ),
                   ),
-                  SizedBox(
+                  Container(
                     width: MediaQuery.of(context).size.width * 0.85,
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height * 0.1,
+                      maxHeight: MediaQuery.of(context).size.height * 0.5,
+                    ),
+                    padding: const EdgeInsets.only(top: 8.0, left: 8),
                     child: CustomAddTweetTextField(
                         tweetController: _tweetController),
                   ),
                 ],
               ),
             ),
-            if (media.isNotEmpty)
+            if (videoControllers.isNotEmpty)
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: SizedBox(
@@ -161,7 +226,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                           child: videoControllers[index]
                                   is VideoPlayerController
                               ? AspectRatio(
@@ -174,15 +239,17 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       Center(
                                         child: IconButton(
                                           onPressed: () {
-                                            setState(() {
-                                              videoControllers[index]
-                                                      .value
-                                                      .isPlaying
-                                                  ? videoControllers[index]
-                                                      .pause()
-                                                  : videoControllers[index]
-                                                      .play();
-                                            });
+                                            setState(
+                                              () {
+                                                videoControllers[index]
+                                                        .value
+                                                        .isPlaying
+                                                    ? videoControllers[index]
+                                                        .pause()
+                                                    : videoControllers[index]
+                                                        .play();
+                                              },
+                                            );
                                           },
                                           icon: Container(
                                             decoration: const BoxDecoration(
@@ -202,10 +269,12 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          setState(() {
-                                            media.removeAt(index);
-                                            videoControllers.removeAt(index);
-                                          });
+                                          setState(
+                                            () {
+                                              media.removeAt(index);
+                                              videoControllers.removeAt(index);
+                                            },
+                                          );
                                         },
                                         icon: Container(
                                           decoration: const BoxDecoration(
@@ -219,6 +288,15 @@ class _AddTweetViewState extends State<AddTweetView> {
                                           ),
                                         ),
                                       ),
+                                      Align(
+                                          alignment: Alignment.bottomLeft,
+                                          child: Text(
+                                            ' ${videoControllers[index].value.duration.inMinutes}:${videoControllers[index].value.duration.inSeconds.toString().padLeft(2, '0')}',
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              backgroundColor: Colors.black54,
+                                            ),
+                                          )),
                                     ],
                                   ),
                                 )
@@ -232,6 +310,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       onPressed: () {
                                         setState(() {
                                           media.removeAt(index);
+                                          videoControllers.removeAt(index);
                                         });
                                       },
                                       icon: Container(
@@ -287,7 +366,7 @@ class _AddTweetViewState extends State<AddTweetView> {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
@@ -299,24 +378,26 @@ class _AddTweetViewState extends State<AddTweetView> {
                       color: Color(0xFF1e9aeb),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.64),
-                    child: CusotmCircularProgressIndicator(
-                        tweetController: _tweetController),
+                  Row(
+                    children: [
+                      CusotmCircularProgressIndicator(
+                          tweetController: _tweetController),
+                      const VerticalDivider(
+                        indent: 5,
+                        endIndent: 5,
+                        width: 30,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          //TODO : add another tweet
+                        },
+                        icon: const Icon(
+                          Icons.add_circle,
+                          color: Color(0xFF1e9aeb),
+                        ),
+                      ),
+                    ],
                   ),
-                  const VerticalDivider(
-                    indent: 5,
-                    endIndent: 5,
-                  ),
-                  IconButton(
-                      onPressed: () {
-                        //TODO : add another tweet
-                      },
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: Color(0xFF1e9aeb),
-                      ))
                 ],
               ),
             ),

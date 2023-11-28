@@ -17,4 +17,5 @@ class ValidationErrors {
   static const String emptyUsernameError = 'Username is required';
   static const String usernameLengthError =
       'Username must be at least 4 characters';
+  static const String usernameSpaceError = 'Username cannot contain spaces';
 }

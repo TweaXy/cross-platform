@@ -92,6 +92,9 @@ Future<String?> usernameValidation({required String? inputValue}) async {
   if (inputValue.length < 4) {
     return ValidationErrors.usernameLengthError;
   }
+  if (inputValue.contains(' ')) {
+    return ValidationErrors.usernameSpaceError;
+  }
   try {
     dynamic response =
         await SignupService(Dio()).usernameUniqueness(inputValue);
