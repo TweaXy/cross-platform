@@ -132,7 +132,6 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                               dynamic response = await service.createAccount();
 
                               if (response is String) {
-                                log(response);
                                 showToastWidget(
                                   CustomWebToast(
                                     message: response,
@@ -141,17 +140,30 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                   duration: const Duration(seconds: 2),
                                 );
                               } else {
-                                SharedPreferences prefs =
-                                    await SharedPreferences.getInstance();
-                                prefs.setString(
-                                    "id", response["data"]["user"]["id"]);
-                                prefs.setString(
-                                    "token", response["data"]["token"]);
-                                if (mounted) {
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);
+                                // Map<String, dynamic> jsonResponse =
+                                //     response.data;
+                                try {
+                                  // log(jsonResponse.values.toString());
+                                  // var token =
+                                  //     jsonResponse['data']['token'] as String;
+                                  // var id = jsonResponse['data']['user']['id']
+                                  //     as String;
+                                  // print(id.toString());
+                                  // print(token.toString());
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString("id", response.data['data']['user']['id'].toString());
+                                  prefs.setString("token", response.data['data']['token'].toString());
+                                  if (mounted) {
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    Navigator.pushReplacementNamed(
+                                        context, kHomeScreen);
+                                  }
+                                } catch (e) {
+                                  log(e.toString());
+                                  log("hiii");
+                                  log(response);
                                 }
                               }
                             } catch (e) {
