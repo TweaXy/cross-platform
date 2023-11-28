@@ -68,35 +68,33 @@ class SignChoose extends StatelessWidget {
                     duration: const Duration(seconds: 2),
                   );
                 }
-                // ignore: use_build_context_synchronously
-                // showSnackBar(context, e);
               }
             },
             size: ButtonSize.medium,
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          child: SignWithButton(
-            type: !isDarkMode ? ButtonType.facebook : ButtonType.facebookDark,
-            onPressed: () {
-              //TODO: implement continue with facebook logic
-            },
-            size: ButtonSize.large,
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: SignWithButton(
-            type: !isDarkMode ? ButtonType.github : ButtonType.githubDark,
-            onPressed: () {
-              //TODO: implement continue with github logic
-              var res = SignInServices.signInGithub();
-              // print("sign in" + res.toString());
-            },
-            size: ButtonSize.medium,
-          ),
-        ),
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: SignWithButton(
+        //     type: !isDarkMode ? ButtonType.facebook : ButtonType.facebookDark,
+        //     onPressed: () {
+        //       //TODO: implement continue with facebook logic
+        //     },
+        //     size: ButtonSize.large,
+        //   ),
+        // ),
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: SignWithButton(
+        //     type: !isDarkMode ? ButtonType.github : ButtonType.githubDark,
+        //     onPressed: () {
+        //       //TODO: implement continue with github logic
+        //       var res = SignInServices.signInGithub();
+        //       // print("sign in" + res.toString());
+        //     },
+        //     size: ButtonSize.medium,
+        //   ),
+        // ),
         StartScreenDivider(isDarkMode: isDarkMode),
       ],
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
+import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -49,6 +50,7 @@ class TweaXy extends StatelessWidget {
           kEditProfileScreen: (context) => EditProfileScreen(),
           kFollowers: (context) => FollowersPage(),
           kFollowing: (context) => FollowingPage(),
+          kwebboth: (context) => WebFollowersAndFollowings(),
         },
         initialRoute: kFollowing,
       ),

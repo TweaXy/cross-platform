@@ -12,10 +12,10 @@ class followApi {
   followApi();
   Future<List<FollowersModel>> getFollowers() async {
     dynamic response;
-    SharedPreferences user = await SharedPreferences.getInstance();
-    String username = user.getString("username")!;
+    // SharedPreferences user = await SharedPreferences.getInstance();
+    // String username = user.getString("username")!;
     response = await Api.get(
-        "http://16.171.65.142:3000/api/v1/users/followers/$username?limit=50&offset=0");
+        "http://16.171.65.142:3000/api/v1/users/followers/kareem?limit=50&offset=0");
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
     List<dynamic> allData = jsondata['data']["followers"];
@@ -29,10 +29,10 @@ class followApi {
 
   Future<List<FollowersModel>> getFollowings() async {
     dynamic response;
-    SharedPreferences user = await SharedPreferences.getInstance();
-    String username = user.getString("username")!;
+    // SharedPreferences user = await SharedPreferences.getInstance();
+    // String username = user.getString("username")!;
     response = await Api.get(
-        "http://16.171.65.142:3000/api/v1/users/followings/$username?limit=50&offset=0");
+        "http://16.171.65.142:3000/api/v1/users/followings/kareem?limit=50&offset=0");
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
     List<dynamic> allData = jsondata['data']["followings"];

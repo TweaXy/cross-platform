@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/showallFollowers.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
+import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowingPage extends StatelessWidget {
   FollowingPage({super.key});
   Future<void> _refresh() async {
-    // You can add the logic to fetch new data here
     await followApi().getFollowings();
   }
 
@@ -42,18 +43,9 @@ class FollowingPage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: _refresh,
-        child: FutureBuilder(
+        child: CustomFurure(
+          isFollower: false,
           future: followApi().getFollowings(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return ShowAllFollowersAndFollowing(
-                  follow: snapshot.data ?? [], isFollower: false);
-            } else if (snapshot.hasError) {
-              return CustomToast(message: "We have a problem");
-            } else {
-              return Center(child: CircularProgressIndicator());
-            }
-          },
         ),
       ),
     );
