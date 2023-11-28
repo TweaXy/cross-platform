@@ -213,6 +213,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                 ),
                 SliverToBoxAdapter(
                   child: AccountInformation(
+                    website: user.website ?? '',
                     bio: user.bio ?? '',
                     followers: user.followers ?? 24870,
                     following: user.following ?? 230,

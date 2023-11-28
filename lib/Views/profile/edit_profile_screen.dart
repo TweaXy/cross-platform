@@ -45,6 +45,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (!initiallized) {
       _nameController.text = user!.name!;
       _bioController.text = user!.bio ?? '';
+      _websiteController.text = user!.website ?? '';
+      _locationController.text = user!.location ?? '';
       initDate = user!.birthdayDate ?? '1974-03-20 00:00:00.000';
       _birthDateController.text =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(initDate!));

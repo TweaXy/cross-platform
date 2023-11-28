@@ -84,7 +84,6 @@ class _ProfileScreenState extends State<ProfileScreen>
               );
             } else {
               User user = snapshot.data!;
-              print(user.birthdayDate);
               return CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
@@ -99,6 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   ),
                   SliverToBoxAdapter(
                     child: AccountInformation(
+                      website: user.website ?? '',
                       birthDate: user.birthdayDate ?? '',
                       bio: user.bio ?? '',
                       followers: user.followers ?? 0,
