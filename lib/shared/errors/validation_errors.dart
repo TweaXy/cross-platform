@@ -12,6 +12,7 @@ class ValidationErrors {
   static const String passwordSpecialCharacterError =
       'Password should contain at least one special character';
   static const String emptyNameError = 'Name is required';
+  static const String nameLengthError = 'Name is required';
   static const String emptyCodeError = 'Code is required';
   static const String codeLengthError = 'Code must be exactly 8 characters';
   static const String emptyUsernameError = 'Username is required';

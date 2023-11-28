@@ -72,6 +72,9 @@ String? nameValidation({required String? inputValue}) {
   if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyNameError;
   }
+  if (inputValue.length < 3) {
+    return ValidationErrors.nameLengthError;
+  }
   return null;
 }
 
