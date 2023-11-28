@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
@@ -45,12 +46,13 @@ var listitems = [
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
+
   final Stream<User> _bids = (() {
     late final StreamController<User> controller;
     controller = StreamController<User>(
       onListen: () async {
-        var u =
-            await GetUserById.instance.getUserById('clphjh4ed0000s113c13ma5f4');
+        var prefs = await SharedPreferences.getInstance();
+        var u = await GetUserById.instance.getUserById(prefs.getString('id')!);
 
         controller.add(u);
         controller.close();

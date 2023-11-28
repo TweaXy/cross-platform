@@ -6,16 +6,29 @@ import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_li
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 
-class HomePageWeb extends StatelessWidget {
+class HomePageWeb extends StatefulWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
-  final profileID = 'clpgk814d000knn0xwvfrxt4b';
+
+  @override
+  State<HomePageWeb> createState() => _HomePageWebState();
+}
+
+class _HomePageWebState extends State<HomePageWeb> {
+  String profileID = '';
+  _execute() async {
+    var ls = await loadPrefs();
+    profileID = ls[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    _execute();
 
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light
@@ -43,15 +56,17 @@ class HomePageWeb extends StatelessWidget {
                   flex: 8,
                   child: BlocBuilder<SidebarCubit, SidebarState>(
                     builder: (context, state) {
+                      print(profileID);
                       if (state is SidebarInitialState ||
                           state is SidebarHomeState)
-                        return HomeTweets(tabController: tabController);
-                      else if (state is SidebarProfileState)
-                        return ProfileComponentWeb(
-                            id: profileID);
+                        return HomeTweets(tabController: widget.tabController);
+                      else if (state is SidebarProfileState) {
+                        return ProfileComponentWeb(id:profileID);
+                      }
                       //TODO:- Provide The rest of the states
-                      else
-                        return Placeholder();
+                      else {
+                        return const Placeholder();
+                      }
                     },
                   ),
                 ),

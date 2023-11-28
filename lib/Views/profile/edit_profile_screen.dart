@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -9,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/edit_profile.dart';
 
@@ -34,14 +36,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool initiallized = false;
   bool removedBanner = false;
   bool removedAvatar = false;
+  bool defBanner = false;
   User? user;
   String? initDate;
-  final String token =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwaGpoNGVkMDAwMHMxMTNjMTNtYTVmNFwiIiwiaWF0IjoxNzAxMTI3NjQyLCJleHAiOjE3MDM3MTk2NDJ9.GdpgNR9R6eCO1jjHduosoHHhBewb9QlXal5VX6g7i1s';
+  String token = '';
+  _execute() async {
+    var ls = await loadPrefs();
+    token = ls[1];
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _execute();
+  }
+
   @override
   Widget build(BuildContext context) {
     user = widget.user;
-
     if (!initiallized) {
       _nameController.text = user!.name!;
       _bioController.text = user!.bio ?? '';
@@ -50,8 +63,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       initDate = user!.birthdayDate ?? '1974-03-20 00:00:00.000';
       _birthDateController.text =
           DateFormat('yyyy-MM-dd').format(DateTime.parse(initDate!));
-      initiallized = true;
+      if (user!.cover == null) {
+        defBanner = true;
+      } else {}
+      defBanner = false;
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -72,15 +89,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         actions: [
           kIsWeb
               ? Center(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                  child: BlocProvider(
+                    create: (context) => EditProfileCubit(),
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        var tempUser = user!;
+                        tempUser.name = _nameController.text;
+                        tempUser.bio = _bioController.text;
+                        tempUser.birthdayDate =
+                            DateTime.parse(_birthDateController.text)
+                                .toString();
+                        tempUser.location = _locationController.text;
+                        tempUser.website = _websiteController.text;
+                        await BlocProvider.of<EditProfileCubit>(context)
+                            .editProfile(
+                                user: user!,
+                                avatarByte: avatarByte,
+                                bannerByte: bannerByte,
+                                removedAvatar: removedAvatar,
+                                removedBanner: removedBanner,
+                                token: token);
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
                       ),
+                      child: const Text('Save'),
                     ),
-                    child: const Text('Save'),
                   ),
                 )
               : TextButton(
@@ -124,39 +162,39 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           initial: initialBanner,
                           image: bannerByte,
                           url: user!.cover ?? kDefaultBannerPhoto,
-                          size: kIsWeb ? 90 : 50,
+                          size:  50,
                           onPressed: () async {
-                            if (!kIsWeb) {
+                            // if (kIsWeb) {
                               _showPickDialog(
                                   context, true, 370, 194, CropStyle.rectangle);
-                            } else {
-                              var croppedImage = await pickAndCrop(
-                                  ImageSource.gallery,
-                                  500,
-                                  185,
-                                  CropStyle.rectangle,
-                                  context);
-                              setState(() {
-                                if (croppedImage != null) {
-                                  initialBanner = false;
-                                  newBanner = croppedImage;
-                                }
-                              });
-                            }
+                            // } else {
+                            //   var croppedImage = await pickAndCrop(
+                            //       ImageSource.gallery,
+                            //       370,
+                            //       194,
+                            //       CropStyle.rectangle,
+                            //       context);
+                            //   setState(() {
+                            //     if (croppedImage != null) {
+                            //       initialBanner = false;
+                            //       newBanner = croppedImage;
+                            //     }
+                            //   });
+                            // }
                           },
-                          defaultBanner: true,
+                          defaultBanner: defBanner,
                           otherOnPressed: () {
                             setState(() {});
                           },
                         ),
                         const SizedBox(
-                          height: kIsWeb ? 36 : 0,
+                          height: 0,
                         )
                       ],
                     ),
                     Positioned(
-                      top:
-                          MediaQuery.of(context).size.height / (kIsWeb ? 7 : 5),
+                      top: MediaQuery.of(context).size.height /
+                          (!kIsWeb ? 7 : 5),
                       left: 15,
                       child: Container(
                         width: 85,
@@ -174,14 +212,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         child: ClipOval(
                           child: AddImage(
                             onPressed: () async {
-                              if (!kIsWeb) {
+                              if (kIsWeb) {
                                 _showPickDialog(
                                     context, false, 85, 85, CropStyle.circle);
                               } else {
                                 var croppedImage = await pickAndCrop(
                                     ImageSource.gallery,
-                                    kIsWeb ? 110 : 70,
-                                    kIsWeb ? 110 : 70,
+                                    250,
+                                    250,
                                     CropStyle.circle,
                                     context);
                                 setState(() {
@@ -194,7 +232,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             url: removedAvatar
                                 ? kDefaultAvatarPhoto
                                 : basePhotosURL + user!.avatar!,
-                            size: kIsWeb ? 52 : 30,
+                            size: !kIsWeb ? 52 : 30,
                             defaultBanner: false,
                           ),
                         ),
@@ -428,12 +466,12 @@ Future<CroppedFile?> pickAndCrop(ImageSource imageSource, double ratioX,
             initAspectRatio: CropAspectRatioPreset.original,
             lockAspectRatio: false),
         WebUiSettings(
+          enableZoom: true,
           context: context,
           viewPort: CroppieViewPort(
             width: ratioX.toInt(),
             height: ratioY.toInt(),
           ),
-          enforceBoundary: true,
           mouseWheelZoom: true,
         ),
       ],
@@ -465,14 +503,14 @@ class AddImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: kIsWeb && defaultBanner ? () {} : onPressed,
+        onTap: !kIsWeb && defaultBanner ? () {} : onPressed,
         child: Blur(
           blur: 0,
           blurColor: Colors.black,
-          colorOpacity: kIsWeb ? 0.2 : 0.4,
+          colorOpacity: !kIsWeb ? 0.2 : 0.4,
           overlay: SizedBox(
             width: size,
-            child: kIsWeb
+            child: !kIsWeb
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
@@ -531,8 +569,8 @@ class PickupPhotoWeb extends StatelessWidget {
       child: GestureDetector(
         onTap: onPressed,
         child: Container(
-          width: 35,
-          height: 35,
+          width: 36,
+          height: 36,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.black.withOpacity(0.5),
