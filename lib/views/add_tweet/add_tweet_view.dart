@@ -8,6 +8,7 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 import 'package:video_player/video_player.dart';
 
 class AddTweetView extends StatefulWidget {
@@ -141,6 +142,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   IconButton(
+                    key: ValueKey(AddTweetKeys.discardTweet),
                     icon: const Icon(
                       Icons.close,
                       color: Colors.black,
@@ -185,6 +187,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                     ),
                     padding: const EdgeInsets.only(top: 8.0, left: 8),
                     child: CustomAddTweetTextField(
+                        key: ValueKey(AddTweetKeys.tweetTextField),
                         tweetController: _tweetController),
                   ),
                 ],
@@ -215,6 +218,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       VideoPlayer(videoControllers[index]),
                                       Center(
                                         child: IconButton(
+                                          key: ValueKey(
+                                              AddTweetKeys.playPauseVideo),
                                           onPressed: () {
                                             setState(
                                               () {
@@ -245,6 +250,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         ),
                                       ),
                                       IconButton(
+                                        key:
+                                            ValueKey(AddTweetKeys.discardVideo),
                                         onPressed: () {
                                           setState(
                                             () {
@@ -284,6 +291,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         image:
                                             FileImage(File(media[index].path))),
                                     IconButton(
+                                      key: ValueKey(AddTweetKeys.discardImage),
                                       onPressed: () {
                                         setState(() {
                                           media.removeAt(index);
@@ -305,6 +313,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                     Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
+                                        key: ValueKey(AddTweetKeys.editImage),
                                         onPressed: () {
                                           setState(() {
                                             cropImage(index: index);
@@ -347,6 +356,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
+                    key: ValueKey(AddTweetKeys.addMedia),
                     onPressed: () {
                       pickMedia();
                     },

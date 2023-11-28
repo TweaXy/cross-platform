@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 class FloatingButton extends StatelessWidget {
@@ -19,6 +20,7 @@ class FloatingButton extends StatelessWidget {
       child: Transform.scale(
         scale: 1.2, // Adjust the scale factor to increase the size
         child: SpeedDial(
+          key: const ValueKey(AddTweetKeys.addTweet),
           icon: Icons.add,
           activeIcon: Icons.close,
           spacing: 3,
@@ -50,6 +52,7 @@ class FloatingButton extends StatelessWidget {
 
           children: [
             SpeedDialChild(
+              key: const ValueKey(AddTweetKeys.addNormalTweet),
               child: const Icon(AppIcon.fabTweet),
               backgroundColor: Colors.white,
               foregroundColor: Colors.blueAccent,
@@ -70,6 +73,7 @@ class FloatingButton extends StatelessWidget {
               },
             ),
             SpeedDialChild(
+              key: const ValueKey(AddTweetKeys.addMediaTweet),
               child: const Icon(AppIcon.image, weight: 30),
               backgroundColor: Colors.white,
               foregroundColor: Colors.blueAccent,

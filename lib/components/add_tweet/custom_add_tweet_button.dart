@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
 class CustomAddTweetButton extends StatelessWidget {
   const CustomAddTweetButton({
@@ -11,6 +12,7 @@ class CustomAddTweetButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      key: const ValueKey(AddTweetKeys.postTweet),
       onPressed: () async {},
       style: ElevatedButton.styleFrom(
         backgroundColor: isButtonEnabled
