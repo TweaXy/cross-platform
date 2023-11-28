@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
@@ -30,13 +31,11 @@ class TweaXy extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
           brightness: brightness,
           fontFamily: 'Roboto',
           scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
           dialogBackgroundColor: isDarkMode ? Colors.black : Colors.white,
-          bottomSheetTheme: BottomSheetThemeData(
-            backgroundColor: Colors.white,
-          ),
         ),
         routes: {
           kSplashScreen: (context) => const SplashScreen(),
@@ -47,10 +46,11 @@ class TweaXy extends StatelessWidget {
           kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
           kAuthenticationScreen: (context) => AuthenticationView(),
           kHomeScreen: (context) => HomePage(),
+          kCreateAcountReviewScreen: (context) => CreateAccountDataReview(),
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
         },
-        initialRoute: kHomeScreen,
+        initialRoute: kCreateAcountScreen,
       ),
     );
   }

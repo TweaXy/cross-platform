@@ -28,6 +28,8 @@ class SignupService {
           "avatar": UserSignup.profilePicture
         },
       );
+      log(response);
+      print(response);
       return response;
     } catch (e) {
       if (kDebugMode) {
