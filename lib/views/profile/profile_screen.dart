@@ -28,48 +28,6 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-const List<Tweet> tweets = const [
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-];
 List<String> listitems = [
   'item1',
   'item2',
@@ -92,6 +50,7 @@ List<String> listitems = [
   'item19',
   'item20',
 ];
+
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -113,8 +72,6 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    final List<Tweet> tweets = initializeTweets(temp);
-
     // User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -210,7 +167,6 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 }
 
-
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   const ProfileScreenAppBar({
     required this.user,
@@ -253,7 +209,9 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(text: 'Edit Profile', user: user,
+              FollowEditButton(
+                text: 'Edit Profile',
+                user: user,
                 key: const ValueKey('followEditButton'),
               ),
             ],
