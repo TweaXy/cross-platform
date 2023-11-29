@@ -10,7 +10,7 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/services/sign_in.dart';
-import 'package:tweaxy/services/signinwithgoolge.dart';
+// import 'package:tweaxy/services/signinwithgoolge.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({
@@ -30,7 +30,7 @@ class SignChoose extends StatelessWidget {
             type: isDarkMode ? ButtonType.googleDark : ButtonType.google,
             onPressed: () async {
               try {
-                signInWithGoogle();
+                // signInWithGoogle();
                 //   Map<String, dynamic> loginGoogle =
                 //       await LoginApi().SignInWithGoogle();
                 //   if (loginGoogle['status'] == "success") {
