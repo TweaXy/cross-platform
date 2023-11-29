@@ -131,12 +131,15 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                           if (tweetcontent.text.isNotEmpty ||
                               xfilePick.isNotEmpty) {
                             AddTweet service = AddTweet(Dio());
-                            Future response = await service.addTweet(
+                            dynamic response = await service.addTweet(
                                 tweetcontent.text, xfilePick);
                             print(response.toString());
                             if (response is String) {
                               showToastWidget(
                                   CustomWebToast(message: response.toString()));
+                            } else {
+                              showToastWidget(
+                                  CustomWebToast(message: "tweet posted"));
                             }
                           } else {
                             showToastWidget(const CustomWebToast(
