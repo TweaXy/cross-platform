@@ -26,87 +26,87 @@ class SignChoose extends StatefulWidget {
 
 class _SignChooseState extends State<SignChoose> {
 ///////////////////////////////
-  void signInWithGoogle() async {
-    try {
-      var googleAccount = await GoogleSingInApi.loginWeb();
-      if (googleAccount != null) {
-        var googleToken = await GoogleSingInApi.getGoogleToken();
-        debugPrint("google account ${googleAccount.email}");
-        if (googleToken != null) {
-          debugPrint("Google Token: $googleToken");
-        } else {
-          debugPrint("token is null");
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Row(
-                children: [
-                  const Icon(
-                    Icons.error,
-                    color: Colors.red,
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.01,
-                  ),
-                  const Text(
-                    "Error in Signing in with Google",
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        }
-      } else {
-        debugPrint("google account is null");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Row(
-              children: [
-                const Icon(
-                  Icons.error,
-                  color: Colors.red,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.01,
-                ),
-                const Text(
-                  "Error in Signing in with Google",
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      debugPrint("error in google sign in $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(
-                Icons.error,
-                color: Colors.red,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.01,
-              ),
-              const Text(
-                "Error in Signing in with Google",
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
-  }
+  // void signInWithGoogle() async {
+  //   try {
+  //     var googleAccount = await GoogleSingInApi.loginWeb();
+  //     if (googleAccount != null) {
+  //       var googleToken = await GoogleSingInApi.getGoogleToken();
+  //       debugPrint("google account ${googleAccount.email}");
+  //       if (googleToken != null) {
+  //         debugPrint("Google Token: $googleToken");
+  //       } else {
+  //         debugPrint("token is null");
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: Row(
+  //               children: [
+  //                 const Icon(
+  //                   Icons.error,
+  //                   color: Colors.red,
+  //                 ),
+  //                 SizedBox(
+  //                   width: MediaQuery.of(context).size.width * 0.01,
+  //                 ),
+  //                 const Text(
+  //                   "Error in Signing in with Google",
+  //                   style: TextStyle(
+  //                     color: Colors.red,
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         );
+  //       }
+  //     } else {
+  //       debugPrint("google account is null");
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(
+  //           content: Row(
+  //             children: [
+  //               const Icon(
+  //                 Icons.error,
+  //                 color: Colors.red,
+  //               ),
+  //               SizedBox(
+  //                 width: MediaQuery.of(context).size.width * 0.01,
+  //               ),
+  //               const Text(
+  //                 "Error in Signing in with Google",
+  //                 style: TextStyle(
+  //                   color: Colors.red,
+  //                 ),
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     }
+  //   } catch (e) {
+  //     debugPrint("error in google sign in $e");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Row(
+  //           children: [
+  //             const Icon(
+  //               Icons.error,
+  //               color: Colors.red,
+  //             ),
+  //             SizedBox(
+  //               width: MediaQuery.of(context).size.width * 0.01,
+  //             ),
+  //             const Text(
+  //               "Error in Signing in with Google",
+  //               style: TextStyle(
+  //                 color: Colors.red,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
 ///////////////////
   @override
@@ -119,7 +119,7 @@ class _SignChooseState extends State<SignChoose> {
             type: widget.isDarkMode ? ButtonType.googleDark : ButtonType.google,
             onPressed: () async {
               try {
-                signInWithGoogle();
+                // signInWithGoogle();
                 //   Map<String, dynamic> loginGoogle =
                 //       await LoginApi().SignInWithGoogle();
                 //   if (loginGoogle['status'] == "success") {

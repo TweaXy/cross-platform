@@ -116,7 +116,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                 ],
               ),
             ),
-            if (widget.user.bio != "")
+            if (widget.user.bio != null)
               Padding(
                 padding: EdgeInsets.only(
                     left: kIsWeb
@@ -124,7 +124,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                         : MediaQuery.of(context).size.width * 0.16,
                     bottom: MediaQuery.of(context).size.height * 0.015),
                 child: Text(
-                  true != "" ? widget.user.bio : "",
+                  widget.user.bio ?? " ",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
