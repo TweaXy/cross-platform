@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';

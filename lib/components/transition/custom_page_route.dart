@@ -23,9 +23,9 @@ class CustomPageRoute extends PageRouteBuilder {
   getBeiginOffset() {
     switch (direction) {
       case AxisDirection.right:
-        return Offset(-1, 0);
+        return const Offset(-1, 0);
       case AxisDirection.left:
-        return Offset(1, 0);
+        return const Offset(1, 0);
       default:
     }
   }

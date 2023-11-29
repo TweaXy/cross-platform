@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tweaxy/components/custom_dialog_app_bar.dart';
-import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class ResetPasswordWeb2 extends StatefulWidget {

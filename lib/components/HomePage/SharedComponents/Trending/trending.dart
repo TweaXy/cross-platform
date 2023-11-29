@@ -31,11 +31,11 @@ class Trending extends StatelessWidget {
                   trend.trendingText,
                   style: TextStyle(
                     color: Theme.of(context).brightness == Brightness.light
-                        ? Color.fromARGB(255, 150, 150, 150)
+                        ? const Color.fromARGB(255, 150, 150, 150)
                         : Colors.white,
                   ),
                 ),
-                Icon(
+                const Icon(
                   FontAwesomeIcons.ellipsis,
                   size: 15,
                 )
@@ -44,7 +44,7 @@ class Trending extends StatelessWidget {
                 height: screenHeight * 0.007,
               ),
               Text(
-                '#' + trend.trendingHashtag,
+                '#${trend.trendingHashtag}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).brightness == Brightness.light
@@ -56,10 +56,10 @@ class Trending extends StatelessWidget {
                 height: screenHeight * 0.007,
               ),
               Text(
-                trend.numberOfPosts + ' posts',
+                '${trend.numberOfPosts} posts',
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.light
-                      ? Color.fromARGB(255, 150, 150, 150)
+                      ? const Color.fromARGB(255, 150, 150, 150)
                       : Colors.white,
                 ),
               )

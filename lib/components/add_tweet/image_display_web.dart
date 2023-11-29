@@ -40,7 +40,7 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
               );
             } else if (widget.pickedfiles.length == 3) {
               // If there are three items, distribute space accordingly
-              return Container(
+              return SizedBox(
                 width: screenwidth * .3,
                 height: screenheight * .3,
                 child: Row(

@@ -26,8 +26,8 @@ class TrendingList extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
-                ? Color(0xfff7f9f9)
-                : Color(0xff16181c),
+                ? const Color(0xfff7f9f9)
+                : const Color(0xff16181c),
             borderRadius: BorderRadius.circular(10)),
         margin: EdgeInsets.all(screenWidth * 0.01),
         child: Column(
@@ -39,7 +39,7 @@ class TrendingList extends StatelessWidget {
                   left: screenWidth * 0.009,
                   right: screenWidth * 0.009,
                   top: screenWidth * 0.009),
-              child: Text(
+              child: const Text(
                 'What\'s happening',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
@@ -47,7 +47,7 @@ class TrendingList extends StatelessWidget {
             SizedBox(height: screenHeight * 0.01),
             ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: trendings.length,
               itemBuilder: (BuildContext context, int index) {
                 return Trending(trend: trendings[index]);

@@ -29,8 +29,8 @@ class LoadingScreen extends StatelessWidget {
           ],
         ),
       ),
-      child: Placeholder(),
       inAsyncCall: asyncCall,
+      child: const Placeholder(),
     );
   }
 }

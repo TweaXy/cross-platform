@@ -47,10 +47,10 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
           child: Column(
             children: [
               CustomDialogAppBar(isDarkMode: !isDarkMode),
-              Row(
+              const Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
+                    padding: EdgeInsets.only(
                       left: 40,
                       top: 20,
                     ),
@@ -77,7 +77,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               Padding(
@@ -132,8 +132,8 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       content: isButtonEnabled
-                                          ? ResetPasswordWeb()
-                                          : ForgetPasswordWeb1(),
+                                          ? const ResetPasswordWeb()
+                                          : const ForgetPasswordWeb1(),
                                     ),
                                     barrierColor:
                                         const Color.fromARGB(100, 97, 119, 129),

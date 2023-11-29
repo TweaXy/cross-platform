@@ -32,8 +32,6 @@ dependencies:
   cached_network_image: ^3.3.0
   chewie: ^1.7.1
   cupertino_icons: ^1.0.2
-  datepicker_dropdown: ^0.0.8
-  dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
   flutter:
     sdk: flutter
@@ -49,7 +47,6 @@ dependencies:
   hidable: ^1.0.3
   http_parser: ^4.0.2
   icon_decoration: ^2.0.2
-  image_cropper: ^5.0.0
   image_picker: ^1.0.4
   intl: ^0.18.1
   like_button: ^2.0.5
@@ -64,8 +61,10 @@ dependencies:
   url_launcher: ^6.2.1
   video_player: ^2.7.2
   webview_flutter_plus:
+  dotted_border: ^2.1.0
+  datepicker_dropdown: ^0.0.8
   dio: ^5.3.3
-  oktoast: ^3.3.2+1
+  image_cropper: ^5.0.0
 dev_dependencies:
   flutter_driver:
     sdk: flutter

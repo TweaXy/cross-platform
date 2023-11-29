@@ -38,7 +38,7 @@ class TweaXy extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             bottomSheetTheme:
-                BottomSheetThemeData(backgroundColor: Colors.white),
+                const BottomSheetThemeData(backgroundColor: Colors.white),
             brightness: brightness,
             fontFamily: 'Roboto',
             useMaterial3: false,
@@ -53,12 +53,13 @@ class TweaXy extends StatelessWidget {
             kCreateAcountScreen: (context) => const CreateAccountView(),
             kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
             kAuthenticationScreen: (context) => AuthenticationView(),
-            kHomeScreen: (context) => HomePage(),
-            kCreateAcountReviewScreen: (context) => CreateAccountDataReview(),
-            kProfileScreen: (context) => ProfileScreen(),
-            kFollowers: (context) => FollowersPage(),
-            kFollowing: (context) => FollowingPage(),
-            kwebboth: (context) => WebFollowersAndFollowings(),
+            kHomeScreen: (context) => const HomePage(),
+            kCreateAcountReviewScreen: (context) =>
+                const CreateAccountDataReview(),
+            kProfileScreen: (context) => const ProfileScreen(),
+            kFollowers: (context) => const FollowersPage(),
+            kFollowing: (context) => const FollowingPage(),
+            kwebboth: (context) => const WebFollowersAndFollowings(),
           },
           initialRoute: kSplashScreen,
         ),

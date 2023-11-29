@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/showallFollowers.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class WebFollowersAndFollowings extends StatefulWidget {
-  WebFollowersAndFollowings({Key? key}) : super(key: key);
+  const WebFollowersAndFollowings({Key? key}) : super(key: key);
 
   @override
   State<WebFollowersAndFollowings> createState() =>
@@ -24,6 +21,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
     await followApi().getFollowings();
   }
 
+  @override
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 2);
@@ -40,7 +38,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -48,7 +46,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
             Navigator.pop(context);
           },
         ),
-        title: Column(
+        title: const Column(
           children: [
             Text(
               'KareemKaokab',
@@ -76,7 +74,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
           indicatorSize: TabBarIndicatorSize.label,
           indicatorColor: Colors.blue,
           indicatorWeight: 4,
-          indicatorPadding: EdgeInsets.only(bottom: 1.0),
+          indicatorPadding: const EdgeInsets.only(bottom: 1.0),
           tabs: [
             Tab(
               child: Text(
@@ -84,7 +82,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
                 style: TextStyle(
                   color: tabController.index == 0
                       ? Colors.black
-                      : Color(0xffADB5BC),
+                      : const Color(0xffADB5BC),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
@@ -96,7 +94,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
                 style: TextStyle(
                   color: tabController.index == 1
                       ? Colors.black
-                      : Color(0xffADB5BC),
+                      : const Color(0xffADB5BC),
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),

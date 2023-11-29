@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,6 +17,8 @@ class LoginApi {
     SharedPreferences user = await SharedPreferences.getInstance();
     user.setString('username', response.data['data']['user']['username']);
     user.setString("token", response.data['data']['token']);
+    user.setString("id", response.data['data']['user']['id']);
+
     print(response.toString());
     print(response.data['data']['token']);
     print(response.data['data']['user']['username']);

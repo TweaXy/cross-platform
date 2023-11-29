@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
-import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 
 class CustomCreateAccountFields extends StatefulWidget {
   const CustomCreateAccountFields(

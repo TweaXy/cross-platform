@@ -9,8 +9,6 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
-import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
 
@@ -43,7 +41,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.close_sharp,
             color: Colors.black,
           ),
@@ -58,7 +56,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
             padding: EdgeInsets.symmetric(
                 horizontal: MediaQuery.of(context).size.width * 0.04,
                 vertical: MediaQuery.of(context).size.height * 0.03),
-            child: Text(
+            child: const Text(
               'To get started, first enter your phone, email address or @username',
               overflow: TextOverflow.clip,
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
@@ -105,7 +103,7 @@ class _LoginViewPage1State extends State<LoginViewPage1> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: ForgetPasswordPage1()));
+                                  child: const ForgetPasswordPage1()));
                         },
                       ),
                       CustomButton(

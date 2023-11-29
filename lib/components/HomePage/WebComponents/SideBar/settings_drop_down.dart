@@ -48,7 +48,7 @@ class _SettingsAndSupportState extends State<SettingsAndSupport> {
       value: dropdownValue,
       // icon: const Icon(Icons.arrow_drop_down_outlined),
       // elevation: 16,
-      style: TextStyle(
+      style: const TextStyle(
         fontSize: 18,
       ),
       underline: Container(),

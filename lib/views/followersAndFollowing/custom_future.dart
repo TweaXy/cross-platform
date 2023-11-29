@@ -19,10 +19,10 @@ class CustomFurure extends StatelessWidget {
               follow: snapshot.data ?? [], isFollower: isFollower);
         } else if (snapshot.hasError) {
           return kIsWeb
-              ? CustomWebToast(message: "We have a problem")
-              : Center(child: CustomToast(message: "We have a problem"));
+              ? const CustomWebToast(message: "We have a problem")
+              : const Center(child: CustomToast(message: "We have a problem"));
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

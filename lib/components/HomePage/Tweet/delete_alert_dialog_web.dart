@@ -14,17 +14,17 @@ class DeleteAlertDialogWeb extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: screenwidth * 0.41, vertical: screenheight * 0.1),
       child: AlertDialog(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(15.0))),
-        titlePadding: EdgeInsets.only(bottom: 0, left: 30, top: 30),
+        titlePadding: const EdgeInsets.only(bottom: 0, left: 30, top: 30),
         contentPadding:
-            EdgeInsets.only(bottom: 15, left: 30, right: 30, top: 8),
-        title: Text('Delete post?',
+            const EdgeInsets.only(bottom: 15, left: 30, right: 30, top: 8),
+        title: const Text('Delete post?',
             style: TextStyle(
                 fontSize: 20,
-                color: const Color.fromARGB(
+                color: Color.fromARGB(
                     255, 10, 10, 10))), // To display the title it is optional
-        content: Text(
+        content: const Text(
             style:
                 TextStyle(fontSize: 16, color: Color.fromARGB(255, 83, 83, 83)),
             'This can\'t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results.'), // Message which will be pop up on the screen
@@ -37,8 +37,8 @@ class DeleteAlertDialogWeb extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
 
-                  backgroundColor: Color.fromARGB(255, 223, 54, 42),
-                  padding: EdgeInsets.all(20),
+                  backgroundColor: const Color.fromARGB(255, 223, 54, 42),
+                  padding: const EdgeInsets.all(20),
 
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
@@ -48,13 +48,13 @@ class DeleteAlertDialogWeb extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                   showToastWidget(
-                      CustomWebToast(
+                      const CustomWebToast(
                         message: 'Your post was deleted',
                       ),
                       position: ToastPosition.bottom,
                       duration: const Duration(seconds: 2));
                 },
-                child: Text('Delete',
+                child: const Text('Delete',
                     style: TextStyle(color: Colors.white, fontSize: 16)),
               ),
             ),
@@ -66,10 +66,10 @@ class DeleteAlertDialogWeb extends StatelessWidget {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
-                  side: BorderSide(
+                  side: const BorderSide(
                       width: 0.5, color: Color.fromARGB(255, 184, 184, 184)),
                   backgroundColor: Colors.white,
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(25),
                   ),
@@ -78,7 +78,7 @@ class DeleteAlertDialogWeb extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Cancel',
+                child: const Text('Cancel',
                     style: TextStyle(color: Colors.black, fontSize: 16)),
               ),
             ),

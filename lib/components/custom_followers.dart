@@ -19,7 +19,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           side: BorderSide(
             color: Color.fromARGB(255, 231, 233, 233),
             width: 0.8,
@@ -27,7 +27,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
         ),
       ),
       onPressed: () {},
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,7 +93,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                         Text(
                           widget.user.name,
                           maxLines: 1,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.clip,
                               fontSize: 19,
@@ -109,19 +109,19 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                 kIsWeb
                                     ? "${widget.user.username}  "
                                     : widget.user.username,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: kIsWeb ? 15 : 13,
                                     color: Color(0xff536471)),
                               ),
                               if (kIsWeb && widget.user.followesMe == true)
                                 Container(
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                     color: Color(0xffc7ced2),
                                   ),
-                                  child: Text(
+                                  child: const Text(
                                     'Follwers you',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 13,
                                         color: Color(0xff536471)),
@@ -179,19 +179,19 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                             children: [
                                               Text(
                                                 "Unfollow ${widget.user.username}?",
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.black,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20,
                                                 ),
                                               ),
-                                              SizedBox(height: 10),
-                                              Text(
+                                              const SizedBox(height: 10),
+                                              const Text(
                                                 "Their posts will no longer show up in your For You timeline. You can still view their profile, unless their posts are protected.",
                                                 style: TextStyle(
                                                     color: Color(0xff536471)),
                                               ),
-                                              SizedBox(height: 20),
+                                              const SizedBox(height: 20),
                                               ButtonBar(
                                                 alignment:
                                                     MainAxisAlignment.center,
@@ -280,7 +280,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                   widget.user.bio ?? "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
+                  style: const TextStyle(
                       height: 1.4,
                       fontWeight: FontWeight.w400,
                       fontSize: 18,

@@ -142,7 +142,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   IconButton(
-                    key: ValueKey(AddTweetKeys.discardTweet),
+                    key: const ValueKey(AddTweetKeys.discardTweet),
                     icon: const Icon(
                       Icons.close,
                       color: Colors.black,
@@ -190,7 +190,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                     ),
                     padding: const EdgeInsets.only(top: 8.0, left: 8),
                     child: CustomAddTweetTextField(
-                        key: ValueKey(AddTweetKeys.tweetTextField),
+                        key: const ValueKey(AddTweetKeys.tweetTextField),
                         tweetController: _tweetController),
                   ),
                 ],
@@ -221,7 +221,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       VideoPlayer(videoControllers[index]),
                                       Center(
                                         child: IconButton(
-                                          key: ValueKey(
+                                          key: const ValueKey(
                                               AddTweetKeys.playPauseVideo),
                                           onPressed: () {
                                             setState(
@@ -254,7 +254,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                       ),
                                       IconButton(
                                         key:
-                                            ValueKey(AddTweetKeys.discardVideo),
+                                            const ValueKey(AddTweetKeys.discardVideo),
                                         onPressed: () {
                                           setState(
                                             () {
@@ -294,7 +294,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         image:
                                             FileImage(File(media[index].path))),
                                     IconButton(
-                                      key: ValueKey(AddTweetKeys.discardImage),
+                                      key: const ValueKey(AddTweetKeys.discardImage),
                                       onPressed: () {
                                         setState(() {
                                           media.removeAt(index);
@@ -316,7 +316,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                     Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
-                                        key: ValueKey(AddTweetKeys.editImage),
+                                        key: const ValueKey(AddTweetKeys.editImage),
                                         onPressed: () {
                                           setState(() {
                                             cropImage(index: index);
@@ -359,7 +359,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   IconButton(
-                    key: ValueKey(AddTweetKeys.addMedia),
+                    key: const ValueKey(AddTweetKeys.addMedia),
                     onPressed: () {
                       pickMedia();
                     },

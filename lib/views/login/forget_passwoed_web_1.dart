@@ -10,7 +10,7 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 
 // ignore: must_be_immutable
 class ForgetPasswordWeb1 extends StatefulWidget {
-  ForgetPasswordWeb1({super.key});
+  const ForgetPasswordWeb1({super.key});
 
   @override
   State<ForgetPasswordWeb1> createState() => _WebDialogSignInPage2State();
@@ -47,7 +47,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
           const Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 55,
               top: 30,
             ),
@@ -119,7 +119,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
                                 Navigator.pop(context);
                                 showDialog(
                                   context: context,
-                                  builder: (context) => AlertDialog(
+                                  builder: (context) => const AlertDialog(
                                     content: ForgetPasswordWeb3(),
                                   ),
                                   barrierColor:

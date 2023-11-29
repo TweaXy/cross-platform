@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/showallFollowers.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
-import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowingPage extends StatefulWidget {
-  FollowingPage({super.key});
+  const FollowingPage({super.key});
 
   @override
   State<FollowingPage> createState() => _FollowingPageState();
@@ -25,7 +21,7 @@ class _FollowingPageState extends State<FollowingPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -33,7 +29,7 @@ class _FollowingPageState extends State<FollowingPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Following',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w500, fontSize: 25),
@@ -42,7 +38,7 @@ class _FollowingPageState extends State<FollowingPage> {
         elevation: 1,
         actions: [
           IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.person_add_alt,
               color: Colors.black,
             ),

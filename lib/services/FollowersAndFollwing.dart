@@ -1,12 +1,8 @@
-import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/followers_model.dart';
-import 'package:tweaxy/models/users.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class followApi {
   final dio = Dio();

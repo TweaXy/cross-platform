@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
@@ -13,7 +13,6 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/login/forget_password_page1.dart';
 
 // ignore: must_be_immutable
 class ResetPasswordMobile extends StatefulWidget {
@@ -40,10 +39,11 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
     setState(() {
       String c1 = myControllerNewPassword.text;
       String c2 = myControllerConfirmPassword.text;
-      if (!myControllerNewPassword.text.trim().isEmpty && (c1 == c2))
+      if (myControllerNewPassword.text.trim().isNotEmpty && (c1 == c2)) {
         isButtonEnabled = true;
-      else
+      } else {
         isButtonEnabled = false;
+      }
     });
   }
 
@@ -55,7 +55,6 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
     bool isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
     return Scaffold(
-      
       appBar: CustomAppbar(
         iconButton: IconButton(
           key: const ValueKey("ResetPasswordMobileBackIcon"),
@@ -183,7 +182,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                     context,
                     CustomPageRoute(
                         direction: AxisDirection.left,
-                        child: ResetPasswordMobile2()));
+                        child: const ResetPasswordMobile2()));
               }
             },
           ),

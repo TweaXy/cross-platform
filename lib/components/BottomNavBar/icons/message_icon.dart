@@ -15,10 +15,10 @@ class MessageIcon extends StatelessWidget {
         color: Theme.of(context).brightness == Brightness.light
             ? (selectedIndex == 3
                 ? Colors.black
-                : Color.fromARGB(255, 137, 137, 137))
+                : const Color.fromARGB(255, 137, 137, 137))
             : (selectedIndex == 3
                 ? Colors.white
-                : Color.fromARGB(255, 176, 176, 176)),
+                : const Color.fromARGB(255, 176, 176, 176)),
       ),
       decoration:
           IconDecoration(border: IconBorder(width: selectedIndex == 3 ? 2 : 1)),

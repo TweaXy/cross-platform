@@ -9,12 +9,11 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 // ignore: must_be_immutable
 class WebDialogSignInPage2 extends StatefulWidget {
-  WebDialogSignInPage2(
+  const WebDialogSignInPage2(
       {super.key, required this.isDarkMode, required this.myControll});
   final TextEditingController myControll;
   final bool isDarkMode;
@@ -61,7 +60,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           SizedBox(
@@ -69,7 +68,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
             child: TextField(
               style: TextStyle(
                 color:
-                    widget.isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
+                    widget.isDarkMode ? const Color(0xffADB5BC) : const Color(0xff292b2d),
               ),
               controller: widget.myControll,
               enabled: false,
@@ -78,11 +77,11 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                 floatingLabelBehavior: FloatingLabelBehavior.auto,
                 filled: true,
                 fillColor: !widget.isDarkMode
-                    ? Color(0xff101214)
-                    : Color(0xfff7f9f9), // Specify the background color
+                    ? const Color(0xff101214)
+                    : const Color(0xfff7f9f9), // Specify the background color
                 contentPadding: const EdgeInsets.symmetric(
                     vertical: 25.0, horizontal: 20.0),
-                border: OutlineInputBorder(),
+                border: const OutlineInputBorder(),
                 disabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(
                         width: 2, color: backgroundColorTheme(context))),
@@ -121,8 +120,8 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
                               try {
                                 Map<String, dynamic> user = await LoginApi()
                                     .postUser({
-                                  'UUID': '${widget.myControll.text}',
-                                  'password': '${myControllerPassword.text}'
+                                  'UUID': widget.myControll.text,
+                                  'password': myControllerPassword.text
                                 }) as Map<String, dynamic>;
                                 Navigator.of(context)
                                     .popUntil((route) => route.isFirst);
