@@ -60,7 +60,7 @@ class _HomePageWebState extends State<HomePageWeb> {
                           state is SidebarHomeState)
                         return HomeTweets(tabController: widget.tabController);
                       else if (state is SidebarProfileState) {
-                        return ProfileComponentWeb(id:profileID);
+                        return ProfileComponentWeb(id: profileID);
                       }
                       //TODO:- Provide The rest of the states
                       else {
@@ -86,13 +86,26 @@ class _HomePageWebState extends State<HomePageWeb> {
   }
 }
 
-class HomeTweets extends StatelessWidget {
+class HomeTweets extends StatefulWidget {
   const HomeTweets({
     super.key,
     required this.tabController,
   });
 
   final TabController tabController;
+
+  @override
+  State<HomeTweets> createState() => _HomeTweetsState();
+}
+
+class _HomeTweetsState extends State<HomeTweets> {
+  late ScrollController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +129,7 @@ class HomeTweets extends StatelessWidget {
               pinned: true,
               title: CustomTabBar(
                 isVisible: true,
-                tabController: tabController,
+                tabController: widget.tabController,
               ),
             ),
           ];
@@ -131,7 +144,8 @@ class HomeTweets extends StatelessWidget {
                     : const Color.fromARGB(255, 233, 233, 233)),
           ),
           child: HomePageBody(
-            tabController: tabController,
+            scrollController: controller,
+            tabController: widget.tabController,
           ),
         ),
       ),

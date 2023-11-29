@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
@@ -9,9 +11,10 @@ import 'package:tweaxy/services/Tweets.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
 class HomePageBody extends StatelessWidget {
-  const HomePageBody({super.key, required this.tabController});
+  const HomePageBody(
+      {super.key, required this.tabController, required this.scrollController});
   final TabController tabController;
-
+  final ScrollController scrollController;
   final List<Map<String, String>> temp = const [
     {
       'likesCount': '1',
@@ -111,12 +114,11 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Tweet> tweets = initializeTweets(temp);
     return FutureBuilder(
-      future: Tweets.getTweetsHome(),
+      future: Tweets.getTweetsHome(scroll: scrollController),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.hasError) {
-          print('tt' + Tweets.getTweetsHome().toString());
+          // print('tt' + Tweets.getTweetsHome().toString());
           return const Scaffold(
             body: Column(
               children: [
@@ -134,7 +136,7 @@ class HomePageBody extends StatelessWidget {
           return Scaffold(
             body: Column(
               children: [
-                Center(
+                const Center(
                     child: CircularProgressIndicator(
                   color: Colors.blue,
                 )),
@@ -145,13 +147,12 @@ class HomePageBody extends StatelessWidget {
             ),
           );
         } else {
-          print('tt' + Tweets.getTweetsHome().toString());
+          // print('tt' + Tweets.getTweetsHome().toString());
 
-          print('tw' + snapshot.data!.toString());
+          // print('tw' + snapshot.data!.toString());
           List<Map<String, dynamic>> s = snapshot.data!;
-          print(s);
+          print("ssssssssss");
           List<Tweet> tweets = initializeTweets(s);
-
           print(s);
           return TabBarView(
             controller: tabController,

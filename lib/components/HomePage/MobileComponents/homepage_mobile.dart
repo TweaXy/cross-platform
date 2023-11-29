@@ -112,6 +112,7 @@ class HomeTweetsMobile extends StatelessWidget {
           ];
         },
         body: HomePageBody(
+          scrollController: controller,
           tabController: tabController,
         ));
   }

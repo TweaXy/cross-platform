@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/Components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_mobile.dart';
@@ -17,6 +18,7 @@ class CustomTweet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? t = tweet.image;
+    print('timg' + tweet.image.toString());
 
     return Container(
       padding: EdgeInsets.all(10),
@@ -57,15 +59,15 @@ class CustomTweet extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (t != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image(
-                      image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/$t',
-                      ),
-                    ),
-                  ),
+                // if (tweet.image != null)
+                //   ClipRRect(
+                //     borderRadius: BorderRadius.circular(10),
+                //     child: Image(
+                //       image: CachedNetworkImageProvider(
+                //         'http://16.171.65.142:3000/$t',
+                //       ),
+                //     ),
+                //   ),
                 TweetInteractions(
                   likesCount: tweet.likesCount,
                   viewsCount: tweet.viewsCount,
