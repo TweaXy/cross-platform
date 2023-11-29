@@ -35,10 +35,14 @@ class EditProfile {
       'location': user.location ?? '',
     };
     if (removedAvatar && newAvatar == null) {
-      await Api.delete(
-          url: baseURL + _editProfileEndpoint + _removeProfilePictureEndpoint,
-          body: {},
-          token: token);
+      try {
+        await Api.delete(
+            url: baseURL + _editProfileEndpoint + _removeProfilePictureEndpoint,
+            body: {},
+            token: token);
+      } catch (e) {
+        print('Avatar Exception :- ' + e.toString());
+      }
     }
 
     if (newAvatar != null && !removedAvatar) {
@@ -48,10 +52,14 @@ class EditProfile {
       }.entries);
     }
     if (removedBanner && newBanner == null) {
-      await Api.delete(
-          url: baseURL + _editProfileEndpoint + _removeProfileBannerEndpoint,
-          body: {},
-          token: token);
+      try {
+        await Api.delete(
+            url: baseURL + _editProfileEndpoint + _removeProfileBannerEndpoint,
+            body: {},
+            token: token);
+      } catch (e) {
+        print('Cover Exception :- ' + e.toString());
+      }
     }
     if (newBanner != null && !removedBanner) {
       data.addEntries({

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -152,6 +153,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       tempUser.birthdayDate =
                           DateTime.parse(_birthDateController.text).toString();
                       tempUser.location = _locationController.text;
+                      if (!_websiteController.text.startsWith('https://') &&
+                          !_websiteController.text.startsWith('http://')) {
+                        Fluttertoast.showToast(
+                            msg: "Wrong Website Format",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0);
+                        return;
+                      }
                       tempUser.website = _websiteController.text;
                       BlocProvider.of<EditProfileCubit>(context).editProfile(
                           user: tempUser,
@@ -427,42 +440,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 },
                 title: const Text('Choose existing photo'),
               ),
-              removedBanner
-                  ? ListTile(
-                      onTap: () {
-                        newBanner = null;
-                        initialBanner = true;
-                        user!.cover = null;
-                        removedBanner = true;
-                        setState(() {});
-                        Navigator.pop(context);
-                      },
-                      title: const Text('Remove header'),
-                    )
-                  : const SizedBox(),
               banner
-                  ? ListTile(
-                      onTap: () {
-                        newBanner = null;
-                        initialBanner = true;
-                        user!.cover = null;
-                        removedBanner = true;
-                        setState(() {});
-                        Navigator.pop(context);
-                      },
-                      title: const Text('Remove Cover Image'),
-                    )
-                  : ListTile(
-                      onTap: () {
-                        removedAvatar = true;
-                        newAvatar = null;
-                        initialAvatar = true;
-                        user!.cover = null;
-                        setState(() {});
-                        Navigator.pop(context);
-                      },
-                      title: const Text('Remove Avatar Image'),
-                    ),
+                  ? removedBanner
+                      ? const SizedBox()
+                      : ListTile(
+                          onTap: () {
+                            newBanner = null;
+                            initialBanner = true;
+                            user!.cover = null;
+                            removedBanner = true;
+                            setState(() {});
+                            Navigator.pop(context);
+                          },
+                          title: const Text('Remove Cover Image'),
+                        )
+                  : removedAvatar
+                      ? const SizedBox()
+                      : ListTile(
+                          onTap: () {
+                            removedAvatar = true;
+                            newAvatar = null;
+                            initialAvatar = true;
+                            user!.avatar = 'uploads/default.png';
+                            setState(() {});
+                            Navigator.pop(context);
+                          },
+                          title: const Text('Remove Avatar Image'),
+                        ),
             ],
           ),
         ),

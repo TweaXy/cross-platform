@@ -69,103 +69,94 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   Widget build(BuildContext context) {
     // User user = ModalRoute.of(context)?.settings.arguments as User;
-    return BlocProvider(
-      create: (context) => EditProfileCubit(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: BlocBuilder<EditProfileCubit, EditProfileState>(
-            builder: (context, state) {
-              if (state is EditProfileLoadingState) {
-                return const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.blue,
-                    ),
-                  ),
-                );
-              } else if (state is EditProfileInitialState ||
-                  state is EditProfileCompletedState) {
-                return FutureBuilder(
-                  future: GetUserById.instance.getUserById(id),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const LoadingScreen(
-                        asyncCall: true,
-                      );
-                    } else {
-                      User user = snapshot.data!;
-                      return CustomScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: ProfileScreenAppBar(
-                              user: user,
-                              postsNumber: 216820,
-                              avatarURL: user.avatar ?? '',
-                              coverURL: user.cover ?? '',
-                            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: BlocBuilder<EditProfileCubit, EditProfileState>(
+          builder: (context, state) {
+            if (state is EditProfileLoadingState) {
+              return LoadingScreen(asyncCall: true);
+            } else if (state is EditProfileInitialState ||
+                state is EditProfileCompletedState) {
+              return FutureBuilder(
+                future: GetUserById.instance.getUserById(id),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const LoadingScreen(
+                      asyncCall: true,
+                    );
+                  } else {
+                    User user = snapshot.data!;
+                    return CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: ProfileScreenAppBar(
+                            user: user,
+                            postsNumber: 216820,
+                            avatarURL: user.avatar ?? '',
+                            coverURL: user.cover ?? '',
                           ),
-                          SliverToBoxAdapter(
-                            child: AccountInformation(
-                              website: user.website ?? '',
-                              birthDate: user.birthdayDate ?? '',
-                              bio: user.bio ?? '',
-                              followers: user.followers ?? 0,
-                              following: user.following ?? 0,
-                              joinedDate: user.joinedDate ?? '',
-                              location: user.location ?? '',
-                              profileName: user.name ?? '',
-                              userName: user.userName ?? '',
-                            ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: AccountInformation(
+                            website: user.website ?? '',
+                            birthDate: user.birthdayDate ?? '',
+                            bio: user.bio ?? '',
+                            followers: user.followers ?? 0,
+                            following: user.following ?? 0,
+                            joinedDate: user.joinedDate ?? '',
+                            location: user.location ?? '',
+                            profileName: user.name ?? '',
+                            userName: user.userName ?? '',
                           ),
-                          SliverTabBar(
-                            expandedHeight: 0,
-                            backgroundColor: Colors.white,
-                            tabBar: TabBar(
-                              indicatorWeight: 3,
-                              indicatorColor: Colors.blue,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              controller: _tabController,
-                              labelColor: Colors.black,
-                              onTap: (value) => setState(() {
-                                _selectedTabIndex = value;
-                              }),
-                              tabs: const [
-                                Tab(
-                                  text: 'Posts',
-                                ),
-                                Tab(
-                                  text: 'Replies',
-                                ),
-                                Tab(
-                                  text: 'Likes',
-                                )
-                              ],
-                            ),
+                        ),
+                        SliverTabBar(
+                          expandedHeight: 0,
+                          backgroundColor: Colors.white,
+                          tabBar: TabBar(
+                            indicatorWeight: 3,
+                            indicatorColor: Colors.blue,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            controller: _tabController,
+                            labelColor: Colors.black,
+                            onTap: (value) => setState(() {
+                              _selectedTabIndex = value;
+                            }),
+                            tabs: const [
+                              Tab(
+                                text: 'Posts',
+                              ),
+                              Tab(
+                                text: 'Replies',
+                              ),
+                              Tab(
+                                text: 'Likes',
+                              )
+                            ],
                           ),
-                          SliverList.builder(
-                            itemCount: listitems.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: ListTile(
-                                    title: Text(listitems[index].toString() +
-                                        _selectedTabIndex.toString()),
-                                    tileColor: Colors.white,
-                                  ));
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                );
-              }
-              return Placeholder();
-            },
-          ),
+                        ),
+                        SliverList.builder(
+                          itemCount: listitems.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ListTile(
+                                  title: Text(listitems[index].toString() +
+                                      _selectedTabIndex.toString()),
+                                  tileColor: Colors.white,
+                                ));
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                },
+              );
+            }
+            return Placeholder();
+          },
         ),
       ),
     );
