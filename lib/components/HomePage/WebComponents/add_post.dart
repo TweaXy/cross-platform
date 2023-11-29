@@ -24,7 +24,7 @@ class AddPost extends StatelessWidget {
         children: [
           const Row(
             children: [
-              UserImageForTweet(image: 'assets/girl.jpg'),
+              UserImageForTweet(image: 'uploads/default.png'),
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(

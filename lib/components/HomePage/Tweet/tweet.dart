@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
@@ -15,6 +16,8 @@ class CustomTweet extends StatelessWidget {
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
+    String? t = tweet.image;
+
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -51,17 +54,24 @@ class CustomTweet extends StatelessWidget {
                     tweet.tweetText!,
                     style: TextStyle(
                       fontSize: 18,
-                      // color: const Color.fromARGB(255, 132, 132, 132),
                     ),
                   ),
                 ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image(
-                    image: AssetImage(tweet.image!),
+                if (t != null)
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image(
+                      image: CachedNetworkImageProvider(
+                        'http://16.171.65.142:3000/$t',
+                      ),
+                    ),
                   ),
+                TweetInteractions(
+                  likesCount: tweet.likesCount,
+                  viewsCount: tweet.viewsCount,
+                  retweetsCount: tweet.retweetsCount,
+                  commentsCount: tweet.commentsCount,
                 ),
-                TweetInteractions(),
               ],
             ),
           ),

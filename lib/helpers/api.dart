@@ -17,6 +17,29 @@ class Api {
     return response;
   }
 
+  static Future<dynamic> getwithToken({
+    required String url,
+    @required String? token,
+  }) async {
+    Response? response;
+    try {
+      Map<String, dynamic> headers = {};
+      if (token != null) {
+        headers.addAll({
+          'Authorization': 'Bearer $token',
+          // 'Content-Type': 'application/json;charset=UTF-8'
+        });
+      }
+      response = await Dio().get(url, options: Options(headers: headers));
+    } on DioException catch (e) {
+      log("API: " + e.response!.data['message']);
+      return e.response!.data['message'];
+    }
+    log("API: " + response.toString());
+
+    return response;
+  }
+
   static Future<dynamic> post({
     required String url,
     @required dynamic body,

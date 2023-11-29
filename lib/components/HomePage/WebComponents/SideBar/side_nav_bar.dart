@@ -6,6 +6,7 @@ import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/droptemp.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
@@ -44,129 +45,211 @@ class _SideNavBarState extends State<SideNavBar> {
       padding: !kIsWeb
           ? EdgeInsets.symmetric(
               horizontal: screenWidth * 0.07, vertical: screenHeight * 0.1)
-          : EdgeInsets.all(0),
-      child: Visibility(
-        child: ListView(
-          padding: EdgeInsets.only(top: 5),
-          children: [
-            ListTile(
-              leading: SvgPicture.asset(
-                'assets/images/logo.svg',
-                width: 40, // Adjust the width as needed
-                height: 40, // Adjust the height as needed
-                alignment: Alignment.center,
-              ),
-            ),
-
-            InkWell(
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    30,
+          : const EdgeInsets.all(0),
+      child: Column(
+        children: [
+          Expanded(
+            child: ListView(
+              padding: const EdgeInsets.only(top: 5),
+              children: [
+                ListTile(
+                  leading: SvgPicture.asset(
+                    'assets/images/logo.svg',
+                    width: 40, // Adjust the width as needed
+                    height: 40, // Adjust the height as needed
+                    alignment: Alignment.center,
                   ),
                 ),
-                leading: HomeIcon(
-                  selectedIndex: selectedIndex,
+
+                InkWell(
+                  child: ListTile(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        30,
+                      ),
+                    ),
+                    leading: HomeIcon(
+                      selectedIndex: selectedIndex,
+                    ),
+                    title: SideBarText(
+                      selectedIndex: selectedIndex,
+                      curindex: 0,
+                      text: 'Home',
+                    ),
+                    onTap: () {
+                      // Navigator.pop(context);
+                      _globalOnTap(0);
+                    },
+                  ),
                 ),
-                title: SideBarText(
-                  selectedIndex: selectedIndex,
-                  curindex: 0,
-                  text: 'Home',
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+                  leading: SearchIcon(
+                    selectedIndex: selectedIndex,
+                  ),
+                  title: SideBarText(
+                    curindex: 1,
+                    selectedIndex: selectedIndex,
+                    text: 'Explore',
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _globalOnTap(1);
+                  },
                 ),
-                onTap: () {
-                  // Navigator.pop(context);
-                  _globalOnTap(0);
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+                  leading: NotificationIcon(
+                    selectedIndex: selectedIndex,
+                  ),
+                  title: SideBarText(
+                    text: 'Notifications',
+                    selectedIndex: selectedIndex,
+                    curindex: 2,
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _globalOnTap(2);
+                  },
+                ),
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+                  leading: MessageIcon(
+                    selectedIndex: selectedIndex,
+                  ),
+                  title: SideBarText(
+                    text: 'Message',
+                    selectedIndex: selectedIndex,
+                    curindex: 3,
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _globalOnTap(3);
+                  },
+                ),
+                ListTile(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      30,
+                    ),
+                  ),
+                  leading: Icon(
+                    FontAwesomeIcons.user,
+                    size: 27,
+                    color: Theme.of(context).brightness == Brightness.light
+                        ? (selectedIndex == 4
+                            ? Colors.black
+                            : const Color.fromARGB(255, 137, 137, 137))
+                        : (selectedIndex == 4
+                            ? Colors.white
+                            : const Color.fromARGB(255, 176, 176, 176)),
+                  ),
+                  title: SideBarText(
+                    text: 'Profile',
+                    selectedIndex: selectedIndex,
+                    curindex: 4,
+                  ),
+                  onTap: () {
+                    // Navigator.pop(context);
+                    _globalOnTap(4);
+                  },
+                ),
+                // SettingsAndSupport(),
+                const PostButton(),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            style: ButtonStyle(
+              padding:
+                  MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(17)),
+              elevation: MaterialStateProperty.all<double>(0),
+              backgroundColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.pressed)) {
+                    return Colors.white;
+                  }
+                  return Colors.white; // Use the component's default.
+                },
+              ),
+              side: MaterialStateProperty.all(const BorderSide(
+                color: Colors.transparent,
+                width: 0.0,
+              )),
+              splashFactory: NoSplash.splashFactory,
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(45.0),
+              )),
+              overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                (Set<MaterialState> states) {
+                  if (states.contains(MaterialState.hovered))
+                    return const Color.fromARGB(
+                        255, 224, 224, 224); //<-- SEE HERE
+                  return Colors.white; // Defer to the widget's default.
                 },
               ),
             ),
-            ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  30,
-                ),
+            // style: ElevatedButton.styleFrom(
+            //     splashFactory: NoSplash.splashFactory,
+            //     shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.circular(25),
+            //     ),
+            //     backgroundColor: Colors.transparent),
+            onPressed: () {},
+
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const UserImageForTweet(image: 'uploads/default.png'),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 4.5),
+                          child: Text(
+                            'Menna Ahmed',
+                            style: TextStyle(
+                                color: Color.fromARGB(255, 13, 11, 11),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
+                        ),
+                        Text(
+                          '@MennaAhmed117',
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.grey.shade600),
+                        )
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    FontAwesomeIcons.ellipsis,
+                    size: 15,
+                    color: const Color.fromARGB(255, 80, 80, 80),
+                  ),
+                ],
               ),
-              leading: SearchIcon(
-                selectedIndex: selectedIndex,
-              ),
-              title: SideBarText(
-                curindex: 1,
-                selectedIndex: selectedIndex,
-                text: 'Explore',
-              ),
-              onTap: () {
-                // Navigator.pop(context);
-                _globalOnTap(1);
-              },
             ),
-            ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  30,
-                ),
-              ),
-              leading: NotificationIcon(
-                selectedIndex: selectedIndex,
-              ),
-              title: SideBarText(
-                text: 'Notifications',
-                selectedIndex: selectedIndex,
-                curindex: 2,
-              ),
-              onTap: () {
-                // Navigator.pop(context);
-                _globalOnTap(2);
-              },
-            ),
-            ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  30,
-                ),
-              ),
-              leading: MessageIcon(
-                selectedIndex: selectedIndex,
-              ),
-              title: SideBarText(
-                text: 'Message',
-                selectedIndex: selectedIndex,
-                curindex: 3,
-              ),
-              onTap: () {
-                // Navigator.pop(context);
-                _globalOnTap(3);
-              },
-            ),
-            ListTile(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  30,
-                ),
-              ),
-              leading: Icon(
-                FontAwesomeIcons.user,
-                size: 27,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? (selectedIndex == 4
-                        ? Colors.black
-                        : Color.fromARGB(255, 137, 137, 137))
-                    : (selectedIndex == 4
-                        ? Colors.white
-                        : Color.fromARGB(255, 176, 176, 176)),
-              ),
-              title: SideBarText(
-                text: 'Profile',
-                selectedIndex: selectedIndex,
-                curindex: 4,
-              ),
-              onTap: () {
-                // Navigator.pop(context);
-                _globalOnTap(4);
-              },
-            ),
-            // SettingsAndSupport(),
-            PostButton()
-          ],
-        ),
+          ),
+          SizedBox(height: screenHeight * 0.1)
+        ],
       ),
     );
   }

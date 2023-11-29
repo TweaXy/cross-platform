@@ -20,48 +20,101 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-const List<Tweet> tweets = const [
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+final List<Map<String, String>> temp = const [
+  {
+    'likesCount': '1',
+    'viewsCount': '2',
+    'retweetsCount': '3',
+    'commentsCount': '4',
+    'id': '1',
+    'userid': '1',
+    'userImage': 'assets/girl.jpg',
+    'image': 'assets/nature.jpeg',
+    'userName': 'Menna Ahmed',
+    'userHandle': 'MennaAhmed71',
+    'time': '4h',
+    'tweetText':
+        'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
+  },
+  {
+    'likesCount': '1',
+    'viewsCount': '2',
+    'retweetsCount': '3',
+    'commentsCount': '4',
+    'id': '2',
+    'userid': '2',
+    'userImage': 'assets/girl.jpg',
+    'image': 'assets/nature.jpeg',
+    'userName': 'Menna Ahmed',
+    'userHandle': 'MennaAhmed71',
+    'time': '4h',
+    'tweetText':
+        'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
+  },
+  {
+    'likesCount': '1',
+    'viewsCount': '2',
+    'retweetsCount': '3',
+    'commentsCount': '4',
+    'id': '3',
+    'userid': '3',
+    'userImage': 'assets/girl.jpg',
+    'image': 'assets/nature.jpeg',
+    'userName': 'Menna Ahmed',
+    'userHandle': 'MennaAhmed71',
+    'time': '4h',
+    'tweetText':
+        'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
+  },
+  {
+    'likesCount': '1',
+    'viewsCount': '2',
+    'retweetsCount': '3',
+    'commentsCount': '4',
+    'id': '4',
+    'userid': '4',
+    'userImage': 'assets/girl.jpg',
+    'image': 'assets/nature.jpeg',
+    'userName': 'Menna Ahmed',
+    'userHandle': 'MennaAhmed71',
+    'time': '4h',
+    'tweetText':
+        'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
+  },
+  {
+    'likesCount': '1',
+    'viewsCount': '2',
+    'retweetsCount': '3',
+    'commentsCount': '4',
+    'id': '5',
+    'userid': '5',
+    'userImage': 'assets/girl.jpg',
+    'image': 'assets/nature.jpeg',
+    'userName': 'Menna Ahmed',
+    'userHandle': 'MennaAhmed71',
+    'time': '4h',
+    'tweetText':
+        'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
+  }
 ];
+List<Tweet> initializeTweets(temp) {
+  return temp
+      .map((e) => Tweet(
+            id: e['id']!,
+            image: e['image'],
+            userImage: e['userImage']!,
+            userHandle: e['userHandle']!,
+            userName: e['userName']!,
+            time: e['time']!,
+            tweetText: e['tweetText'],
+            userId: e['userid'],
+            likesCount: e['likesCount'],
+            viewsCount: e['viewsCount'],
+            retweetsCount: e['retweetsCount'],
+            commentsCount: e['commentsCount'],
+          ))
+      .toList();
+}
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
@@ -78,6 +131,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final List<Tweet> tweets = initializeTweets(temp);
+
     // User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,

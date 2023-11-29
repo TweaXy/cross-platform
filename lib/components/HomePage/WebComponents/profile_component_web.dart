@@ -4,6 +4,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/account_information.
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
@@ -44,6 +45,8 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int? selectedMenu;
   @override
   Widget build(BuildContext context) {
+    final List<Tweet> tweets = initializeTweets(temp);
+
     return FutureBuilder(
       future: GetUserById.instance.future,
       builder: (context, snapshot) {
