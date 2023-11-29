@@ -157,8 +157,8 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                   if (mounted) {
                                     Navigator.popUntil(
                                         context, (route) => route.isFirst);
-                                    Navigator.pushReplacementNamed(
-                                        context, kHomeScreen);
+                                    // Navigator.pushReplacementNamed(
+                                    //     context, kHomeScreen);
                                   }
                                 } catch (e) {
                                   log(e.toString());
