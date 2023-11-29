@@ -10,6 +10,7 @@ import 'package:tweaxy/components/HomePage/WebComponents/SideBar/droptemp.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -104,7 +105,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             onTap: () {
               // Navigator.pop(context);
-              _globalOnTap(4);
+              // _globalOnTap(4);
+              Navigator.pushNamed(context, kProfileScreen);
             },
           ),
           // SettingsAndSupport(),

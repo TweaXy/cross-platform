@@ -205,7 +205,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 scale: 1.9 - clowsingRate,
                 alignment: Alignment.bottomCenter,
                 child: _Avatar(
-                  url: 'http://16.171.65.142:3000/' + avatarURL,
+                  url: basePhotosURL + avatarURL,
                 ),
               ),
               const Spacer(),
@@ -237,7 +237,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                       borderWidth: 2,
                       icon: Icons.arrow_back,
                       onPressed: () {
-                        // Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       },
                       iconColor: Colors.white,
                       color: Colors.black,
