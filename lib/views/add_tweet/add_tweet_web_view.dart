@@ -1,9 +1,16 @@
+import 'dart:math';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/Components/add_tweet/Cutom_add_post_bar_web.dart';
 import 'package:tweaxy/Components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/Components/add_tweet/image_display_web.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/add_tweet.dart';
 
 class AddTweetWebView extends StatefulWidget {
   const AddTweetWebView({super.key});
@@ -65,7 +72,14 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                     child: IconButton(
                         key: const ValueKey("add tweet return button "),
                         onPressed: () {
-                          Navigator.pop(context);
+                          if(tweetcontent.text.isNotEmpty||xfilePick.isNotEmpty)
+                         { showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                const CustomAddTweetAlertDialog(),
+                          );}else{
+                            Navigator.pop(context);
+                          }
                         },
                         icon: const Icon(Icons.close_sharp)),
                   ),
@@ -110,10 +124,25 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                       thickness: 2,
                     ),
                     CustomAddPostBarWeb(
-                      addTweetController: tweetcontent,
-                      getImage: getImages,
-                      postbuttonenabled: postbuttonenable,
-                    ),
+                        addTweetController: tweetcontent,
+                        getImage: getImages,
+                        postbuttonenabled: postbuttonenable,
+                        postbuttonpress: () async {
+                          if (tweetcontent.text.isNotEmpty ||
+                              xfilePick.isNotEmpty) {
+                            AddTweet service = AddTweet(Dio());
+                            Future response = await service.addTweet(
+                                tweetcontent.text, xfilePick);
+                            print(response.toString());
+                            if (response is String) {
+                              showToastWidget(
+                                  CustomWebToast(message: response.toString()));
+                            }
+                          } else {
+                            showToastWidget(const CustomWebToast(
+                                message: "the tweet cant be empty"));
+                          }
+                        }),
                   ]),
                 ],
               ),

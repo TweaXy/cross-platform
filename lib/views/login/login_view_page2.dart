@@ -169,7 +169,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               'password': '${myControllerPassword.text}'
                             }) as Map<String, dynamic>;
                             //go to home page
-                            //  print(user);
+                             print(user.toString());
 
                             Navigator.pushNamed(context, kHomeScreen);
                           } on DioException catch (e) {

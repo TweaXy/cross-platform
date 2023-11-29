@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomPostButtonWeb extends StatelessWidget {
-  const CustomPostButtonWeb({super.key, required this.isButtonEnabled});
+  const CustomPostButtonWeb(
+      {super.key, required this.isButtonEnabled, required this.onpress});
   final bool isButtonEnabled;
+  final Function onpress;
   @override
   Widget build(BuildContext context) {
+    final onPressed = isButtonEnabled ? onpress : (){};
+
     return ElevatedButton(
       key: const ValueKey(" tweet add post button web"),
-      onPressed: () {
-        // if (tweetcontent.text.isNotEmpty ||
-        //     xfilePick.isNotEmpty) {
-        //   AddTweet service = AddTweet(Dio());
-        //   Future response = await service.addTweet(
-        //       tweetcontent.text, xfilePick);
-        // } else {
-        //   // showToastWidget(const CustomWebToast(
-        //   //     message: "the tweet cant be empty"));
-      },
+      onPressed: onPressed  as void Function(),
       style: ElevatedButton.styleFrom(
         backgroundColor: isButtonEnabled
             ? const Color(0xFF1e9aeb)

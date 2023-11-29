@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -59,21 +58,21 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
             } else if (widget.pickedfiles.length == 4) {
               // If there are four items, distribute space evenly
               return Row(
-                  children: [
+                children: [
                   Column(
-                      children: [
-                        buildItem(widget.pickedfiles[0], constraints),
-                        buildItem(widget.pickedfiles[1], constraints),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        buildItem(widget.pickedfiles[2], constraints),
-                        buildItem(widget.pickedfiles[3], constraints),
-                      ],
-                    ),
-                  ],
-                );
+                    children: [
+                      buildItem(widget.pickedfiles[0], constraints),
+                      buildItem(widget.pickedfiles[1], constraints),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      buildItem(widget.pickedfiles[2], constraints),
+                      buildItem(widget.pickedfiles[3], constraints),
+                    ],
+                  ),
+                ],
+              );
             } else {
               // Handle other cases if needed
               return Container();
@@ -146,7 +145,7 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
     return Stack(
       children: [
         AspectRatio(
-          aspectRatio: 16/9,
+          aspectRatio: 16 / 9,
           child: Image.network(
             image.path,
             fit: BoxFit.cover,
@@ -163,10 +162,16 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
               int index = widget.pickedfiles.indexOf(image);
               deleteFile(index);
             },
-            child: const Icon(
-              Icons.close,
-              color: Colors.white,
-              size: 24,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.close,
+                color: Colors.black,
+                size: 24,
+              ),
             ),
           ),
         ),
@@ -204,10 +209,17 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
               int index = widget.pickedfiles.indexOf(video);
               deleteFile(index);
             },
-            child: const Icon(
-              Icons.close,
-              color: Colors.black,
-              size: 24,
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+
+                Icons.close,
+                color: Colors.black,
+                size: 24,
+              ),
             ),
           ),
         ),
