@@ -19,7 +19,10 @@ class AddTweet {
     String? token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token");
-
+    Map<String, dynamic> data = {};
+    if (text.isNotEmpty) {
+      data['text'] = text;
+    }
     List<MultipartFile> newMedia = [];
 
     for (XFile m in media) {
@@ -31,7 +34,10 @@ class AddTweet {
           filename: m.path.split('/').last);
       newMedia.add(med);
     }
-    FormData formData = FormData.fromMap({'text': text, 'media': newMedia});
+    if (newMedia.isNotEmpty) {
+      data['media'] = newMedia;
+    }
+    FormData formData = FormData.fromMap(data);
 
     print(token);
     try {

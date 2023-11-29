@@ -8,7 +8,7 @@ import 'package:tweaxy/services/add_tweet.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
 class CustomAddTweetButton extends StatelessWidget {
-  CustomAddTweetButton(
+  const CustomAddTweetButton(
       {super.key,
       required this.isButtonEnabled,
       required this.textPadding,
@@ -26,6 +26,7 @@ class CustomAddTweetButton extends StatelessWidget {
       key: const ValueKey(AddTweetKeys.postTweet),
       onPressed: () async {
         if (tweetcontent.text.isNotEmpty) {
+          // if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
           AddTweet service = AddTweet(Dio());
           dynamic response =
               await service.addTweet(tweetcontent.text, xfilePick);
@@ -37,6 +38,7 @@ class CustomAddTweetButton extends StatelessWidget {
             showToastWidget(
                 const CustomToast(message: "the tweet has been posted"));
           }
+          Navigator.pop(context);
         } else {
           showToastWidget(
               const CustomToast(message: "the tweet cant be empty"));
