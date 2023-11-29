@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const kSplashScreen = 'splash_screen';
 const kStartScreen = 'start_screen';
@@ -18,7 +19,6 @@ const kAddUsernameScreen = 'add_username_screen';
 const kAddProfilePicScreen = 'add_profile_pic_screen';
 const kWebStartScreen = 'web_start_screen';
 const kProfileScreen = 'profile_screen';
-const kEditProfileScreen = 'edit_profile_screen';
 const kHomeScreen = 'home_page';
 const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
@@ -27,3 +27,13 @@ const kwebboth = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
 const baseURL = 'http://16.171.65.142:3000/api/v1/';
 const basePhotosURL = 'http://16.171.65.142:3000/';
+const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
+const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
+Future<List<String>> loadPrefs() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  var id = prefs.getString('id');
+  var token = prefs.getString('token');
+  // print('id = $id');
+  // print('token = $token');
+  return [id!, token!];
+}
