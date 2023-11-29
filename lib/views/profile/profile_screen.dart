@@ -113,6 +113,8 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   Widget build(BuildContext context) {
+    final List<Tweet> tweets = initializeTweets(temp);
+
     // User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,

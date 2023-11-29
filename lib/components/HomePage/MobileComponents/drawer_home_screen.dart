@@ -48,11 +48,38 @@ class _CustomDrawerState extends State<CustomDrawer> {
         padding: EdgeInsets.only(top: 5),
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: screenHeight * 0.1),
-            child:
-                ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
+            padding: EdgeInsets.only(
+                left: screenWidth * 0.05, bottom: screenHeight * 0.07),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: const UserImageForTweet(image: 'assets/girl.jpg'),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 4.5),
+                  child: Text(
+                    'Menna Ahmed',
+                    style: TextStyle(
+                        color: Color.fromARGB(255, 13, 11, 11),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+                Text(
+                  '@MennaAhmed117',
+                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                )
+              ],
+            ),
           ),
-
+          // Padding(
+          //   padding: EdgeInsets.only(bottom: screenHeight * 0.1),
+          //   child:
+          //       ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
+          // ),
+          Divider(height: 7),
           ListTile(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(

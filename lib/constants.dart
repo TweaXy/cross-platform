@@ -26,6 +26,7 @@ const kFollowing = 'following';
 const kwebboth = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
 const baseURL = 'http://16.171.65.142:3000/api/v1/';
+// const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
 const basePhotosURL = 'http://16.171.65.142:3000/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
 const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';

@@ -31,7 +31,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.trim().isNotEmpty;
     });
   }
 
@@ -68,7 +68,7 @@ class _ForgetPasswordWeb3State extends State<ForgetPasswordWeb3> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 40, right: 40),
                 child: Text(
-                  'Check your phone to get your confirmation code. if you need to requst a new code, go back and reselect a confimation method.',
+                  'Check your email to get your confirmation code. if you need to request a new code, go back and reselect a confimation method.',
                   overflow: TextOverflow.fade,
                   style: TextStyle(
                     fontWeight: FontWeight.w400,

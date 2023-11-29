@@ -76,7 +76,7 @@ class _ResetPasswordMobile2State extends State<ResetPasswordMobile2> {
                           key: const ValueKey(
                               SignInKeys.forgetPasswordContinueButtonKey),
                           color: forgroundColorTheme(context),
-                          text: 'Continue to X',
+                          text: 'Continue to TweaXy',
                           initialEnabled: true,
                           onPressedCallback: () {
                             Navigator.popUntil(
