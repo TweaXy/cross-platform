@@ -46,7 +46,7 @@ class SignInServices {
     print('reset$res');
     if (res is String) {
       return res;
-    else {
+    } else {
       print('token' + res.data['data']['token'].toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("token", res.data['data']['token'].toString());
