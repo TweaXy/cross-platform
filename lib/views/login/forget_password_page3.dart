@@ -33,7 +33,8 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+           isButtonEnabled = myController.text.trim().isNotEmpty;
+
     });
   }
 
@@ -79,7 +80,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                 left: MediaQuery.of(context).size.width * 0.04,
                 right: MediaQuery.of(context).size.width * 0.04),
             child: Text(
-              'Check your phone to get your confirmation code. if you need to request a new code, go back and reselect a confimation method.',
+              'Check your email to get your confirmation code. if you need to request a new code, go back and reselect a confimation method.',
               overflow: TextOverflow.fade,
               style: TextStyle(
                   fontWeight: FontWeight.w400,

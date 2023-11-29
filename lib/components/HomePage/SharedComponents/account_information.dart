@@ -13,6 +13,7 @@ class AccountInformation extends StatelessWidget {
     required this.bio,
     required this.joinedDate,
     required this.location,
+    required this.website,
     required this.birthDate,
   });
   final String profileName;
@@ -20,6 +21,7 @@ class AccountInformation extends StatelessWidget {
   final int followers;
   final int following;
   final String bio;
+  final String website;
   final String joinedDate;
   final String birthDate;
   final String location;
@@ -58,29 +60,38 @@ class AccountInformation extends StatelessWidget {
               ),
             ),
           ),
-          bio!=''?Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 5 / 6,
-              child: Linkify(
-                text: bio,
-                style: const TextStyle(color: Colors.black87),
-                onOpen: (link) async {
-                  if (!await launchUrl(Uri.parse(link.url))) {
-                    throw Exception('Could not launch ${link.url}');
-                  }
-                },
-              ),
-            ),
-          ):const SizedBox(),
+          bio != ''
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 5 / 6,
+                    child: Linkify(
+                      text: bio,
+                      style: const TextStyle(color: Colors.black87),
+                      onOpen: (link) async {
+                        if (!await launchUrl(Uri.parse(link.url))) {
+                          throw Exception('Could not launch ${link.url}');
+                        }
+                      },
+                    ),
+                  ),
+                )
+              : const SizedBox(),
           Row(children: [
             AccountJoinedDateBar(joinedDate: joinedDate),
             location != ''
                 ? AccountLocationBar(location: location)
                 : const SizedBox(),
           ]),
-          
-          AccountBirthdateBar(birthDate: birthDate),
+          Row(children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0, top: 5.0),
+              child: AccountBirthdateBar(birthDate: birthDate),
+            ),
+            website != ''
+                ? AccountWebsiteBar(website: website)
+                : const SizedBox(),
+          ]),
           FollowingAndFollowersBar(following: following, followers: followers)
         ],
       ),
@@ -192,6 +203,37 @@ class AccountJoinedDateBar extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 5.0),
           child: Text(
             'Joined ${DateFormat.yMMMM().format(DateTime.parse(joinedDate))}',
+            style: TextStyle(
+              color: Colors.blueGrey[700],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AccountWebsiteBar extends StatelessWidget {
+  const AccountWebsiteBar({super.key, required this.website});
+  final String website;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          Icons.public,
+          color: Colors.blueGrey[700],
+          size: 20,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 3.0),
+          child: Linkify(
+            text: website,
+            onOpen: (link) async {
+              if (!await launchUrl(Uri.parse(link.url))) {
+                throw Exception('Could not launch ${link.url}');
+              }
+            },
             style: TextStyle(
               color: Colors.blueGrey[700],
             ),

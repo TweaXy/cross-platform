@@ -66,7 +66,7 @@ class _ResetPasswordWeb2State extends State<ResetPasswordWeb2> {
                 child: CustomButton(
                     key: const ValueKey("ContinueToXButtonWeb"),
                     color: forgroundColorTheme(context),
-                    text: 'Continue to X',
+                    text: 'Continue to TweaXy',
                     onPressedCallback: () async {
                       Navigator.popUntil(context, (route) => route.isFirst);
                       Navigator.pushReplacementNamed(context, kHomeScreen);

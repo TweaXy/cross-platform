@@ -33,7 +33,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.trim().isNotEmpty;
     });
   }
 
@@ -79,7 +79,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                   left: MediaQuery.of(context).size.width * 0.04,
                   right: MediaQuery.of(context).size.width * 0.04),
               child: Text(
-                'Enter the email, phone number or username associated with your account to change your password',
+                'Enter the email associated with your account to change your password',
                 overflow: TextOverflow.fade,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -96,7 +96,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
               child: CustomTextField(
                 key: const ValueKey(SignInKeys.forgetPasswordEmailFieldKey),
                 validatorFunc: () {},
-                label: 'Phone, email address, username',
+                label: 'Email address',
                 controller: myController,
               ),
             ),

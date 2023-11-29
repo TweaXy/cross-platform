@@ -32,7 +32,7 @@ class StartScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.06,
+                  height: MediaQuery.of(context).size.height * 0.3,
                 ),
                 SizedBox(
                   width: double.infinity,
