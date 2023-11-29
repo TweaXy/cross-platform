@@ -119,4 +119,25 @@ class Api {
     }
     return response;
   }
+
+  static Future<Response> patch({
+    required String url,
+    @required dynamic body,
+    @required String? token,
+  }) async {
+    Response? response;
+    try {
+      Map<String, dynamic> headers = {};
+      if (token != null) {
+        headers.addAll({'Authorization': 'Bearer $token'});
+      }
+      response = await Dio()
+          .patch(url, data: body, options: Options(headers: headers));
+      print(response.statusCode);
+    } on DioException catch (e) {
+      print(e.response!.data['message']);
+      throw Exception(e.response!.statusMessage);
+    }
+    return response;
+  }
 }
