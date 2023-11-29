@@ -143,7 +143,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButton(
-                        key: const ValueKey("loginView2ForgetPassButton"),
+                        key: const ValueKey(SignInKeys.forgetPasswordButtonKey),
                         color: backgroundColorTheme(context),
                         text: 'Forget password?',
                         initialEnabled: true,
