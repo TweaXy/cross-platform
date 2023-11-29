@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/Components/HomePage/SharedComponents/user_image_for_tweet.dart';
-import 'package:tweaxy/Components/HomePage/WebComponents/image_viewer.dart';
 import 'package:tweaxy/Components/add_tweet/Cutom_add_post_bar_web.dart';
 import 'package:tweaxy/Components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/Components/add_tweet/image_display_web.dart';
