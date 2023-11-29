@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:tweaxy/Views/add_tweet/add_tweet_web_view.dart';
+import 'package:tweaxy/views/add_tweet/add_tweet_web_view.dart';
 
 class PostButton extends StatelessWidget {
   const PostButton({super.key});
@@ -22,8 +22,8 @@ class PostButton extends StatelessWidget {
         );
       },
       style: ElevatedButton.styleFrom(
-         backgroundColor:  const Color(0xFF1e9aeb),
-         shadowColor: Colors.transparent,
+        backgroundColor: const Color(0xFF1e9aeb),
+        shadowColor: Colors.transparent,
         splashFactory: NoSplash.splashFactory,
         elevation: 20,
         padding: EdgeInsets.all(screenWidth * 0.015),
@@ -34,7 +34,8 @@ class PostButton extends StatelessWidget {
 
       child: const Text(
         'Post',
-        style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: Colors.white),
+        style: TextStyle(
+            fontSize: 17, fontWeight: FontWeight.bold, color: Colors.white),
       ),
     );
   }

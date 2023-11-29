@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
+import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -186,18 +186,17 @@ class _CreateAccountViewState extends State<CreateAccountView> {
       ),
       bottomSheet: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 3.0),
-        child: Column(  
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-             Divider(
-                      color: forgroundColorTheme(context),
-                      thickness: 1.0,
-                    ),
+            Divider(
+              color: forgroundColorTheme(context),
+              thickness: 1.0,
+            ),
             Align(
-              
               widthFactor: 4.8,
-                      alignment: Alignment.bottomRight,
+              alignment: Alignment.bottomRight,
               child: CustomButton(
                   key: const ValueKey(SignUpKeys.nextButtonKey),
                   color: forgroundColorTheme(context),
@@ -214,7 +213,8 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                               child: const CreateAccountDataReview()));
                     } else {
                       showToastWidget(
-                        const CustomToast(message: "Please enter a valid data."),
+                        const CustomToast(
+                            message: "Please enter a valid data."),
                         position: ToastPosition.bottom,
                         duration: const Duration(seconds: 2),
                       );
@@ -223,12 +223,12 @@ class _CreateAccountViewState extends State<CreateAccountView> {
                   initialEnabled: _isnextButtonEnabled),
             ),
             if (_dateselectview)
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .25,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomDatePicker(setBirthDate: _setBirthDate)),
-                )
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .25,
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomDatePicker(setBirthDate: _setBirthDate)),
+              )
           ],
         ),
       ),

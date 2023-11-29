@@ -1,12 +1,11 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Components/HomePage/SharedComponents/user_image_for_tweet.dart';
-import 'package:tweaxy/Components/add_tweet/Cutom_add_post_bar_web.dart';
-import 'package:tweaxy/Components/add_tweet/custom_add_tweet_text_field.dart';
-import 'package:tweaxy/Components/add_tweet/image_display_web.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/add_tweet/Cutom_add_post_bar_web.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
+import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/add_tweet.dart';
@@ -71,12 +70,14 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                     child: IconButton(
                         key: const ValueKey("add tweet return button "),
                         onPressed: () {
-                          if(tweetcontent.text.isNotEmpty||xfilePick.isNotEmpty)
-                         { showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                const CustomAddTweetAlertDialog(),
-                          );}else{
+                          if (tweetcontent.text.isNotEmpty ||
+                              xfilePick.isNotEmpty) {
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  const CustomAddTweetAlertDialog(),
+                            );
+                          } else {
                             Navigator.pop(context);
                           }
                         },
