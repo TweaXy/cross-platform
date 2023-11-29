@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
+import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/components/showallFollowers.dart';
@@ -19,6 +20,7 @@ class FollowersPage extends StatefulWidget {
 
 class _FollowersPageState extends State<FollowersPage> {
   Future<void> _refresh() async {
+    setState(() {});
     await followApi().getFollowers();
   }
 
@@ -67,6 +69,7 @@ class _FollowersPageState extends State<FollowersPage> {
           future: followApi().getFollowers(),
         ),
       ),
+      floatingActionButton: FloatingButton(),
     );
   }
 }

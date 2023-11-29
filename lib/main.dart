@@ -51,7 +51,7 @@ class TweaXy extends StatelessWidget {
           kFollowing: (context) => FollowingPage(),
           kwebboth: (context) => WebFollowersAndFollowings(),
         },
-        initialRoute: kFollowing,
+        initialRoute: kwebboth,
       ),
     );
   }

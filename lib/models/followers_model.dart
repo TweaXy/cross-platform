@@ -18,7 +18,7 @@ class FollowersModel {
     required this.followesMe,
   });
   factory FollowersModel.fromJson(dynamic data) {
-    var jsonData = data['data'];
+    var jsonData = data;
     return FollowersModel(
       // id: jsonData['id'],
       username: jsonData['username'],
