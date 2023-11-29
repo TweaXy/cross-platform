@@ -64,7 +64,7 @@ class _FollowersPageState extends State<FollowersPage> {
         onRefresh: _refresh,
         child: CustomFurure(
           isFollower: true,
-          future: followApi().getFollowings(),
+          future: followApi().getFollowers(),
         ),
       ),
     );

@@ -12,7 +12,7 @@ import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/sign_in_google.dart';
 
-class SignChoose extends StatelessWidget {
+class SignChoose extends StatefulWidget {
   const SignChoose({
     super.key,
     required this.isDarkMode,
@@ -21,13 +21,102 @@ class SignChoose extends StatelessWidget {
   final bool isDarkMode;
 
   @override
+  State<SignChoose> createState() => _SignChooseState();
+}
+
+class _SignChooseState extends State<SignChoose> {
+///////////////////////////////
+  void signInWithGoogle() async {
+    try {
+      var googleAccount = await GoogleSingInApi.loginWeb();
+      if (googleAccount != null) {
+        var googleToken = await GoogleSingInApi.getGoogleToken();
+        debugPrint("google account ${googleAccount.email}");
+        if (googleToken != null) {
+          debugPrint("Google Token: $googleToken");
+        } else {
+          debugPrint("token is null");
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Row(
+                children: [
+                  const Icon(
+                    Icons.error,
+                    color: Colors.red,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.01,
+                  ),
+                  const Text(
+                    "Error in Signing in with Google",
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      } else {
+        debugPrint("google account is null");
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Row(
+              children: [
+                const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.01,
+                ),
+                const Text(
+                  "Error in Signing in with Google",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint("error in google sign in $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(
+                Icons.error,
+                color: Colors.red,
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.01,
+              ),
+              const Text(
+                "Error in Signing in with Google",
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+///////////////////
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: SignWithButton(
-            type: isDarkMode ? ButtonType.googleDark : ButtonType.google,
+            type: widget.isDarkMode ? ButtonType.googleDark : ButtonType.google,
             onPressed: () async {
               try {
                 signInWithGoogle();
@@ -95,7 +184,7 @@ class SignChoose extends StatelessWidget {
         //     size: ButtonSize.medium,
         //   ),
         // ),
-        StartScreenDivider(isDarkMode: isDarkMode),
+        StartScreenDivider(isDarkMode: widget.isDarkMode),
       ],
     );
   }

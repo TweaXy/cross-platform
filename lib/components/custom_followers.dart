@@ -51,7 +51,9 @@ class _CustomFollowersState extends State<CustomFollowers> {
               ),
             Padding(
               padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.height * 0.00),
+                  top: kIsWeb
+                      ? MediaQuery.of(context).size.height * 0.01
+                      : MediaQuery.of(context).size.height * 0.00),
               child: Row(
                 children: [
                   Padding(
@@ -117,10 +119,12 @@ class _CustomFollowersState extends State<CustomFollowers> {
             if (widget.user.bio != "")
               Padding(
                 padding: EdgeInsets.only(
-                    left: MediaQuery.of(context).size.width * 0.16,
+                    left: kIsWeb
+                        ? MediaQuery.of(context).size.width * 0.063
+                        : MediaQuery.of(context).size.width * 0.16,
                     bottom: MediaQuery.of(context).size.height * 0.015),
                 child: Text(
-                  widget.user.bio != "" ? widget.user.bio : "",
+                  true != "" ? widget.user.bio : "",
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
