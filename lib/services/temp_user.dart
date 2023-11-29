@@ -11,7 +11,7 @@ class TempUser {
   static String email = '';
   static String username = '';
   static String name = '';
-  static String image = '';
+  static String image = 'uploads/default.png';
   static String baseUrl = 'http://16.171.65.142:3000/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
@@ -38,10 +38,9 @@ class TempUser {
     print('resss' + res.toString());
     if (res is String) {
     } else {
-      setEmail(email: res!.data['data']['email']);
-      setName(name: res!.data['data']['name']);
-      setUserName(username: res!.data['data']['username']);
-      setImage(image: res!.data['data']['avatar']);
-    }
+      setEmail(email: res!.data['data']['user']['email']);
+      setName(name: res!.data['data']['user']['name']);
+      setUserName(username: res!.data['data']['user']['username']);
+      setImage(image: res!.data['data']['user']['avatar']);    }
   }
 }

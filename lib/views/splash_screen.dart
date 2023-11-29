@@ -19,6 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    checkLogin();
     Timer(const Duration(seconds: 2), () {
       if (token == null) {
         kIsWeb
@@ -26,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
             : Navigator.pushReplacementNamed(context, kStartScreen);
       } else {
         Navigator.pushReplacementNamed(context, kHomeScreen);
-      }  
+      }
     });
   }
 

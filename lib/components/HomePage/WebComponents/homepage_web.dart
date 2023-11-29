@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
@@ -9,11 +10,26 @@ import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 
-class HomePageWeb extends StatelessWidget {
+class HomePageWeb extends StatefulWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
 
-  final profileID = 'clovwlprc0009qd0xcxrlnrxa';
+  @override
+  State<HomePageWeb> createState() => _HomePageWebState();
+}
+
+class _HomePageWebState extends State<HomePageWeb> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future(() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      profileID = prefs.getString('id')!;
+    });
+  }
+
+  String profileID = '';
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +63,7 @@ class HomePageWeb extends StatelessWidget {
                     builder: (context, state) {
                       if (state is SidebarInitialState ||
                           state is SidebarHomeState) {
-                        return HomeTweets(tabController: tabController);
+                        return HomeTweets(tabController: widget.tabController);
                       } else if (state is SidebarProfileState)
                         return ProfileComponentWeb(id: profileID);
                       //TODO:- Provide The rest of the states
@@ -112,8 +128,7 @@ class _HomeTweetsState extends State<HomeTweets> {
             SliverAppBar(
               shape: const ContinuousRectangleBorder(
                 side: BorderSide(
-                    width: 0.2,
-                    color: Color.fromARGB(255, 135, 135, 135)),
+                    width: 0.2, color: Color.fromARGB(255, 135, 135, 135)),
               ),
               elevation: 0,
               backgroundColor: Theme.of(context).brightness == Brightness.light

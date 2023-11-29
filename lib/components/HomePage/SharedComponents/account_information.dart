@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class AccountInformation extends StatelessWidget {
   const AccountInformation({
@@ -130,7 +132,7 @@ class AccountBirthdateBar extends StatelessWidget {
   }
 }
 
-class FollowingAndFollowersBar extends StatelessWidget {
+class FollowingAndFollowersBar extends StatefulWidget {
   const FollowingAndFollowersBar({
     super.key,
     required this.following,
@@ -141,39 +143,72 @@ class FollowingAndFollowersBar extends StatelessWidget {
   final int followers;
 
   @override
+  State<FollowingAndFollowersBar> createState() =>
+      _FollowingAndFollowersBarState();
+}
+
+class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(
         children: [
-          Text(
-            NumberFormat.compact().format(following),
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 17,
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, kwebboth);
+              } else {
+                Navigator.pushNamed(context, kFollowing);
+              }
+              setState(() {});
+            },
+            child: Row(
+              children: [
+                Text(
+                  NumberFormat.compact().format(widget.following),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                  ),
+                ),
+                Text(
+                  ' Following   ',
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey[700],
+                    fontSize: 15,
+                  ),
+                ),
+              ],
             ),
           ),
-          Text(
-            ' Following   ',
-            style: TextStyle(
-              // fontWeight: FontWeight.bold,
-              color: Colors.blueGrey[700],
-              fontSize: 15,
-            ),
-          ),
-          Text(
-            NumberFormat.compact().format(followers),
-            style: const TextStyle(
-              fontWeight: FontWeight.w800,
-              fontSize: 17,
-            ),
-          ),
-          Text(
-            ' Followers',
-            style: TextStyle(
-              // fontWeight: FontWeight.bold,
-              color: Colors.blueGrey[700],
-              fontSize: 15,
+          GestureDetector(
+            onTap: () {
+              if (kIsWeb) {
+                Navigator.pushNamed(context, kwebboth);
+              } else {
+                Navigator.pushNamed(context, kFollowers);
+              }
+            },
+            child: Row(
+              children: [
+                Text(
+                  NumberFormat.compact().format(widget.followers),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                  ),
+                ),
+                Text(
+                  ' Followers',
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey[700],
+                    fontSize: 15,
+                  ),
+                ),
+              ],
             ),
           ),
         ],

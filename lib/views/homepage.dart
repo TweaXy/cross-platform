@@ -34,7 +34,7 @@ class _HomePage2State extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    // TempUser.userSetData();
+    TempUser.userSetData();
 
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light

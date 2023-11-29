@@ -173,8 +173,8 @@ class _SideNavBarState extends State<SideNavBar> {
           ),
           ElevatedButton(
             style: ButtonStyle(
-              padding:
-                  MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(17)),
+              padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.all(17)),
               elevation: MaterialStateProperty.all<double>(0),
               backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
@@ -216,7 +216,7 @@ class _SideNavBarState extends State<SideNavBar> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const UserImageForTweet(image: 'uploads/default.png'),
+                  UserImageForTweet(image: TempUser.image),
                   Padding(
                     padding: const EdgeInsets.only(left: 15.0),
                     child: Column(
@@ -225,7 +225,7 @@ class _SideNavBarState extends State<SideNavBar> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.5),
                           child: Text(
-                            'Menna Ahmed',
+                            TempUser.name,
                             style: TextStyle(
                                 color: Color.fromARGB(255, 13, 11, 11),
                                 fontWeight: FontWeight.bold,
@@ -233,9 +233,9 @@ class _SideNavBarState extends State<SideNavBar> {
                           ),
                         ),
                         Text(
-                          '@MennaAhmed117',
+                          '@${TempUser.username}',
                           style: TextStyle(
-                              fontSize: 15, color: Colors.grey.shade600),
+                              fontSize: 14, color: Colors.grey.shade600),
                         )
                       ],
                     ),
