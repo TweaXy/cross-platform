@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -92,10 +91,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     showIcons();
     return TextFormField(
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(
-            RegExp(r'[a-zA-Z0-9! @#\$%^&*()_+{}\[\]:;<>,.?~\\/-]')),
-      ],
       readOnly: widget.unreadable ?? false,
       controller: widget.controller,
       onTap: () {
@@ -108,6 +103,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: isPassword(label: widget.label) ? !passwordVisible : false,
       maxLength: widget.label == 'Name' ? 50 : null,
       decoration: InputDecoration(
+        prefix: widget.label == "Username" ? const Text("@") : null,
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: 8.0),
           child: Row(mainAxisSize: MainAxisSize.min, children: showIcons()),

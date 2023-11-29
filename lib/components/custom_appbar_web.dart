@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class CustomAppbarWeb extends StatelessWidget {
-  const CustomAppbarWeb({super.key, required this.icon, this.pageNumber});
-  final String? pageNumber;
+  const CustomAppbarWeb(
+      {super.key, required this.icon, required this.pageNumber});
+  final String pageNumber;
   final IconButton? icon;
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CustomAppbarWeb extends StatelessWidget {
         children: [
           icon ?? const SizedBox(),
           Text(
-            pageNumber == null ? "" : "Step $pageNumber of 4",
+            "Step $pageNumber of 4",
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: forgroundColorTheme(context),

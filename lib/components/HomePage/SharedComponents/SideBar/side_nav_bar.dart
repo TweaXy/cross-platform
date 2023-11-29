@@ -6,9 +6,9 @@ import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/droptemp.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/droptemp.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/post_button.dart';
+import 'package:tweaxy/components/HomePage/SharedComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 

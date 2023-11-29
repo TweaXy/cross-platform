@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
 import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
@@ -32,7 +31,6 @@ class TweaXy extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          bottomSheetTheme: BottomSheetThemeData(backgroundColor: Colors.white),
           brightness: brightness,
           fontFamily: 'Roboto',
           scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
@@ -45,16 +43,15 @@ class TweaXy extends StatelessWidget {
           kLogin1Screen: (context) => const LoginViewPage1(),
           kCreateAcountScreen: (context) => const CreateAccountView(),
           kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
-          kAuthenticationScreen: (context) => AuthenticationView(),
+          kAuthenticationScreen: (context) => const AuthenticationView(),
           kHomeScreen: (context) => HomePage(),
-          kCreateAcountReviewScreen: (context) => CreateAccountDataReview(),
           kProfileScreen: (context) => ProfileScreen(),
           kEditProfileScreen: (context) => EditProfileScreen(),
           kFollowers: (context) => FollowersPage(),
           kFollowing: (context) => FollowingPage(),
           kwebboth: (context) => WebFollowersAndFollowings(),
         },
-        initialRoute: kSplashScreen,
+        initialRoute: kFollowing,
       ),
     );
   }
