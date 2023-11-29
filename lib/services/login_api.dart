@@ -16,6 +16,7 @@ class LoginApi {
             options: Options(headers: {
               "Content-Type": "application/json",
             }));
+            print(response.data.toString());
     return response.data;
   }
 
