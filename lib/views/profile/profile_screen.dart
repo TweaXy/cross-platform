@@ -6,7 +6,9 @@ import 'package:intl/intl.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/error_screen.dart';
@@ -19,26 +21,47 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-var listitems = [
-  'item1',
-  'item2',
-  'item3',
-  'item4',
-  'item5',
-  'item6',
-  'item7',
-  'item8',
-  'item9',
-  'item10',
-  'item11',
-  'item12',
-  'item13',
-  'item14',
-  'item15',
-  'item16',
-  'item18',
-  'item19',
-  'item20'
+const List<Tweet> tweets = const [
+  Tweet(
+      userImage: 'assets/girl.jpg',
+      image: 'assets/nature.jpeg',
+      userName: 'Menna Ahmed',
+      userHandle: 'MennaAhmed71',
+      time: '4h',
+      tweetText:
+          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+  Tweet(
+      userImage: 'assets/girl.jpg',
+      image: 'assets/nature.jpeg',
+      userName: 'Menna Ahmed',
+      userHandle: 'MennaAhmed71',
+      time: '4h',
+      tweetText:
+          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+  Tweet(
+      userImage: 'assets/girl.jpg',
+      image: 'assets/nature.jpeg',
+      userName: 'Menna Ahmed',
+      userHandle: 'MennaAhmed71',
+      time: '4h',
+      tweetText:
+          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+  Tweet(
+      userImage: 'assets/girl.jpg',
+      image: 'assets/nature.jpeg',
+      userName: 'Menna Ahmed',
+      userHandle: 'MennaAhmed71',
+      time: '4h',
+      tweetText:
+          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
+  Tweet(
+      userImage: 'assets/girl.jpg',
+      image: 'assets/nature.jpeg',
+      userName: 'Menna Ahmed',
+      userHandle: 'MennaAhmed71',
+      time: '4h',
+      tweetText:
+          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
 ];
 
 class _ProfileScreenState extends State<ProfileScreen>
@@ -123,17 +146,15 @@ class _ProfileScreenState extends State<ProfileScreen>
                       ],
                     ),
                   ),
-                  SliverList.builder(
-                    itemCount: listitems.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: ListTile(
-                            title: Text(listitems[index].toString() +
-                                _selectedTabIndex.toString()),
-                            tileColor: Colors.white,
-                          ));
-                    },
+                  SliverList(
+                    delegate:
+                        SliverChildBuilderDelegate(childCount: tweets.length,
+                            (BuildContext context, int index) {
+                      return CustomTweet(
+                        tweet: tweets[index],
+                        forProfile: true,
+                      );
+                    }),
                   ),
                 ],
               );

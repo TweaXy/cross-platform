@@ -115,7 +115,7 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                           context,
                           CustomPageRoute(
                               direction: AxisDirection.left,
-                              child: const AuthenticationView()));
+                              child: AuthenticationView()));
                     }
                   } on Exception catch (e) {
                     log(e.toString());

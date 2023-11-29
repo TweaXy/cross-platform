@@ -20,6 +20,7 @@ const kWebStartScreen = 'web_start_screen';
 const kProfileScreen = 'profile_screen';
 const kEditProfileScreen = 'edit_profile_screen';
 const kHomeScreen = 'home_page';
+const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
 const kFollowing = 'following';
 const kwebboth = 'bothFollowingsAndFollowers';

@@ -7,7 +7,7 @@ import 'package:tweaxy/shared/errors/validation_errors.dart';
 
 Future<String?> emailValidation({required String? inputValue}) async {
   //initial validation function
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyEmailError;
   }
   if (!inputValue.contains('@') || inputValue.length < 4) {
@@ -26,7 +26,7 @@ Future<String?> emailValidation({required String? inputValue}) async {
 }
 
 Future<String?> emailExists({required String? inputValue}) async {
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyEmailError;
   }
   if (!inputValue.contains('@') || inputValue.length < 4) {
@@ -43,7 +43,7 @@ Future<String?> emailExists({required String? inputValue}) async {
 
 String? passwordValidation({required String? inputValue}) {
   //initial validation function
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyPasswordError;
   }
   if (inputValue.length < 8) {
@@ -69,14 +69,17 @@ String? passwordValidation({required String? inputValue}) {
 }
 
 String? nameValidation({required String? inputValue}) {
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyNameError;
+  }
+  if (inputValue.length < 3) {
+    return ValidationErrors.nameLengthError;
   }
   return null;
 }
 
 Future<String?> codeValidation({required String? inputValue}) async {
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyCodeError;
   }
   if (inputValue.length < 8) {
@@ -86,11 +89,14 @@ Future<String?> codeValidation({required String? inputValue}) async {
 }
 
 Future<String?> usernameValidation({required String? inputValue}) async {
-  if (inputValue == null || inputValue.isEmpty) {
+  if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyUsernameError;
   }
   if (inputValue.length < 4) {
     return ValidationErrors.usernameLengthError;
+  }
+  if (inputValue.contains(' ')) {
+    return ValidationErrors.usernameSpaceError;
   }
   try {
     dynamic response =
