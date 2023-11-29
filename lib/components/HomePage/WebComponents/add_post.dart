@@ -81,9 +81,11 @@ class _AddPostState extends State<AddPost> {
               padding: EdgeInsets.only(
                   left: screenwidth * 0.03, bottom: screenheight * 0.007),
               child: CustomAddPostBarWeb(
-                  addTweetController: tweetcontent,
-                  getImage: getImages,
-                  postbuttonenabled: postbuttonenable))
+                addTweetController: tweetcontent,
+                getImage: getImages,
+                postbuttonenabled: postbuttonenable,
+                postbuttonpress: () {},
+              ))
         ],
       ),
     );

@@ -9,11 +9,11 @@ class CustomAddPostBarWeb extends StatelessWidget {
       {super.key,
       required this.addTweetController,
       required this.getImage,
-      required this.postbuttonenabled});
+      required this.postbuttonenabled,required this.postbuttonpress});
   final Function getImage;
   final TextEditingController addTweetController;
   final bool postbuttonenabled;
-
+final Function postbuttonpress;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -32,6 +32,7 @@ class CustomAddPostBarWeb extends StatelessWidget {
             ),
             CustomPostButtonWeb(
               isButtonEnabled: postbuttonenabled,
+              onpress:postbuttonpress,
             ),
           ],
         ),
