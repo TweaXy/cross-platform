@@ -92,9 +92,11 @@ class _CustomFollowersState extends State<CustomFollowers> {
                       children: [
                         Text(
                           widget.user.name,
+                          maxLines: 1,
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              overflow: TextOverflow.clip,
+                              fontSize: 19,
                               color: Colors.black),
                         ),
                         Padding(
@@ -210,9 +212,11 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                                                 .deleteUser(widget
                                                                     .user
                                                                     .username);
-                                                            widget.user
-                                                                    .followedByMe =
-                                                                false;
+                                                            setState(() {
+                                                              widget.user
+                                                                      .followedByMe =
+                                                                  false;
+                                                            });
                                                             Navigator.of(
                                                                     context)
                                                                 .pop();
@@ -248,6 +252,12 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                         ),
                                       ),
                                     );
+                                  } else {
+                                    setState(() {
+                                      FollowUser.instance
+                                          .followUser(widget.user.username);
+                                      widget.user.followedByMe = true;
+                                    });
                                   }
                                 }
                               },
