@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
-import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
-import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
-import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/droptemp.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/services/temp_user.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -34,7 +28,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
   int selectedIndex = 0;
   int hoveredIndex = -1;
 
-  List<bool> _isHovered = [false, false, false, false, false];
+  final List<bool> _isHovered = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +39,41 @@ class _CustomDrawerState extends State<CustomDrawer> {
       padding: EdgeInsets.symmetric(
           horizontal: screenWidth * 0.03, vertical: screenHeight * 0.05),
       child: ListView(
-        padding: EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.only(top: 5),
         children: [
           Padding(
-            padding: EdgeInsets.only(bottom: screenHeight * 0.1),
-            child:
-                ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
+            padding: EdgeInsets.only(
+                left: screenWidth * 0.05, bottom: screenHeight * 0.07),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 10.0),
+                  child: UserImageForTweet(image: TempUser.image),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 4.5),
+                  child: Text(
+                      TempUser.name,
+                    style:const TextStyle(
+                        color: Color.fromARGB(255, 13, 11, 11),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),
+                  ),
+                ),
+                Text(
+                  '@${TempUser.username}',
+                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                )
+              ],
+            ),
           ),
-
+          // Padding(
+          //   padding: EdgeInsets.only(bottom: screenHeight * 0.1),
+          //   child:
+          //       ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
+          // ),
+          const Divider(height: 7),
           ListTile(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(
@@ -65,10 +86,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
               color: Theme.of(context).brightness == Brightness.light
                   ? (selectedIndex == 4
                       ? Colors.black
-                      : Color.fromARGB(255, 137, 137, 137))
+                      : const Color.fromARGB(255, 137, 137, 137))
                   : (selectedIndex == 4
                       ? Colors.white
-                      : Color.fromARGB(255, 176, 176, 176)),
+                      : const Color.fromARGB(255, 176, 176, 176)),
             ),
             title: SideBarText(
               text: 'Profile',
@@ -77,7 +98,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ),
             onTap: () {
               // Navigator.pop(context);
-              _globalOnTap(4);
+              // _globalOnTap(4);
+              Navigator.pushNamed(context, kProfileScreen);
             },
           ),
           // SettingsAndSupport(),

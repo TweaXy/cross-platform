@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/helpers/api.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInServices {
   SignInServices._();
@@ -29,10 +30,11 @@ class SignInServices {
       url: '$baseUrl/auth/forgetPassword',
     );
     //   print('signin' + res.toString());
-    if (res is String)
+    if (res is String) {
       return res;
-    else
+    } else {
       return "success";
+    }
   }
 
   static dynamic resetPassword(String password) async {
@@ -41,11 +43,16 @@ class SignInServices {
       body: {"password": password},
     );
     // print();
-    print('reset' + res.toString());
-    if (res is String)
+    print('reset$res');
+    if (res is String) {
       return res;
-    else
+    } else {
+      print('token' + res.data['data']['token'].toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", res.data['data']['token'].toString());
+
       return "success";
+    }
   }
 
   static dynamic checkResetToken() async {
@@ -56,17 +63,18 @@ class SignInServices {
     // print(token);
     // print(res);
     // print('reset' + res.toString());
-    if (res is String)
+    if (res is String) {
       return res;
-    else
+    } else {
       return "success";
+    }
   }
 
   static Future<String> signInGithub() async {
-    String _url = Uri.encodeFull(
+    String url = Uri.encodeFull(
         'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback');
-    if (await canLaunch(_url)) {
-      await launch(_url, forceWebView: true);
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: true);
       Response res = await Api.get(
         'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback',
       );

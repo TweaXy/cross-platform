@@ -10,14 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
-import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
-import 'package:tweaxy/views/error_screen.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
@@ -28,48 +25,6 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-const List<Tweet> tweets = const [
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-  Tweet(
-      userImage: 'assets/girl.jpg',
-      image: 'assets/nature.jpeg',
-      userName: 'Menna Ahmed',
-      userHandle: 'MennaAhmed71',
-      time: '4h',
-      tweetText:
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
-];
 List<String> listitems = [
   'item1',
   'item2',
@@ -92,6 +47,7 @@ List<String> listitems = [
   'item19',
   'item20',
 ];
+
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
@@ -120,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         child: BlocBuilder<EditProfileCubit, EditProfileState>(
           builder: (context, state) {
             if (state is EditProfileLoadingState) {
-              return LoadingScreen(asyncCall: true);
+              return const LoadingScreen(asyncCall: true);
             } else if (state is EditProfileInitialState ||
                 state is EditProfileCompletedState) {
               return FutureBuilder(
@@ -200,14 +156,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                 },
               );
             }
-            return Placeholder();
+            return const Placeholder();
           },
         ),
       ),
     );
   }
 }
-
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   const ProfileScreenAppBar({
@@ -247,11 +202,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 scale: 1.9 - clowsingRate,
                 alignment: Alignment.bottomCenter,
                 child: _Avatar(
-                  url: 'http://16.171.65.142:3000/' + avatarURL,
+                  url: basePhotosURL + avatarURL,
                 ),
               ),
               const Spacer(),
-              FollowEditButton(text: 'Edit Profile', user: user,
+              FollowEditButton(
+                text: 'Edit Profile',
+                user: user,
                 key: const ValueKey('followEditButton'),
               ),
             ],
@@ -277,7 +234,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                       borderWidth: 2,
                       icon: Icons.arrow_back,
                       onPressed: () {
-                        // Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       },
                       iconColor: Colors.white,
                       color: Colors.black,
@@ -292,7 +249,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             profileNameTextSize: 16,
                             profileName: user.name!,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
                 const Spacer(),
@@ -437,22 +394,22 @@ class _FollowEditButtonState extends State<FollowEditButton> {
               ));
             }
           },
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+                text == 'Follow' ? Colors.black : Colors.white),
+            minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: const BorderSide(color: Colors.grey),
+              ),
+            ),
+          ),
           child: Text(
             text!,
             style: TextStyle(
               color: text == 'Follow' ? Colors.white : Colors.black,
               fontSize: 17,
-            ),
-          ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' ? Colors.black : Colors.white),
-            minimumSize: MaterialStatePropertyAll<Size>(Size(90, 35)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: BorderSide(color: Colors.grey),
-              ),
             ),
           ),
         ),
@@ -463,7 +420,6 @@ class _FollowEditButtonState extends State<FollowEditButton> {
 
 class _banner extends StatelessWidget {
   const _banner({
-    super.key,
     required this.imageTop,
     required this.clowsingRate,
     required this.bottomHeight,
@@ -578,7 +534,7 @@ class InvertedCircleClipper extends CustomClipper<Path> {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({super.key, required this.url});
+  const _Avatar({required this.url});
   final url;
 
   @override

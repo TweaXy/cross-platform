@@ -15,7 +15,7 @@ class CustomDialogAppBar extends StatelessWidget {
       elevation: 0,
       backgroundColor: !isDarkMode ? Colors.black : Colors.white,
       leading: IconButton(
-        padding: EdgeInsets.only(left: 12.0),
+        padding: const EdgeInsets.only(left: 12.0),
         onPressed: () {
           Navigator.pop(context);
         },

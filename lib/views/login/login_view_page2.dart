@@ -1,26 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/models/users.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
-import 'package:tweaxy/utilities/snackbar.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class LoginViewPage2 extends StatefulWidget {
   final TextEditingController initialValue;
-  LoginViewPage2({super.key, required this.initialValue});
+  const LoginViewPage2({super.key, required this.initialValue});
 
   @override
   State<LoginViewPage2> createState() => _LoginViewPage2State();
@@ -51,7 +46,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
       appBar: CustomAppbar(
         iconButton: IconButton(
           key: const ValueKey("loginView2BackIcon"),
-          icon: Icon(
+          icon: const Icon(
             Icons.close_sharp,
             color: Colors.black,
           ),
@@ -70,7 +65,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                     padding: EdgeInsets.only(
                         left: MediaQuery.of(context).size.width * 0.04,
                         top: MediaQuery.of(context).size.height * 0.03),
-                    child: Text(
+                    child: const Text(
                       'Enter your password',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -89,7 +84,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                     horizontal: MediaQuery.of(context).size.width * 0.04),
                 child: TextField(
                   style: TextStyle(
-                    color: isDarkMode ? Color(0xffADB5BC) : Color(0xff292b2d),
+                    color: isDarkMode ? const Color(0xffADB5BC) : const Color(0xff292b2d),
                   ),
                   controller: widget.initialValue,
                   enabled: false,
@@ -149,7 +144,7 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: ForgetPasswordPage1()));
+                                  child: const ForgetPasswordPage1()));
                         },
                       ),
                       CustomButton(
@@ -161,15 +156,13 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                           try {
                             Map<String, dynamic> user =
                                 await LoginApi().postUser({
-                              'UUID': '${widget.initialValue.text}',
-                              'password': '${myControllerPassword.text}'
+                              'UUID': widget.initialValue.text,
+                              'password': myControllerPassword.text
                             }) as Map<String, dynamic>;
-                            SharedPreferences clint =
-                                await SharedPreferences.getInstance();
-                            clint.setString(
-                                'username', user['data']['user']['username']);
-
-                            Navigator.pushNamed(context, kHomeScreen);
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                            Navigator.of(context)
+                                .pushReplacementNamed(kHomeScreen);
                           } on DioException catch (e) {
                             showToastWidget(
                               CustomToast(

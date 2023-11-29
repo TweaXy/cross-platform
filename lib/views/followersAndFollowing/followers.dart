@@ -1,12 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/AppBar/tabbar.dart';
-import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/components/custom_followers.dart';
-import 'package:tweaxy/components/showallFollowers.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
@@ -19,6 +12,7 @@ class FollowersPage extends StatefulWidget {
 
 class _FollowersPageState extends State<FollowersPage> {
   Future<void> _refresh() async {
+    setState(() {});
     await followApi().getFollowers();
   }
 
@@ -27,7 +21,7 @@ class _FollowersPageState extends State<FollowersPage> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.black,
           ),
@@ -35,7 +29,7 @@ class _FollowersPageState extends State<FollowersPage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
+        title: const Text(
           'Followers',
           style: TextStyle(
               color: Colors.black, fontWeight: FontWeight.w500, fontSize: 25),
@@ -44,14 +38,14 @@ class _FollowersPageState extends State<FollowersPage> {
         elevation: 1,
         actions: [
           PopupMenuButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.more_vert,
               color: Colors.black,
             ),
             itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text('Notification Setteing'),
+              const PopupMenuItem(
                 value: 'Notification Setteing',
+                child: Text('Notification Setteing'),
               ),
             ],
             onSelected: (value) {
@@ -64,9 +58,10 @@ class _FollowersPageState extends State<FollowersPage> {
         onRefresh: _refresh,
         child: CustomFurure(
           isFollower: true,
-          future: followApi().getFollowings(),
+          future: followApi().getFollowers(),
         ),
       ),
+      floatingActionButton: const FloatingButton(),
     );
   }
 }

@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
@@ -61,7 +59,7 @@ class ForgetPasswordWeb2 extends StatelessWidget {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 280,
                   ),
                   Column(
@@ -81,13 +79,13 @@ class ForgetPasswordWeb2 extends StatelessWidget {
                               if (res != 'sucess') {
                                 ScaffoldMessenger.of(scaffoldContext)
                                     .showSnackBar(
-                                  SnackBar(content: Text('$res')),
+                                  SnackBar(content: Text(res)),
                                 );
                               } else {
                                 Navigator.pop(context);
                                 showDialog(
                                   context: context,
-                                  builder: (context) => AlertDialog(
+                                  builder: (context) => const AlertDialog(
                                     content: ForgetPasswordWeb3(),
                                   ),
                                   barrierColor:

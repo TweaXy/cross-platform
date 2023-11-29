@@ -1,8 +1,6 @@
-import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/models/users.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginApi {
@@ -16,6 +14,14 @@ class LoginApi {
             options: Options(headers: {
               "Content-Type": "application/json",
             }));
+    SharedPreferences user = await SharedPreferences.getInstance();
+    user.setString('username', response.data['data']['user']['username']);
+    user.setString("token", response.data['data']['token']);
+    user.setString("id", response.data['data']['user']['id']);
+
+    print(response.toString());
+    print(response.data['data']['token']);
+    print(response.data['data']['user']['username']);
     return response.data;
   }
 

@@ -41,7 +41,7 @@ class EditProfile {
             body: {},
             token: token);
       } catch (e) {
-        print('Avatar Exception :- ' + e.toString());
+        print('Avatar Exception :- $e');
       }
     }
 
@@ -58,7 +58,7 @@ class EditProfile {
             body: {},
             token: token);
       } catch (e) {
-        print('Cover Exception :- ' + e.toString());
+        print('Cover Exception :- $e');
       }
     }
     if (newBanner != null && !removedBanner) {

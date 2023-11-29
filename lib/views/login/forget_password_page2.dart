@@ -16,7 +16,7 @@ class ForgetPasswordPage2 extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.close_sharp,
             color: Colors.black,
           ),

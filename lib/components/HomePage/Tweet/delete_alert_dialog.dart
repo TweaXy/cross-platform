@@ -11,10 +11,10 @@ class DeleteAlertDialog extends StatelessWidget {
       insetPadding: EdgeInsets.all(width * 0.04),
       contentPadding:
           EdgeInsets.only(left: width * 0.035, right: width * 0.035, top: 10),
-      title: Text('Delete post?',
+      title: const Text('Delete post?',
           style:
               TextStyle(fontSize: 25)), // To display the title it is optional
-      content: Text(
+      content: const Text(
           style: TextStyle(fontSize: 18),
           'This can\'t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results'), // Message which will be pop up on the screen
       actions: [
@@ -25,7 +25,7 @@ class DeleteAlertDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Cancel',
+          child: const Text('Cancel',
               style: TextStyle(color: Colors.black, fontSize: 19)),
         ),
         TextButton(
@@ -35,7 +35,7 @@ class DeleteAlertDialog extends StatelessWidget {
           onPressed: () {
             Navigator.pop(context);
           },
-          child: Text('Delete',
+          child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),
         ),
       ],

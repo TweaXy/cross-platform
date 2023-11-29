@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/wrap_modal_bottom_profile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_settings_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 
-class User_TweetInfo extends StatelessWidget {
-  const User_TweetInfo(
+class User_TweetInfoWeb extends StatelessWidget {
+  const User_TweetInfoWeb(
       {super.key, required this.tweet, required this.forProfile});
   final Tweet tweet;
   final bool forProfile;
@@ -52,32 +52,20 @@ class User_TweetInfo extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        SizedBox(
-          width: 2,
-          child: IconButton(
-            padding: const EdgeInsets.only(right: 16),
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+        if (forProfile)
+          const TweetSettingsProfile()
+        else
+          IconButton(
+            splashRadius: 15,
+            hoverColor: const Color.fromARGB(255, 207, 232, 253),
+            icon: const Icon(FontAwesomeIcons.ellipsis),
             iconSize: 16,
             onPressed: () {
               // if (isProfile)
-              showModalBottomSheet(
-                showDragHandle: true,
-                useSafeArea: false,
-                enableDrag: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30.0),
-                  ),
-                ),
-                builder: (context) {
-                  return const WrapModalBottomProfile();
-                },
-              );
             },
           ),
-        )
       ],
     );
   }
 }
+// 

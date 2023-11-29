@@ -9,8 +9,8 @@ class NotificationIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Badge(
       isLabelVisible: selectedIndex == 2 ? false : true,
-      offset: Offset(6.0, -5.0),
-      label: Text('1'),
+      offset: const Offset(6.0, -5.0),
+      label: const Text('1'),
       backgroundColor: Colors.blue,
       child: Icon(
         //  Theme.of(context).brightness == Brightness.light
@@ -23,11 +23,11 @@ class NotificationIcon extends StatelessWidget {
         FontAwesomeIcons.bell,
         color: Theme.of(context).brightness == Brightness.light
             ? (selectedIndex == 2
-                ? Color.fromARGB(255, 0, 0, 0)
-                : Color.fromARGB(255, 93, 93, 93))
+                ? const Color.fromARGB(255, 0, 0, 0)
+                : const Color.fromARGB(255, 93, 93, 93))
             : (selectedIndex == 2
                 ? Colors.white
-                : Color.fromARGB(255, 176, 176, 176)),
+                : const Color.fromARGB(255, 176, 176, 176)),
       ),
     );
   }

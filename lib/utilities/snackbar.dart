@@ -5,14 +5,14 @@ showSnackBar(context, dynamic content) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
-        '${content.toString()}',
-        style: TextStyle(
+        content.toString(),
+        style: const TextStyle(
           fontSize: 16.0,
           color: Colors.white,
         ),
       ),
       backgroundColor: Colors.black87, // Set your desired background color
-      duration: Duration(seconds: 3), // Adjust the duration as needed
+      duration: const Duration(seconds: 3), // Adjust the duration as needed
       elevation: 6.0, // Add a slight elevation for a card-like effect
       behavior:
           SnackBarBehavior.floating, // Use floating behavior for a modern look

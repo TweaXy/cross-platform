@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 
 class AddTweet {
@@ -10,15 +12,28 @@ class AddTweet {
 
   AddTweet(this.dio);
 
-  Future addTweet(String text, List<XFile> media ) async {
+  Future addTweet(String text, List<XFile> media) async {
     dynamic response;
+    print(text);
+    print(media);
+    String? token;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString("token");
+
+    List<Uint8List> newMedia = [];
+
+    for (XFile m in media) {
+      final bytes = await File(m.path).readAsBytes();
+      newMedia.add(bytes);
+    }
+    FormData formData = FormData.fromMap({'text': text, 'media': newMedia});
+
+    print(token);
     try {
       response = await Api.post(
         url: '${baseUrl}tweets/',
-        body: {
-          "text":text,
-          "media":media
-        },
+        token: token,
+        body: formData,
       );
       return response;
     } catch (e) {
@@ -28,6 +43,4 @@ class AddTweet {
       throw Exception('oops something went wrong');
     }
   }
-
- 
 }

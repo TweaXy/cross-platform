@@ -10,7 +10,7 @@ import 'package:tweaxy/utilities/theme_validations.dart';
 
 // ignore: must_be_immutable
 class ForgetPasswordWeb1 extends StatefulWidget {
-  ForgetPasswordWeb1({super.key});
+  const ForgetPasswordWeb1({super.key});
 
   @override
   State<ForgetPasswordWeb1> createState() => _WebDialogSignInPage2State();
@@ -28,7 +28,9 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = myController.text.isNotEmpty;
+      isButtonEnabled = myController.text.trim().isNotEmpty;
+
+      // print(myController.text);
     });
   }
 
@@ -45,7 +47,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
         children: [
           CustomDialogAppBar(isDarkMode: isDarkMode),
           const Padding(
-            padding: const EdgeInsets.only(
+            padding: EdgeInsets.only(
               left: 55,
               top: 30,
             ),
@@ -64,7 +66,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               children: [
                 Flexible(
                   child: Text(
-                    'Enter the email, phone number, or username associated with your account to change your password.',
+                    'Enter the email associated with your account to change your password.',
                     overflow: TextOverflow.visible,
                     softWrap: true,
                     style: TextStyle(
@@ -81,7 +83,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               width: 500,
               height: 70,
               child: CustomTextField(
-                  label: 'Phone, email address, username',
+                  label: 'Email address',
                   validatorFunc: () {},
                   controller: myController),
             ),
@@ -117,7 +119,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
                                 Navigator.pop(context);
                                 showDialog(
                                   context: context,
-                                  builder: (context) => AlertDialog(
+                                  builder: (context) => const AlertDialog(
                                     content: ForgetPasswordWeb3(),
                                   ),
                                   barrierColor:

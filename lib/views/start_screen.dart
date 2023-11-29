@@ -6,7 +6,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({Key? key});
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

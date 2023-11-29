@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
-import 'package:tweaxy/components/custom_text_form_field.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/login/forget_password_page1.dart';
 
 // ignore: must_be_immutable
 class ResetPasswordMobile2 extends StatefulWidget {
@@ -52,7 +46,7 @@ class _ResetPasswordMobile2State extends State<ResetPasswordMobile2> {
                         right: screenwidth * 0.3,
                         top: screenheight * 0.1,
                       ),
-                      child: Text(
+                      child: const Text(
                         'You\'re all set',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -76,7 +70,7 @@ class _ResetPasswordMobile2State extends State<ResetPasswordMobile2> {
                           key: const ValueKey(
                               SignInKeys.forgetPasswordContinueButtonKey),
                           color: forgroundColorTheme(context),
-                          text: 'Continue to X',
+                          text: 'Continue to TweaXy',
                           initialEnabled: true,
                           onPressedCallback: () {
                             Navigator.popUntil(

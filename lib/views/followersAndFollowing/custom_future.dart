@@ -16,13 +16,13 @@ class CustomFurure extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return ShowAllFollowersAndFollowing(
-              follow: snapshot.data ?? [], isFollower: false);
+              follow: snapshot.data ?? [], isFollower: isFollower);
         } else if (snapshot.hasError) {
           return kIsWeb
-              ? CustomWebToast(message: "We have a problem")
-              : CustomToast(message: "We have a problem");
+              ? const CustomWebToast(message: "We have a problem")
+              : const Center(child: CustomToast(message: "We have a problem"));
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
