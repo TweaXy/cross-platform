@@ -158,9 +158,11 @@ class _AddTweetViewState extends State<AddTweetView> {
                   Padding(
                     padding: const EdgeInsets.only(right: 5.0),
                     child: CustomAddTweetButton(
+                      tweetcontent: _tweetController,
+                      xfilePick: media,
                       isButtonEnabled: isButtonEnabled,
-                      textPadding:
-                        const   EdgeInsets.symmetric(vertical: 1.0, horizontal: 2.0),
+                      textPadding: const EdgeInsets.symmetric(
+                          vertical: 1.0, horizontal: 2.0),
                     ),
                   ),
                 ],
@@ -253,8 +255,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         ),
                                       ),
                                       IconButton(
-                                        key:
-                                            const ValueKey(AddTweetKeys.discardVideo),
+                                        key: const ValueKey(
+                                            AddTweetKeys.discardVideo),
                                         onPressed: () {
                                           setState(
                                             () {
@@ -294,7 +296,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         image:
                                             FileImage(File(media[index].path))),
                                     IconButton(
-                                      key: const ValueKey(AddTweetKeys.discardImage),
+                                      key: const ValueKey(
+                                          AddTweetKeys.discardImage),
                                       onPressed: () {
                                         setState(() {
                                           media.removeAt(index);
@@ -316,7 +319,8 @@ class _AddTweetViewState extends State<AddTweetView> {
                                     Align(
                                       alignment: Alignment.bottomRight,
                                       child: IconButton(
-                                        key: const ValueKey(AddTweetKeys.editImage),
+                                        key: const ValueKey(
+                                            AddTweetKeys.editImage),
                                         onPressed: () {
                                           setState(() {
                                             cropImage(index: index);

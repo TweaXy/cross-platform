@@ -1,29 +1,46 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/add_tweet.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
 class CustomAddTweetButton extends StatelessWidget {
-  const CustomAddTweetButton({
-    super.key,
-    required this.isButtonEnabled,required this.textPadding
-  });
+  CustomAddTweetButton(
+      {super.key,
+      required this.isButtonEnabled,
+      required this.textPadding,
+      required this.tweetcontent,
+      required this.xfilePick});
 
   final bool isButtonEnabled;
   final EdgeInsetsGeometry textPadding;
+  final dynamic tweetcontent;
+  final dynamic xfilePick;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       key: const ValueKey(AddTweetKeys.postTweet),
       onPressed: () async {
-        // if (tweetcontent.text.isNotEmpty ||
-        //     xfilePick.isNotEmpty) {
-        //   AddTweet service = AddTweet(Dio());
-        //   Future response = await service.addTweet(
-        //       tweetcontent.text, xfilePick);
-        // } else {
-        //   // showToastWidget(const CustomWebToast(
-        //   //     message: "the tweet cant be empty"));
-        // }
+        if (tweetcontent.text.isNotEmpty) {
+          AddTweet service = AddTweet(Dio());
+          dynamic response =
+              await service.addTweet(tweetcontent.text, xfilePick);
+          log(response.toString());
+          if (response is String) {
+            showToastWidget(
+                const CustomToast(message: "the tweet cant be posted"));
+          } else {
+            showToastWidget(
+                const CustomToast(message: "the tweet has been posted"));
+          }
+        } else {
+          showToastWidget(
+              const CustomToast(message: "the tweet cant be empty"));
+        }
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: isButtonEnabled
@@ -33,7 +50,7 @@ class CustomAddTweetButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(17),
         ),
       ),
-      child:  Padding(
+      child: Padding(
         padding: textPadding,
         child: const Text(
           "Post",

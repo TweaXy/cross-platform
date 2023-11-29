@@ -59,8 +59,10 @@ class Api {
         data: body,
         options: Options(headers: headers),
       );
+
       //  print("code=" + response.statusCode.toString());
     } on DioException catch (e) {
+      log(response.toString());
       return (e.response!.data['message']);
       // throw Exception(e.response!.statusMessage);
     }
