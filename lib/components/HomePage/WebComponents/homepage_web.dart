@@ -56,7 +56,6 @@ class _HomePageWebState extends State<HomePageWeb> {
                   flex: 8,
                   child: BlocBuilder<SidebarCubit, SidebarState>(
                     builder: (context, state) {
-                      print(profileID);
                       if (state is SidebarInitialState ||
                           state is SidebarHomeState)
                         return HomeTweets(tabController: widget.tabController);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:http_parser/http_parser.dart';
 
 class EditProfile {
   final String _editProfileEndpoint = 'users/';
@@ -33,25 +34,30 @@ class EditProfile {
       'website': user.website ?? '',
       'location': user.location ?? '',
     };
-    print(newAvatar);
-    if (removedAvatar) {
+    if (removedAvatar && newAvatar == null) {
       await Api.delete(
           url: baseURL + _editProfileEndpoint + _removeProfilePictureEndpoint,
           body: {},
           token: token);
-    } else {
-      if (newAvatar != null) {
-        data['avatar'] = MultipartFile.fromBytes(newAvatar);
-      }
     }
 
-    if (removedBanner) {
+    if (newAvatar != null && !removedAvatar) {
+      data.addEntries({
+        'avatar': MultipartFile.fromBytes(newAvatar.toList(),
+            contentType: MediaType('image', 'png'), filename: 'avatar.png')
+      }.entries);
+    }
+    if (removedBanner && newBanner == null) {
       await Api.delete(
           url: baseURL + _editProfileEndpoint + _removeProfileBannerEndpoint,
           body: {},
           token: token);
-    } else {
-      if (newBanner != null) data['cover'] = MultipartFile.fromBytes(newBanner);
+    }
+    if (newBanner != null && !removedBanner) {
+      data.addEntries({
+        'cover': MultipartFile.fromBytes(newBanner.toList(),
+            contentType: MediaType('image', 'png'), filename: 'cover.png')
+      }.entries);
     }
     formData = FormData.fromMap(data);
     await Api.patch(

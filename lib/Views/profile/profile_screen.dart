@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,6 +11,8 @@ import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/loading_screen.dart';
@@ -46,112 +49,123 @@ var listitems = [
 
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
-
-  final Stream<User> _bids = (() {
-    late final StreamController<User> controller;
-    controller = StreamController<User>(
-      onListen: () async {
-        var prefs = await SharedPreferences.getInstance();
-        var u = await GetUserById.instance.getUserById(prefs.getString('id')!);
-
-        controller.add(u);
-        controller.close();
-      },
-    );
-    return controller.stream;
-  })();
-
   late TabController _tabController;
+  String id = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future(() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getString('id')!;
+      setState(() {});
+    });
     _tabController = TabController(length: 3, vsync: this);
   }
 
+  String? profileID;
   int _selectedTabIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     // User user = ModalRoute.of(context)?.settings.arguments as User;
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: StreamBuilder(
-          stream: _bids,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const LoadingScreen(
-                asyncCall: true,
-              );
-            } else {
-              User user = snapshot.data!;
-              return CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: ProfileScreenAppBar(
-                      user: user,
-                      postsNumber: 216820,
-                      avatarURL: user.avatar ?? '',
-                      coverURL: user.cover ?? '',
+    return BlocProvider(
+      create: (context) => EditProfileCubit(),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: BlocBuilder<EditProfileCubit, EditProfileState>(
+            builder: (context, state) {
+              if (state is EditProfileLoadingState) {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.blue,
                     ),
                   ),
-                  SliverToBoxAdapter(
-                    child: AccountInformation(
-                      website: user.website ?? '',
-                      birthDate: user.birthdayDate ?? '',
-                      bio: user.bio ?? '',
-                      followers: user.followers ?? 0,
-                      following: user.following ?? 0,
-                      joinedDate: user.joinedDate ?? '',
-                      location: user.location ?? '',
-                      profileName: user.name ?? '',
-                      userName: user.userName ?? '',
-                    ),
-                  ),
-                  SliverTabBar(
-                    expandedHeight: 0,
-                    backgroundColor: Colors.white,
-                    tabBar: TabBar(
-                      indicatorWeight: 3,
-                      indicatorColor: Colors.blue,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      controller: _tabController,
-                      labelColor: Colors.black,
-                      onTap: (value) => setState(() {
-                        _selectedTabIndex = value;
-                      }),
-                      tabs: const [
-                        Tab(
-                          text: 'Posts',
-                        ),
-                        Tab(
-                          text: 'Replies',
-                        ),
-                        Tab(
-                          text: 'Likes',
-                        )
-                      ],
-                    ),
-                  ),
-                  SliverList.builder(
-                    itemCount: listitems.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: ListTile(
-                            title: Text(listitems[index].toString() +
-                                _selectedTabIndex.toString()),
-                            tileColor: Colors.white,
-                          ));
-                    },
-                  ),
-                ],
-              );
-            }
-          },
+                );
+              } else if (state is EditProfileInitialState ||
+                  state is EditProfileCompletedState) {
+                return FutureBuilder(
+                  future: GetUserById.instance.getUserById(id),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const LoadingScreen(
+                        asyncCall: true,
+                      );
+                    } else {
+                      User user = snapshot.data!;
+                      return CustomScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        slivers: [
+                          SliverPersistentHeader(
+                            pinned: true,
+                            delegate: ProfileScreenAppBar(
+                              user: user,
+                              postsNumber: 216820,
+                              avatarURL: user.avatar ?? '',
+                              coverURL: user.cover ?? '',
+                            ),
+                          ),
+                          SliverToBoxAdapter(
+                            child: AccountInformation(
+                              website: user.website ?? '',
+                              birthDate: user.birthdayDate ?? '',
+                              bio: user.bio ?? '',
+                              followers: user.followers ?? 0,
+                              following: user.following ?? 0,
+                              joinedDate: user.joinedDate ?? '',
+                              location: user.location ?? '',
+                              profileName: user.name ?? '',
+                              userName: user.userName ?? '',
+                            ),
+                          ),
+                          SliverTabBar(
+                            expandedHeight: 0,
+                            backgroundColor: Colors.white,
+                            tabBar: TabBar(
+                              indicatorWeight: 3,
+                              indicatorColor: Colors.blue,
+                              indicatorSize: TabBarIndicatorSize.label,
+                              controller: _tabController,
+                              labelColor: Colors.black,
+                              onTap: (value) => setState(() {
+                                _selectedTabIndex = value;
+                              }),
+                              tabs: const [
+                                Tab(
+                                  text: 'Posts',
+                                ),
+                                Tab(
+                                  text: 'Replies',
+                                ),
+                                Tab(
+                                  text: 'Likes',
+                                )
+                              ],
+                            ),
+                          ),
+                          SliverList.builder(
+                            itemCount: listitems.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: ListTile(
+                                    title: Text(listitems[index].toString() +
+                                        _selectedTabIndex.toString()),
+                                    tileColor: Colors.white,
+                                  ));
+                            },
+                          ),
+                        ],
+                      );
+                    }
+                  },
+                );
+              }
+              return Placeholder();
+            },
+          ),
         ),
       ),
     );
@@ -555,4 +569,11 @@ class _Avatar extends StatelessWidget {
       ),
     );
   }
+}
+
+void _save() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('id', 'clpj7l5wq00033h9kml3a9vkp');
+  await prefs.setString('token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
 }

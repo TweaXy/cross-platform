@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
@@ -108,11 +107,11 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                   width: double.maxFinite,
                                   height: 200,
                                   child: CachedNetworkImage(
-                                    fit: BoxFit.cover,
-                                    imageUrl:
-                                        user.cover ?? kDefaultBannerPhoto,
-                                    placeholder: (context, url) =>
-                                        const Center(
+                                    fit: BoxFit.fill,
+                                    imageUrl: user.cover == null
+                                        ? kDefaultBannerPhoto
+                                        : basePhotosURL + user.cover!,
+                                    placeholder: (context, url) => const Center(
                                       child: SizedBox(
                                           width: 20,
                                           height: 20,
@@ -149,11 +148,10 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                                               .transparent,
                                                           width: 0.1),
                                                       borderRadius:
-                                                          BorderRadius
-                                                              .circular(8),
+                                                          BorderRadius.circular(
+                                                              8),
                                                     ),
-                                                    initialValue:
-                                                        selectedMenu,
+                                                    initialValue: selectedMenu,
                                                     // Callback that sets the selected popup menu item.
                                                     onSelected: (item) {
                                                       setState(() {
@@ -174,8 +172,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                                           'Mute ${user.userName}'),
                                                       _popupMenu(
                                                           2,
-                                                          Icons
-                                                              .block_outlined,
+                                                          Icons.block_outlined,
                                                           'Block ${user.userName}'),
                                                       _popupMenu(
                                                           3,
@@ -190,12 +187,10 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                                           right: 10),
                                                   child: ProfileIconButton(
                                                       borderWidth: 1,
-                                                      icon:
-                                                          Icons.mail_outline,
+                                                      icon: Icons.mail_outline,
                                                       onPressed: () {},
                                                       color: Colors.white,
-                                                      iconColor:
-                                                          Colors.black),
+                                                      iconColor: Colors.black),
                                                 ),
                                                 Padding(
                                                   padding:
@@ -207,13 +202,12 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                                           .notification_add_outlined,
                                                       onPressed: () {},
                                                       color: Colors.white,
-                                                      iconColor:
-                                                          Colors.black),
+                                                      iconColor: Colors.black),
                                                 ),
                                               ],
                                             )
                                           : const SizedBox(),
-                                      _followEditButton(user,context),
+                                      _followEditButton(user, context),
                                     ],
                                   ),
                                 ),
@@ -335,7 +329,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     );
   }
 
-  Widget _followEditButton(User user,BuildContext currContext) {
+  Widget _followEditButton(User user, BuildContext currContext) {
     if (text == 'Follow') {
       textColor = Colors.white;
       buttonColor = Colors.black;
