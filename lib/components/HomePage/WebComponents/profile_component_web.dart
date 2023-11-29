@@ -1,11 +1,9 @@
-import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
@@ -89,7 +87,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
             future: GetUserById.instance.getUserById(widget.id),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Scaffold(
+                return const Scaffold(
                   body: Center(
                     child: CircularProgressIndicator(
                       color: Colors.blue,
@@ -247,7 +245,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                 child: Container(
                                   color: Colors.white,
                                   child: Padding(
-                                    padding: EdgeInsets.all(4.0),
+                                    padding: const EdgeInsets.all(4.0),
                                     child: CircleAvatar(
                                       radius: 60,
                                       backgroundColor: Colors.white,
@@ -378,7 +376,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
           builder: (context) => AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
-              side: BorderSide(color: Colors.white),
+              side: const BorderSide(color: Colors.white),
             ),
             content: SizedBox(
               width: 500,

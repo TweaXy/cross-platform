@@ -15,11 +15,11 @@ class WrapModalBottomProfile extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return DeleteAlertDialog();
+                  return const DeleteAlertDialog();
                 });
           },
-          leading: Icon(FontAwesomeIcons.trashCan),
-          title: Text(
+          leading: const Icon(FontAwesomeIcons.trashCan),
+          title: const Text(
             'Delete post',
             style: TextStyle(fontSize: 20),
           ),

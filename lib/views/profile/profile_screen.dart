@@ -10,14 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
-import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
-import 'package:tweaxy/views/error_screen.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
@@ -79,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen>
         child: BlocBuilder<EditProfileCubit, EditProfileState>(
           builder: (context, state) {
             if (state is EditProfileLoadingState) {
-              return LoadingScreen(asyncCall: true);
+              return const LoadingScreen(asyncCall: true);
             } else if (state is EditProfileInitialState ||
                 state is EditProfileCompletedState) {
               return FutureBuilder(
@@ -159,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 },
               );
             }
-            return Placeholder();
+            return const Placeholder();
           },
         ),
       ),
@@ -252,7 +249,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             profileNameTextSize: 16,
                             profileName: user.name!,
                           )
-                        : SizedBox(),
+                        : const SizedBox(),
                   ],
                 ),
                 const Spacer(),
@@ -397,22 +394,22 @@ class _FollowEditButtonState extends State<FollowEditButton> {
               ));
             }
           },
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(
+                text == 'Follow' ? Colors.black : Colors.white),
+            minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0),
+                side: const BorderSide(color: Colors.grey),
+              ),
+            ),
+          ),
           child: Text(
             text!,
             style: TextStyle(
               color: text == 'Follow' ? Colors.white : Colors.black,
               fontSize: 17,
-            ),
-          ),
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' ? Colors.black : Colors.white),
-            minimumSize: MaterialStatePropertyAll<Size>(Size(90, 35)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: BorderSide(color: Colors.grey),
-              ),
             ),
           ),
         ),
@@ -423,7 +420,6 @@ class _FollowEditButtonState extends State<FollowEditButton> {
 
 class _banner extends StatelessWidget {
   const _banner({
-    super.key,
     required this.imageTop,
     required this.clowsingRate,
     required this.bottomHeight,
@@ -538,7 +534,7 @@ class InvertedCircleClipper extends CustomClipper<Path> {
 }
 
 class _Avatar extends StatelessWidget {
-  const _Avatar({super.key, required this.url});
+  const _Avatar({required this.url});
   final url;
 
   @override

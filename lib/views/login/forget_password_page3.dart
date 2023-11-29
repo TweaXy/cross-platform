@@ -12,8 +12,6 @@ import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/login/forget_password_page1.dart';
-import 'package:tweaxy/views/login/forget_password_page2.dart';
-import 'package:tweaxy/views/login/login_view_page2.dart';
 
 class ForgetPasswordPage3 extends StatefulWidget {
   const ForgetPasswordPage3({super.key});
@@ -46,7 +44,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
       appBar: CustomAppbar(
         iconButton: IconButton(
           key: const ValueKey("forgetPassView3BackIcon"),
-          icon: Icon(
+          icon: const Icon(
             Icons.close_sharp,
             color: Colors.black,
           ),
@@ -63,7 +61,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                 padding: EdgeInsets.only(
                     left: MediaQuery.of(context).size.width * 0.04,
                     top: MediaQuery.of(context).size.height * 0.02),
-                child: Text(
+                child: const Text(
                   'We sent you a code',
                   overflow: TextOverflow.clip,
                   style: TextStyle(
@@ -130,7 +128,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                               context,
                               CustomPageRoute(
                                   direction: AxisDirection.left,
-                                  child: ForgetPasswordPage1()));
+                                  child: const ForgetPasswordPage1()));
                         },
                       ),
                       CustomButton(
@@ -158,7 +156,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
                                 context,
                                 CustomPageRoute(
                                     direction: AxisDirection.left,
-                                    child: ResetPasswordMobile()));
+                                    child: const ResetPasswordMobile()));
                           }
                         },
                       ),

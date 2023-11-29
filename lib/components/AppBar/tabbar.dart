@@ -8,7 +8,7 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
   final TabController tabController;
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
     Color selectedTextColor =
         brightness == Brightness.light ? Colors.black : Colors.white;
     Color unselectedTextColor =
-        brightness == Brightness.light ? Color(0xff56595c) : Color(0xff56595c);
+        brightness == Brightness.light ? const Color(0xff56595c) : const Color(0xff56595c);
 
     return TabBar(
       controller: tabController,
@@ -24,7 +24,7 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
       indicatorSize: TabBarIndicatorSize.label,
       indicatorColor: Colors.white,
       indicatorWeight: 4,
-      indicatorPadding: EdgeInsets.only(bottom: 1.0),
+      indicatorPadding: const EdgeInsets.only(bottom: 1.0),
       tabs: !isVisible
           ? [
               Tab(

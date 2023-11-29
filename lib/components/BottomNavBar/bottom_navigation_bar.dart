@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:icon_decoration/icon_decoration.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
@@ -22,12 +20,13 @@ class _BottomNaviagtionState extends State<BottomNaviagtion> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           border: Border(
         top: BorderSide(
-          color: const Color.fromARGB(255, 138, 138, 138),
+          color: Color.fromARGB(255, 138, 138, 138),
           width: 0.4,
         ),
       )),

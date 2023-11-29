@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog.dart';
 import 'package:tweaxy/components/HomePage/Tweet/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 
@@ -24,8 +23,8 @@ class User_TweetInfo extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           child: Text(
             tweet.userName.length <= 9
-                ? '@' + tweet.userHandle
-                : '${'@' + tweet.userHandle.substring(0, 8)}...',
+                ? '@${tweet.userHandle}'
+                : '${'@${tweet.userHandle.substring(0, 8)}'}...',
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 18,

@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -9,11 +7,8 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
-import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/login/forget_password_page2.dart';
 import 'package:tweaxy/views/login/forget_password_page3.dart';
-import 'package:tweaxy/views/login/login_view_page2.dart';
 
 class ForgetPasswordPage1 extends StatefulWidget {
   const ForgetPasswordPage1({super.key});
@@ -46,7 +41,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.close_sharp,
             color: Colors.black,
           ),
@@ -65,7 +60,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                       left: MediaQuery.of(context).size.width * 0.04,
                       right: MediaQuery.of(context).size.width * 0.04,
                       top: MediaQuery.of(context).size.height * 0.03),
-                  child: Text(
+                  child: const Text(
                     'Find your X account',
                     overflow: TextOverflow.clip,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
@@ -143,7 +138,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                                     context,
                                     CustomPageRoute(
                                         direction: AxisDirection.left,
-                                        child: ForgetPasswordPage3()));
+                                        child: const ForgetPasswordPage3()));
                               }
                             },
                           ),

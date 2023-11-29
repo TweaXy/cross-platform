@@ -9,12 +9,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:intl/intl.dart';
-import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/models/user.dart';
-import 'package:tweaxy/services/edit_profile.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.user});
@@ -628,7 +626,7 @@ class AddImage extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) =>
-                      SizedBox(child: const Icon(Icons.error)),
+                      const SizedBox(child: Icon(Icons.error)),
                 )
               : Center(
                   child: Image.memory(

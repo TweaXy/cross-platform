@@ -14,7 +14,7 @@ class Api {
       log("API: " + e.response!.data['message']);
       return e.response!.data['message'];
     }
-    log("API: " + response.toString());
+    log("API: $response");
 
     return response;
   }
@@ -37,7 +37,7 @@ class Api {
       log("API: " + e.response!.data['message']);
       return e.response!.data['message'];
     }
-    log("API: " + response.toString());
+    log("API: $response");
 
     return response;
   }

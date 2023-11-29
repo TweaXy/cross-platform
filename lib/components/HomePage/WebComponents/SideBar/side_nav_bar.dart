@@ -7,7 +7,6 @@ import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/droptemp.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
@@ -34,7 +33,7 @@ class _SideNavBarState extends State<SideNavBar> {
   int selectedIndex = 0;
   int hoveredIndex = -1;
 
-  List<bool> _isHovered = [false, false, false, false, false];
+  final List<bool> _isHovered = [false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +173,7 @@ class _SideNavBarState extends State<SideNavBar> {
           ElevatedButton(
             style: ButtonStyle(
               padding:
-                  MaterialStateProperty.all<EdgeInsets>(EdgeInsets.all(17)),
+                  MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(17)),
               elevation: MaterialStateProperty.all<double>(0),
               backgroundColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
@@ -195,9 +194,10 @@ class _SideNavBarState extends State<SideNavBar> {
               )),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
-                  if (states.contains(MaterialState.hovered))
+                  if (states.contains(MaterialState.hovered)) {
                     return const Color.fromARGB(
                         255, 224, 224, 224); //<-- SEE HERE
+                  }
                   return Colors.white; // Defer to the widget's default.
                 },
               ),
@@ -239,10 +239,10 @@ class _SideNavBarState extends State<SideNavBar> {
                       ],
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     FontAwesomeIcons.ellipsis,
                     size: 15,
-                    color: const Color.fromARGB(255, 80, 80, 80),
+                    color: Color.fromARGB(255, 80, 80, 80),
                   ),
                 ],
               ),

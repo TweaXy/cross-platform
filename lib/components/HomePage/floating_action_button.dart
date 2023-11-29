@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';

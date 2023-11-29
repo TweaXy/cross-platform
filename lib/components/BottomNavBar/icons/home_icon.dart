@@ -13,13 +13,13 @@ class HomeIcon extends StatelessWidget {
       label: Container(
         width: 7,
         height: 7,
-        padding: EdgeInsets.all(4),
-        decoration: BoxDecoration(
+        padding: const EdgeInsets.all(4),
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.blue,
         ),
       ),
-      offset: Offset(10.0, -10.0),
+      offset: const Offset(10.0, -10.0),
       backgroundColor: Colors.transparent,
       child: DecoratedIcon(
         icon: Icon(

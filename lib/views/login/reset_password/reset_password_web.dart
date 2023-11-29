@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_web2.dart';
-import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
-import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/sign_in.dart';
@@ -35,10 +33,11 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
     setState(() {
       String c1 = myControllerNewPassword.text;
       String c2 = myControllerConfirmPassword.text;
-      if (!myControllerNewPassword.text.trim().isEmpty && (c1 == c2))
+      if (myControllerNewPassword.text.trim().isNotEmpty && (c1 == c2)) {
         isButtonEnabled = true;
-      else
+      } else {
         isButtonEnabled = false;
+      }
     });
   }
 
@@ -51,7 +50,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
       width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         children: [
-          CustomDialogAppBar(isDarkMode: true),
+          const CustomDialogAppBar(isDarkMode: true),
           Padding(
             padding: EdgeInsets.only(
                 left: screenwidth * 0.02,
@@ -142,7 +141,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
                             Navigator.pop(context);
                             showDialog(
                               context: context,
-                              builder: (context) => AlertDialog(
+                              builder: (context) => const AlertDialog(
                                 content: ResetPasswordWeb2(),
                               ),
                               barrierColor:

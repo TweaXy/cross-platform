@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/appbar.dart';
 import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/homepage_web.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
@@ -54,23 +51,23 @@ class _HomePage2State extends State<HomePageMobile>
             : Colors.black,
         body: BlocBuilder<SidebarCubit, SidebarState>(
           builder: (context, state) {
-            if (state is SidebarInitialState || state is SidebarHomeState)
+            if (state is SidebarInitialState || state is SidebarHomeState) {
               return HomeTweetsMobile(
                 tabController: widget.tabController,
                 controller: controller,
                 isVisible: _isVisible,
               );
-            else if (state is SidebarProfileState)
-              return ProfileScreen();
+            } else if (state is SidebarProfileState)
+              return const ProfileScreen();
             //TODO:- Provide The rest of the states
             else
-              return Placeholder();
+              return const Placeholder();
           },
         ),
-        floatingActionButton: FloatingButton(),
+        floatingActionButton: const FloatingButton(),
         bottomNavigationBar:
-            Offstage(offstage: !_isVisible, child: BottomNaviagtion()),
-        drawer: Drawer(
+            Offstage(offstage: !_isVisible, child: const BottomNaviagtion()),
+        drawer: const Drawer(
             child: CustomDrawer() // Populate the Drawer in the next step.
             ),
       ),
@@ -96,7 +93,7 @@ class HomeTweetsMobile extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             ApplicationBar(isVisible: isVisible, tabController: tabController),
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: Divider(
                 height: 1,
                 color: Color.fromARGB(255, 184, 189, 193),

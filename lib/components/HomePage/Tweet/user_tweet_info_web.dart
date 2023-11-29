@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog.dart';
-import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog_web.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_settings_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 
@@ -25,8 +23,8 @@ class User_TweetInfoWeb extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           child: Text(
             tweet.userName.length <= 9
-                ? '@' + tweet.userHandle
-                : '${'@' + tweet.userHandle.substring(0, 8)}...',
+                ? '@${tweet.userHandle}'
+                : '${'@${tweet.userHandle.substring(0, 8)}'}...',
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 18,
@@ -55,7 +53,7 @@ class User_TweetInfoWeb extends StatelessWidget {
         ),
         const Spacer(),
         if (forProfile)
-          TweetSettingsProfile()
+          const TweetSettingsProfile()
         else
           IconButton(
             splashRadius: 15,

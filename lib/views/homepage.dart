@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/AppBar/appbar.dart';
-import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/homepage_mobile.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/homepage_web.dart';
-import 'package:tweaxy/components/HomePage/floating_action_button.dart';
-import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePage2State();

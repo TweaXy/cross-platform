@@ -46,20 +46,20 @@ class HomePageWeb extends StatelessWidget {
                   child: BlocBuilder<SidebarCubit, SidebarState>(
                     builder: (context, state) {
                       if (state is SidebarInitialState ||
-                          state is SidebarHomeState)
+                          state is SidebarHomeState) {
                         return HomeTweets(tabController: tabController);
-                      else if (state is SidebarProfileState)
+                      } else if (state is SidebarProfileState)
                         return ProfileComponentWeb(id: profileID);
                       //TODO:- Provide The rest of the states
                       else
-                        return Placeholder();
+                        return const Placeholder();
                     },
                   ),
                 ),
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
-                Expanded(
+                const Expanded(
                     flex: 5,
                     child: Column(
                       children: [TrendingList()],
@@ -110,10 +110,10 @@ class _HomeTweetsState extends State<HomeTweets> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              shape: ContinuousRectangleBorder(
+              shape: const ContinuousRectangleBorder(
                 side: BorderSide(
                     width: 0.2,
-                    color: const Color.fromARGB(255, 135, 135, 135)),
+                    color: Color.fromARGB(255, 135, 135, 135)),
               ),
               elevation: 0,
               backgroundColor: Theme.of(context).brightness == Brightness.light
@@ -150,7 +150,7 @@ class _AddPostHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return PreferredSize(
+    return const PreferredSize(
       preferredSize: Size.fromHeight(50), // Adjust the height as needed
       child: AddPost(),
     );

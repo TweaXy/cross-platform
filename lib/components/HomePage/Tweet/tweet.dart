@@ -2,12 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_mobile.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_web.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 class CustomTweet extends StatelessWidget {
@@ -19,7 +16,7 @@ class CustomTweet extends StatelessWidget {
     String? t = tweet.image;
 
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         border: Border(
             bottom: BorderSide(
@@ -32,7 +29,7 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: EdgeInsets.only(left: 2, right: 7),
+            margin: const EdgeInsets.only(left: 2, right: 7),
             child: UserImageForTweet(image: tweet.userImage!),
           ),
           Expanded(
@@ -52,7 +49,7 @@ class CustomTweet extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
                   child: Text(
                     tweet.tweetText!,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                     ),
                   ),

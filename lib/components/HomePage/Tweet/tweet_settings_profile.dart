@@ -24,13 +24,14 @@ class TweetSettingsProfile extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return DeleteAlertDialogWeb();
+                  return const DeleteAlertDialogWeb();
                 });
           }
         },
         itemBuilder: (BuildContext bc) {
           return const [
             PopupMenuItem(
+              value: 'delete',
               child: Wrap(
                 children: [
                   Icon(
@@ -39,7 +40,7 @@ class TweetSettingsProfile extends StatelessWidget {
                     color: Colors.red,
                   ),
                   Padding(
-                      padding: const EdgeInsets.only(top: 2, left: 10),
+                      padding: EdgeInsets.only(top: 2, left: 10),
                       child: Text(
                         "Delete",
                         style: TextStyle(
@@ -48,11 +49,10 @@ class TweetSettingsProfile extends StatelessWidget {
                       ))
                 ],
               ),
-              value: 'delete',
             ),
           ];
         },
-        icon: Icon(
+        icon: const Icon(
           FontAwesomeIcons.ellipsis,
           size: 16,
         ));

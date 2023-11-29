@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/Tweets.dart';
-import 'package:tweaxy/views/loading_screen.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody(
@@ -129,7 +126,7 @@ class HomePageBody extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return Scaffold(
+          return const Scaffold(
             body: Column(
               children: [
                 Center(
@@ -155,10 +152,10 @@ class HomePageBody extends StatelessWidget {
                 scrollBehavior:
                     ScrollConfiguration.of(context).copyWith(scrollbars: false),
                 slivers: [
-                  SliverToBoxAdapter(
+                  const SliverToBoxAdapter(
                     child: kIsWeb
                         ? AddPost()
-                        : Container(
+                        : SizedBox(
                             height: 0,
                             width: 0,
                           ),

@@ -9,31 +9,31 @@ class Tweets {
   static Future<List<Map<String, dynamic>>> getTweetsHome(
       {required ScrollController scroll}) async {
     //down->false
-    print('scroll=' + scroll.position.userScrollDirection.toString());
+    print('scroll=${scroll.position.userScrollDirection}');
 // if (res)
     Response response = await Api.getwithToken(
         url: '$baseUrl/home?/limit=5&offset=0',
         token:
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiYWZwdnlwZnN1OTljbTQyNjdtMWttY3NpZVwiIiwiaWF0IjoxNzAxMjEzODgzLCJleHAiOjE3MDM4MDU4ODN9.08It4wlrSO-_8syBPABMagYcOfIbJuyB0Yzoqq-B5lI");
     if (scroll.position.userScrollDirection == ScrollDirection.reverse &&
-        response!.data['pagination']['nextPage'] != null) {
+        response.data['pagination']['nextPage'] != null) {
       //downward
       response = await Api.getwithToken(
-          url: response!.data['pagination']['nextPage'],
+          url: response.data['pagination']['nextPage'],
           token:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiYWZwdnlwZnN1OTljbTQyNjdtMWttY3NpZVwiIiwiaWF0IjoxNzAxMjEzODgzLCJleHAiOjE3MDM4MDU4ODN9.08It4wlrSO-_8syBPABMagYcOfIbJuyB0Yzoqq-B5lI");
     } else if (scroll.position.userScrollDirection == ScrollDirection.forward &&
-        response!.data['pagination']['prevPage'] != null) //up
+        response.data['pagination']['prevPage'] != null) //up
     {
       response = await Api.getwithToken(
-          url: response!.data['pagination']['prevPage'],
+          url: response.data['pagination']['prevPage'],
           token:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiYWZwdnlwZnN1OTljbTQyNjdtMWttY3NpZVwiIiwiaWF0IjoxNzAxMjEzODgzLCJleHAiOjE3MDM4MDU4ODN9.08It4wlrSO-_8syBPABMagYcOfIbJuyB0Yzoqq-B5lI");
     }
 
     // print('res' + response.toString());
     List<Map<String, dynamic>> m =
-        (response!.data['data']['items'] as List<dynamic>)
+        (response.data['data']['items'] as List<dynamic>)
             .map((item) => {
                   'likesCount': item['mainInteraction']['likesCount'],
                   'viewsCount': item['mainInteraction']['viewsCount'],
@@ -86,23 +86,19 @@ String dateFormatter(String date) {
   // print('diff second=' + (now.second - dt1.second).toString());
   String time;
   if (dt1.year != now.year) {
-    time = months[dt1.month - 1] +
-        ' ' +
-        dt1.day.toString() +
-        ',' +
-        (kIsWeb ? dt1.year.toString() : (dt1.year - 2000).toString());
+    time = '${months[dt1.month - 1]} ${dt1.day},${kIsWeb ? dt1.year.toString() : (dt1.year - 2000).toString()}';
   } else if (diff.inDays > 0)
-    time = months[dt1.month - 1] + ' ' + dt1.day.toString();
+    time = '${months[dt1.month - 1]} ${dt1.day}';
   else if (now.hour <= dt1.hour)
-    time = (now.hour + 24 - dt1.hour).toString() + 'h';
+    time = '${now.hour + 24 - dt1.hour}h';
   else if (now.hour - dt1.hour > 0)
-    time = (now.hour - dt1.hour).toString() + 'h';
+    time = '${now.hour - dt1.hour}h';
   else if (now.minute - dt1.minute > 0)
-    time = (now.minute - dt1.minute).toString() + 'm';
+    time = '${now.minute - dt1.minute}m';
   else if (now.second - dt1.second > 0)
-    time = (now.second - dt1.second).toString() + 's';
+    time = '${now.second - dt1.second}s';
   else
-    time = months[dt1.month - 1] + ' ' + dt1.day.toString();
-  print('time=' + time.toString());
+    time = '${months[dt1.month - 1]} ${dt1.day}';
+  print('time=$time');
   return time;
 }

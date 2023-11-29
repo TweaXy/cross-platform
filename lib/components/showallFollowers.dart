@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/models/followers_model.dart';
-import 'package:tweaxy/models/user.dart';
-import 'package:tweaxy/models/users.dart';
 
 class ShowAllFollowersAndFollowing extends StatelessWidget {
   ShowAllFollowersAndFollowing(

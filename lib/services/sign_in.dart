@@ -29,10 +29,11 @@ class SignInServices {
       url: '$baseUrl/auth/forgetPassword',
     );
     //   print('signin' + res.toString());
-    if (res is String)
+    if (res is String) {
       return res;
-    else
+    } else {
       return "success";
+    }
   }
 
   static dynamic resetPassword(String password) async {
@@ -41,10 +42,10 @@ class SignInServices {
       body: {"password": password},
     );
     // print();
-    print('reset' + res.toString());
-    if (res is String)
+    print('reset$res');
+    if (res is String) {
       return res;
-    else {
+    } else {
       print(res!.data['data']['token']);
       // SharedPreferences prefs = await SharedPreference();
       // prefs.setString('token', '');
@@ -60,17 +61,18 @@ class SignInServices {
     // print(token);
     // print(res);
     // print('reset' + res.toString());
-    if (res is String)
+    if (res is String) {
       return res;
-    else
+    } else {
       return "success";
+    }
   }
 
   static Future<String> signInGithub() async {
-    String _url = Uri.encodeFull(
+    String url = Uri.encodeFull(
         'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback');
-    if (await canLaunch(_url)) {
-      await launch(_url, forceWebView: true);
+    if (await canLaunch(url)) {
+      await launch(url, forceWebView: true);
       Response res = await Api.get(
         'http://ec2-16-171-65-142.eu-north-1.compute.amazonaws.com:3000/api/v1/auth/github/callback',
       );
