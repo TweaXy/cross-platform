@@ -1,12 +1,8 @@
 import 'dart:math';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/models/users.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:shared_preferences_web/shared_preferences_web.dart';
 
 class LoginApi {
   final dio = Dio();

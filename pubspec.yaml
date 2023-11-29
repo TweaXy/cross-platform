@@ -33,7 +33,6 @@ dependencies:
   chewie: ^1.7.1
   cupertino_icons: ^1.0.2
   datepicker_dropdown: ^0.0.8
-  dio: ^5.3.3
   dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
   flutter:
@@ -56,7 +55,6 @@ dependencies:
   like_button: ^2.0.5
   loading_indicator: ^3.1.1
   modal_progress_hud_nsn: ^0.4.0
-  oktoast: ^3.3.2+1
   popover: ^0.2.8+2
   popup_menu: ^2.0.0
   scroll_to_hide: ^2.0.0
@@ -66,13 +64,8 @@ dependencies:
   url_launcher: ^6.2.1
   video_player: ^2.7.2
   webview_flutter_plus:
-  dotted_border: ^2.1.0
-  fluttertoast: ^8.2.2
-  datepicker_dropdown: ^0.0.8
   dio: ^5.3.3
-  image_picker: ^1.0.4
   oktoast: ^3.3.2+1
-  image_cropper: ^5.0.0
 dev_dependencies:
   flutter_driver:
     sdk: flutter
