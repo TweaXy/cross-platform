@@ -9,9 +9,10 @@ import 'package:tweaxy/services/Tweets.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
 class HomePageBody extends StatelessWidget {
-  const HomePageBody({super.key, required this.tabController});
+  const HomePageBody(
+      {super.key, required this.tabController, required this.controller});
   final TabController tabController;
-
+  final ScrollController controller;
   final List<Map<String, String>> temp = const [
     {
       'likesCount': '1',
@@ -90,7 +91,7 @@ class HomePageBody extends StatelessWidget {
     }
   ];
   List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
-    print('hhh' + temp.toString());
+    // print('hhh' + temp.toString());
     return temp
         .map((e) => Tweet(
               id: e['id']!,
@@ -113,10 +114,10 @@ class HomePageBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Tweet> tweets = initializeTweets(temp);
     return FutureBuilder(
-      future: Tweets.getTweetsHome(),
+      future: Tweets.getTweetsHome(scroll: controller),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.hasError) {
-          print('tt' + Tweets.getTweetsHome().toString());
+          // print('tt' + Tweets.getTweetsHome().toString());
           return const Scaffold(
             body: Column(
               children: [
@@ -124,9 +125,6 @@ class HomePageBody extends StatelessWidget {
                     child: CircularProgressIndicator(
                   color: Colors.blue,
                 )),
-                kIsWeb
-                    ? CustomWebToast(message: 'Connection Error')
-                    : CustomToast(message: 'Connection Error')
               ],
             ),
           );
@@ -138,21 +136,18 @@ class HomePageBody extends StatelessWidget {
                     child: CircularProgressIndicator(
                   color: Colors.blue,
                 )),
-                kIsWeb
-                    ? CustomWebToast(message: snapshot.error.toString())
-                    : CustomToast(message: snapshot.error.toString())
               ],
             ),
           );
         } else {
-          print('tt' + Tweets.getTweetsHome().toString());
+          // print('tt' + Tweets.getTweetsHome().toString());
 
-          print('tw' + snapshot.data!.toString());
+          // print('tw' + snapshot.data!.toString());
           List<Map<String, dynamic>> s = snapshot.data!;
-          print(s);
+          // print(s);
           List<Tweet> tweets = initializeTweets(s);
 
-          print(s);
+          // print(s);
           return TabBarView(
             controller: tabController,
             children: <Widget>[
@@ -180,23 +175,6 @@ class HomePageBody extends StatelessWidget {
                   ),
                 ],
               ),
-              // CustomScrollView(
-              //   slivers: [
-              //     SliverToBoxAdapter(
-              //       child: kIsWeb
-              //           ? AddPost()
-              //           : Container(
-              //               height: 0,
-              //               width: 0,
-              //             ),
-              //     ),
-              //     SliverList(
-              //         delegate: SliverChildBuilderDelegate(childCount: tweets.length,
-              //             (BuildContext context, int index) {
-              //       return Icon(Icons.directions_transit, size: 350);
-              //     }))
-              //   ],
-              // )
             ],
           );
         }

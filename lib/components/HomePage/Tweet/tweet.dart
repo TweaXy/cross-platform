@@ -61,8 +61,10 @@ class CustomTweet extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image(
+                      width: 20,
+                      height: 20,
                       image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/$t',
+                        'http://16.171.65.142:3000/uploads/$t',
                       ),
                     ),
                   ),
