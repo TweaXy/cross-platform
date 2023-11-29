@@ -60,7 +60,7 @@ class TweaXy extends StatelessWidget {
             kFollowing: (context) => FollowingPage(),
             kwebboth: (context) => WebFollowersAndFollowings(),
           },
-          initialRoute: kHomeScreen,
+          initialRoute: kSplashScreen,
         ),
       ),
     );

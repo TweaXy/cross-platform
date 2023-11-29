@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/helpers/api.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInServices {
   SignInServices._();
@@ -45,9 +46,10 @@ class SignInServices {
     if (res is String)
       return res;
     else {
-      print(res!.data['data']['token']);
-      // SharedPreferences prefs = await SharedPreference();
-      // prefs.setString('token', '');
+      print('token' + res.data['data']['token'].toString());
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("token", res.data['data']['token'].toString());
+
       return "success";
     }
   }
@@ -81,5 +83,3 @@ class SignInServices {
     return "h";
   }
 }
-
-class SharedPreferences {}

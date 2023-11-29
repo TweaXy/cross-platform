@@ -12,6 +12,7 @@ import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dar
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/services/temp_user.dart';
 
 class SideNavBar extends StatefulWidget {
   const SideNavBar({Key? key}) : super(key: key);
@@ -221,7 +222,7 @@ class _SideNavBarState extends State<SideNavBar> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(bottom: 4.5),
                           child: Text(
                             'Menna Ahmed',
