@@ -7,7 +7,9 @@ class Api {
   static Future<dynamic> get(String url) async {
     Response? response;
     try {
-      response = await Dio().get(url);
+      response = await Dio().get(
+        url,
+      );
     } on DioException catch (e) {
       log("API: " + e.response!.data['message']);
       return e.response!.data['message'];
@@ -76,9 +78,12 @@ class Api {
       if (token != null) {
         headers.addAll({'Authorization': 'Bearer $token'});
       }
-      response = await Dio()
-          .delete(url, data: body, options: Options(headers: headers));
-      print(response.statusCode);
+      response = await Dio().delete(
+        url,
+        data: body,
+        options: Options(headers: headers),
+      );
+      //  print(response.statusCode);
     } on DioException catch (e) {
       //  print(e.response!.data['message']);
       throw Exception(e.response!.statusMessage);
@@ -114,7 +119,8 @@ class Api {
     }
     return response;
   }
-    static Future<Response> patch({
+
+  static Future<Response> patch({
     required String url,
     @required dynamic body,
     @required String? token,

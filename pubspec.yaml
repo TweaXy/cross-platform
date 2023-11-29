@@ -65,7 +65,14 @@ dependencies:
   tabbed_sliverlist: ^0.1.0
   url_launcher: ^6.2.1
   video_player: ^2.7.2
-  webview_flutter_plus: null
+  webview_flutter_plus:
+  dotted_border: ^2.1.0
+  fluttertoast: ^8.2.2
+  datepicker_dropdown: ^0.0.8
+  dio: ^5.3.3
+  image_picker: ^1.0.4
+  oktoast: ^3.3.2+1
+  image_cropper: ^5.0.0
 dev_dependencies:
   flutter_driver:
     sdk: flutter

@@ -164,12 +164,10 @@ class _LoginViewPage2State extends State<LoginViewPage2> {
                               'UUID': '${widget.initialValue.text}',
                               'password': '${myControllerPassword.text}'
                             }) as Map<String, dynamic>;
-                            SharedPreferences clint =
-                                await SharedPreferences.getInstance();
-                            clint.setString(
-                                'username', user['data']['user']['username']);
-
-                            Navigator.pushNamed(context, kHomeScreen);
+                            Navigator.of(context)
+                                .popUntil((route) => route.isFirst);
+                            Navigator.of(context)
+                                .pushReplacementNamed(kHomeScreen);
                           } on DioException catch (e) {
                             showToastWidget(
                               CustomToast(
