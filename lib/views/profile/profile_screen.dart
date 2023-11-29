@@ -1,18 +1,25 @@
+import 'dart:async';
+
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/error_screen.dart';
 import 'package:tweaxy/views/loading_screen.dart';
+import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -63,19 +70,45 @@ const List<Tweet> tweets = const [
       tweetText:
           'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
 ];
-
+List<String> listitems = [
+  'item1',
+  'item2',
+  'item3',
+  'item4',
+  'item5',
+  'item6',
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+  'item12',
+  'item13',
+  'item14',
+  'item15',
+  'item16',
+  'item17',
+  'item18',
+  'item19',
+  'item20',
+];
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
-  String id = 'clpe7z04p0003pu0xnd75rqxo';
   late TabController _tabController;
+  String id = '';
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future(() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getString('id')!;
+      setState(() {});
+    });
     _tabController = TabController(length: 3, vsync: this);
-    GetUserById.instance.excute(id);
   }
 
+  String? profileID;
   int _selectedTabIndex = 0;
 
   @override
@@ -84,81 +117,90 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: StreamBuilder<User>(
-          stream: Stream.fromFuture(GetUserById.instance.future!
-              .timeout(const Duration(seconds: 20))),
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              return const ErrorScreen();
-            } else if (!snapshot.hasData) {
-              return const LoadingScreen(
-                asyncCall: true,
-              );
-            } else {
-              User user = snapshot.data!;
-              print(user.avatar);
-              return CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: [
-                  SliverPersistentHeader(
-                    pinned: true,
-                    delegate: ProfileScreenAppBar(
-                      name: user.name!,
-                      postsNumber: 216820,
-                      avatarURL: user.avatar ?? '',
-                      coverURL: user.cover ?? '',
-                    ),
-                  ),
-                  SliverToBoxAdapter(
-                    child: AccountInformation(
-                      birthDate: user.birthdayDate ?? '',
-                      bio: user.bio ?? '',
-                      followers: user.followers ?? 0,
-                      following: user.following ?? 0,
-                      joinedDate: user.joinedDate ?? '',
-                      location: user.location ?? '',
-                      profileName: user.name ?? '',
-                      userName: user.userName ?? '',
-                    ),
-                  ),
-                  SliverTabBar(
-                    expandedHeight: 0,
-                    backgroundColor: Colors.white,
-                    tabBar: TabBar(
-                      indicatorWeight: 3,
-                      indicatorColor: Colors.blue,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      controller: _tabController,
-                      labelColor: Colors.black,
-                      onTap: (value) => setState(() {
-                        _selectedTabIndex = value;
-                      }),
-                      tabs: const [
-                        Tab(
-                          text: 'Posts',
+        child: BlocBuilder<EditProfileCubit, EditProfileState>(
+          builder: (context, state) {
+            if (state is EditProfileLoadingState) {
+              return LoadingScreen(asyncCall: true);
+            } else if (state is EditProfileInitialState ||
+                state is EditProfileCompletedState) {
+              return FutureBuilder(
+                future: GetUserById.instance.getUserById(id),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const LoadingScreen(
+                      asyncCall: true,
+                    );
+                  } else {
+                    User user = snapshot.data!;
+                    return CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: ProfileScreenAppBar(
+                            user: user,
+                            postsNumber: 216820,
+                            avatarURL: user.avatar ?? '',
+                            coverURL: user.cover ?? '',
+                          ),
                         ),
-                        Tab(
-                          text: 'Replies',
+                        SliverToBoxAdapter(
+                          child: AccountInformation(
+                            website: user.website ?? '',
+                            birthDate: user.birthdayDate ?? '',
+                            bio: user.bio ?? '',
+                            followers: user.followers ?? 0,
+                            following: user.following ?? 0,
+                            joinedDate: user.joinedDate ?? '',
+                            location: user.location ?? '',
+                            profileName: user.name ?? '',
+                            userName: user.userName ?? '',
+                          ),
                         ),
-                        Tab(
-                          text: 'Likes',
-                        )
+                        SliverTabBar(
+                          expandedHeight: 0,
+                          backgroundColor: Colors.white,
+                          tabBar: TabBar(
+                            indicatorWeight: 3,
+                            indicatorColor: Colors.blue,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            controller: _tabController,
+                            labelColor: Colors.black,
+                            onTap: (value) => setState(() {
+                              _selectedTabIndex = value;
+                            }),
+                            tabs: const [
+                              Tab(
+                                text: 'Posts',
+                              ),
+                              Tab(
+                                text: 'Replies',
+                              ),
+                              Tab(
+                                text: 'Likes',
+                              )
+                            ],
+                          ),
+                        ),
+                        SliverList.builder(
+                          itemCount: listitems.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ListTile(
+                                  title: Text(listitems[index].toString() +
+                                      _selectedTabIndex.toString()),
+                                  tileColor: Colors.white,
+                                ));
+                          },
+                        ),
                       ],
-                    ),
-                  ),
-                  SliverList(
-                    delegate:
-                        SliverChildBuilderDelegate(childCount: tweets.length,
-                            (BuildContext context, int index) {
-                      return CustomTweet(
-                        tweet: tweets[index],
-                        forProfile: true,
-                      );
-                    }),
-                  ),
-                ],
+                    );
+                  }
+                },
               );
             }
+            return Placeholder();
           },
         ),
       ),
@@ -169,12 +211,12 @@ class _ProfileScreenState extends State<ProfileScreen>
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   const ProfileScreenAppBar({
-    required this.name,
+    required this.user,
     required this.postsNumber,
     required this.avatarURL,
     required this.coverURL,
   });
-  final String name;
+  final User user;
   final String avatarURL;
   final String coverURL;
   final int postsNumber;
@@ -209,9 +251,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(
-                text: 'Edit Profile',
-                key: ValueKey('followEditButton'),
+              FollowEditButton(text: 'Edit Profile', user: user,
+                key: const ValueKey('followEditButton'),
               ),
             ],
           ),
@@ -249,7 +290,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             postsNumber: postsNumber,
                             postsNumberTextSize: 16,
                             profileNameTextSize: 16,
-                            profileName: name,
+                            profileName: user.name!,
                           )
                         : SizedBox(),
                   ],
@@ -345,9 +386,11 @@ class FollowEditButton extends StatefulWidget {
   const FollowEditButton({
     super.key,
     required this.text,
+    required this.user,
   });
 
   final String text;
+  final User user;
 
   @override
   State<FollowEditButton> createState() => _FollowEditButtonState();
@@ -387,7 +430,11 @@ class _FollowEditButtonState extends State<FollowEditButton> {
                 text = 'Follow';
               });
             } else {
-              Navigator.of(context).pushNamed(kEditProfileScreen);
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EditProfileScreen(
+                  user: widget.user,
+                ),
+              ));
             }
           },
           child: Text(
@@ -461,9 +508,9 @@ class _banner extends StatelessWidget {
                 width: double.maxFinite,
                 height: double.maxFinite,
                 child: CachedNetworkImage(
-                  fit: BoxFit.contain,
+                  fit: BoxFit.fill,
                   imageUrl: bannerURL == basePhotosURL
-                      ? "https://www.kasandbox.org/programming-images/avatars/mr-pants-purple.png"
+                      ? kDefaultBannerPhoto
                       : bannerURL,
                   placeholder: (context, url) => const Center(
                     child: SizedBox(
@@ -547,9 +594,7 @@ class _Avatar extends StatelessWidget {
         borderRadius: BorderRadius.circular(80),
         child: CachedNetworkImage(
           fit: BoxFit.cover,
-          imageUrl: url == baseURL
-              ? "https://www.kasandbox.org/programming-images/avatars/spunky-sam.png"
-              : url,
+          imageUrl: url,
           placeholder: (context, url) => const Center(
             child: SizedBox(
                 width: 15,
@@ -564,4 +609,11 @@ class _Avatar extends StatelessWidget {
       ),
     );
   }
+}
+
+void _save() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('id', 'clpj7l5wq00033h9kml3a9vkp');
+  await prefs.setString('token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
 }
