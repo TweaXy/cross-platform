@@ -14,6 +14,7 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/error_screen.dart';
@@ -69,7 +70,28 @@ const List<Tweet> tweets = const [
       tweetText:
           'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '),
 ];
-
+List<String> listitems = [
+  'item1',
+  'item2',
+  'item3',
+  'item4',
+  'item5',
+  'item6',
+  'item7',
+  'item8',
+  'item9',
+  'item10',
+  'item11',
+  'item12',
+  'item13',
+  'item14',
+  'item15',
+  'item16',
+  'item17',
+  'item18',
+  'item19',
+  'item20',
+];
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
