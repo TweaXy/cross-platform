@@ -6,29 +6,18 @@ import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_li
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 
-class HomePageWeb extends StatefulWidget {
+class HomePageWeb extends StatelessWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
   final TabController tabController;
 
-  @override
-  State<HomePageWeb> createState() => _HomePageWebState();
-}
-
-class _HomePageWebState extends State<HomePageWeb> {
-  String profileID = '';
-  _execute() async {
-    var ls = await loadPrefs();
-    profileID = ls[0];
-  }
+  final profileID = 'clovwlprc0009qd0xcxrlnrxa';
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    _execute();
 
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light
@@ -58,14 +47,12 @@ class _HomePageWebState extends State<HomePageWeb> {
                     builder: (context, state) {
                       if (state is SidebarInitialState ||
                           state is SidebarHomeState)
-                        return HomeTweets(tabController: widget.tabController);
-                      else if (state is SidebarProfileState) {
-                        return ProfileComponentWeb(id:profileID);
-                      }
+                        return HomeTweets(tabController: tabController);
+                      else if (state is SidebarProfileState)
+                        return ProfileComponentWeb(id: profileID);
                       //TODO:- Provide The rest of the states
-                      else {
-                        return const Placeholder();
-                      }
+                      else
+                        return Placeholder();
                     },
                   ),
                 ),
@@ -86,7 +73,7 @@ class _HomePageWebState extends State<HomePageWeb> {
   }
 }
 
-class HomeTweets extends StatelessWidget {
+class HomeTweets extends StatefulWidget {
   const HomeTweets({
     super.key,
     required this.tabController,
@@ -95,10 +82,29 @@ class HomeTweets extends StatelessWidget {
   final TabController tabController;
 
   @override
+  State<HomeTweets> createState() => _HomeTweetsState();
+}
+
+class _HomeTweetsState extends State<HomeTweets> {
+  late ScrollController controller;
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: NestedScrollView(
+        controller: controller,
         physics: const BouncingScrollPhysics(),
         floatHeaderSlivers: true,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -116,7 +122,7 @@ class HomeTweets extends StatelessWidget {
               pinned: true,
               title: CustomTabBar(
                 isVisible: true,
-                tabController: tabController,
+                tabController: widget.tabController,
               ),
             ),
           ];
@@ -131,7 +137,8 @@ class HomeTweets extends StatelessWidget {
                     : const Color.fromARGB(255, 233, 233, 233)),
           ),
           child: HomePageBody(
-            tabController: tabController,
+            controller: controller,
+            tabController: widget.tabController,
           ),
         ),
       ),

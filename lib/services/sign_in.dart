@@ -44,8 +44,12 @@ class SignInServices {
     print('reset' + res.toString());
     if (res is String)
       return res;
-    else
+    else {
+      print(res!.data['data']['token']);
+      // SharedPreferences prefs = await SharedPreference();
+      // prefs.setString('token', '');
       return "success";
+    }
   }
 
   static dynamic checkResetToken() async {
@@ -77,3 +81,5 @@ class SignInServices {
     return "h";
   }
 }
+
+class SharedPreferences {}
