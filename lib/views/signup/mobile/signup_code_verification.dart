@@ -46,20 +46,23 @@ class _SingupCodeVerificationViewState
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-        appBar: CustomAppbar(
-          key: const ValueKey("SingupCodeVerificationAppbar"),
-          iconButton: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: forgroundColorTheme(context),
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+      appBar: CustomAppbar(
+        key: const ValueKey("SingupCodeVerificationAppbar"),
+        iconButton: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: forgroundColorTheme(context),
           ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
+      ),
+      body: Center(
+        heightFactor: 1,
+        child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               SizedBox(
                 width: screenWidth * 0.9,
@@ -83,7 +86,7 @@ class _SingupCodeVerificationViewState
                             bottom: MediaQuery.of(context).size.height * 0.03),
                         child: CustomParagraphText(
                             textValue:
-                                "Enter it below to verify ${UserSignup.email} ",
+                                "Enter it below to verify ${UserSignup.email}",
                             textAlign: TextAlign.left),
                       ),
                       Padding(
@@ -133,56 +136,52 @@ class _SingupCodeVerificationViewState
                   ),
                 ),
               ),
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    const Divider(),
-                    Align(
-                      widthFactor: 4.8,
-                      alignment: Alignment.bottomRight,
-                      child: CustomButton(
-                        key: const ValueKey(
-                            SignUpKeys.verificationNextButtonKey),
-                        color: forgroundColorTheme(context),
-                        text: "Next",
-                        onPressedCallback: () async {
-                          try {
-                            dynamic response = await SignupService(Dio())
-                                .checkEmailCodeVerification(
-                                    code: myController.text);
-
-                            if (response is String) {
-                              showToastWidget(
-                                CustomToast(
-                                    message: response,
-                                    screenWidth: screenWidth),
-                                position: ToastPosition.bottom,
-                                duration: const Duration(seconds: 2),
-                              );
-                            } else if (mounted) {
-                              UserSignup.emailVerificationToken =
-                                  myController.text;
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  CustomPageRoute(
-                                      direction: AxisDirection.left,
-                                      child: const AddPasswordView()));
-                            }
-                          } catch (e) {
-                            log(e.toString());
-                            return "Code Uniqueness Api error ";
-                          }
-                        },
-                        initialEnabled: isButtonEnabled,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
-        ));
+        ),
+      ),
+      bottomSheet: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          const Divider(),
+          Align(
+            widthFactor: 4.8,
+            alignment: Alignment.bottomRight,
+            child: CustomButton(
+              key: const ValueKey(SignUpKeys.verificationNextButtonKey),
+              color: forgroundColorTheme(context),
+              text: "Next",
+              onPressedCallback: () async {
+                try {
+                  dynamic response = await SignupService(Dio())
+                      .checkEmailCodeVerification(code: myController.text);
+
+                  if (response is String) {
+                    showToastWidget(
+                      CustomToast(message: response, screenWidth: screenWidth),
+                      position: ToastPosition.bottom,
+                      duration: const Duration(seconds: 2),
+                    );
+                  } else if (mounted) {
+                    UserSignup.emailVerificationToken = myController.text;
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        CustomPageRoute(
+                            direction: AxisDirection.left,
+                            child: const AddPasswordView()));
+                  }
+                } catch (e) {
+                  log(e.toString());
+                  return "Code Uniqueness Api error ";
+                }
+              },
+              initialEnabled: isButtonEnabled,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -10,6 +10,7 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/login_api.dart';
 import 'package:tweaxy/services/sign_in.dart';
+// import 'package:tweaxy/services/signinwithgoolge.dart';
 
 class SignChoose extends StatelessWidget {
   const SignChoose({
@@ -29,24 +30,25 @@ class SignChoose extends StatelessWidget {
             type: isDarkMode ? ButtonType.googleDark : ButtonType.google,
             onPressed: () async {
               try {
-                Map<String, dynamic> loginGoogle =
-                    await LoginApi().SignInWithGoogle();
-                if (loginGoogle['status'] == "success") {
-                  //go to home page
-                  print(loginGoogle);
-                  Navigator.pushNamed(context, kStartScreen);
-                }
-              } on DioException catch (e) {
-                //    print('DioException: ${e.toString()}');
-                // ignore: use_build_context_synchronously
-                // showSnackBar(context, e.response!.data['message']);
-                showToastWidget(
-                  CustomWebToast(
-                    message: e.response!.data['message'],
-                  ),
-                  position: ToastPosition.bottom,
-                  duration: const Duration(seconds: 2),
-                );
+                // signInWithGoogle();
+                //   Map<String, dynamic> loginGoogle =
+                //       await LoginApi().SignInWithGoogle();
+                //   if (loginGoogle['status'] == "success") {
+                //     //go to home page
+                //     print(loginGoogle);
+                //     Navigator.pushNamed(context, kStartScreen);
+                //   }
+                // } on DioException catch (e) {
+                //   //    print('DioException: ${e.toString()}');
+                //   // ignore: use_build_context_synchronously
+                //   // showSnackBar(context, e.response!.data['message']);
+                //   showToastWidget(
+                //     CustomWebToast(
+                //       message: e.response!.data['message'],
+                //     ),
+                //     position: ToastPosition.bottom,
+                //     duration: const Duration(seconds: 2),
+                //   );
               } on Exception catch (e) {
                 //   print(e.toString());
                 if (kIsWeb) {
@@ -66,35 +68,33 @@ class SignChoose extends StatelessWidget {
                     duration: const Duration(seconds: 2),
                   );
                 }
-                // ignore: use_build_context_synchronously
-                // showSnackBar(context, e);
               }
             },
             size: ButtonSize.medium,
           ),
         ),
-        SizedBox(
-          width: double.infinity,
-          child: SignWithButton(
-            type: !isDarkMode ? ButtonType.facebook : ButtonType.facebookDark,
-            onPressed: () {
-              //TODO: implement continue with facebook logic
-            },
-            size: ButtonSize.large,
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: SignWithButton(
-            type: !isDarkMode ? ButtonType.github : ButtonType.githubDark,
-            onPressed: () {
-              //TODO: implement continue with github logic
-              var res = SignInServices.signInGithub();
-              // print("sign in" + res.toString());
-            },
-            size: ButtonSize.medium,
-          ),
-        ),
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: SignWithButton(
+        //     type: !isDarkMode ? ButtonType.facebook : ButtonType.facebookDark,
+        //     onPressed: () {
+        //       //TODO: implement continue with facebook logic
+        //     },
+        //     size: ButtonSize.large,
+        //   ),
+        // ),
+        // SizedBox(
+        //   width: double.infinity,
+        //   child: SignWithButton(
+        //     type: !isDarkMode ? ButtonType.github : ButtonType.githubDark,
+        //     onPressed: () {
+        //       //TODO: implement continue with github logic
+        //       var res = SignInServices.signInGithub();
+        //       // print("sign in" + res.toString());
+        //     },
+        //     size: ButtonSize.medium,
+        //   ),
+        // ),
         StartScreenDivider(isDarkMode: isDarkMode),
       ],
     );

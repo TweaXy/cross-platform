@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -107,61 +108,70 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.3,
-                child: _formKey.currentState == null
-                    ? CustomButton(
-                        key: const ValueKey("addUsernameWebSkipButton"),
-                        color: backgroundColorTheme(context),
-                        text: "Skip for now",
-                        onPressedCallback: () {
-                          //TODO use suggestions
-                          //TODO handle navigation
-                        },
-                        initialEnabled: true,
-                      )
-                    : _formKey.currentState!.validate()
-                        ? CustomButton(
-                            key: const ValueKey("addUsernameWebNextButton"),
-                            color: forgroundColorTheme(context),
-                            text: "Next",
-                            onPressedCallback: () async {
-                              UserSignup.username = myController.text;
-                              try {
-                                dynamic response =
-                                    await service.createAccount();
+                  width: MediaQuery.of(context).size.width * 0.3,
+                  child: _formKey.currentState == null ||
+                          !isButtonEnabled ||
+                          !_formKey.currentState!.validate()
+                      ? CustomButton(
+                          key: const ValueKey("addUsernameWebSkipButton"),
+                          color: backgroundColorTheme(context),
+                          text: "Skip for now",
+                          onPressedCallback: () {
+                            //TODO use suggestions
+                            //TODO handle navigation
+                          },
+                          initialEnabled: true,
+                        )
+                      : CustomButton(
+                          key: const ValueKey("addUsernameWebNextButton"),
+                          color: forgroundColorTheme(context),
+                          text: "Next",
+                          onPressedCallback: () async {
+                            UserSignup.username = myController.text;
+                            try {
+                              dynamic response = await service.createAccount();
 
-                                if (response is String) {
+                              if (response is String) {
+                                showToastWidget(
+                                  CustomWebToast(
+                                    message: response,
+                                  ),
+                                  position: ToastPosition.bottom,
+                                  duration: const Duration(seconds: 2),
+                                );
+                              } else {
+                                // Map<String, dynamic> jsonResponse =
+                                //     response.data;
+                                try {
+                                  // log(jsonResponse.values.toString());
+                                  // var token =
+                                  //     jsonResponse['data']['token'] as String;
+                                  // var id = jsonResponse['data']['user']['id']
+                                  //     as String;
+                                  // print(id.toString());
+                                  // print(token.toString());
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
+                                  prefs.setString("id", response.data['data']['user']['id'].toString());
+                                  prefs.setString("token", response.data['data']['token'].toString());
+                                  if (mounted) {
+                                    Navigator.popUntil(
+                                        context, (route) => route.isFirst);
+                                    Navigator.pushReplacementNamed(
+                                        context, kHomeScreen);
+                                  }
+                                } catch (e) {
+                                  log(e.toString());
+                                  log("hiii");
                                   log(response);
-                                  showToastWidget(
-                                    CustomWebToast(
-                                      message: response,
-                                    ),
-                                    position: ToastPosition.bottom,
-                                    duration: const Duration(seconds: 2),
-                                  );
-                                } else if (mounted) {
-                                  Navigator.popUntil(
-                                      context, (route) => route.isFirst);
-                                  Navigator.pushReplacementNamed(
-                                      context, kHomeScreen);
                                 }
-                              } catch (e) {
-                                log(e.toString());
                               }
-                            },
-                            initialEnabled: true,
-                          )
-                        : CustomButton(
-                            key: const ValueKey("addUsernameWebSkipButton2"),
-                            color: backgroundColorTheme(context),
-                            text: "Skip for now",
-                            onPressedCallback: () {
-                              //TODO use suggestions
-                              //TODO handle navigation
-                            },
-                            initialEnabled: true,
-                          ),
-              ),
+                            } catch (e) {
+                              log(e.toString());
+                            }
+                          },
+                          initialEnabled: true,
+                        )),
             ],
           ),
         ),

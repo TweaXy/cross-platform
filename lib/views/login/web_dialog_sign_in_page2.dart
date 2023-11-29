@@ -97,7 +97,7 @@ class _WebDialogSignInPage2State extends State<WebDialogSignInPage2> {
               child: CustomTextField(
                   key: const ValueKey(SignInKeys.passwordFieldKey),
                   label: 'Password',
-                  validatorFunc: passwordValidation,
+                  validatorFunc: () {},
                   controller: myControllerPassword),
             ),
           ),
