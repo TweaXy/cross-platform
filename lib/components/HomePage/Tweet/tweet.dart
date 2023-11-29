@@ -13,6 +13,9 @@ class CustomTweet extends StatelessWidget {
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     String? t = tweet.image;
 
     return Container(
@@ -56,12 +59,12 @@ class CustomTweet extends StatelessWidget {
                 ),
                 if (t != null)
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(60),
                     child: Image(
-                      width: 20,
-                      height: 20,
+                      width: screenWidth * 0.7,
+                      height: screenHeight * 0.3,
                       image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/uploads/$t',
+                        'http://16.171.65.142:3000/uploads/tweetsMedia/$t',
                       ),
                     ),
                   ),
