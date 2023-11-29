@@ -28,8 +28,6 @@ class SignupService {
           "avatar": UserSignup.profilePicture
         },
       );
-      log(response);
-      print(response);
       return response;
     } catch (e) {
       if (kDebugMode) {
@@ -52,7 +50,7 @@ class SignupService {
     } catch (e) {
       if (kDebugMode) {
         log(response.toString());
-        log("Service:$e");
+        log("Service:" + e.toString());
       } //debug mode only
       return response;
       // throw Exception('Email Uniqueness Api error ');
@@ -72,7 +70,7 @@ class SignupService {
     } catch (e) {
       if (kDebugMode) {
         log(response.toString());
-        log("Service:$e");
+        log("Service:" + e.toString());
       } //debug mode only
       return response;
       // throw Exception('Email Uniqueness Api error ');
@@ -102,30 +100,13 @@ class SignupService {
       response = await Api.get(
         '${baseUrl}auth/checkEmailVerification/${UserSignup.email}/$code',
       );
-      log("response $response");
+      log("response " + response.toString());
 
       return response;
     } catch (e) {
       log(e.toString());
-      log("response $response");
+      log("response " + response.toString());
       return response;
-    }
-  }
-
-  Future<dynamic> authentication() async {
-    dynamic response;
-    try {
-      response = await Api.post(
-        url: '${baseUrl}auth/captcha',
-        token: UserSignup.emailVerificationToken,
-        body: {},
-      );
-      return response;
-    } catch (e) {
-      if (kDebugMode) {
-        log(e.toString());
-      } //debug mode only
-      throw Exception('Capthca authentication error');
     }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -11,6 +10,8 @@ import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
+
 import 'package:tweaxy/models/user_signup.dart';
 
 class CreateAccountView extends StatefulWidget {
@@ -135,100 +136,52 @@ class _CreateAccountViewState extends State<CreateAccountView> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * .25,
               ),
-            // SizedBox(
-            //   child: Column(
-            //     children: [
-            //       Divider(
-            //         color: forgroundColorTheme(context),
-            //         thickness: 1.0,
-            //       ),
-            //       Align(
-            //         widthFactor: 4.8,
-            //         alignment: Alignment.bottomRight,
-            //         child: CustomButton(
-            //             key: const ValueKey(SignUpKeys.nextButtonKey),
-            //             color: forgroundColorTheme(context),
-            //             text: "Next",
-            //             onPressedCallback: () async {
-            //               if (_formKey.currentState!.validate()) {
-            //                 UserSignup.email = emailFieldController.text;
-            //                 UserSignup.name = nameFieldController.text;
-            //                 UserSignup.birthdayDate =
-            //                     birthDateFieldController.text;
-            //                 Navigator.push(
-            //                     context,
-            //                     CustomPageRoute(
-            //                         direction: AxisDirection.left,
-            //                         child: const CreateAccountDataReview()));
-            //               } else {
-            //                 showToastWidget(
-            //                   const CustomToast(
-            //                       message: "Please enter a valid data."),
-            //                   position: ToastPosition.bottom,
-            //                   duration: const Duration(seconds: 2),
-            //                 );
-            //               }
-            //             },
-            //             initialEnabled: _isnextButtonEnabled),
-            //       ),
-            //     ],
-            //   ),
-            // ),
-            // if (_dateselectview)
-            //   SizedBox(
-            //     height: MediaQuery.of(context).size.height * .25,
-            //     child: Align(
-            //         alignment: Alignment.bottomCenter,
-            //         child: CustomDatePicker(setBirthDate: _setBirthDate)),
-            //   )
-          ],
-        ),
-      ),
-      bottomSheet: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 3.0),
-        child: Column(  
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-             Divider(
-                      color: forgroundColorTheme(context),
-                      thickness: 1.0,
-                    ),
-            Align(
-              
-              widthFactor: 4.8,
-                      alignment: Alignment.bottomRight,
-              child: CustomButton(
-                  key: const ValueKey(SignUpKeys.nextButtonKey),
-                  color: forgroundColorTheme(context),
-                  text: "Next",
-                  onPressedCallback: () async {
-                    if (_formKey.currentState!.validate()) {
-                      UserSignup.email = emailFieldController.text;
-                      UserSignup.name = nameFieldController.text;
-                      UserSignup.birthdayDate = birthDateFieldController.text;
-                      Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              direction: AxisDirection.left,
-                              child: const CreateAccountDataReview()));
-                    } else {
-                      showToastWidget(
-                        const CustomToast(message: "Please enter a valid data."),
-                        position: ToastPosition.bottom,
-                        duration: const Duration(seconds: 2),
-                      );
-                    }
-                  },
-                  initialEnabled: _isnextButtonEnabled),
+            SizedBox(
+              child: Column(
+                children: [
+                  Divider(
+                    color: forgroundColorTheme(context),
+                    thickness: 1.0,
+                  ),
+                  Align(
+                    widthFactor: 4.8,
+                    alignment: Alignment.bottomRight,
+                    child: CustomButton(
+                        key: const ValueKey(SignUpKeys.nextButtonKey),
+                        color: forgroundColorTheme(context),
+                        text: "Next",
+                        onPressedCallback: () async {
+                          if (_formKey.currentState!.validate()) {
+                            UserSignup.email = emailFieldController.text;
+                            UserSignup.name = nameFieldController.text;
+                            UserSignup.birthdayDate =
+                                birthDateFieldController.text;
+                            Navigator.push(
+                                context,
+                                CustomPageRoute(
+                                    direction: AxisDirection.left,
+                                    child: const CreateAccountDataReview()));
+                          } else {
+                            showToastWidget(
+                              const CustomToast(
+                                  message: "Please enter a valid data."),
+                              position: ToastPosition.bottom,
+                              duration: const Duration(seconds: 2),
+                            );
+                          }
+                        },
+                        initialEnabled: _isnextButtonEnabled),
+                  ),
+                ],
+              ),
             ),
             if (_dateselectview)
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .25,
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomDatePicker(setBirthDate: _setBirthDate)),
-                )
+              SizedBox(
+                height: MediaQuery.of(context).size.height * .25,
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: CustomDatePicker(setBirthDate: _setBirthDate)),
+              )
           ],
         ),
       ),

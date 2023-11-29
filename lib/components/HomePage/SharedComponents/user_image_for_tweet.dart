@@ -9,7 +9,7 @@ class UserImageForTweet extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.circular(1000),
         child: Image(
-          width: 37,
+          width: 50,
           image: AssetImage(image),
         ));
   }

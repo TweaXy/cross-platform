@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog.dart';
-import 'package:tweaxy/components/HomePage/Tweet/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 
 class User_TweetInfo extends StatelessWidget {
-  const User_TweetInfo(
-      {super.key, required this.tweet, required this.forProfile});
+  const User_TweetInfo({super.key, required this.tweet});
   final Tweet tweet;
-  final bool forProfile;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -17,7 +14,7 @@ class User_TweetInfo extends StatelessWidget {
           padding: const EdgeInsets.all(1.0),
           child: Text(
             tweet.userName,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         Padding(
@@ -27,7 +24,7 @@ class User_TweetInfo extends StatelessWidget {
                 ? '@' + tweet.userHandle
                 : '${'@' + tweet.userHandle.substring(0, 8)}...',
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
             ),
           ),
@@ -37,8 +34,8 @@ class User_TweetInfo extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 3.0),
             width: 3,
             height: 3,
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 133, 132, 132),
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 133, 132, 132),
               shape: BoxShape.circle,
             ),
           ),
@@ -47,36 +44,14 @@ class User_TweetInfo extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
           child: Text(
             tweet.time,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
             ),
           ),
         ),
-        const Spacer(),
-        SizedBox(
-          width: 2,
-          child: IconButton(
-            padding: const EdgeInsets.only(right: 16),
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-            iconSize: 16,
-            onPressed: () {
-              // if (isProfile)
-              showModalBottomSheet(
-                showDragHandle: true,
-                useSafeArea: false,
-                enableDrag: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30.0),
-                  ),
-                ),
-                builder: (context) {
-                  return const WrapModalBottomProfile();
-                },
-              );
-            },
-          ),
+        Icon(
+          FontAwesomeIcons.ellipsisVertical,
+          size: 15,
         )
       ],
     );
