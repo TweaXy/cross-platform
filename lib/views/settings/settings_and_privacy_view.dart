@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/custom_settings_list_tile.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class SettingsAndPrivacyView extends StatelessWidget {
   const SettingsAndPrivacyView({super.key});
@@ -9,9 +10,9 @@ class SettingsAndPrivacyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const SettingsAppBar(
+        appBar: SettingsAppBar(
           title: "Settings",
-          username: "@username",
+          username: '@${TempUser.username}',
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 8.0),
