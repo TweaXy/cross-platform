@@ -1,35 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
-class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
-
-  @override
-  _CustomDrawerState createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
+class CustomDrawer extends StatelessWidget {
   /// Views to display
-  List<String> items = [
-    'Home',
-    'Explore',
-    'Notifications',
-    'Message',
-    'Profile'
-  ];
+  // List<String> items = [
+  //   'Home',
+  //   'Explore',
+  //   'Notifications',
+  //   'Message',
+  //   'Profile'
+  // ];
 
-  /// The currently selected index of the bar
-  int selectedIndex = 0;
-  int hoveredIndex = -1;
-
-  final List<bool> _isHovered = [false, false, false, false, false];
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -69,37 +55,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ],
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(bottom: screenHeight * 0.1),
-          //   child:
-          //       ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
-          // ),
           const Divider(height: 7),
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30,
-              ),
-            ),
-            leading: Icon(
-              FontAwesomeIcons.user,
-              size: 27,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? (selectedIndex == 4
-                      ? Colors.black
-                      : const Color.fromARGB(255, 137, 137, 137))
-                  : (selectedIndex == 4
-                      ? Colors.white
-                      : const Color.fromARGB(255, 176, 176, 176)),
-            ),
-            title: SideBarText(
-              text: 'Profile',
-              selectedIndex: selectedIndex,
-              curindex: 4,
-            ),
+          CustomDrawerListTile(
+            icon: AppIcon.profile,
+            title: 'Profile',
             onTap: () {
-              // Navigator.pop(context);
-              // _globalOnTap(4);
               Navigator.pushNamed(context, kProfileScreen);
             },
           ),
@@ -107,25 +67,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
             height: screenHeight * 0.4,
           ),
           const Divider(height: 7),
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30,
-              ),
-            ),
-            leading: const SizedBox(
-                height: double.infinity, //Align icon to center
-                child: Icon(AppIcon.settings, size: 27)),
-            title: const Text(
-              'Settings and privacy',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            titleAlignment: ListTileTitleAlignment.center,
-            iconColor: Colors.black,
-            textColor: Colors.black,
+          CustomDrawerListTile(
+            icon: AppIcon.settings,
+            title: 'Settings and privacy',
             onTap: () {
               Navigator.pushNamed(context, kSetttings);
             },
@@ -133,12 +77,5 @@ class _CustomDrawerState extends State<CustomDrawer> {
         ],
       ),
     );
-  }
-
-  void _globalOnTap(index) {
-    setState(() {
-      selectedIndex = index;
-    });
-    BlocProvider.of<SidebarCubit>(context).toggleMenu(selectedIndex);
   }
 }
