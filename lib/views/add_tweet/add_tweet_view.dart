@@ -29,6 +29,7 @@ class _AddTweetViewState extends State<AddTweetView> {
   void initState() {
     super.initState();
     _tweetController.addListener(_updateButtonState);
+
     if (widget.photoIconPressed) {
       pickMedia();
     }
@@ -49,6 +50,7 @@ class _AddTweetViewState extends State<AddTweetView> {
 
       setState(() {
         media.addAll(mediaTemporary);
+        _updateButtonState();
       });
 
       for (XFile mediaItem in mediaTemporary) {
