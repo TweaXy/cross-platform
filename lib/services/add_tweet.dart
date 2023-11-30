@@ -13,27 +13,63 @@ class AddTweet {
   AddTweet(this.dio);
 
   Future addTweet(String text, List<XFile> media) async {
+    // dynamic response;
+    // print(text);
+    // print(media);
+    // String? token;
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // token = prefs.getString("token");
+
+    // List<Uint8List> newMedia = [];
+
+    // for (XFile m in media) {
+    //   final bytes = await File(m.path).readAsBytes();
+    //   newMedia.add(bytes);
+    // }
+    // FormData formData = FormData.fromMap({'text': text, 'media': newMedia});
+
+    // print(token);
+    // try {
+    //   response = await Api.post(
+    //     url: '${baseUrl}tweets/',
+    //     token: token,
+    //     body: formData,
+    //   );
+    //   return response;
+    // } catch (e) {
+    //   if (kDebugMode) {
+    //     log(e.toString());
+    //   } //debug mode only
+    //   throw Exception('oops something went wrong');
+    // }
+  }
+
+  Future addTweetweb(String text, List<Uint8List> media) async {
     dynamic response;
     print(text);
     print(media);
     String? token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     token = prefs.getString("token");
+//  FormData formData = FormData();
 
-    List<Uint8List> newMedia = [];
+//     // Add text field
+//     formData.fields.add(MapEntry('text', text));
 
-    for (XFile m in media) {
-      final bytes = await File(m.path).readAsBytes();
-      newMedia.add(bytes);
-    }
-    FormData formData = FormData.fromMap({'text': text, 'media': newMedia});
-
+//     // Add media files
+//      for (int i = 0; i < media.length; i++) {
+//     // Add each media as bytes
+//     formData.files.add(MapEntry(
+//       'media',
+//       MultipartFile.fromBytes(media[i], filename: 'media_$i'),
+//     ));
+//   }
     print(token);
     try {
       response = await Api.post(
         url: '${baseUrl}tweets/',
         token: token,
-        body: formData,
+        body:{'text':text,'media':media},
       );
       return response;
     } catch (e) {

@@ -6,7 +6,7 @@ import 'package:video_player/video_player.dart';
 class ImageDisplatWeb extends StatefulWidget {
   const ImageDisplatWeb(
       {super.key, required this.pickedfiles, required this.checkimagelist});
-  final List<XFile> pickedfiles;
+  final List<Map<String, dynamic>> pickedfiles;
   final Function checkimagelist;
 
   @override
@@ -45,7 +45,7 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
                 height: screenheight * .3,
                 child: Row(
                   children: [
-                    buildItem(widget.pickedfiles[0], constraints),
+                    buildItem(widget.pickedfiles[0][0], constraints),
                     Column(
                       children: [
                         buildItem(widget.pickedfiles[1], constraints),
@@ -131,7 +131,7 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
     });
   }
 
-  Widget buildItem(XFile file, BoxConstraints constraints, {int flex = 1}) {
+  Widget buildItem(Map<String,dynamic> file, BoxConstraints constraints, {int flex = 1}) {
     return Expanded(
       flex: flex,
       child: Padding(
@@ -141,13 +141,13 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
     );
   }
 
-  Widget buildImageElement(XFile image) {
+  Widget buildImageElement(Uint8List image) {
     return Stack(
       children: [
         AspectRatio(
           aspectRatio: 16 / 9,
-          child: Image.network(
-            image.path,
+          child: Image.memory(
+            image ,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -159,17 +159,18 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
           child: GestureDetector(
             key: const ValueKey("image removal button"),
             onTap: () {
-              int index = widget.pickedfiles.indexOf(image);
+              int index = widget.pickedfiles
+                  .indexWhere((element) => element['path'] == image);
               deleteFile(index);
             },
             child: Container(
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: Colors.black,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
                 Icons.close,
-                color: Colors.black,
+                color: Colors.white,
                 size: 24,
               ),
             ),
@@ -179,59 +180,60 @@ class _ImageDisplatWebState extends State<ImageDisplatWeb> {
     );
   }
 
-  Widget buildVideoElement(XFile video) {
-    final VideoPlayerController videoController =
-        VideoPlayerController.networkUrl(
-      Uri.parse(video.path),
-      videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
-    )
-          ..setLooping(true)
-          ..play()
-          ..initialize().then((_) {
-            setState(() {});
-          }).catchError((error) {
-            if (kDebugMode) {
-              print("Error initializing video: $error");
-            }
-          });
-    return Stack(
-      children: [
-        AspectRatio(
-          aspectRatio: videoController.value.aspectRatio,
-          child: VideoPlayer(videoController),
-        ),
-        Positioned(
-          top: 8,
-          left: 8,
-          child: GestureDetector(
-            key: const ValueKey("video removal button"),
-            onTap: () {
-              int index = widget.pickedfiles.indexOf(video);
-              deleteFile(index);
-            },
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-
-                Icons.close,
-                color: Colors.black,
-                size: 24,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+  Widget buildVideoElement(Uint8List video) {
+    return Container();
+    // final VideoPlayerController videoController =
+    //     VideoPlayerController.file(
+    //  File(video),
+    //   videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
+    // )
+    //       ..setLooping(true)
+    //       ..play()
+    //       ..initialize().then((_) {
+    //         setState(() {});
+    //       }).catchError((error) {
+    //         if (kDebugMode) {
+    //           print("Error initializing video: $error");
+    //         }
+    //       });
+    // return Stack(
+    //   children: [
+    //     AspectRatio(
+    //       aspectRatio: videoController.value.aspectRatio,
+    //       child: VideoPlayer(videoController),
+    //     ),
+    //     Positioned(
+    //       top: 8,
+    //       left: 8,
+    //       child: GestureDetector(
+    //         key: const ValueKey("video removal button"),
+    //         onTap: () {
+    //           int index = widget.pickedfiles
+    //               .indexWhere((element) => element['path'] == video);
+    //           deleteFile(index);
+    //         },
+    //         child: Container(
+    //           decoration: const BoxDecoration(
+    //             color: Colors.white,
+    //             shape: BoxShape.circle,
+    //           ),
+    //           child: const Icon(
+    //             Icons.close,
+    //             color: Colors.black,
+    //             size: 24,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ],
+    // );
   }
 
-  Widget videoOrimage(XFile file) {
-    if (file.name.contains('.mp4') || file.name.endsWith('.mov')) {
-      return buildVideoElement(file);
+  Widget videoOrimage(Map<String,dynamic> file) {
+    if (file['path'].contains('.mp4') || file["path"].endsWith('.mov')) {
+      return buildVideoElement(file["bytes"]);
     } else {
-      return buildImageElement(file);
+      return buildImageElement(file["bytes"]);
     }
   }
 }

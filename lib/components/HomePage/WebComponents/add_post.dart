@@ -73,10 +73,10 @@ class _AddPostState extends State<AddPost> {
             ],
           ),
           if (showimages)
-            ImageDisplatWeb(
-              pickedfiles: xfilePick,
-              checkimagelist: postbutton,
-            ),
+            // ImageDisplatWeb(
+            //   pickedfiles: xfilePick,
+            //   checkimagelist: postbutton,
+            // ),
           Padding(
               padding: EdgeInsets.only(
                   left: screenwidth * 0.03, bottom: screenheight * 0.007),
