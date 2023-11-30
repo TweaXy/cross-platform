@@ -74,7 +74,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
                   left: MediaQuery.of(context).size.width * 0.04,
                   right: MediaQuery.of(context).size.width * 0.04),
               child: Text(
-                'Enter the email associated with your account to change your password',
+                'Enter the email or username associated with your account to change your password',
                 overflow: TextOverflow.fade,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
@@ -91,7 +91,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage1> {
               child: CustomTextField(
                 key: const ValueKey(SignInKeys.forgetPasswordEmailFieldKey),
                 validatorFunc: () {},
-                label: 'Email address',
+                label: 'Email address or Username',
                 controller: myController,
               ),
             ),

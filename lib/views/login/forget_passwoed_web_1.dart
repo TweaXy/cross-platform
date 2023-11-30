@@ -66,7 +66,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               children: [
                 Flexible(
                   child: Text(
-                    'Enter the email associated with your account to change your password.',
+                    'Enter the email or username associated with your account to change your password.',
                     overflow: TextOverflow.visible,
                     softWrap: true,
                     style: TextStyle(
@@ -83,7 +83,7 @@ class _WebDialogSignInPage2State extends State<ForgetPasswordWeb1> {
               width: 500,
               height: 70,
               child: CustomTextField(
-                  label: 'Email address',
+                  label: 'Email address or Username',
                   validatorFunc: () {},
                   controller: myController),
             ),

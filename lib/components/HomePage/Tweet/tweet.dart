@@ -16,11 +16,16 @@ class CustomTweet extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    String? t = tweet.image;
+    List<String>? t = tweet.image;
+    String? k = null;
+    if (t != null) k = t[0]!;
+    // if (t != null && t.length > 1) k = t[1]!;
 
+    print('kkkk' + k.toString());
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
+        color: Color.fromARGB(255, 253, 253, 255),
         border: Border(
             bottom: BorderSide(
                 width: 0.2,
@@ -57,14 +62,14 @@ class CustomTweet extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (t != null)
+                if (k != null)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(60),
                     child: Image(
                       width: screenWidth * 0.7,
                       height: screenHeight * 0.3,
                       image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/uploads/tweetsMedia/$t',
+                        'http://16.171.65.142:3000/uploads/tweetsMedia/$k',
                       ),
                     ),
                   ),

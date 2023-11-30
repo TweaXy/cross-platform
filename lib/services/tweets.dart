@@ -40,9 +40,7 @@ class Tweets {
                   'id': item['mainInteraction']['id'],
                   'userid': item['mainInteraction']['user']['id'],
                   'userImage': item['mainInteraction']['user']['avatar'],
-                  'image': item['mainInteraction']['media'] != null
-                      ? item['mainInteraction']['media'][0]
-                      : null,
+                  'image': item['mainInteraction']['media']!=null?item['mainInteraction']['media'].toList():null,
                   'userName': item['mainInteraction']['user']['name'],
                   'userHandle': item['mainInteraction']['user']['username'],
                   'time': dateFormatter(item['mainInteraction']['createdDate']),

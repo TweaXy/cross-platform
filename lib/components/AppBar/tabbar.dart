@@ -15,14 +15,15 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
     Brightness brightness = Theme.of(context).brightness;
     Color selectedTextColor =
         brightness == Brightness.light ? Colors.black : Colors.white;
-    Color unselectedTextColor =
-        brightness == Brightness.light ? const Color(0xff56595c) : const Color(0xff56595c);
+    Color unselectedTextColor = brightness == Brightness.light
+        ? const Color(0xff56595c)
+        : const Color(0xff56595c);
 
     return TabBar(
       controller: tabController,
       isScrollable: false,
       indicatorSize: TabBarIndicatorSize.label,
-      indicatorColor: Colors.white,
+      indicatorColor: Colors.blue,
       indicatorWeight: 4,
       indicatorPadding: const EdgeInsets.only(bottom: 1.0),
       tabs: !isVisible
@@ -59,7 +60,7 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
                 child: Text(
                   'Following',
                   style: TextStyle(
-                    color: tabController.index == 1
+                    color: tabController.index == 0
                         ? selectedTextColor
                         : unselectedTextColor,
                     fontWeight: FontWeight.bold,
