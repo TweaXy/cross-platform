@@ -5,6 +5,7 @@ import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.da
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -48,14 +49,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                  padding: const EdgeInsets.only(bottom: 10.0),
                   child: UserImageForTweet(image: TempUser.image),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 4.5),
+                  padding: const EdgeInsets.only(bottom: 4.5),
                   child: Text(
-                      TempUser.name,
-                    style:const TextStyle(
+                    TempUser.name,
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 13, 11, 11),
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
@@ -102,7 +103,33 @@ class _CustomDrawerState extends State<CustomDrawer> {
               Navigator.pushNamed(context, kProfileScreen);
             },
           ),
-          // SettingsAndSupport(),
+          SizedBox(
+            height: screenHeight * 0.4,
+          ),
+          const Divider(height: 7),
+          ListTile(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                30,
+              ),
+            ),
+            leading: const SizedBox(
+                height: double.infinity, //Align icon to center
+                child: Icon(AppIcon.settings, size: 27)),
+            title: const Text(
+              'Settings and privacy',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            titleAlignment: ListTileTitleAlignment.center,
+            iconColor: Colors.black,
+            textColor: Colors.black,
+            onTap: () {
+              Navigator.pushNamed(context, kSetttings);
+            },
+          ),
         ],
       ),
     );
