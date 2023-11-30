@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const SettingsAppBar(
-      {super.key, required this.title, required this.username});
+  const SettingsAppBar({
+    super.key,
+    required this.title,
+  });
   final String title;
-  final String username;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           Text(
-            username,
+            '@${TempUser.username}',
             style: TextStyle(
               color: Colors.grey.shade700,
               fontSize: 15,
