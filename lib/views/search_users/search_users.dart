@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:tweaxy/models/user.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({super.key});
@@ -77,72 +80,91 @@ class _MyPageState extends State<SearchView> {
               )
             : SizedBox(
                 width: double.infinity,
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return Container(
-                      color: Colors.white,
-                      width: double.infinity,
-                      height: 100,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 28,
-                              backgroundColor: Colors.blueGrey[600],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'Ahmed Samy',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 2.0),
-                                    child: Text(
-                                      '@ahmedsamy',
-                                      style: TextStyle(
-                                        color: Colors.grey[600],
-                                        fontSize: 16,
+                child: StreamBuilder<List<User>>(stream: (() {
+                  late final StreamController<List<User>> controller;
+                  controller = StreamController<List<User>>(
+                    onListen: () async {
+                      //TODO Add the search function
+                      // var u = await fetchData(query);
+                      // controller.add(u);
+                    },
+                  );
+                  return controller.stream;
+                })(), builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Container(
+                          color: Colors.white,
+                          width: double.infinity,
+                          height: 100,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                CircleAvatar(
+                                  radius: 28,
+                                  backgroundColor: Colors.blueGrey[600],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 16.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Ahmed Samy',
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18,
+                                        ),
                                       ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 3.0),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.person,
-                                          size: 15,
-                                          color: Colors.blueGrey[600],
-                                        ),
-                                        Text(
-                                          'Following',
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 2.0),
+                                        child: Text(
+                                          '@ahmedsamy',
                                           style: TextStyle(
-                                              color: Colors.blueGrey[600],
-                                              fontSize: 13),
+                                            color: Colors.grey[600],
+                                            fontSize: 16,
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
+                                      ),
+                                      Padding(
+                                        padding:
+                                            const EdgeInsets.only(top: 3.0),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.person,
+                                              size: 15,
+                                              color: Colors.blueGrey[600],
+                                            ),
+                                            Text(
+                                              'Following',
+                                              style: TextStyle(
+                                                  color: Colors.blueGrey[600],
+                                                  fontSize: 13),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ),
+                          ),
+                        );
+                      },
+                      itemCount: 20,
                     );
-                  },
-                  itemCount: 20,
-                ),
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
               ),
       ),
     );
