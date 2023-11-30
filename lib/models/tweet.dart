@@ -1,6 +1,6 @@
 class Tweet {
   final String? userImage;
-  final String? image;
+  final List <String>? image;
   final String userName;
   final String userHandle;
   final String time;
