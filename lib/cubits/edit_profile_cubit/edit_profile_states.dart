@@ -1,15 +1,15 @@
 class EditProfileState {}
 
-class EditProfileInitialState extends EditProfileState {
+class ProfilePageInitialState extends EditProfileState {
   String? profileID;
-  EditProfileInitialState({this.profileID});
+  ProfilePageInitialState({this.profileID});
 }
 
-class EditProfileCompletedState extends EditProfileState {
+class ProfilePageCompletedState extends EditProfileState {
   String? profileID;
-  EditProfileCompletedState({this.profileID});
+  ProfilePageCompletedState({this.profileID});
 }
 
-class EditProfileLoadingState extends EditProfileState {}
+class ProfilePageLoadingState extends EditProfileState {}
 
 class EditProfileFailedState extends EditProfileState {}

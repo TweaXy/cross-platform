@@ -56,7 +56,6 @@ class TweaXy extends StatelessWidget {
             kHomeScreen: (context) => const HomePage(),
             kCreateAcountReviewScreen: (context) =>
                 const CreateAccountDataReview(),
-            kProfileScreen: (context) => const ProfileScreen(),
             kFollowers: (context) => const FollowersPage(),
             kFollowing: (context) => const FollowingPage(),
             kwebboth: (context) => const WebFollowersAndFollowings(),

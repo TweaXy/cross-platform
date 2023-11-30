@@ -6,7 +6,7 @@ import 'package:tweaxy/services/edit_profile.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 
 class EditProfileCubit extends Cubit<EditProfileState> {
-  EditProfileCubit() : super(EditProfileInitialState());
+  EditProfileCubit() : super(ProfilePageInitialState());
   Future<void> editProfile({
     required User user,
     required Uint8List? avatarByte,
@@ -15,7 +15,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
     required bool removedBanner,
     required String token,
   }) async {
-    emit(EditProfileLoadingState());
+    emit(ProfilePageLoadingState());
     await EditProfile.instance.editProfile(
         user: user,
         newAvatar: avatarByte,
@@ -24,6 +24,6 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         removedBanner: removedBanner,
         token: token);
     await GetUserById.instance.excute(user.id!);
-    emit(EditProfileCompletedState());
+    emit(ProfilePageCompletedState());
   }
 }

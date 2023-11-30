@@ -58,7 +58,7 @@ class _HomePage2State extends State<HomePageMobile>
                 isVisible: _isVisible,
               );
             } else if (state is SidebarProfileState)
-              return const ProfileScreen();
+              return ProfileScreen(id: '',text: '',);
             //TODO:- Provide The rest of the states
             else
               return const Placeholder();

@@ -14,13 +14,16 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
+import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
-
+  const ProfileScreen({super.key, required this.id, required this.text});
+  final String id;
+  final String text;
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -56,29 +59,38 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future(() async {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getString('id')!;
-      setState(() {});
-    });
+    if (widget.id != '')
+      id = widget.id;
+    else {
+      Future(() async {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        id = prefs.getString('id')!;
+        setState(() {});
+      });
+    }
+    if (widget.text == '')
+      text = 'Edit Profile';
+    else
+      text = widget.text;
+
     _tabController = TabController(length: 3, vsync: this);
   }
 
   String? profileID;
   int _selectedTabIndex = 0;
-
+  String text = '';
+  // bool initialized = false;
   @override
   Widget build(BuildContext context) {
-    // User user = ModalRoute.of(context)?.settings.arguments as User;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: BlocBuilder<EditProfileCubit, EditProfileState>(
           builder: (context, state) {
-            if (state is EditProfileLoadingState) {
+            if (state is ProfilePageLoadingState) {
               return const LoadingScreen(asyncCall: true);
-            } else if (state is EditProfileInitialState ||
-                state is EditProfileCompletedState) {
+            } else if (state is ProfilePageInitialState ||
+                state is ProfilePageCompletedState) {
               return FutureBuilder(
                 future: GetUserById.instance.getUserById(id),
                 builder: (context, snapshot) {
@@ -94,6 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                         SliverPersistentHeader(
                           pinned: true,
                           delegate: ProfileScreenAppBar(
+                            text: text,
                             user: user,
                             postsNumber: 216820,
                             avatarURL: user.avatar ?? '',
@@ -170,8 +183,10 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
     required this.postsNumber,
     required this.avatarURL,
     required this.coverURL,
+    required this.text,
   });
   final User user;
+  final String text;
   final String avatarURL;
   final String coverURL;
   final int postsNumber;
@@ -207,7 +222,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
               ),
               const Spacer(),
               FollowEditButton(
-                text: 'Edit Profile',
+                text: text,
                 user: user,
                 key: const ValueKey('followEditButton'),
               ),
@@ -375,14 +390,16 @@ class _FollowEditButtonState extends State<FollowEditButton> {
               )
             : const SizedBox(),
         ElevatedButton(
-          onPressed: () {
+          onPressed: () async {
             if (text == 'Follow') {
               //TODO :- Implement the follow logic
+              await FollowUser.instance.followUser(widget.user.userName!);
               setState(() {
                 text = 'Following';
               });
             } else if (text == 'Following') {
               //TODO :- Implement the unfollow logic
+              await FollowUser.instance.deleteUser(widget.user.userName!);
               setState(() {
                 text = 'Follow';
               });

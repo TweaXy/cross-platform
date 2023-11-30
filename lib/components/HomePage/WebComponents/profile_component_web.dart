@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,7 +72,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     return BlocBuilder<EditProfileCubit, EditProfileState>(
       builder: (context, state) {
         // print(state.runtimeType);
-        if (state is EditProfileLoadingState) {
+        if (state is ProfilePageLoadingState) {
           return const Scaffold(
             body: Center(
               child: CircularProgressIndicator(
@@ -81,8 +80,8 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
               ),
             ),
           );
-        } else if (state is EditProfileInitialState ||
-            state is EditProfileCompletedState) {
+        } else if (state is ProfilePageInitialState ||
+            state is ProfilePageCompletedState) {
           return FutureBuilder(
             future: GetUserById.instance.getUserById(widget.id),
             builder: (context, snapshot) {
