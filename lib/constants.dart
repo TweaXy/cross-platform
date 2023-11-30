@@ -24,6 +24,7 @@ const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
 const kFollowing = 'following';
 const kSetttings = 'settings';
+const kUpdatePassword = 'update_password';
 const kwebboth = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
 const baseURL = 'http://16.171.65.142:3000/api/v1/';

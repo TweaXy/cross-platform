@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
+import 'package:tweaxy/views/settings/update_password_view.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
@@ -62,8 +63,9 @@ class TweaXy extends StatelessWidget {
             kFollowing: (context) => const FollowingPage(),
             kwebboth: (context) => const WebFollowersAndFollowings(),
             kSetttings: (context) => const SettingsAndPrivacyView(),
+            kUpdatePassword: (context) => const UpdatePasswordView(),
           },
-          initialRoute: kSplashScreen,
+          initialRoute: kHomeScreen,
         ),
       ),
     );
