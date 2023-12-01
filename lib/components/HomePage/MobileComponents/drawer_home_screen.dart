@@ -96,10 +96,13 @@ class _CustomDrawerState extends State<CustomDrawer> {
               selectedIndex: selectedIndex,
               curindex: 4,
             ),
-            onTap: () {
+            onTap: () async{
               // Navigator.pop(context);
               // _globalOnTap(4);
-              Navigator.pushNamed(context, kProfileScreen);
+              await Navigator.pushNamed(context, kProfileScreen);
+              setState(() {
+                
+              });
             },
           ),
           // SettingsAndSupport(),
