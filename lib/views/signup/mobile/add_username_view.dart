@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -150,56 +149,21 @@ class _AddUsernameViewState extends State<AddUsernameView> {
                                     duration: const Duration(seconds: 2),
                                   );
                                 } else if (response.statusCode == 200) {
-                                  log(response);
-                                  Map<String, dynamic> jsonResponse =
-                                      response.data;
-                                  try {
-                                    log(response);
-                                    log(jsonResponse.values.toString());
-
-                                    if (response.data != null &&
-                                        response.data is Map<String, dynamic> &&
-                                        response.data.containsKey('data') &&
-                                        response.data['data']
-                                            is Map<String, dynamic> &&
-                                        response.data['data']
-                                            .containsKey('token') &&
-                                        response.data['data']
-                                            .containsKey('user') &&
-                                        response.data['data']['user']
-                                            is Map<String, dynamic> &&
-                                        response.data['data']['user']
-                                            .containsKey('id')) {
-                                      // Extract values
-                                      var token = jsonResponse['data']['token']
-                                          as String;
-                                      var id = jsonResponse['data']['user']
-                                          ['id'] as String;
-                                      print(id);
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
-                                      prefs.setString("id", id.toString());
-                                      prefs.setString(
-                                          "token", token.toString());
-                                      if (mounted) {
-                                        Navigator.popUntil(
-                                            context, (route) => route.isFirst);
-                                        Navigator.pushReplacementNamed(
-                                            context, kHomeScreen);
-                                      }
+                            
+                                   
+                                    if (mounted) {
+                                      Navigator.popUntil(
+                                          context, (route) => route.isFirst);
+                                      Navigator.pushReplacementNamed(
+                                          context, kHomeScreen);
                                     }
-                                  } catch (e) {
-                                    log(e.toString());
-                                    log("hiii");
-                                    log(response);
-                                  }
+                                 
                                 } else if (mounted) {
                                   Navigator.popUntil(
                                       context, (route) => route.isFirst);
                                 }
                               } on Exception catch (e) {
                                 log(e.toString());
-                                print("errororrooror");
                               }
                             } else {
                               showToastWidget(

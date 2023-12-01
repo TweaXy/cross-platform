@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/user_signup.dart';
 
@@ -28,7 +29,10 @@ class SignupService {
           "avatar": UserSignup.profilePicture
         },
       );
-    
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("id", response.data['data']['user']['id'].toString());
+      prefs.setString("token", response.data['data']['token'].toString());
+
       return response;
     } catch (e) {
       if (kDebugMode) {

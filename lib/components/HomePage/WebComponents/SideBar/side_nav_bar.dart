@@ -6,11 +6,14 @@ import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class SideNavBar extends StatefulWidget {
@@ -164,6 +167,13 @@ class _SideNavBarState extends State<SideNavBar> {
                   onTap: () {
                     // Navigator.pop(context);
                     _globalOnTap(4);
+                  },
+                ),
+                CustomDrawerListTile(
+                  icon: AppIcon.settings,
+                  title: 'Settings and privacy',
+                  onTap: () {
+                    Navigator.pushNamed(context, kSettingsAndPrivacy);
                   },
                 ),
                 // SettingsAndSupport(),

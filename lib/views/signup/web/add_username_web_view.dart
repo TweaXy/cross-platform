@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -139,31 +138,16 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                   duration: const Duration(seconds: 2),
                                 );
                               } else {
-                                // Map<String, dynamic> jsonResponse =
-                                //     response.data;
-                                try {
-                                  // log(jsonResponse.values.toString());
-                                  // var token =
-                                  //     jsonResponse['data']['token'] as String;
-                                  // var id = jsonResponse['data']['user']['id']
-                                  //     as String;
-                                  // print(id.toString());
-                                  // print(token.toString());
-                                  SharedPreferences prefs =
-                                      await SharedPreferences.getInstance();
-                                  prefs.setString("id", response.data['data']['user']['id'].toString());
-                                  prefs.setString("token", response.data['data']['token'].toString());
+                              
+                               
+                                 
+                                
                                   if (mounted) {
                                     Navigator.popUntil(
                                         context, (route) => route.isFirst);
-                                    // Navigator.pushReplacementNamed(
-                                    //     context, kHomeScreen);
+                                   
                                   }
-                                } catch (e) {
-                                  log(e.toString());
-                                  log("hiii");
-                                  log(response);
-                                }
+                              
                               }
                             } catch (e) {
                               log(e.toString());
