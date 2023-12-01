@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
-import 'package:tweaxy/components/settings/custom_settings_list_tile.dart';
+import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 
 class SettingsAndPrivacyView extends StatelessWidget {
@@ -14,23 +15,31 @@ class SettingsAndPrivacyView extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 8.0),
-          child: Column(
-            children: [
-              CustomSettingsListTile(
-                icon: AppIcon.profile,
-                title: "Your account",
-                subtitle:
-                    "See information about your account, and make changes to your them.",
-                onTap: () {},
-              ),
-              CustomSettingsListTile(
-                icon: AppIcon.notification,
-                title: "Notifications",
-                subtitle:
-                    "Select the kinds of notifications you get about your activity,intrests and recommendations.",
-                onTap: () {},
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: MediaQuery.of(context).size.height * .02),
+                  child: CustomdataDisplay(
+                    lead: const Icon(AppIcon.profile),
+                    title: "Your account",
+                    subtitle:
+                        "See information about your account, and make changes to your them.",
+                    onpress: () {
+                      Navigator.pushNamed(context, kSettings);
+                    },
+                  ),
+                ),
+                CustomdataDisplay(
+                  lead: const Icon(AppIcon.notification),
+                  title: "Notifications",
+                  subtitle:
+                      "Select the kinds of notifications you get about your activity,intrests and recommendations.",
+                  onpress: () {},
+                ),
+              ],
+            ),
           ),
         ));
   }

@@ -64,10 +64,10 @@ class TweaXy extends StatelessWidget {
             kFollowing: (context) => const FollowingPage(),
             kwebboth: (context) => const WebFollowersAndFollowings(),
             kAccountinfo: (context) => const AccountIfoView(),
+            kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
             kSettings: (context) => const SettingsView(),
-            kSetttings: (context) => const SettingsAndPrivacyView(),
           },
-          initialRoute: kSettings,
+          initialRoute: kSplashScreen,
         ),
       ),
     );

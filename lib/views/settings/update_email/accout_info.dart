@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/Views/settings/update_email/password_varification_view.dart';
+import 'package:tweaxy/components/AppBar/settings_appbar.dart';
+import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/components/update_email_components/custom_appbar.dart';
-import 'package:tweaxy/components/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
@@ -19,7 +19,9 @@ class _AccountIfoViewState extends State<AccountIfoView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const CustomAppbarwidget(),
+      appBar: const SettingsAppBar(
+        title: "Account information",
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(
@@ -47,8 +49,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   subtitle: TempUser.email,
                 ),
                 CustomdataDisplay(
-                                    key: const  ValueKey("logout_update_button"),
-
+                  key: const ValueKey("logout_update_button"),
                   title: "Log out",
                   subtitle: "",
                   onpress: () {

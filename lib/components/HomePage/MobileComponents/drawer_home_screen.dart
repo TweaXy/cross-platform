@@ -71,7 +71,7 @@ class CustomDrawer extends StatelessWidget {
             icon: AppIcon.settings,
             title: 'Settings and privacy',
             onTap: () {
-              Navigator.pushNamed(context, kSetttings);
+              Navigator.pushNamed(context, kSettingsAndPrivacy);
             },
           ),
         ],

@@ -4,15 +4,16 @@ import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/components/settings/update_email_components/password_text_field.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/components/update_email_components/password_text_field.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class PasswordVarificationView extends StatefulWidget {
   const PasswordVarificationView({super.key});
 
   @override
-  State<PasswordVarificationView> createState() => _PasswordVarificationViewState();
+  State<PasswordVarificationView> createState() =>
+      _PasswordVarificationViewState();
 }
 
 class _PasswordVarificationViewState extends State<PasswordVarificationView> {
@@ -23,7 +24,8 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
   void initState() {
     super.initState();
     passwordController.addListener(() {
-      if (passwordController.text.isNotEmpty&&passwordController.text.replaceAll(" ", "").isNotEmpty) {
+      if (passwordController.text.isNotEmpty &&
+          passwordController.text.replaceAll(" ", "").isNotEmpty) {
         setState(() {
           isButtonEnabled = true;
         });

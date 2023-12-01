@@ -1,9 +1,12 @@
-
 import 'package:flutter/material.dart';
 
 class CustomdataDisplay extends StatelessWidget {
   CustomdataDisplay(
-      {super.key, required this.title, required this.subtitle,required this.onpress,this.lead});
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      required this.onpress,
+      this.lead});
   final String title;
   final String subtitle;
   final VoidCallback onpress;
@@ -16,10 +19,9 @@ class CustomdataDisplay extends StatelessWidget {
       onTap: onpress,
       title: Text(
         title,
-        style:  TextStyle(
-          color: title=="Log out"?Colors.red:Colors.black,
+        style: TextStyle(
+          color: title == "Log out" ? Colors.red : Colors.black,
           fontSize: 20,
-          fontWeight: FontWeight.w500,
         ),
       ),
       subtitle: Text(
@@ -28,7 +30,7 @@ class CustomdataDisplay extends StatelessWidget {
             : title == "Username"
                 ? "@$subtitle"
                 : subtitle,
-        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w400),
+        style: const TextStyle(fontSize: 17),
       ),
     );
   }
