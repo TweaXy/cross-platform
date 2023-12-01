@@ -13,19 +13,21 @@ class WebFollowersAndFollowings extends StatefulWidget {
 class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  late ScrollController controller;
+
   Future<void> _refresh1() async {
-    await followApi().getFollowers();
+    await followApi().getFollowers(scroll: controller);
   }
 
   Future<void> _refresh2() async {
-    await followApi().getFollowings();
+    await followApi().getFollowings(scroll: controller);
   }
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 2);
-
+    controller = ScrollController();
     tabController.addListener(_handleTabSelection);
   }
 
@@ -108,11 +110,11 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
         children: [
           CustomFurure(
             isFollower: true,
-            future: followApi().getFollowers(),
+            future: followApi().getFollowers(scroll: controller),
           ),
           CustomFurure(
             isFollower: false,
-            future: followApi().getFollowings(),
+            future: followApi().getFollowings(scroll: controller),
           ),
         ],
       ),

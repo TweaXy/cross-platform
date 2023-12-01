@@ -10,10 +10,18 @@ class FollowingPage extends StatefulWidget {
 }
 
 class _FollowingPageState extends State<FollowingPage> {
+  late ScrollController controller;
+
   Future<void> _refresh() async {
-    // FollowUser.instance.followUser('Abbey_Streich');
     setState(() {});
-    await followApi().getFollowings();
+
+    await followApi().getFollowings(scroll: controller);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
   }
 
   @override
@@ -46,11 +54,19 @@ class _FollowingPageState extends State<FollowingPage> {
           )
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: CustomFurure(
-          isFollower: false,
-          future: followApi().getFollowings(),
+      body: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        controller: controller,
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[];
+        },
+        body: RefreshIndicator(
+          onRefresh: _refresh,
+          child: CustomFurure(
+            isFollower: false,
+            future: followApi().getFollowings(scroll: controller),
+          ),
         ),
       ),
     );

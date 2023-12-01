@@ -15,8 +15,24 @@ class CustomFurure extends StatelessWidget {
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return ShowAllFollowersAndFollowing(
-              follow: snapshot.data ?? [], isFollower: isFollower);
+          if (snapshot.data!.isEmpty) {
+            return isFollower
+                ? Center(
+                    child: Text(
+                      "You don't have Followers",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : Center(
+                    child: Text("You don't Follow any one",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  );
+          } else {
+            return ShowAllFollowersAndFollowing(
+                follow: snapshot.data ?? [], isFollower: isFollower);
+          }
         } else if (snapshot.hasError) {
           return kIsWeb
               ? const CustomWebToast(message: "We have a problem")
