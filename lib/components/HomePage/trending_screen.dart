@@ -26,10 +26,15 @@ class _TrendingScreenState extends State<TrendingScreen> {
         backgroundColor: Colors.white,
         leading: Padding(
           padding: EdgeInsets.all(10.0),
-          child: CircleAvatar(
-            backgroundColor: Colors.transparent,
-            backgroundImage:
-                CachedNetworkImageProvider(basePhotosURL + TempUser.image),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, kProfileScreen);
+            },
+            child: CircleAvatar(
+              backgroundColor: Colors.transparent,
+              backgroundImage:
+                  CachedNetworkImageProvider(basePhotosURL + TempUser.image),
+            ),
           ),
         ),
         titleSpacing: 10,
