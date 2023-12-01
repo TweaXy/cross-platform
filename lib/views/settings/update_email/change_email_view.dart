@@ -105,6 +105,7 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
                   initialEnabled: true,
                 ),
                 CustomButton(
+                  key: const ValueKey("next button for old email input screen"),
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {

@@ -170,10 +170,12 @@ class _SideNavBarState extends State<SideNavBar> {
                   },
                 ),
                 CustomDrawerListTile(
+                  curindex: 6,
+                  selectedIndex: selectedIndex,
                   icon: AppIcon.settings,
                   title: 'Settings and privacy',
                   onTap: () {
-                    Navigator.pushNamed(context, kSettingsAndPrivacy);
+                    _globalOnTap(6);
                   },
                 ),
                 // SettingsAndSupport(),

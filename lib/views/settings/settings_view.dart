@@ -46,7 +46,7 @@ class _SettingsViewState extends State<SettingsView> {
                 key: const ValueKey("account information view navigator"),
                 title: "Account information",
                 subtitle:
-                    "See your account information like your ohone number and email address.",
+                    "See your account information like your phone number and email address.",
                 onpress: () {
                   Navigator.push(
                       context,

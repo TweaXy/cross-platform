@@ -33,6 +33,7 @@ class _VarificationCodeViewState extends State<VarificationCodeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(
+        key: const ValueKey("code screen back arrow"),
         iconButton: IconButton(
           icon: Icon(
             Icons.arrow_back,
@@ -77,6 +78,7 @@ class _VarificationCodeViewState extends State<VarificationCodeView> {
                         padding: EdgeInsets.only(
                             bottom: MediaQuery.of(context).size.height * 0.02),
                         child: CustomTextField(
+                          key: const ValueKey("Varification code input field"),
                           label: "Verification Code",
                           validatorFunc: codeValidation,
                           controller: codeController,
@@ -106,6 +108,7 @@ class _VarificationCodeViewState extends State<VarificationCodeView> {
             widthFactor: 4.8,
             alignment: Alignment.bottomRight,
             child: CustomButton(
+              key: const ValueKey("varification code verify button"),
               color: forgroundColorTheme(context),
               text: "Verify",
               onPressedCallback: () {},

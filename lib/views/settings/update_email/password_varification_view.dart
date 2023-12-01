@@ -67,6 +67,7 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
                     horizontal: MediaQuery.of(context).size.width * .07,
                     vertical: MediaQuery.of(context).size.height * 0.025),
                 child: PasswordTextField(
+                  key: const ValueKey("password input varification field"),
                   isButtonEnabled: isButtonEnabled,
                   passwordcontroller: passwordController,
                 )),
@@ -85,6 +86,7 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
+                    key: const ValueKey("password varification screen cancel button "),
                   color: backgroundColorTheme(context),
                   text: "cancel",
                   onPressedCallback: () {
@@ -93,6 +95,7 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
                   initialEnabled: true,
                 ),
                 CustomButton(
+                   key: const ValueKey("password varification screen next button "),
                   color: forgroundColorTheme(context),
                   text: "Next",
                   onPressedCallback: () {
