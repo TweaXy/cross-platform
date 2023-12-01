@@ -71,7 +71,10 @@ class _LikersInTweetState extends State<LikersInTweet> {
                   );
                 } else {
                   return ShowAllFollowersAndFollowing(
-                      follow: snapshot.data ?? [], isFollower: true);
+                    follow: snapshot.data ?? [],
+                    isFollower: true,
+                    controller: controller,
+                  );
                 }
               } else if (snapshot.hasError) {
                 return kIsWeb

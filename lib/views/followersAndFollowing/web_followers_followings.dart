@@ -109,10 +109,12 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
         controller: tabController,
         children: [
           CustomFurure(
+            controller: controller,
             isFollower: true,
             future: followApi().getFollowers(scroll: controller),
           ),
           CustomFurure(
+            controller: controller,
             isFollower: false,
             future: followApi().getFollowings(scroll: controller),
           ),

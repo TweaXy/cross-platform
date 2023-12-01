@@ -6,7 +6,12 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/models/followers_model.dart';
 
 class CustomFurure extends StatelessWidget {
-  CustomFurure({required this.isFollower, super.key, required this.future});
+  CustomFurure(
+      {required this.isFollower,
+      super.key,
+      required this.future,
+      required this.controller});
+  ScrollController controller;
   final Future<List<FollowersModel>> future;
   bool isFollower;
   @override
@@ -17,21 +22,24 @@ class CustomFurure extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.isEmpty) {
             return isFollower
-                ? Center(
+                ? const Center(
                     child: Text(
                       "You don't have Followers",
                       style: TextStyle(
                           color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   )
-                : Center(
+                : const Center(
                     child: Text("You don't Follow any one",
                         style: TextStyle(
                             color: Colors.black, fontWeight: FontWeight.bold)),
                   );
           } else {
             return ShowAllFollowersAndFollowing(
-                follow: snapshot.data ?? [], isFollower: isFollower);
+              follow: snapshot.data ?? [],
+              isFollower: isFollower,
+              controller: controller,
+            );
           }
         } else if (snapshot.hasError) {
           return kIsWeb

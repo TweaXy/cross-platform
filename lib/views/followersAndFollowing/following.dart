@@ -64,6 +64,7 @@ class _FollowingPageState extends State<FollowingPage> {
         body: RefreshIndicator(
           onRefresh: _refresh,
           child: CustomFurure(
+            controller: controller,
             isFollower: false,
             future: followApi().getFollowings(scroll: controller),
           ),
