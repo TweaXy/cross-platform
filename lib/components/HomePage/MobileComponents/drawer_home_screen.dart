@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 
 class CustomDrawer extends StatelessWidget {
   /// Views to display
@@ -71,7 +73,11 @@ class CustomDrawer extends StatelessWidget {
             icon: AppIcon.settings,
             title: 'Settings and privacy',
             onTap: () {
-              Navigator.pushNamed(context, kSettingsAndPrivacy);
+              Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      direction: AxisDirection.left,
+                      child: const SettingsAndPrivacyView()));
             },
           ),
         ],
