@@ -5,6 +5,7 @@ import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/views/settings/update_password_view.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -60,7 +61,13 @@ class _SettingsViewState extends State<SettingsView> {
             CustomdataDisplay(
               title: "Change your password",
               subtitle: "change your password at anytime.",
-              onpress: () {},
+              onpress: () {
+                Navigator.push(
+                    context,
+                    CustomPageRoute(
+                        direction: AxisDirection.left,
+                        child: const UpdatePasswordView()));
+              },
               lead: const Icon(Icons.lock_outline),
             ),
           ]),
