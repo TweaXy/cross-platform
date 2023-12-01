@@ -3,16 +3,16 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/models/user.dart';
 
-class SearchView extends StatefulWidget {
-  const SearchView({super.key});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  State<SearchView> createState() => _MyPageState();
+  State<SearchScreen> createState() => _MyPageState();
 }
 
 bool showAction = false;
 
-class _MyPageState extends State<SearchView> {
+class _MyPageState extends State<SearchScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
