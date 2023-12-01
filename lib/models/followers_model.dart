@@ -1,5 +1,5 @@
 class FollowersModel {
-  // String id;
+  String id;
   String name;
   String username;
   String avatar;
@@ -10,7 +10,7 @@ class FollowersModel {
   FollowersModel({
     required this.avatar,
     required this.bio,
-    // required this.id,
+    required this.id,
     required this.name,
     this.status,
     required this.username,
@@ -20,7 +20,7 @@ class FollowersModel {
   factory FollowersModel.fromJson(dynamic data) {
     var jsonData = data;
     return FollowersModel(
-      // id: jsonData['id'],
+      id: jsonData['id'],
       username: jsonData['username'],
       avatar: jsonData['avatar'],
       name: jsonData['name'],
@@ -33,7 +33,7 @@ class FollowersModel {
   factory FollowersModel.fromJsoning(dynamic data) {
     var jsonData = data;
     return FollowersModel(
-      // id: jsonData['id'],
+      id: jsonData['id'],
       username: jsonData['username'],
       avatar: jsonData['avatar'],
       name: jsonData['name'],

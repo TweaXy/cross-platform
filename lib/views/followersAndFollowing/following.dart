@@ -3,8 +3,8 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowingPage extends StatefulWidget {
-  const FollowingPage({super.key});
-
+  FollowingPage({super.key, required this.username});
+  String username;
   @override
   State<FollowingPage> createState() => _FollowingPageState();
 }
@@ -15,7 +15,8 @@ class _FollowingPageState extends State<FollowingPage> {
   Future<void> _refresh() async {
     setState(() {});
 
-    await followApi().getFollowings(scroll: controller);
+    await followApi()
+        .getFollowings(scroll: controller, username: widget.username);
   }
 
   @override
@@ -66,7 +67,8 @@ class _FollowingPageState extends State<FollowingPage> {
           child: CustomFurure(
             controller: controller,
             isFollower: false,
-            future: followApi().getFollowings(scroll: controller),
+            future: followApi()
+                .getFollowings(scroll: controller, username: widget.username),
           ),
         ),
       ),

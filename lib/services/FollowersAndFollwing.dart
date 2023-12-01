@@ -9,13 +9,11 @@ class followApi {
   final dio = Dio();
   followApi();
   Future<List<FollowersModel>> getFollowers(
-      {required ScrollController scroll}) async {
+      {required ScrollController scroll, required String username}) async {
     dynamic response;
     String token;
-    String username;
+
     SharedPreferences user = await SharedPreferences.getInstance();
-    username = user.getString("username")!;
-    print(username);
     token = user.getString("token")!;
     response = await Api.getwithToken(
       url:
@@ -43,13 +41,10 @@ class followApi {
   }
 
   Future<List<FollowersModel>> getFollowings(
-      {required ScrollController scroll}) async {
+      {required ScrollController scroll, required String username}) async {
     dynamic response;
     String token;
-    String username;
     SharedPreferences user = await SharedPreferences.getInstance();
-    username = user.getString("username")!;
-    print(username);
     token = user.getString("token")!;
     print(token);
     response = await Api.getwithToken(

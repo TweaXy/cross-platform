@@ -28,15 +28,15 @@ class _CustomFollowersState extends State<CustomFollowers> {
         ),
       ),
       onPressed: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //       builder: (context) => ProfileScreen(
-        //             id: widget.user.id,
-        //             text:
-        //                 widget.user.followedByMe ? 'Following' : 'Follow back',
-        //           )),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfileScreen(
+                    id: widget.user.id,
+                    text:
+                        widget.user.followedByMe ? 'Following' : 'Follow back',
+                  )),
+        );
       },
       child: SizedBox(
         width: double.infinity,

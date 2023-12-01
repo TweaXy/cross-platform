@@ -3,8 +3,9 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class WebFollowersAndFollowings extends StatefulWidget {
-  const WebFollowersAndFollowings({Key? key}) : super(key: key);
-
+  WebFollowersAndFollowings({Key? key, required this.username})
+      : super(key: key);
+  String username;
   @override
   State<WebFollowersAndFollowings> createState() =>
       _WebFollowersAndFollowingsState();
@@ -16,11 +17,13 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
   late ScrollController controller;
 
   Future<void> _refresh1() async {
-    await followApi().getFollowers(scroll: controller);
+    await followApi()
+        .getFollowers(scroll: controller, username: widget.username);
   }
 
   Future<void> _refresh2() async {
-    await followApi().getFollowings(scroll: controller);
+    await followApi()
+        .getFollowings(scroll: controller, username: widget.username);
   }
 
   @override
@@ -111,12 +114,14 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
           CustomFurure(
             controller: controller,
             isFollower: true,
-            future: followApi().getFollowers(scroll: controller),
+            future: followApi()
+                .getFollowers(scroll: controller, username: widget.username),
           ),
           CustomFurure(
             controller: controller,
             isFollower: false,
-            future: followApi().getFollowings(scroll: controller),
+            future: followApi()
+                .getFollowings(scroll: controller, username: widget.username),
           ),
         ],
       ),
