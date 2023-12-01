@@ -39,6 +39,7 @@ class _SettingsViewState extends State<SettingsView> {
                 padding: EdgeInsets.symmetric(
                     vertical: MediaQuery.of(context).size.height * .01),
                 child: CustomdataDisplay(
+                  key:const ValueKey("account information view navigator"),
                   title: "Account information",
                   subtitle:
                       "See your account information like your ohone number and email address.",

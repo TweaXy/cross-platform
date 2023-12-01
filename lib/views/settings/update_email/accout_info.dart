@@ -22,17 +22,20 @@ class _AccountIfoViewState extends State<AccountIfoView> {
       appBar: const CustomAppbarwidget(),
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width*0.01),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.01),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomdataDisplay(
+                  key: const ValueKey("username_update_button"),
                   onpress: () {},
                   title: "Username",
                   subtitle: TempUser.username,
                 ),
                 CustomdataDisplay(
+                  key: const ValueKey("email_update_button"),
                   onpress: () {
                     Navigator.push(
                         context,
@@ -44,6 +47,8 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   subtitle: TempUser.email,
                 ),
                 CustomdataDisplay(
+                                    key: const  ValueKey("logout_update_button"),
+
                   title: "Log out",
                   subtitle: "",
                   onpress: () {
@@ -54,7 +59,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                           await SharedPreferences.getInstance();
                       await preferences.clear();
                     });
-          
+
                     // todo: log out the app and clear shared preference
                   },
                 ),

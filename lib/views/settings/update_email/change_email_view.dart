@@ -76,6 +76,7 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
                     padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).size.height * 0.025),
                     child: CustomTextField(
+                      key: const ValueKey(  "old email input field "),
                       validatorFunc: emailValidation,
                       label: "Email",
                       controller: emailController,
@@ -94,7 +95,8 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomButton(
+                CustomButton(key: const ValueKey("old email input field cancel button"),
+
                   color: backgroundColorTheme(context),
                   text: "cancel",
                   onPressedCallback: () {
