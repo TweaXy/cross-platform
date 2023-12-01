@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 
