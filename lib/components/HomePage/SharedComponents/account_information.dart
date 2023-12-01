@@ -94,7 +94,11 @@ class AccountInformation extends StatelessWidget {
                 ? AccountWebsiteBar(website: website)
                 : const SizedBox(),
           ]),
-          FollowingAndFollowersBar(following: following, followers: followers)
+          FollowingAndFollowersBar(
+            following: following,
+            followers: followers,
+            username: userName,
+          )
         ],
       ),
     );
@@ -133,14 +137,15 @@ class AccountBirthdateBar extends StatelessWidget {
 }
 
 class FollowingAndFollowersBar extends StatefulWidget {
-  const FollowingAndFollowersBar({
-    super.key,
-    required this.following,
-    required this.followers,
-  });
+  const FollowingAndFollowersBar(
+      {super.key,
+      required this.following,
+      required this.followers,
+      required this.username});
 
   final int following;
   final int followers;
+  final String username;
 
   @override
   State<FollowingAndFollowersBar> createState() =>
@@ -157,9 +162,11 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
           GestureDetector(
             onTap: () {
               if (kIsWeb) {
-                Navigator.pushNamed(context, kwebboth);
+                Navigator.pushNamed(context, kwebboth,
+                    arguments: widget.username);
               } else {
-                Navigator.pushNamed(context, kFollowing);
+                Navigator.pushNamed(context, kFollowing,
+                    arguments: widget.username);
               }
               setState(() {});
             },
@@ -186,9 +193,11 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
           GestureDetector(
             onTap: () {
               if (kIsWeb) {
-                Navigator.pushNamed(context, kwebboth);
+                Navigator.pushNamed(context, kwebboth,
+                    arguments: widget.username);
               } else {
-                Navigator.pushNamed(context, kFollowers);
+                Navigator.pushNamed(context, kFollowers,
+                    arguments: widget.username);
               }
             },
             child: Row(
