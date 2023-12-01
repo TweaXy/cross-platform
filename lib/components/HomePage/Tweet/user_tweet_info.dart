@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class User_TweetInfo extends StatelessWidget {
   const User_TweetInfo(
       {super.key, required this.tweet, required this.forProfile});
   final Tweet tweet;
   final bool forProfile;
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -52,14 +55,11 @@ class User_TweetInfo extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        SizedBox(
-          width: 2,
-          child: IconButton(
-            padding: const EdgeInsets.only(right: 16),
-            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-            iconSize: 16,
-            onPressed: () {
-              // if (isProfile)
+        IconButton(
+          icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+          iconSize: 16,
+          onPressed: () {
+            if (forProfile || tweet.userId == TempUser.id) {
               showModalBottomSheet(
                 showDragHandle: true,
                 useSafeArea: false,
@@ -74,8 +74,8 @@ class User_TweetInfo extends StatelessWidget {
                   return const WrapModalBottomProfile();
                 },
               );
-            },
-          ),
+            }
+          },
         )
       ],
     );

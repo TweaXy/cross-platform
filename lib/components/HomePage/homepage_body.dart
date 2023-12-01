@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/services/Tweets.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody(
@@ -110,7 +112,7 @@ class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Tweets.getTweetsHome(scroll: controller),
+      future: TweetsService.getTweetsHome(scroll: controller),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.hasError) {
           // print('tt' + Tweets.getTweetsHome().toString());
@@ -135,6 +137,11 @@ class HomePageBody extends StatelessWidget {
               ],
             ),
           );
+        } else if (snapshot.data == []) {
+          return const Scaffold(
+              body: kIsWeb
+                  ? CustomWebToast(message: 'no tweets found')
+                  : CustomToast(message: 'no tweets found'));
         } else {
           // print('tt' + Tweets.getTweetsHome().toString());
 
@@ -183,11 +190,14 @@ List<String>? _getImageList(dynamic image) {
   if (image == null) {
     return null;
   } else if (image is String) {
-    return [image];
+    return [image.toString().trim()];
   } else if (image is List<dynamic>) {
-    print(image.map((item) => item.toString()).toList());
+    List<String> tmp = image.map((item) => item.toString().trim()).toList();
+
     // If 'image' is already a List, convert each item to String
-    return image.map((item) => item.toString()).toList();
+    return tmp
+        .map((item) => 'http://16.171.65.142:3000/uploads/tweetsMedia/$item')
+        .toList();
   } else {
     return null;
   }

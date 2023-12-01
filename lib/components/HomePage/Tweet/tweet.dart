@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
@@ -19,7 +20,7 @@ class CustomTweet extends StatelessWidget {
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0]!;
-    // if (t != null && t.length > 1) k = t[1]!;
+    // if (t != null && t.length > 1) k = t[1].trim()!;
 
     print('kkkk' + k.toString());
     return Container(
@@ -38,7 +39,9 @@ class CustomTweet extends StatelessWidget {
         children: [
           Container(
             margin: const EdgeInsets.only(left: 2, right: 7),
-            child: UserImageForTweet(image: tweet.userImage!),
+            child: UserImageForTweet(
+              image: tweet.userImage!,
+            ),
           ),
           Expanded(
             child: Column(
@@ -62,17 +65,7 @@ class CustomTweet extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (k != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(60),
-                    child: Image(
-                      width: screenWidth * 0.7,
-                      height: screenHeight * 0.3,
-                      image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/uploads/tweetsMedia/$k',
-                      ),
-                    ),
-                  ),
+                if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   likesCount: tweet.likesCount,
                   viewsCount: tweet.viewsCount,

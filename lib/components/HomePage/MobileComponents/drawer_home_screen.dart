@@ -54,8 +54,8 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 4.5),
                   child: Text(
-                      TempUser.name,
-                    style:const TextStyle(
+                    TempUser.name,
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 13, 11, 11),
                         fontWeight: FontWeight.bold,
                         fontSize: 20),

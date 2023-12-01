@@ -36,6 +36,7 @@ class ApplicationBar extends StatelessWidget {
       ),
       leading: IconButton(
         onPressed: () {
+          Scaffold.of(context).openDrawer();
           //swipe left
         },
         icon: Icon(

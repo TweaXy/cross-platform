@@ -215,30 +215,28 @@ class _SideNavBarState extends State<SideNavBar> {
               alignment: Alignment.bottomCenter,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   UserImageForTweet(image: TempUser.image),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4.5),
-                          child: Text(
-                            TempUser.name,
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 13, 11, 11),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ),
-                        Text(
-                          '@${TempUser.username}',
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 4.5),
+                        child: Text(
+                          TempUser.name,
                           style: TextStyle(
-                              fontSize: 14, color: Colors.grey.shade600),
-                        )
-                      ],
-                    ),
+                              color: Color.fromARGB(255, 13, 11, 11),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
+                        ),
+                      ),
+                      Text(
+                        '@${TempUser.username}',
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade600),
+                      )
+                    ],
                   ),
                   const Icon(
                     FontAwesomeIcons.ellipsis,

@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class Tweets {
+class TweetsService {
   static String baseUrl = 'http://16.171.65.142:3000/api/v1';
   static Future<List<Map<String, dynamic>>> getTweetsHome(
       {required ScrollController scroll}) async {
@@ -14,12 +15,17 @@ class Tweets {
     // print('kkk' + s.toString());
     //down->false
     // print('scroll=' + scroll.position.userScrollDirection.toString());
-// if (res)
-    Response response = await Api.getwithToken(
-        url: '$baseUrl/home?/limit=5&offset=0', token: s!);
+    // if (res)
+    dynamic res = await Api.getwithToken(
+        url: '$baseUrl/home?/limit=5&offset=0', token: s);
+    if (res is String) {
+      // throw Future.error(res);
+      return [];
+    }
+    Response response = res;
     if (scroll.position.userScrollDirection == ScrollDirection.reverse &&
-        response.data['pagination']['nextPage'] != null) {
-      //downward
+        response.data['pagination']['nextPage'] != null) //downward
+    {
       response = await Api.getwithToken(
           url: response!.data['pagination']['nextPage'], token: s!);
     } else if (scroll.position.userScrollDirection == ScrollDirection.forward &&
@@ -40,7 +46,9 @@ class Tweets {
                   'id': item['mainInteraction']['id'],
                   'userid': item['mainInteraction']['user']['id'],
                   'userImage': item['mainInteraction']['user']['avatar'],
-                  'image': item['mainInteraction']['media']!=null?item['mainInteraction']['media'].toList():null,
+                  'image': item['mainInteraction']['media'] != null
+                      ? item['mainInteraction']['media'].toList()
+                      : null,
                   'userName': item['mainInteraction']['user']['name'],
                   'userHandle': item['mainInteraction']['user']['username'],
                   'time': dateFormatter(item['mainInteraction']['createdDate']),
@@ -49,6 +57,18 @@ class Tweets {
             .toList();
     // print('hh' + m.whereType().toString());
     return m;
+  }
+
+  static Future<String> deleteTweet({required String tweetid}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? s = prefs.getString('token');
+    dynamic res =
+        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
+    print('ressss' + res.toString());
+    if (res is String)
+      return res;
+    else
+      return "success";
   }
 }
 

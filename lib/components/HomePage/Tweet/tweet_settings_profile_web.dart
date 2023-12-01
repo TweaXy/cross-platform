@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog_web.dart';
 
-class TweetSettingsProfile extends StatelessWidget {
-  const TweetSettingsProfile({super.key});
+class TweetSettingsProfileWeb extends StatelessWidget {
+  const TweetSettingsProfileWeb({super.key, required this.tweetId});
+  final String tweetId;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,9 @@ class TweetSettingsProfile extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const DeleteAlertDialogWeb();
+                  return DeleteAlertDialogWeb(
+                    tweetId: tweetId,
+                  );
                 });
           }
         },
