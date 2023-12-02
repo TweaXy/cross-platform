@@ -1,7 +1,7 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
@@ -68,6 +68,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int postsNumber = 678530;
   void Function() onPressed = () {};
   int? selectedMenu;
+  ScrollController controller =ScrollController();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -118,6 +119,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     ),
                   ),
                   body: CustomScrollView(
+                    controller: controller ,
                     slivers: [
                       SliverToBoxAdapter(
                         child: Stack(
@@ -307,18 +309,21 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                           ],
                         ),
                       ),
-                      SliverList.builder(
-                        itemCount: listitems.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: ListTile(
-                                title: Text(listitems[index].toString() +
-                                    _selectedTabIndex.toString()),
-                                tileColor: Colors.white,
-                              ));
-                        },
-                      ),
+                      if (_selectedTabIndex == 2)
+                        LikersProfileView(controller: controller),
+                      if (_selectedTabIndex != 2)
+                        SliverList.builder(
+                          itemCount: listitems.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ListTile(
+                                  title: Text(listitems[index].toString() +
+                                      _selectedTabIndex.toString()),
+                                  tileColor: Colors.white,
+                                ));
+                          },
+                        ),
                     ],
                   ),
                 );
