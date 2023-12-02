@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/services/get_likers.dart';
+import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
@@ -56,8 +58,10 @@ class TweaXy extends StatelessWidget {
             kHomeScreen: (context) => const HomePage(),
             kCreateAcountReviewScreen: (context) =>
                 const CreateAccountDataReview(),
+            kLikersInTweets: (context) =>
+                LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
           },
-          initialRoute: kHomeScreen,
+          initialRoute: kLikersInTweets,
         ),
       ),
     );

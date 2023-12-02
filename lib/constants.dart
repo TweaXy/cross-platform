@@ -24,6 +24,7 @@ const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
 const kFollowing = 'following';
 const kwebboth = 'bothFollowingsAndFollowers';
+const kLikersInTweets = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
 const baseURL = 'http://16.171.65.142:3000/api/v1/';
 // const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
