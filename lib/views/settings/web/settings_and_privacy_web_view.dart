@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/settings/account_info_web_view.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 
 class SettingsAdndPoicityWeb extends StatefulWidget {
   const SettingsAdndPoicityWeb({
@@ -72,8 +70,11 @@ class _SettingsAdndPoicityWebState extends State<SettingsAdndPoicityWeb> {
             onTap: () {
               _globalOnTap(2);
             },
-            title: const Text("Notification"),
-            trailing: const Icon(Icons.arrow_forward_ios_outlined),
+            title: const Text("Notifications"),
+            trailing: const Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 20,
+            ),
           )
         ],
       ),
