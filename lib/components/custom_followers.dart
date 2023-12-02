@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomFollowers extends StatefulWidget {
   CustomFollowers({super.key, required this.isFollower, required this.user});
@@ -26,7 +27,17 @@ class _CustomFollowersState extends State<CustomFollowers> {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => ProfileScreen(
+                    id: widget.user.id,
+                    text:
+                        widget.user.followedByMe ? 'Following' : 'Follow back',
+                  )),
+        );
+      },
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -107,8 +118,10 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             children: [
                               Text(
                                 kIsWeb
-                                    ? "${widget.user.username}  "
-                                    : widget.user.username,
+                                    ? "${widget.user.username.length > 15 ? widget.user.username.substring(0, 15) : widget.user.username}  "
+                                    : widget.user.username.length > 15
+                                        ? widget.user.username.substring(0, 15)
+                                        : widget.user.username,
                                 style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: kIsWeb ? 15 : 13,

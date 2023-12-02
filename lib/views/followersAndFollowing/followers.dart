@@ -4,16 +4,26 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowersPage extends StatefulWidget {
-  const FollowersPage({super.key});
-
+  FollowersPage({super.key, required this.username});
+  String username;
   @override
   State<FollowersPage> createState() => _FollowersPageState();
 }
 
 class _FollowersPageState extends State<FollowersPage> {
+  late ScrollController controller;
+
   Future<void> _refresh() async {
     setState(() {});
-    await followApi().getFollowers();
+
+    await followApi()
+        .getFollowers(scroll: controller, username: widget.username);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    controller = ScrollController();
   }
 
   @override
@@ -54,11 +64,21 @@ class _FollowersPageState extends State<FollowersPage> {
           ),
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: _refresh,
-        child: CustomFurure(
-          isFollower: true,
-          future: followApi().getFollowers(),
+      body: NestedScrollView(
+        physics: const BouncingScrollPhysics(),
+        controller: controller,
+        floatHeaderSlivers: true,
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return <Widget>[];
+        },
+        body: RefreshIndicator(
+          onRefresh: _refresh,
+          child: CustomFurure(
+            controller: controller,
+            isFollower: true,
+            future: followApi()
+                .getFollowers(scroll: controller, username: widget.username),
+          ),
         ),
       ),
       floatingActionButton: const FloatingButton(),

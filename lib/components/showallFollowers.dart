@@ -4,18 +4,31 @@ import 'package:tweaxy/models/followers_model.dart';
 
 class ShowAllFollowersAndFollowing extends StatelessWidget {
   ShowAllFollowersAndFollowing(
-      {super.key, required this.follow, required this.isFollower});
+      {super.key,
+      required this.follow,
+      required this.isFollower,
+      required this.controller});
   List<FollowersModel> follow = [];
+  ScrollController controller;
   bool isFollower;
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: follow.length,
-        itemBuilder: (context, index) {
-          return CustomFollowers(
-            user: follow[index],
-            isFollower: isFollower,
-          );
-        });
+    return CustomScrollView(
+      controller: controller,
+      slivers: [
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return CustomFollowers(
+                user: follow[index],
+                isFollower: isFollower,
+              );
+            },
+            childCount: follow.length,
+          ),
+        ),
+      ],
+    );
   }
 }

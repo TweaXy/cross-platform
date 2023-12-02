@@ -3,8 +3,9 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class WebFollowersAndFollowings extends StatefulWidget {
-  const WebFollowersAndFollowings({Key? key}) : super(key: key);
-
+  WebFollowersAndFollowings({Key? key, required this.username})
+      : super(key: key);
+  String username;
   @override
   State<WebFollowersAndFollowings> createState() =>
       _WebFollowersAndFollowingsState();
@@ -13,19 +14,23 @@ class WebFollowersAndFollowings extends StatefulWidget {
 class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
+  late ScrollController controller;
+
   Future<void> _refresh1() async {
-    await followApi().getFollowers();
+    await followApi()
+        .getFollowers(scroll: controller, username: widget.username);
   }
 
   Future<void> _refresh2() async {
-    await followApi().getFollowings();
+    await followApi()
+        .getFollowings(scroll: controller, username: widget.username);
   }
 
   @override
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 2);
-
+    controller = ScrollController();
     tabController.addListener(_handleTabSelection);
   }
 
@@ -107,12 +112,16 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
         controller: tabController,
         children: [
           CustomFurure(
+            controller: controller,
             isFollower: true,
-            future: followApi().getFollowers(),
+            future: followApi()
+                .getFollowers(scroll: controller, username: widget.username),
           ),
           CustomFurure(
+            controller: controller,
             isFollower: false,
-            future: followApi().getFollowings(),
+            future: followApi()
+                .getFollowings(scroll: controller, username: widget.username),
           ),
         ],
       ),

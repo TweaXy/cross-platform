@@ -92,7 +92,7 @@ class HomePageBody extends StatelessWidget {
     return temp
         .map((e) => Tweet(
               id: e['id']!,
-              image: e['image'],
+              image: _getImageList(e['image']),
               userImage: e['userImage']!,
               userHandle: e['userHandle']!,
               userName: e['userName']!,
@@ -109,7 +109,6 @@ class HomePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Tweet> tweets = initializeTweets(temp);
     return FutureBuilder(
       future: Tweets.getTweetsHome(scroll: controller),
       builder: (context, snapshot) {
@@ -136,8 +135,7 @@ class HomePageBody extends StatelessWidget {
               ],
             ),
           );
-        } 
-        else {
+        } else {
           // print('tt' + Tweets.getTweetsHome().toString());
 
           // print('tw' + snapshot.data!.toString());
@@ -178,5 +176,19 @@ class HomePageBody extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+List<String>? _getImageList(dynamic image) {
+  if (image == null) {
+    return null;
+  } else if (image is String) {
+    return [image];
+  } else if (image is List<dynamic>) {
+    print(image.map((item) => item.toString()).toList());
+    // If 'image' is already a List, convert each item to String
+    return image.map((item) => item.toString()).toList();
+  } else {
+    return null;
   }
 }

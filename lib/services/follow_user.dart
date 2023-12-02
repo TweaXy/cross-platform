@@ -8,10 +8,6 @@ class FollowUser {
   static final instance = FollowUser._();
   Future<void> followUser(String username) async {
     String token;
-    // if (kIsWeb) {
-    //   token =
-    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwamlseWJvMDAwMzJ2aGhnajd3M3B2OFwiIiwiaWF0IjoxNzAxMjU2Nzk2LCJleHAiOjE3MDM4NDg3OTZ9.6cM_kH7Zacxr1eDykPBrVPS7XP63c-S3n2EFDzDtVak';
-    // } else {
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
     // }
@@ -23,10 +19,7 @@ class FollowUser {
 
   Future<void> deleteUser(String username) async {
     String token;
-    // if (kIsWeb) {
-    //   token =
-    //       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwamlseWJvMDAwMzJ2aGhnajd3M3B2OFwiIiwiaWF0IjoxNzAxMjU2Nzk2LCJleHAiOjE3MDM4NDg3OTZ9.6cM_kH7Zacxr1eDykPBrVPS7XP63c-S3n2EFDzDtVak';
-    // } else {
+
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
     // }
