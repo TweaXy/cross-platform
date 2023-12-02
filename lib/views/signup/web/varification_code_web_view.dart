@@ -26,6 +26,7 @@ class VarificationCodeWebView extends StatefulWidget {
 
 class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
   TextEditingController varificationCodeController = TextEditingController();
+  SignupService service = SignupService(Dio());
 
   @override
   void initState() {
@@ -111,7 +112,21 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                           child: InkWell(
                             key: const ValueKey(
                                 "VerificationCodeDidntReceiveEmail"),
-                            onTap: () {},
+                            onTap: () async {
+                              try {
+                                dynamic response =
+                                    await service.sendEmailCodeVerification();
+                                if (response is String) {
+                                  showToastWidget(
+                                    CustomWebToast(message: response),
+                                    position: ToastPosition.bottom,
+                                    duration: const Duration(seconds: 2),
+                                  );
+                                }
+                              } on Exception catch (e) {
+                                log(e.toString());
+                              }
+                            },
                             child: const Text('Didn\'t receive email?',
                                 style: TextStyle(
                                   color: Colors.blue,
@@ -131,8 +146,8 @@ class _VarificationCodeWebViewState extends State<VarificationCodeWebView> {
                   text: "Next",
                   onPressedCallback: () async {
                     try {
-                      dynamic response = await SignupService(Dio())
-                          .checkEmailCodeVerification(
+                      dynamic response =
+                          await service.checkEmailCodeVerification(
                               code: varificationCodeController.text);
                       if (response is String) {
                         showToastWidget(

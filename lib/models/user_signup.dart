@@ -1,9 +1,11 @@
+import 'package:image_picker/image_picker.dart';
+
 class UserSignup {
   static String name = '';
   static String email = '';
   static String birthdayDate = '';
   static String password = '';
-  static String profilePicture = '';
+  static XFile profilePicture = XFile('');
   static String username = '';
   static String emailVerificationToken = '';
 
@@ -23,7 +25,7 @@ class UserSignup {
     UserSignup.password = password;
   }
 
-  static set setProfilePicture(String profilePicture) {
+  static set setProfilePicture(XFile profilePicture) {
     UserSignup.profilePicture = profilePicture;
   }
 
