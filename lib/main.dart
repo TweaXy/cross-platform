@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/Views/settings/settings_view.dart';
+import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
+import 'package:tweaxy/views/settings/update_password_view.dart';
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
+import 'package:tweaxy/Views/settings/update_email/accout_info.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
@@ -67,12 +71,20 @@ class TweaXy extends StatelessWidget {
                 FollowingPage(username: 'karim.elsayed401_67616122'),
             kLikersInTweets: (context) =>
                 LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
+            kAccountinfo: (context) => const AccountIfoView(),
+            kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
+            kSettings: (context) => const SettingsView(),
+            kUpdatePassword: (context) => const UpdatePasswordView(),
           },
-          initialRoute: kwebboth,
+          initialRoute: kSplashScreen,
         ),
       ),
     );
   }
+}
+
+class UpdateEmailView {
+  const UpdateEmailView();
 }
 
 void _save() async {

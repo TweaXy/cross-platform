@@ -24,6 +24,8 @@ const kHomeScreen = 'home_page';
 const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
 const kFollowing = 'following';
+const kSettingsAndPrivacy = 'settings';
+const kUpdatePassword = 'update_password';
 const kwebboth = 'bothFollowingsAndFollowers';
 const kLikersInTweets = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
@@ -40,3 +42,6 @@ Future<List<String>> loadPrefs() async {
   // print('token = $token');
   return [id!, token!];
 }
+
+const kSettings = 'settings_view';
+const kAccountinfo = "account_info_view";
