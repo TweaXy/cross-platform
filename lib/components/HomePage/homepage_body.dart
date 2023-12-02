@@ -106,10 +106,6 @@ class HomePageBody extends StatelessWidget {
               viewsCount: e['viewsCount'],
               retweetsCount: e['retweetsCount'],
               commentsCount: e['commentsCount'],
-              likesCount: e['likesCount'],
-              viewsCount: e['viewsCount'],
-              retweetsCount: e['retweetsCount'],
-              commentsCount: e['commentsCount'],
             ))
         .toList();
   }
