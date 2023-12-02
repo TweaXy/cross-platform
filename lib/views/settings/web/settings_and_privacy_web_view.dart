@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/Views/settings/web/account_info_web_view.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/setting_web_states.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
+import 'package:tweaxy/views/settings/web/email_update_web.dart';
+import 'package:tweaxy/views/settings/web/verify-password.dart';
 
 class SettingsAndPrivacyWeb extends StatefulWidget {
   const SettingsAndPrivacyWeb({
@@ -109,8 +111,15 @@ class _SettingsAndPrivacyWebState extends State<SettingsAndPrivacyWeb> {
                 } 
                 if (state is SettingsWebAccountInfo) {
                   return const AccountInfoWebView();
-                } else {
-                  return  Container();
+                } if(state is SettingsWebVerifyPassword)
+                {
+                  return const VerifyPasswordWeb();
+                }if(state is SettingsWebChangeEmail)
+                {
+                  return const EmailUpdateWeb();
+                }
+                else {
+                  return const AccountInfoWebView();
                 }
               }),
             ),

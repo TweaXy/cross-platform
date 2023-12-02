@@ -14,7 +14,7 @@ class CustomHeadText extends StatelessWidget {
       textAlign: textAlign,
       overflow: TextOverflow.clip,
       style:
-          GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: size ?? 30),
+          GoogleFonts.roboto(fontWeight: FontWeight.bold, fontSize: size ?? 30,color: Colors.black),
     );
   }
 }

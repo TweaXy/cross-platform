@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/app_icons.dart';
 
 class AccountInfoWebView extends StatefulWidget {
@@ -53,7 +52,7 @@ class _AccountInfoWebViewState extends State<AccountInfoWebView> {
             subtitle:
                 "See your account information like your phone number and email address.",
             onpress: () {
-              _globalOnTap(0);
+              _globalOnTap(2);
             },
             lead: const Icon(AppIcon.profile),
           ),
