@@ -52,15 +52,14 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   key: const ValueKey("logout_update_button"),
                   title: "Log out",
                   subtitle: "",
-                  onpress: () {
-                    Navigator.popUntil(context, (route) => route.isFirst);
-                    Navigator.pushReplacementNamed(context, kSplashScreen);
-                    setState(() async {
-                      SharedPreferences preferences =
-                          await SharedPreferences.getInstance();
-                      await preferences.clear();
-                    });
-
+                  onpress: () async {
+                    SharedPreferences preferences =
+                        await SharedPreferences.getInstance();
+                    await preferences.clear();
+                    if (mounted) {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.pushReplacementNamed(context, kSplashScreen);
+                    }
                     // todo: log out the app and clear shared preference
                   },
                 ),

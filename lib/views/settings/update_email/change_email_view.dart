@@ -1,11 +1,17 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Views/settings/update_email/varification_code_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/services/update_email.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
@@ -39,6 +45,7 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
@@ -76,7 +83,7 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
                     padding: EdgeInsets.symmetric(
                         vertical: MediaQuery.of(context).size.height * 0.025),
                     child: CustomTextField(
-                      key: const ValueKey(  "new email input field "),
+                      key: const ValueKey("new email input field "),
                       validatorFunc: emailValidation,
                       label: "Email",
                       controller: emailController,
@@ -95,8 +102,8 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                CustomButton(key: const ValueKey("new email input field cancel button"),
-
+                CustomButton(
+                  key: const ValueKey("new email input field cancel button"),
                   color: backgroundColorTheme(context),
                   text: "cancel",
                   onPressedCallback: () {
@@ -108,12 +115,29 @@ class _ChangeEmailViewState extends State<ChangeEmailView> {
                   key: const ValueKey("next button for new email input screen"),
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: const VarificationCodeView()));
+                  onPressedCallback: () async {
+                    try {
+                      dynamic response = await UpdateEmail(Dio())
+                          .sendEmailCodeVerification(emailController.text);
+                      if (response is String) {
+                        showToastWidget(
+                          CustomToast(
+                              message: response, screenWidth: screenWidth),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } else if (mounted) {
+                        Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                direction: AxisDirection.left,
+                                child: VarificationCodeView(
+                                  email: emailController.text,
+                                )));
+                      }
+                    } catch (e) {
+                      log(e.toString());
+                    }
                   },
                   initialEnabled: isButtonEnabled,
                 ),

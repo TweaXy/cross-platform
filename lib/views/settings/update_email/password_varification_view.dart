@@ -1,11 +1,15 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/Views/settings/update_email/change_email_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/password_text_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/services/check_password_correctness.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 
 class PasswordVarificationView extends StatefulWidget {
@@ -39,6 +43,8 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: CustomAppbar(
         iconButton: IconButton(
@@ -86,7 +92,8 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
-                    key: const ValueKey("password varification screen cancel button "),
+                  key: const ValueKey(
+                      "password varification screen cancel button "),
                   color: backgroundColorTheme(context),
                   text: "cancel",
                   onPressedCallback: () {
@@ -95,15 +102,27 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
                   initialEnabled: true,
                 ),
                 CustomButton(
-                   key: const ValueKey("password varification screen next button "),
+                  key: const ValueKey(
+                      "password varification screen next button "),
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
-                    Navigator.push(
-                        context,
-                        CustomPageRoute(
-                            direction: AxisDirection.left,
-                            child: const ChangeEmailView()));
+                  onPressedCallback: () async {
+                    CheckPassword service = CheckPassword(Dio());
+                    dynamic response = await service
+                        .checkPasswordCorrectness(passwordController.text);
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(message:"Wrong Password!", screenWidth: width),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      Navigator.push(
+                          context,
+                          CustomPageRoute(
+                              direction: AxisDirection.left,
+                              child: const ChangeEmailView()));
+                    }
                   },
                   initialEnabled: isButtonEnabled,
                 ),

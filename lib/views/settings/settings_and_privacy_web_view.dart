@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/settings/account_info_web_view.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 
 class SettingsAdndPoicityWeb extends StatefulWidget {
   const SettingsAdndPoicityWeb({
