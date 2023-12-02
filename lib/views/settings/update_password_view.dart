@@ -1,6 +1,13 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/custom_settings_text_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/update_password_service.dart';
+import 'package:tweaxy/shared/keys/update_password_keys.dart';
 
 class UpdatePasswordView extends StatefulWidget {
   const UpdatePasswordView({super.key});
@@ -15,6 +22,7 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
+  UpdatePasswordService service = UpdatePasswordService(Dio());
 
   @override
   void initState() {
@@ -48,25 +56,56 @@ class _UpdatePasswordViewState extends State<UpdatePasswordView> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomSettingsTextField(
+                key: const ValueKey(UpdatePasswordKeys.oldPassword),
                 labelText: "Current Password",
                 hintText: '',
                 controller: currentPasswordController,
                 isPassword: true,
               ),
               CustomSettingsTextField(
+                key: const ValueKey(UpdatePasswordKeys.newPassword),
                 labelText: "New Password",
                 hintText: 'At least 8 characters',
                 controller: newPasswordController,
                 isPassword: true,
               ),
               CustomSettingsTextField(
+                key: const ValueKey(UpdatePasswordKeys.confirmPassword),
                 labelText: "Confirm Password",
                 hintText: 'At least 8 characters',
                 controller: confirmPasswordController,
                 isPassword: true,
               ),
               ElevatedButton(
-                onPressed: () {},
+                key: const ValueKey(UpdatePasswordKeys.updatePasswordButton),
+                onPressed: () async {
+                  try {
+                    dynamic response = await service.updatePassword(
+                        oldPassword: currentPasswordController.text,
+                        newPassword: newPasswordController.text,
+                        confirmPassword: confirmPasswordController.text);
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                          message: response,
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      Navigator.pop(context);
+                      showToastWidget(
+                        const CustomToast(
+                          message: "Password updated successfully.",
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    }
+                  } on Exception catch (e) {
+                    log(e.toString());
+                  }
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isButtonEnabled
                       ? const Color(0xFF1e9aeb)

@@ -28,7 +28,7 @@ class SignupService {
           "avatar": UserSignup.profilePicture
         },
       );
-    
+
       return response;
     } catch (e) {
       if (kDebugMode) {
