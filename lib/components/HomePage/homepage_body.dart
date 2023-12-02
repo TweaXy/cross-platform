@@ -3,7 +3,7 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/services/tweets.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody(
@@ -110,7 +110,7 @@ class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: Tweets.getTweetsHome(scroll: controller),
+      future: TweetsServices.getTweetsHome(scroll: controller),
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.hasError) {
           // print('tt' + Tweets.getTweetsHome().toString());

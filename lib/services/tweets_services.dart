@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class Tweets {
+class TweetsServices {
   static String baseUrl = 'http://16.171.65.142:3000/api/v1';
   static Future<List<Map<String, dynamic>>> getTweetsHome(
       {required ScrollController scroll}) async {
