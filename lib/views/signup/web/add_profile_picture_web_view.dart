@@ -1,6 +1,12 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/views/signup/web/add_username_web_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -145,6 +151,8 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
     return null;
   }
 
+  SignupService service = SignupService(Dio());
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -263,7 +271,7 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                         color: backgroundColorTheme(context),
                         text: "Skip for now",
                         onPressedCallback: () {
-                          //TODO: use the default profile picture
+                          Navigator.pop(context);
                           showDialog(
                             context: context,
                             builder: (context) => const AddUsernameWebView(),
@@ -277,14 +285,31 @@ class _AddProfilePictureWebViewState extends State<AddProfilePictureWebView> {
                         key: const ValueKey("addUsernameWebNextButton"),
                         color: forgroundColorTheme(context),
                         text: "Next",
-                        onPressedCallback: () {
-                          UserSignup.profilePicture = image!.path;
-                          showDialog(
-                            context: context,
-                            builder: (context) => const AddUsernameWebView(),
-                            barrierColor: Colors.transparent,
-                            barrierDismissible: false,
-                          );
+                        onPressedCallback: () async {
+                          UserSignup.profilePicture = image!;
+                          try {
+                            dynamic response = await service.updateAvater();
+                            if (response is String) {
+                              showToastWidget(
+                                CustomWebToast(
+                                  message: response,
+                                ),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            } else if (mounted) {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const AddUsernameWebView(),
+                                barrierColor: Colors.transparent,
+                                barrierDismissible: false,
+                              );
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                          }
                         },
                         initialEnabled: true,
                       ),

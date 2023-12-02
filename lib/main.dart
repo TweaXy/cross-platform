@@ -7,7 +7,6 @@ import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart'
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
-import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/views/homepage.dart';

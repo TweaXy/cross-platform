@@ -1,7 +1,12 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/views/signup/web/add_profile_picture_web_view.dart';
 import 'package:tweaxy/components/custom_appbar_web.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -23,6 +28,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
   final _formKey = GlobalKey<FormState>();
+  SignupService service = SignupService(Dio());
 
   @override
   void initState() {
@@ -91,17 +97,48 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                   key: const ValueKey("addPasswordWebButton"),
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
+                  onPressedCallback: () async {
                     if (_formKey.currentState!.validate()) {
                       UserSignup.password = myController.text;
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      Navigator.pushReplacementNamed(context, kHomeScreen);
-                      showDialog(
-                        context: context,
-                        builder: (context) => const AddProfilePictureWebView(),
-                        barrierColor: Colors.transparent,
-                        barrierDismissible: false,
-                      );
+                      try {
+                        dynamic response = await service.createAccount();
+
+                        if (response is String) {
+                          showToastWidget(
+                            CustomWebToast(
+                              message: response,
+                            ),
+                            position: ToastPosition.bottom,
+                            duration: const Duration(seconds: 2),
+                          );
+                        } else {
+                          try {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString("id",
+                                response.data['data']['user']['id'].toString());
+                            prefs.setString("token",
+                                response.data['data']['token'].toString());
+                            if (mounted) {
+                              Navigator.popUntil(
+                                  context, (route) => route.isFirst);
+                              Navigator.pushReplacementNamed(
+                                  context, kHomeScreen);
+                              showDialog(
+                                context: context,
+                                builder: (context) =>
+                                    const AddProfilePictureWebView(),
+                                barrierColor: Colors.transparent,
+                                barrierDismissible: false,
+                              );
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                          }
+                        }
+                      } catch (e) {
+                        log(e.toString());
+                      }
                     } else {
                       showToastWidget(
                         const CustomWebToast(
