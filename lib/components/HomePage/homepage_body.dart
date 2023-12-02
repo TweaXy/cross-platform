@@ -3,7 +3,7 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/services/Tweets.dart';
+import 'package:tweaxy/services/tweets.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody(

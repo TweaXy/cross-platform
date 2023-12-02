@@ -14,6 +14,6 @@ class GetUserById {
   Future<User> getUserById(String id) async {
     var response = await Api.get(baseURL + _endpoint + id);
     var data = response.data;
-    return User.fromMap(data['data']['user']);
+    return User.fromMap(data!['data']['user']);
   }
 }

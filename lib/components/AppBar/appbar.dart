@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
+import 'package:tweaxy/constants.dart';
 
 class ApplicationBar extends StatelessWidget {
   const ApplicationBar(
@@ -36,7 +37,7 @@ class ApplicationBar extends StatelessWidget {
       ),
       leading: IconButton(
         onPressed: () {
-          //swipe left
+         Navigator.pushNamed(context, kProfileScreen);
         },
         icon: Icon(
           FontAwesomeIcons.user,
