@@ -3,7 +3,7 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowingPage extends StatefulWidget {
-  FollowingPage({super.key, required this.username});
+  FollowingPage({required this.username});
   String username;
   @override
   State<FollowingPage> createState() => _FollowingPageState();

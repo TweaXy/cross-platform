@@ -4,7 +4,7 @@ import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class FollowersPage extends StatefulWidget {
-  FollowersPage({super.key, required this.username});
+  FollowersPage({required this.username});
   String username;
   @override
   State<FollowersPage> createState() => _FollowersPageState();
