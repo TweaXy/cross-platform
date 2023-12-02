@@ -9,7 +9,7 @@ import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
 class LikersInTweet extends StatefulWidget {
   LikersInTweet({super.key, required this.id});
-  int id;
+  String id;
   @override
   State<LikersInTweet> createState() => _LikersInTweetState();
 }
