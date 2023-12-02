@@ -32,7 +32,7 @@ class UserImageForTweet extends StatelessWidget {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(1000),
           child: Image(
-            width: 37,
+            width: 40,
             image: CachedNetworkImageProvider(
               image == null
                   ? "https://www.gstatic.com/webp/gallery2/4.png"

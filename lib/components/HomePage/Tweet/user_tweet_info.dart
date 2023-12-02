@@ -26,7 +26,7 @@ class User_TweetInfo extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
-          child: Text(
+          child: Text(  
             tweet.userName.length <= 9
                 ? '@${tweet.userHandle}'
                 : '${'@${tweet.userHandle.substring(0, 8)}'}...',

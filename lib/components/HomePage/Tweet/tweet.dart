@@ -24,7 +24,7 @@ class CustomTweet extends StatelessWidget {
 
     print('kkkk' + k.toString());
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 253, 253, 255),
         border: Border(
@@ -38,10 +38,11 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 2, right: 7, top: 5),
+            margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
             child: UserImageForTweet(
               userid: tweet.userId,
-              image: tweet.userImage!, text: 'Following',
+              image: tweet.userImage!,
+              text: 'Following',
             ),
           ),
           Expanded(
@@ -58,10 +59,12 @@ class CustomTweet extends StatelessWidget {
                         forProfile: forProfile,
                       ),
                 Container(
-                  margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
+                  margin: const EdgeInsets.only(
+                      bottom: 5.0, left: 2, right: 2, top: 0),
                   child: Text(
                     tweet.tweetText!,
                     style: const TextStyle(
+                      fontFamily: 'Roboto',
                       fontSize: 18,
                     ),
                   ),

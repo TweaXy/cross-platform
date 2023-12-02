@@ -101,10 +101,10 @@ class HomePageBody extends StatelessWidget {
               time: e['time']!,
               tweetText: e['tweetText'],
               userId: e['userid'],
-              likesCount: 1,
-              viewsCount: 1,
-              retweetsCount: 1,
-              commentsCount: 1,
+              likesCount: e['likesCount'],
+              viewsCount: e['viewsCount'],
+              retweetsCount: e['retweetsCount'],
+              commentsCount: e['commentsCount'],
             ))
         .toList();
   }
