@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/views/followersAndFollowing/followers.dart';
+import 'package:tweaxy/views/followersAndFollowing/following.dart';
+import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -162,11 +165,21 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
           GestureDetector(
             onTap: () {
               if (kIsWeb) {
-                Navigator.pushNamed(context, kwebboth,
-                    arguments: widget.username);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        WebFollowersAndFollowings(username: widget.username),
+                  ),
+                );
               } else {
-                Navigator.pushNamed(context, kFollowing,
-                    arguments: widget.username);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FollowingPage(username: widget.username),
+                  ),
+                );
               }
               setState(() {});
             },
@@ -193,11 +206,21 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
           GestureDetector(
             onTap: () {
               if (kIsWeb) {
-                Navigator.pushNamed(context, kwebboth,
-                    arguments: widget.username);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        WebFollowersAndFollowings(username: widget.username),
+                  ),
+                );
               } else {
-                Navigator.pushNamed(context, kFollowers,
-                    arguments: widget.username);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FollowersPage(username: widget.username),
+                  ),
+                );
               }
             },
             child: Row(

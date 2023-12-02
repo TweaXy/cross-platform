@@ -24,4 +24,7 @@ class SidebarCubit extends Cubit<SidebarState> {
         emit(SidebarSettingsState());
     }
   }
+  void openProfile(String id,String text){
+    emit(OtherProfileState(id,text));
+  }
 }

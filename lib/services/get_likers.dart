@@ -10,7 +10,7 @@ class Likers {
   Likers();
 
   Future<List<FollowersModel>> getLikers(
-      {required ScrollController scroll, required int id}) async {
+      {required ScrollController scroll, required String id}) async {
     dynamic response;
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
@@ -31,7 +31,7 @@ class Likers {
     }
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
-    List<dynamic> allData = jsondata['data']["followers"];
+    List<dynamic> allData = jsondata['data']["users"];
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
       FollowersModel follower = FollowersModel.fromJson(allData[i]);

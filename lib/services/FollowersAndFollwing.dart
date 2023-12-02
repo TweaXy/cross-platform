@@ -15,6 +15,7 @@ class followApi {
 
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
+    print(token);
     response = await Api.getwithToken(
       url:
           "http://16.171.65.142:3000/api/v1/users/followers/$username?limit=10&offset=0",

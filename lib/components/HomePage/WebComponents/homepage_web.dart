@@ -5,8 +5,10 @@ import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/explore_web_screen.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/components/HomePage/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 
@@ -65,10 +67,21 @@ class _HomePageWebState extends State<HomePageWeb> {
                           state is SidebarHomeState) {
                         return HomeTweets(tabController: widget.tabController);
                       } else if (state is SidebarProfileState)
-                        return ProfileComponentWeb(id: profileID);
+                        return ProfileComponentWeb(
+                          id: profileID,
+                          text: '',
+                        );
                       //TODO:- Provide The rest of the states
-                      else
+                      else if (state is SidebarExploreState) {
+                        return const ExploreWebScreen();
+                      } else if (state is OtherProfileState) {
+                        return ProfileComponentWeb(
+                          id: state.id,
+                          text: state.text,
+                        );
+                      } else {
                         return const Placeholder();
+                      }
                     },
                   ),
                 ),

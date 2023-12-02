@@ -85,103 +85,104 @@ class _ProfileScreenState extends State<ProfileScreen>
   // bool initialized = false;
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      onPopInvoked: (value) {},
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: BlocBuilder<EditProfileCubit, EditProfileState>(
-            builder: (context, state) {
-              if (state is ProfilePageLoadingState) {
-                return const LoadingScreen(asyncCall: true);
-              } else if (state is ProfilePageInitialState ||
-                  state is ProfilePageCompletedState) {
-                return FutureBuilder(
-                  future: GetUserById.instance.getUserById(id),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const LoadingScreen(
-                        asyncCall: true,
-                      );
-                    } else {
-                      User user = snapshot.data!;
-                      TempUser.email = user.email!;
-                      TempUser.name = user.name!;
-                      TempUser.image = user.avatar!;
-                      return CustomScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          SliverPersistentHeader(
-                            pinned: true,
-                            delegate: ProfileScreenAppBar(
-                              text: text,
-                              user: user,
-                              postsNumber: 216820,
-                              avatarURL: user.avatar ?? '',
-                              coverURL: user.cover ?? '',
-                            ),
+    // return PopScope(
+    //   onPopInvoked: (value) {},
+    // child:
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: BlocBuilder<EditProfileCubit, EditProfileState>(
+          builder: (context, state) {
+            if (state is ProfilePageLoadingState) {
+              return const LoadingScreen(asyncCall: true);
+            } else if (state is ProfilePageInitialState ||
+                state is ProfilePageCompletedState) {
+              return FutureBuilder(
+                future: GetUserById.instance.getUserById(id),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const LoadingScreen(
+                      asyncCall: true,
+                    );
+                  } else {
+                    User user = snapshot.data!;
+                    TempUser.email = user.email!;
+                    TempUser.name = user.name!;
+                    TempUser.image = user.avatar!;
+                    return CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                        SliverPersistentHeader(
+                          pinned: true,
+                          delegate: ProfileScreenAppBar(
+                            text: text,
+                            user: user,
+                            postsNumber: 216820,
+                            avatarURL: user.avatar ?? '',
+                            coverURL: user.cover ?? '',
                           ),
-                          SliverToBoxAdapter(
-                            child: AccountInformation(
-                              website: user.website ?? '',
-                              birthDate: user.birthdayDate ?? '',
-                              bio: user.bio ?? '',
-                              followers: user.followers ?? 0,
-                              following: user.following ?? 0,
-                              joinedDate: user.joinedDate ?? '',
-                              location: user.location ?? '',
-                              profileName: user.name ?? '',
-                              userName: user.userName ?? '',
-                            ),
+                        ),
+                        SliverToBoxAdapter(
+                          child: AccountInformation(
+                            website: user.website ?? '',
+                            birthDate: user.birthdayDate ?? '',
+                            bio: user.bio ?? '',
+                            followers: user.followers ?? 0,
+                            following: user.following ?? 0,
+                            joinedDate: user.joinedDate ?? '',
+                            location: user.location ?? '',
+                            profileName: user.name ?? '',
+                            userName: user.userName ?? '',
                           ),
-                          SliverTabBar(
-                            expandedHeight: 0,
-                            backgroundColor: Colors.white,
-                            tabBar: TabBar(
-                              indicatorWeight: 3,
-                              indicatorColor: Colors.blue,
-                              indicatorSize: TabBarIndicatorSize.label,
-                              controller: _tabController,
-                              labelColor: Colors.black,
-                              onTap: (value) => setState(() {
-                                _selectedTabIndex = value;
-                              }),
-                              tabs: const [
-                                Tab(
-                                  text: 'Posts',
-                                ),
-                                Tab(
-                                  text: 'Replies',
-                                ),
-                                Tab(
-                                  text: 'Likes',
-                                )
-                              ],
-                            ),
+                        ),
+                        SliverTabBar(
+                          expandedHeight: 0,
+                          backgroundColor: Colors.white,
+                          tabBar: TabBar(
+                            indicatorWeight: 3,
+                            indicatorColor: Colors.blue,
+                            indicatorSize: TabBarIndicatorSize.label,
+                            controller: _tabController,
+                            labelColor: Colors.black,
+                            onTap: (value) => setState(() {
+                              _selectedTabIndex = value;
+                            }),
+                            tabs: const [
+                              Tab(
+                                text: 'Posts',
+                              ),
+                              Tab(
+                                text: 'Replies',
+                              ),
+                              Tab(
+                                text: 'Likes',
+                              )
+                            ],
                           ),
-                          SliverList.builder(
-                            itemCount: listitems.length,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: ListTile(
-                                    title: Text(listitems[index].toString() +
-                                        _selectedTabIndex.toString()),
-                                    tileColor: Colors.white,
-                                  ));
-                            },
-                          ),
-                        ],
-                      );
-                    }
-                  },
-                );
-              }
-              return const Placeholder();
-            },
-          ),
+                        ),
+                        SliverList.builder(
+                          itemCount: listitems.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ListTile(
+                                  title: Text(listitems[index].toString() +
+                                      _selectedTabIndex.toString()),
+                                  tileColor: Colors.white,
+                                ));
+                          },
+                        ),
+                      ],
+                    );
+                  }
+                },
+              );
+            }
+            return const Placeholder();
+          },
         ),
       ),
+      // ),
     );
   }
 }
@@ -599,4 +600,9 @@ void _save() async {
   await prefs.setString('id', 'clpj7l5wq00033h9kml3a9vkp');
   await prefs.setString('token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
+}
+
+void _clear() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
 }
