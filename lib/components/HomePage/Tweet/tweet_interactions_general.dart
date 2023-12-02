@@ -54,7 +54,6 @@ class TweetInteractions extends StatelessWidget {
                       await SharedPreferences.getInstance();
                   token = await prefs.getString('token')!;
                 });
-                print('Token = $token');
                 if (isLiked) {
                   return await LikeTweet.unLikeTweet(id, token);
                 } else {
