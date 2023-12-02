@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/shared/keys/profile_keys.dart';
 
 class ApplicationBar extends StatelessWidget {
   const ApplicationBar(
@@ -36,8 +37,9 @@ class ApplicationBar extends StatelessWidget {
         ),
       ),
       leading: IconButton(
+        key: const ValueKey(ProfileKeys.homeScreenProfileButton),
         onPressed: () {
-         Navigator.pushNamed(context, kProfileScreen);
+          Navigator.pushNamed(context, kProfileScreen);
         },
         icon: Icon(
           FontAwesomeIcons.user,

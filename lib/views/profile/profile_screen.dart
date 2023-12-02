@@ -18,6 +18,7 @@ import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/unfollow_user.dart';
+import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 
@@ -398,6 +399,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
               )
             : const SizedBox(),
         ElevatedButton(
+          key: const ValueKey(ProfileKeys.editProfileButton),
           onPressed: () async {
             if (text == 'Follow') {
               //TODO :- Implement the follow logic
