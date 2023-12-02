@@ -4,6 +4,7 @@ import 'package:tweaxy/components/add_tweet/Cutom_add_post_bar_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -59,7 +60,10 @@ class _AddPostState extends State<AddPost> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const UserImageForTweet(image: 'uploads/default.png'),
+              UserImageForTweet(
+                image: TempUser.image,
+                userid:'', text: '',
+              ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: Padding(

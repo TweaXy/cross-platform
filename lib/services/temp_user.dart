@@ -9,6 +9,8 @@ class TempUser {
   TempUser._();
   static TempUser? _instance;
   static String email = '';
+  static String id = '';
+
   static String username = '';
   static String name = '';
   static String image = 'uploads/default.png';
@@ -30,17 +32,24 @@ class TempUser {
     TempUser.image = image;
   }
 
+  static void setId({required String id}) {
+    TempUser.id = id;
+  }
+
   static void userSetData() async {
     //  print(email);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
-    Response res = await Api.get('$baseUrl/users/$userid');
-    print('resss' + res.toString());
-    if (res is String) {
-    } else {
+    dynamic result = await Api.get('$baseUrl/users/$userid');
+    print('resss' + result.toString());
+    if (result is String) {
+    } else if (result is Response) {
+      Response res = result;
       setEmail(email: res!.data['data']['user']['email']);
       setName(name: res!.data['data']['user']['name']);
       setUserName(username: res!.data['data']['user']['username']);
-      setImage(image: res!.data['data']['user']['avatar']);    }
+      setImage(image: res!.data['data']['user']['avatar']);
+      setId(id: res!.data['data']['user']['id']);
+    }
   }
 }

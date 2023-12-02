@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 
 class DeleteAlertDialog extends StatelessWidget {
-  const DeleteAlertDialog({super.key});
+  const DeleteAlertDialog({super.key, required this.tweetid});
+  final String tweetid;
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.height * 0.9;
-
     return AlertDialog(
       insetPadding: EdgeInsets.all(width * 0.04),
       contentPadding:
@@ -32,8 +35,15 @@ class DeleteAlertDialog extends StatelessWidget {
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
-          onPressed: () {
+          onPressed: () async {
+            String t = await TweetsService.deleteTweet(tweetid: tweetid);
             Navigator.pop(context);
+            showToastWidget(
+                CustomToast(
+                  message: t == "success" ? 'Your post was deleted' : t,
+                ),
+                position: ToastPosition.bottom,
+                duration: const Duration(seconds: 2));
           },
           child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),

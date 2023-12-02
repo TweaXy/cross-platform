@@ -9,6 +9,7 @@ import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/add_tweet.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class AddTweetWebView extends StatefulWidget {
   const AddTweetWebView({super.key});
@@ -90,7 +91,10 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const UserImageForTweet(image: 'assets/girl.jpg'),
+                        UserImageForTweet(
+                          image: TempUser.image,
+                          userid:'', text: '',
+                        ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: Padding(

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet_settings_profile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/tweet_settings_profile_web.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class User_TweetInfoWeb extends StatelessWidget {
   const User_TweetInfoWeb(
@@ -52,8 +53,8 @@ class User_TweetInfoWeb extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        if (forProfile)
-          const TweetSettingsProfile()
+        if (forProfile || tweet.userId == TempUser.id)
+           TweetSettingsProfileWeb(tweetId: tweet.id,)
         else
           IconButton(
             splashRadius: 15,

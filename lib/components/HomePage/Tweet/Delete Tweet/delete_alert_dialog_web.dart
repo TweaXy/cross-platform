@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/homepage_mobile.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/views/homepage.dart';
 
-class DeleteAlertDialogWeb extends StatelessWidget {
-  const DeleteAlertDialogWeb({super.key});
+class DeleteAlertDialogWeb extends StatefulWidget {
+  const DeleteAlertDialogWeb({super.key, required this.tweetId});
+  final String tweetId;
 
+  @override
+  State<DeleteAlertDialogWeb> createState() => _DeleteAlertDialogWebState();
+}
+
+class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width * 0.9;
@@ -45,11 +54,13 @@ class DeleteAlertDialogWeb extends StatelessWidget {
                   ),
                   //internal content margin
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  String t =
+                      await TweetsService.deleteTweet(tweetid: widget.tweetId);
                   Navigator.pop(context);
                   showToastWidget(
-                      const CustomWebToast(
-                        message: 'Your post was deleted',
+                      CustomWebToast(
+                        message: t == "success" ? 'Your post was deleted' : t,
                       ),
                       position: ToastPosition.bottom,
                       duration: const Duration(seconds: 2));
