@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 
 class SettingsAndPrivacyView extends StatelessWidget {
@@ -13,6 +13,7 @@ class SettingsAndPrivacyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const SettingsAppBar(
+          key: ValueKey(SettingsKeys.backIcon),
           title: "Settings",
         ),
         body: Padding(
@@ -24,6 +25,7 @@ class SettingsAndPrivacyView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height * .02),
                   child: CustomdataDisplay(
+                    key: const ValueKey(SettingsKeys.yourAccount),
                     lead: const Icon(AppIcon.profile),
                     title: "Your account",
                     subtitle:
@@ -38,6 +40,7 @@ class SettingsAndPrivacyView extends StatelessWidget {
                   ),
                 ),
                 CustomdataDisplay(
+                  key: const ValueKey(SettingsKeys.notifications),
                   lead: const Icon(AppIcon.notification),
                   title: "Notifications",
                   subtitle:

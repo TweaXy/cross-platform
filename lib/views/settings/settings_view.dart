@@ -5,6 +5,7 @@ import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/update_password_view.dart';
 
 class SettingsView extends StatefulWidget {
@@ -19,6 +20,7 @@ class _SettingsViewState extends State<SettingsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SettingsAppBar(
+        key: ValueKey(SettingsKeys.backIcon),
         title: "Account information",
       ),
       body: Column(
@@ -44,7 +46,7 @@ class _SettingsViewState extends State<SettingsView> {
               padding: EdgeInsets.symmetric(
                   vertical: MediaQuery.of(context).size.height * .01),
               child: CustomdataDisplay(
-                key: const ValueKey("account information view navigator"),
+                key: const ValueKey(SettingsKeys.accountInfo),
                 title: "Account information",
                 subtitle:
                     "See your account information like your ohone number and email address.",
@@ -59,6 +61,7 @@ class _SettingsViewState extends State<SettingsView> {
               ),
             ),
             CustomdataDisplay(
+              key: const ValueKey(SettingsKeys.changePassword),
               title: "Change your password",
               subtitle: "change your password at anytime.",
               onpress: () {
