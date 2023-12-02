@@ -60,7 +60,7 @@ class TweaXy extends StatelessWidget {
             kProfileScreen: (context) => const ProfileScreen(id: '', text: ''),
             kSearchScreen: (context) => const SearchScreen(),
           },
-          initialRoute: kLogin1Screen,
+          initialRoute: kSplashScreen,
         ),
       ),
     );
