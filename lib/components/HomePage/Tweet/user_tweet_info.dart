@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/HomePage/Tweet/wrap_modal_bottom_profile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 

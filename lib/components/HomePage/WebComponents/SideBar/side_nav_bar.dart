@@ -217,7 +217,11 @@ class _SideNavBarState extends State<SideNavBar> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  UserImageForTweet(image: TempUser.image),
+                  UserImageForTweet(
+                    image: TempUser.image,
+                    userid: '',
+                    text: '',
+                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

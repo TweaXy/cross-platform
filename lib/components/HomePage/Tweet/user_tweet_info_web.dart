@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet_settings_profile_web.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/tweet_settings_profile_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 

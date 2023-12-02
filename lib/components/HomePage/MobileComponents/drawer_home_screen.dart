@@ -49,7 +49,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               children: [
                 Padding(
                   padding: EdgeInsets.only(bottom: 10.0),
-                  child: UserImageForTweet(image: TempUser.image),
+                  child: UserImageForTweet(
+                    image: TempUser.image,
+                    userid: '',
+                    text: '',
+                  ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 4.5),

@@ -40,7 +40,8 @@ class CustomTweet extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: 2, right: 7, top: 5),
             child: UserImageForTweet(
-              image: tweet.userImage!,
+              userid: tweet.userId,
+              image: tweet.userImage!, text: 'Following',
             ),
           ),
           Expanded(

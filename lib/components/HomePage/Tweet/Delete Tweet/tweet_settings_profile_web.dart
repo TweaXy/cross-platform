@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog_web.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dialog_web.dart';
 
 class TweetSettingsProfileWeb extends StatelessWidget {
   const TweetSettingsProfileWeb({super.key, required this.tweetId});
