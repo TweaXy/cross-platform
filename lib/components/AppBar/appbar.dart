@@ -37,7 +37,8 @@ class ApplicationBar extends StatelessWidget {
       ),
       leading: IconButton(
         onPressed: () {
-         Navigator.pushNamed(context, kProfileScreen);
+          Scaffold.of(context).openDrawer();
+          //swipe left
         },
         icon: Icon(
           FontAwesomeIcons.user,

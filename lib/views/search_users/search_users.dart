@@ -201,7 +201,6 @@ class SearchUsersListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-
       width: double.infinity,
       height: kIsWeb ? 60 : 100,
       child: Padding(
@@ -220,21 +219,30 @@ class SearchUsersListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    user.name!,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: kIsWeb ? 16 : 18,
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      user.name!,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: kIsWeb ? 16 : 18,
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0),
-                    child: Text(
-                      user.userName!,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: kIsWeb ? 13 : 15,
+                    child: SizedBox(
+                      width: 250,
+                      child: Text(
+                        user.userName!,
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: kIsWeb ? 13 : 15,
+                        ),
                       ),
                     ),
                   ),
