@@ -8,11 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/loading_screen.dart';
@@ -51,6 +54,7 @@ List<String> listitems = [
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ScrollController controller = ScrollController();
   String id = '';
   @override
   void initState() {
@@ -89,6 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   } else {
                     User user = snapshot.data!;
                     return CustomScrollView(
+                      controller: controller,
                       physics: const BouncingScrollPhysics(),
                       slivers: [
                         SliverPersistentHeader(
@@ -138,18 +143,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                        SliverList.builder(
-                          itemCount: listitems.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: ListTile(
-                                  title: Text(listitems[index].toString() +
-                                      _selectedTabIndex.toString()),
-                                  tileColor: Colors.white,
-                                ));
-                          },
-                        ),
+                        if(_selectedTabIndex==2)
+                        LikersProfileView(controller: controller)
                       ],
                     );
                   }
