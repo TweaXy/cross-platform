@@ -152,7 +152,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           DateTime.parse(_birthDateController.text).toString();
                       tempUser.location = _locationController.text;
                       if (!_websiteController.text.startsWith('https://') &&
-                          !_websiteController.text.startsWith('http://')) {
+                          !_websiteController.text.startsWith('http://') &&
+                          _websiteController.text != '') {
                         Fluttertoast.showToast(
                             msg: "Wrong Website Format",
                             toastLength: Toast.LENGTH_SHORT,

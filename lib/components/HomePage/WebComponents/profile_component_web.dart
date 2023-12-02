@@ -1,11 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
@@ -15,23 +18,38 @@ class ProfileComponentWeb extends StatefulWidget {
   const ProfileComponentWeb({
     super.key,
     required this.id,
+    required this.text,
   });
   final String id;
+  final String text;
   @override
   State<ProfileComponentWeb> createState() => _ProfileComponentWebState();
 }
 
-enum SampleItem { itemOne, itemTwo, itemThree }
-
 class _ProfileComponentWebState extends State<ProfileComponentWeb>
     with SingleTickerProviderStateMixin {
   bool hoverd = false;
-  String text = 'Edit Profile';
+  String text = '';
+  String token = '';
+
+  String id = '';
   late TabController _tabController;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    Future(() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getString('id')!;
+      token = prefs.getString('token')!;
+      if (widget.text != '') {
+        text = widget.text;
+      } else {
+        text = 'Edit Profile';
+      }
+      if (widget.id != '') id = widget.id;
+      setState(() {});
+    });
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -83,7 +101,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
         } else if (state is ProfilePageInitialState ||
             state is ProfilePageCompletedState) {
           return FutureBuilder(
-            future: GetUserById.instance.getUserById(widget.id),
+            future: GetUserById.instance.getUserById(id),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 return const Scaffold(
@@ -98,7 +116,10 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                 return Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        BlocProvider.of<SidebarCubit>(context)
+                            .emit(SidebarExploreState());
+                      },
                       icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.black,

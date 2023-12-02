@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
@@ -11,8 +12,24 @@ class TrendingScreen extends StatefulWidget {
 }
 
 class _TrendingScreenState extends State<TrendingScreen> {
+  String id = '';
+  String token = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future(() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getString('id')!;
+      token = prefs.getString('token')!;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
