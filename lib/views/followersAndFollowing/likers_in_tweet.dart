@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
+import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/components/showallFollowers.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/get_likers.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
@@ -15,16 +17,29 @@ class LikersInTweet extends StatefulWidget {
 }
 
 class _LikersInTweetState extends State<LikersInTweet> {
-  late ScrollController controller;
-
+  ScrollController controller = ScrollController();
+  int offset = 0;
+  bool FirstTime = true;
+  int myindex = 0;
+  Set<FollowersModel> alllikers = {};
   Future<void> _refresh() async {
     setState(() {});
+    alllikers = {};
+    offset = 0;
+    myindex = 0;
+    FirstTime = true;
   }
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          offset += 10;
+        });
+      }
+    });
   }
 
   @override
@@ -48,32 +63,34 @@ class _LikersInTweetState extends State<LikersInTweet> {
         backgroundColor: Colors.white,
         elevation: 1,
       ),
-      body: NestedScrollView(
-        physics: const BouncingScrollPhysics(),
-        controller: controller,
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[];
-        },
-        body: RefreshIndicator(
+      body: RefreshIndicator(
           onRefresh: _refresh,
-          child: FutureBuilder(
-            future: Likers().getLikers(scroll: controller, id: widget.id),
+          child: FutureBuilder<List<FollowersModel>>(
+            future: Likers()
+                .getLikers(scroll: controller, id: widget.id, offset: offset),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                if (snapshot.data!.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "NO Likers yet",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
+                if (snapshot.data!.isEmpty && FirstTime) {
+                  return const Center(
+                    child: Text("NO Likers yet",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
                   );
                 } else {
-                  return ShowAllFollowersAndFollowing(
-                    follow: snapshot.data ?? [],
-                    isFollower: true,
+                  FirstTime = false;
+                  if (snapshot.data!.isNotEmpty)
+                    alllikers.addAll(snapshot.data!);
+                  myindex = alllikers.length;
+                  return ListView.builder(
                     controller: controller,
+                    itemBuilder: (context, index) {
+                      List<FollowersModel> myList = alllikers.toList();
+                      return CustomFollowers(
+                        user: myList[index],
+                        isFollower: false,
+                      );
+                    },
+                    itemCount: alllikers.length,
                   );
                 }
               } else if (snapshot.hasError) {
@@ -85,9 +102,7 @@ class _LikersInTweetState extends State<LikersInTweet> {
                 return const Center(child: CircularProgressIndicator());
               }
             },
-          ),
-        ),
-      ),
+          )),
       floatingActionButton: const FloatingButton(),
     );
   }
