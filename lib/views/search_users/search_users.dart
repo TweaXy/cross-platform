@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
@@ -83,71 +84,109 @@ class _MyPageState extends State<SearchScreen> {
               ]
             : null,
       ),
-      body: SizedBox(
-        width: double.infinity,
-        child: !showAction
-            ? Padding(
-                padding: const EdgeInsets.only(top: 30.0),
-                child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      'Try searching for name or username',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
-                      ),
-                    )),
-              )
-            : SizedBox(
-                width: double.infinity,
-                child: StreamBuilder<List<User>>(stream: (() {
-                  late final StreamController<List<User>> controller;
-                  controller = StreamController<List<User>>(
-                    onListen: () async {
-                      var u = await SearchForUsers.searchForUser(query, token!);
-                      controller.add(u);
-                    },
-                  );
-                  return controller.stream;
-                })(), builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    var users = snapshot.data!;
-                    return ListView.builder(
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            User user = users[index];
-                            String text = '';
-                            if (user.id != id) {
-                              if (user.following == 1) {
-                                text = 'Following';
-                              } else {
-                                text = 'Follow';
-                              }
-                            }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProfileScreen(id: user.id!, text: text),
-                              ),
-                            );
-                          },
-                          child:
-                              SearchUsersListTile(user:users[index]),
-                        );
-                      },
-                      itemCount: snapshot.data!.length,
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                }),
-              ),
+      body: SearchingForUsers(
+        showAction: showAction,
+        query: query,
+        id: id,
+        userToken: token!,
       ),
     );
+  }
+}
+
+class SearchingForUsers extends StatelessWidget {
+  const SearchingForUsers({
+    super.key,
+    required this.showAction,
+    required this.query,
+    required this.id,
+    required this.userToken,
+  });
+
+  final bool showAction;
+  final String query;
+  final String id;
+  final String userToken;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      child: !showAction
+          ? const Padding(
+              padding: EdgeInsets.only(top: 30.0),
+              child: InitialTextSearchUser(),
+            )
+          : SizedBox(
+              width: double.infinity,
+              child: StreamBuilder<List<User>>(stream: (() {
+                late final StreamController<List<User>> controller;
+                controller = StreamController<List<User>>(
+                  onListen: () async {
+                    var u =
+                        await SearchForUsers.searchForUser(query, userToken);
+                    controller.add(u);
+                  },
+                );
+                return controller.stream;
+              })(), builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var users = snapshot.data!;
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          User user = users[index];
+                          String text = '';
+                          if (user.id != id) {
+                            if (user.following == 1) {
+                              text = 'Following';
+                            } else {
+                              text = 'Follow';
+                            }
+                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ProfileScreen(id: user.id!, text: text),
+                            ),
+                          );
+                        },
+                        child: SearchUsersListTile(
+                          user: users[index],
+                        ),
+                      );
+                    },
+                    itemCount: snapshot.data!.length,
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+            ),
+    );
+  }
+}
+
+class InitialTextSearchUser extends StatelessWidget {
+  const InitialTextSearchUser({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: double.infinity,
+        child: Text(
+          'Try searching for name or username',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.grey[600],
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
+        ));
   }
 }
 
@@ -161,19 +200,19 @@ class SearchUsersListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
+    return SizedBox(
+
       width: double.infinity,
-      height: 100,
+      height: kIsWeb ? 60 : 100,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
             CircleAvatar(
-              radius: 28,
-              backgroundColor: Colors.blueGrey[600],
-              backgroundImage: CachedNetworkImageProvider(
-                  basePhotosURL + user.avatar!),
+              radius: kIsWeb ? 20 : 28,
+              backgroundColor: Colors.blueGrey[300],
+              backgroundImage:
+                  CachedNetworkImageProvider(basePhotosURL + user.avatar!),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
@@ -186,7 +225,7 @@ class SearchUsersListTile extends StatelessWidget {
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: kIsWeb ? 16 : 18,
                     ),
                   ),
                   Padding(
@@ -195,7 +234,7 @@ class SearchUsersListTile extends StatelessWidget {
                       user.userName!,
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: 15,
+                        fontSize: kIsWeb ? 13 : 15,
                       ),
                     ),
                   ),

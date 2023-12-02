@@ -598,3 +598,8 @@ void _save() async {
   await prefs.setString('token',
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
 }
+
+void _clear() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+}
