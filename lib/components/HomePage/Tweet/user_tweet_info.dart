@@ -13,6 +13,8 @@ class User_TweetInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
+
     return Row(
       children: [
         Padding(
@@ -71,7 +73,9 @@ class User_TweetInfo extends StatelessWidget {
                   ),
                 ),
                 builder: (context) {
-                  return const WrapModalBottomProfile();
+                  return WrapModalBottomProfile(
+                    tweetid: tweet.id,
+                  );
                 },
               );
             }

@@ -3,7 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/delete_alert_dialog.dart';
 
 class WrapModalBottomProfile extends StatelessWidget {
-  const WrapModalBottomProfile({super.key});
+  const WrapModalBottomProfile({super.key, required this.tweetid});
+  final String tweetid;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,9 @@ class WrapModalBottomProfile extends StatelessWidget {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return const DeleteAlertDialog();
+                  return DeleteAlertDialog(
+                    tweetid: tweetid,
+                  );
                 });
           },
           leading: const Icon(FontAwesomeIcons.trashCan),

@@ -29,7 +29,7 @@ class CustomTweet extends StatelessWidget {
         color: Color.fromARGB(255, 253, 253, 255),
         border: Border(
             bottom: BorderSide(
-                width: 0.2,
+                width: 0.4,
                 color: Theme.of(context).brightness == Brightness.light
                     ? const Color.fromARGB(255, 135, 135, 135)
                     : const Color.fromARGB(255, 233, 233, 233))),
@@ -38,7 +38,7 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 2, right: 7),
+            margin: const EdgeInsets.only(left: 2, right: 7, top: 5),
             child: UserImageForTweet(
               image: tweet.userImage!,
             ),

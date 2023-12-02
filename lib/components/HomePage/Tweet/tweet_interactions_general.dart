@@ -18,7 +18,7 @@ class TweetInteractions extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.only(top: 9.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -29,18 +29,17 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(
-                  commentsCount.toString()), // Replace with your desired label
+              Text(commentsCount.toString()), // Replace with your desired label
             ],
           ),
           Row(
             children: [
-              const Icon(FontAwesomeIcons.retweet), // Replace with your desired icon
+              const Icon(
+                  FontAwesomeIcons.retweet), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(
-                  retweetsCount.toString()), // Replace with your desired label
+              Text(retweetsCount.toString()), // Replace with your desired label
             ],
           ),
           LikeButton(

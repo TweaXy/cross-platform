@@ -475,13 +475,14 @@ packages:
     source: hosted
     version: "5.0.0"
   image_downloader:
-    dependency: transitive
+    dependency: "direct main"
     description:
-      name: image_downloader
-      sha256: "2b1c1d1fcfb6677175d009af3fc86914aee07684c12ea061f380ef1f44cae8df"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "0.31.0"
+      path: "."
+      ref: HEAD
+      resolved-ref: "2f31d7cc59a984a54b7d9d12c5819387c9fb52c1"
+      url: "https://github.com/VikasTailorbird/image_downloader"
+    source: git
+    version: "0.32.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -659,10 +660,10 @@ packages:
     dependency: "direct main"
     description:
       name: multi_image_layout
-      sha256: b5f127b958c2cc023c5ff8844b057e799ac7810b4adf2a6e187d36a04fdc6afd
+      sha256: "41a529a388f0a12c257f24a3b750a954255ebf7411102efe4a20b07e63e2f79e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.0.5"
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:
@@ -803,10 +804,10 @@ packages:
     dependency: transitive
     description:
       name: photo_view
-      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      sha256: "26cb153080a2673bebccaf72d3283e82f8f41a47fe5f9bc5ba8634d2e8a9fc8e"
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.14.0"
+    version: "0.13.0"
   platform:
     dependency: transitive
     description:
@@ -871,14 +872,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.1.4"
-  readmore:
-    dependency: transitive
-    description:
-      name: readmore
-      sha256: "99c2483202f7c7e98c50834d72be2b119aefecf4497ca1960ae9d5f418eb1481"
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "2.2.0"
   rxdart:
     dependency: transitive
     description:
