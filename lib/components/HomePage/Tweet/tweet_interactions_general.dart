@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/services/like_tweet.dart';
-import 'package:tweaxy/views/splash_screen.dart';
 
 class TweetInteractions extends StatelessWidget {
   const TweetInteractions(
@@ -47,11 +47,18 @@ class TweetInteractions extends StatelessWidget {
             ],
           ),
           LikeButton(
-              onTap: (isLiked) {
+              onTap: (isLiked) async {
+                String token = '';
+                await Future(() async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  token = await prefs.getString('token')!;
+                });
+                print('Token = $token');
                 if (isLiked) {
-                  return LikeTweet.likeTweet(id, token!);
+                  return await LikeTweet.unLikeTweet(id, token);
                 } else {
-                  return LikeTweet.unLikeTweet(id, token!);
+                  return await LikeTweet.likeTweet(id, token);
                 }
               },
               likeCount: likesCount,

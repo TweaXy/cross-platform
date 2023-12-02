@@ -7,26 +7,31 @@ class LikeTweet {
   LikeTweet._();
   static Future<bool> likeTweet(String id, String token) async {
     var dio = Dio();
-    var response = await dio.post(
-      '$baseURL$_endpoint$id/like',
-      options: Options(headers: {'Authorization': token}),
-    );
-    if (response.statusCode == 200) {
+    print(id);
+    try {
+      var response = await dio.post(
+        '$baseURL$_endpoint$id/like',
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
       return true;
-    } else {
+    } catch (e) {
       return false;
     }
   }
-    static Future<bool> unLikeTweet(String id, String token) async {
+
+  static Future<bool> unLikeTweet(String id, String token) async {
     var dio = Dio();
     var response = await dio.delete(
       '$baseURL$_endpoint$id/like',
-      options: Options(headers: {'Authorization': token}),
+      options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
     if (response.statusCode == 200) {
-      return true;
-    } else {
+      print('UnLiked');
+
       return false;
+    } else {
+      return true;
     }
   }
 }

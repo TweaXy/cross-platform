@@ -29,7 +29,7 @@ class Tweets {
           url: response!.data['pagination']['prevPage'], token: s!);
     }
 
-    // print('res' + response.toString());
+    print('res' + response.toString());
     List<Map<String, dynamic>> m =
         (response.data['data']['items'] as List<dynamic>)
             .map((item) => {
