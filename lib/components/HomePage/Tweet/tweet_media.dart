@@ -25,9 +25,7 @@ class _TweetMediaState extends State<TweetMedia> {
     List<String> s = widget.pickedfiles.map((item) => '').toList();
 
     return MultiImageViewer(
-      // captions: s,
       images: widget.pickedfiles,
-      // height: screenheight * 0.3,
     );
     // return Container();
   }

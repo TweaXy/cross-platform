@@ -56,7 +56,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
                 ),
                 onPressed: () async {
                   String t =
-                      await TweetsService.deleteTweet(tweetid: widget.tweetId);
+                      await TweetsServices.deleteTweet(tweetid: widget.tweetId);
                   Navigator.pop(context);
                   showToastWidget(
                       CustomWebToast(

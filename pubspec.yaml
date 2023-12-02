@@ -33,7 +33,6 @@ dependencies:
   chewie: ^1.7.1
   cupertino_icons: ^1.0.2
   datepicker_dropdown: ^0.0.8
-  dio: ^5.3.3
   dotted_border: ^2.1.0
   dropdown_button2: ^2.3.9
   dropdown_search: ^5.0.6
@@ -70,11 +69,7 @@ dependencies:
   url_launcher: ^6.2.1
   video_player: ^2.7.2
   webview_flutter_plus:
-  oktoast: ^3.0.1
-  datepicker_dropdown: ^0.0.8
   dio: ^5.3.3
-  image_cropper: ^5.0.0
-  dotted_border: ^2.1.0
   image_downloader:
     git:
       url: https://github.com/VikasTailorbird/image_downloader

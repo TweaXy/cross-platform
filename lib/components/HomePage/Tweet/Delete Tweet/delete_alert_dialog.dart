@@ -36,7 +36,7 @@ class DeleteAlertDialog extends StatelessWidget {
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
           onPressed: () async {
-            String t = await TweetsService.deleteTweet(tweetid: tweetid);
+            String t = await TweetsServices.deleteTweet(tweetid: tweetid);
             Navigator.pop(context);
             showToastWidget(
                 CustomToast(
