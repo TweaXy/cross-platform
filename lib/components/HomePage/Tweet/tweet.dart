@@ -7,6 +7,7 @@ import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/services/temp_user.dart';
 
 class CustomTweet extends StatelessWidget {
   const CustomTweet({super.key, required this.tweet, required this.forProfile});
@@ -42,7 +43,7 @@ class CustomTweet extends StatelessWidget {
             child: UserImageForTweet(
               userid: tweet.userId,
               image: tweet.userImage!,
-              text: 'Following',
+              text: tweet.userId == TempUser.id ? '' : 'Following',
             ),
           ),
           Expanded(
@@ -71,7 +72,7 @@ class CustomTweet extends StatelessWidget {
                 ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
-                  id:tweet.id,
+                  id: tweet.id,
                   likesCount: tweet.likesCount,
                   viewsCount: tweet.viewsCount,
                   retweetsCount: tweet.retweetsCount,
