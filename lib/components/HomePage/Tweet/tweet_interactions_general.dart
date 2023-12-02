@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/services/like_tweet.dart';
 
 class TweetInteractions extends StatelessWidget {
   const TweetInteractions(
       {super.key,
+      required this.id,
       required this.likesCount,
       required this.viewsCount,
       required this.retweetsCount,
@@ -13,6 +16,7 @@ class TweetInteractions extends StatelessWidget {
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
+  final String id;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -29,21 +33,34 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(
-                  commentsCount.toString()), // Replace with your desired label
+              Text(commentsCount.toString()), // Replace with your desired label
             ],
           ),
           Row(
             children: [
-              const Icon(FontAwesomeIcons.retweet), // Replace with your desired icon
+              const Icon(
+                  FontAwesomeIcons.retweet), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(
-                  retweetsCount.toString()), // Replace with your desired label
+              Text(retweetsCount.toString()), // Replace with your desired label
             ],
           ),
           LikeButton(
+              onTap: (isLiked) async {
+                String token = '';
+                await Future(() async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  token = await prefs.getString('token')!;
+                });
+                print('Token = $token');
+                if (isLiked) {
+                  return await LikeTweet.unLikeTweet(id, token);
+                } else {
+                  return await LikeTweet.likeTweet(id, token);
+                }
+              },
               likeCount: likesCount,
               size: 20,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),

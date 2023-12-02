@@ -74,6 +74,7 @@ class CustomTweet extends StatelessWidget {
                     ),
                   ),
                 TweetInteractions(
+                  id:tweet.id,
                   likesCount: tweet.likesCount,
                   viewsCount: tweet.viewsCount,
                   retweetsCount: tweet.retweetsCount,
