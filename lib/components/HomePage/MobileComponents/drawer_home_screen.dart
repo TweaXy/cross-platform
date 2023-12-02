@@ -38,7 +38,8 @@ class CustomDrawer extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10.0),
-                  child: UserImageForTweet(image: TempUser.image),
+                  child: UserImageForTweet(
+                      image: TempUser.image, userid: '', text: ''),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 4.5),

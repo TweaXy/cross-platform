@@ -13,8 +13,12 @@ class UpdatePasswordService {
       required String confirmPassword}) async {
     dynamic response;
     String? token;
-    List<String> s = await loadPrefs();
-    token = s[1];
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     final data = {
       "oldPassword": oldPassword,
       "newPassword": newPassword,
