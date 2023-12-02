@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/settings/update_email/change_email_view.dart';
+import 'package:tweaxy/views/settings/update_email/change_email_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';

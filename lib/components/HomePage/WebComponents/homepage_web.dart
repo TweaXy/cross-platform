@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
@@ -9,9 +10,7 @@ import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.d
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
-import 'package:tweaxy/views/settings/web/account_info_web_view.dart';
-import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
-import 'package:tweaxy/views/settings/web/update_password_web_view.dart';
+
 
 class HomePageWeb extends StatefulWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
@@ -73,7 +72,7 @@ class _HomePageWebState extends State<HomePageWeb> {
                           flex: 8, child: ProfileComponentWeb(id: profileID));
                     } else if (state is SidebarSettingsState) {
                       return const Expanded(
-                          flex: 6, child: SettingsAdndPoicityWeb());
+                          flex: 13, child: SettingsAndPrivacyWeb());
                     } else {
                       return const Expanded(flex: 8, child: Placeholder());
                     }
@@ -87,11 +86,10 @@ class _HomePageWebState extends State<HomePageWeb> {
                     if (state is SidebarInitialState ||
                         state is SidebarHomeState) {
                       return const Expanded(flex: 5, child: TrendingList());
-                    } else if (state is SidebarSettingsState) {
-                      return const Expanded(
-                          flex: 7, child: AccountInfoWebView());
+                    }  else if (state is SidebarSettingsState) {
+                      return const SizedBox(height: 0,width: 0,);
                     } else {
-                      return const Expanded(flex: 5, child: TrendingList());
+                      return  const Expanded(flex: 5, child: TrendingList());
                     }
                   },
                 ),

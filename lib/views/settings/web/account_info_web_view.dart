@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
+import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/app_icons.dart';
 
@@ -51,7 +52,9 @@ class _AccountInfoWebViewState extends State<AccountInfoWebView> {
             title: "Account information",
             subtitle:
                 "See your account information like your phone number and email address.",
-            onpress: () {},
+            onpress: () {
+              _globalOnTap(0);
+            },
             lead: const Icon(AppIcon.profile),
           ),
           CustomdataDisplay(
@@ -68,8 +71,6 @@ class _AccountInfoWebViewState extends State<AccountInfoWebView> {
   }
 
   void _globalOnTap(index) {
-    setState(() {
-      BlocProvider.of<SidebarCubit>(context).toggleSettings(index);
-    });
+    BlocProvider.of<SettingsWebCubit>(context).toggleMenu(index);
   }
 }
