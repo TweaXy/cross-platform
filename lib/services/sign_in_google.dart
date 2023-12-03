@@ -4,7 +4,8 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 class GoogleSignINApi {
   static final clintId =
       '700717640171-iuhebo2m8jvqf8msk87qt30fr2hrp4co.apps.googleusercontent.com';
-  static final _googleSignInMob = GoogleSignIn(clientId: clintId);
+  static final _googleSignInMob =
+      GoogleSignIn(scopes: ['email', 'profile', 'openid']);
   static late GoogleSignInAuthentication googleSignInAuthentication;
   static Future<GoogleSignInAccount?> login() async {
     try {
