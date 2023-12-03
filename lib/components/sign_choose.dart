@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:sign_button/sign_button.dart';
 import 'package:tweaxy/components/sign_in_with.dart';
@@ -23,14 +24,12 @@ class SignChoose extends StatefulWidget {
 
 class _SignChooseState extends State<SignChoose> {
 ///////////////////////////////
-  Future SignIn() async {
+  Future signInWithGoogle(context) async {
     final user = await GoogleSignINApi.login();
-    if (user == null) {
-      CustomWebToast(message: "errrrrrrrrrrrrrrrrrrrrrr");
-    } else {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      Navigator.of(context).pushReplacementNamed(kHomeScreen);
-    }
+    GoogleSignInAuthentication googleToken = await user!.authentication;
+    print(googleToken);
+    await GoogleSignINApi.getToken();
+    //!TODO print googleToken
   }
 
 ///////////////////
@@ -44,7 +43,7 @@ class _SignChooseState extends State<SignChoose> {
             type: widget.isDarkMode ? ButtonType.googleDark : ButtonType.google,
             onPressed: () async {
               try {
-                SignIn();
+                signInWithGoogle(context);
               } on Exception catch (e) {
                 print(e.toString());
                 if (kIsWeb) {

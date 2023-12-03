@@ -3,15 +3,15 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 
 class GoogleSignINApi {
   // static final clintId =
-  //     '700717640171-sqacemimlo7ia3bft4btrr46b4736hdf.apps.googleusercontent.com';
+  //     '700717640171-iuhebo2m8jvqf8msk87qt30fr2hrp4co.apps.googleusercontent.com';
   static final _googleSignIn = GoogleSignIn();
+  static late GoogleSignInAuthentication googleSignInAuthentication;
   static Future<GoogleSignInAccount?> login() async {
     try {
       final GoogleSignInAccount? user = await _googleSignIn.signIn();
       if (user == null) {
         CustomWebToast(message: "Failed to sign in");
       } else {
-        // Successful sign-in, you can access user.idToken here
         print("Token ID: ${user.authHeaders}");
       }
       return user;
@@ -21,6 +21,14 @@ class GoogleSignINApi {
       return null;
     }
   }
+static Future<void> getToken() async {
+    try {
+      GoogleSignInAccount? user = await _googleSignIn.signIn();
 
-  static Future<GoogleSignInAccount?> logout() => _googleSignIn.disconnect();
+      googleSignInAuthentication = await user!.authentication;
+    } catch (error) {
+      print('error in getting the token\n\n\n');
+      print('error');
+    }
+  }
 }
