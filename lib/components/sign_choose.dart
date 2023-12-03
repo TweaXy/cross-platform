@@ -28,7 +28,7 @@ class _SignChooseState extends State<SignChoose> {
     final user = await GoogleSignINApi.login();
     GoogleSignInAuthentication googleToken = await user!.authentication;
     print(googleToken);
-    await GoogleSignINApi.getToken();
+    String? token = await GoogleSignINApi.getGoogleToken();
     //!TODO print googleToken
   }
 
