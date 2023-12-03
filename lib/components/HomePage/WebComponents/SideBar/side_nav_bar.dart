@@ -170,16 +170,19 @@ class _SideNavBarState extends State<SideNavBar> {
                   },
                 ),
                 CustomDrawerListTile(
-                  curindex: 6,
+                  curindex: 5,
                   selectedIndex: selectedIndex,
                   icon: AppIcon.settings,
                   title: 'Settings and privacy',
                   onTap: () {
-                    _globalOnTap(6);
+                    _globalOnTap(5);
                   },
                 ),
                 // SettingsAndSupport(),
-                const PostButton(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 28.0),
+                  child: PostButton(),
+                ),
               ],
             ),
           ),
@@ -235,10 +238,10 @@ class _SideNavBarState extends State<SideNavBar> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: 4.5),
+                          padding: const EdgeInsets.only(bottom: 4.5),
                           child: Text(
                             TempUser.name,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Color.fromARGB(255, 13, 11, 11),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),

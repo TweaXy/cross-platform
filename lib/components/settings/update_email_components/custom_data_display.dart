@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomdataDisplay extends StatelessWidget {
@@ -21,7 +22,7 @@ class CustomdataDisplay extends StatelessWidget {
         title,
         style: TextStyle(
           color: title == "Log out" ? Colors.red : Colors.black,
-          fontSize: 20,
+          fontSize: kIsWeb ? 15 : 20,
         ),
       ),
       subtitle: Text(
@@ -30,8 +31,16 @@ class CustomdataDisplay extends StatelessWidget {
             : title == "Username"
                 ? "@$subtitle"
                 : subtitle,
-        style: const TextStyle(fontSize: 17),
+        style: kIsWeb
+            ? const TextStyle(fontSize: 13)
+            : const TextStyle(fontSize: 17),
       ),
+      trailing: kIsWeb
+          ? const Icon(
+              Icons.arrow_forward_ios_outlined,
+              size: 20,
+            )
+          : null,
     );
   }
 }
