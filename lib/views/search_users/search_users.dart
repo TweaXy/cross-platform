@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
@@ -25,12 +27,38 @@ class _MyPageState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       id = prefs.getString('id')!;
       token = prefs.getString('token')!;
       setState(() {});
     });
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  final _pageSize = 7;
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await SearchForUsers.searchForUser(
+        query,
+        token!,
+        pageSize: _pageSize,
+        pageNumber: pageKey,
+      );
+      print(newItems);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   String query = '';
@@ -60,6 +88,7 @@ class _MyPageState extends State<SearchScreen> {
               showAction = true;
               query = value;
             }
+            _pagingController.refresh();
             setState(() {});
           },
           style: const TextStyle(color: Colors.blue, fontSize: 17),
@@ -84,33 +113,7 @@ class _MyPageState extends State<SearchScreen> {
               ]
             : null,
       ),
-      body: SearchingForUsers(
-        showAction: showAction,
-        query: query,
-        id: id,
-        userToken: token!,
-      ),
-    );
-  }
-}
-
-class SearchingForUsers extends StatelessWidget {
-  const SearchingForUsers({
-    super.key,
-    required this.showAction,
-    required this.query,
-    required this.id,
-    required this.userToken,
-  });
-
-  final bool showAction;
-  final String query;
-  final String id;
-  final String userToken;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
+      body: SizedBox(
       width: double.infinity,
       child: !showAction
           ? const Padding(
@@ -119,55 +122,80 @@ class SearchingForUsers extends StatelessWidget {
             )
           : SizedBox(
               width: double.infinity,
-              child: StreamBuilder<List<User>>(stream: (() {
-                late final StreamController<List<User>> controller;
-                controller = StreamController<List<User>>(
-                  onListen: () async {
-                    var u =
-                        await SearchForUsers.searchForUser(query, userToken);
-                    controller.add(u);
+              child: PagedListView<int, User>(
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  animateTransitions: true,
+                  firstPageProgressIndicatorBuilder: (context) {
+                    return const Center(
+                      child: SpinKitRing(color: Colors.blueAccent),
+                    );
                   },
-                );
-                return controller.stream;
-              })(), builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var users = snapshot.data!;
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          User user = users[index];
-                          String text = '';
-                          if (user.id != id) {
-                            if (user.following == 1) {
-                              text = 'Following';
-                            } else {
-                              text = 'Follow';
-                            }
+                  newPageProgressIndicatorBuilder: (context) => const Center(
+                    child: SpinKitRing(color: Colors.blueAccent),
+                  ),
+                  itemBuilder: (context, item, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        User user = item;
+                        String text = '';
+                        if (user.id != id) {
+                          if (user.following == 1) {
+                            text = 'Following';
+                          } else {
+                            text = 'Follow';
                           }
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProfileScreen(id: user.id!, text: text),
-                            ),
-                          );
-                        },
-                        child: SearchUsersListTile(
-                          user: users[index],
-                        ),
-                      );
-                    },
-                    itemCount: snapshot.data!.length,
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ProfileScreen(id: user.id!, text: text),
+                          ),
+                        );
+                      },
+                      child: SearchUsersListTile(
+                        user: item,
+                      ),
+                    );
+                  },
+                ),
+              ),
             ),
+    )
     );
   }
+
+  final PagingController<int, User> _pagingController =
+      PagingController(firstPageKey: 0);
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pagingController.dispose();
+  }
 }
+
+// class SearchingForUsers extends StatelessWidget {
+//   const SearchingForUsers({
+//     super.key,
+//     required this.showAction,
+//     required this.query,
+//     required this.id,
+//     required this.userToken,
+//     required this.pagingController,
+//   });
+//   final PagingController<int, User> pagingController;
+//   final bool showAction;
+//   final String query;
+//   final String id;
+//   final String userToken;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return 
+//   }
+// }
 
 class InitialTextSearchUser extends StatelessWidget {
   const InitialTextSearchUser({
@@ -201,7 +229,6 @@ class SearchUsersListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-
       width: double.infinity,
       height: kIsWeb ? 60 : 100,
       child: Padding(
@@ -220,21 +247,30 @@ class SearchUsersListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    user.name!,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: kIsWeb ? 16 : 18,
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      user.name!,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: kIsWeb ? 16 : 18,
+                      ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 2.0),
-                    child: Text(
-                      user.userName!,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: kIsWeb ? 13 : 15,
+                    child: SizedBox(
+                      width: 250,
+                      child: Text(
+                        user.userName!,
+                        overflow: TextOverflow.clip,
+                        maxLines: 1,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: kIsWeb ? 13 : 15,
+                        ),
                       ),
                     ),
                   ),
