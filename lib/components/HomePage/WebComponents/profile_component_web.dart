@@ -10,6 +10,7 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class ProfileComponentWeb extends StatefulWidget {
@@ -310,7 +311,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                         ),
                       ),
                       if (_selectedTabIndex == 2)
-                        LikersProfileView(controller: controller),
+                      const ProfileLikes(),
                       if (_selectedTabIndex != 2)
                         SliverList.builder(
                           itemCount: listitems.length,

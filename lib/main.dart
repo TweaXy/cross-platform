@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
@@ -66,6 +67,7 @@ class TweaXy extends StatelessWidget {
             kAccountinfo: (context) => const AccountIfoView(),
             kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
             kSettings: (context) => const SettingsView(),
+            kLikersInProfile:(context)=>const ProfileLikes(),
           },
           initialRoute: kSplashScreen,
         ),

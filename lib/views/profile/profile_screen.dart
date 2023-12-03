@@ -20,6 +20,7 @@ import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -143,8 +144,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                        if(_selectedTabIndex==2)
-                        LikersProfileView(controller: controller)
+                        if (_selectedTabIndex == 2)
+                          ProfileLikes()
                       ],
                     );
                   }
