@@ -1,12 +1,7 @@
 import 'dart:developer';
-
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
-
-import 'package:paginated_search_bar/paginated_search_bar.dart';
-import 'package:paginated_search_bar/paginated_search_bar_state_property.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/user.dart';
@@ -48,7 +43,8 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
                     onChanged: (value) {
                       cleared = value != '';
                       setState(() {});
-                    },cursorColor: Colors.black,
+                    },
+                    cursorColor: Colors.black,
                     controller: controller,
                     focusNode: focusNode,
                     decoration: InputDecoration(
@@ -64,9 +60,9 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
                                 },
                                 icon: Icon(Icons.close))
                             : null,
-                            focusedBorder: OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 1,
                             color: Colors.blue,
                             style: BorderStyle.solid,
@@ -74,7 +70,7 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(50),
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             width: 0,
                             style: BorderStyle.none,
                           ),
@@ -91,6 +87,15 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
                   return SearchUsersListTile(user: user);
                 }
               },
+              decorationBuilder: (context, child) {
+                return Material(
+                  type: MaterialType.card,
+                  elevation: 4,
+                  borderRadius: BorderRadius.circular(8),
+                  child: child,
+                );
+              },
+              constraints: const BoxConstraints(maxHeight: 500),
               onSelected: (item) {
                 if (item.id == null) return;
                 String text = '';
