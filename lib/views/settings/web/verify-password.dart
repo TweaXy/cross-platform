@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/settings/update_email_components/password_text_field.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
+import 'package:tweaxy/components/custom_text_form_field.dart';
 
 class VerifyPasswordWeb extends StatefulWidget {
   const VerifyPasswordWeb({super.key});
@@ -78,9 +78,11 @@ class _VerifyPasswordWebState extends State<VerifyPasswordWeb> {
                   textValue: "Please enter your password to get this.",
                   textAlign: TextAlign.left),
             ),
-            PasswordTextField(
-                passwordcontroller: passwordController,
-                isButtonEnabled: isButtonEnabled),
+          CustomTextField(
+                            label: "Password",
+                            validatorFunc: (){},
+                            controller: passwordController,
+                          ),
             Padding(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.01,
