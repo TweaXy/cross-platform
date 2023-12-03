@@ -1,14 +1,22 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/services/update_email.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
+import 'package:tweaxy/views/settings/web/email_update_web.dart';
 
 class VarificationCodeWeb extends StatefulWidget {
-  const VarificationCodeWeb({super.key});
+  const VarificationCodeWeb({super.key, required this.email});
+  final String email;
 
   @override
   State<VarificationCodeWeb> createState() => _VarificationCodeWebState();
@@ -99,8 +107,34 @@ class _VarificationCodeWebState extends State<VarificationCodeWeb> {
                 child: CustomButton(
                   color: forgroundColorTheme(context),
                   text: "Verify",
-                  onPressedCallback: () {
-                    
+                  onPressedCallback: () async {
+                    dynamic response = UpdateEmail(Dio()).changeEmail(
+                        varificationCodeController.text, widget.email);
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                            message: response,
+                            screenWidth: MediaQuery.of(context).size.width),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else {
+                      setState(() {
+                        emailList.add(widget.email);
+                        TempUser.email = widget.email;
+                      });
+                      showToastWidget(
+                        CustomToast(
+                            message: "email changes sucessfully",
+                            screenWidth: MediaQuery.of(context).size.width),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                      if (kDebugMode) {
+                        print(response);
+                      }
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    }
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

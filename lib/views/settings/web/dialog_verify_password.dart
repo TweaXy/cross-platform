@@ -1,9 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/check_password_correctness.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/settings/web/new_email_dailog.dart';
 
@@ -15,7 +19,8 @@ class DialogVerifyPassword extends StatefulWidget {
 }
 
 class _DialogVerifyPasswordState extends State<DialogVerifyPassword> {
-  TextEditingController passwordVarificationController = TextEditingController();
+  TextEditingController passwordVarificationController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -91,7 +96,7 @@ class _DialogVerifyPasswordState extends State<DialogVerifyPassword> {
                                   MediaQuery.of(context).size.height * 0.02),
                           child: CustomTextField(
                             label: "Password",
-                            validatorFunc: (){},
+                            validatorFunc: () {},
                             controller: passwordVarificationController,
                           ),
                         ),
@@ -106,13 +111,26 @@ class _DialogVerifyPasswordState extends State<DialogVerifyPassword> {
                   key: const ValueKey("AccountReviewDataSignupButton"),
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const NewEmailDailog(),
-                      barrierColor: Colors.transparent,
-                      barrierDismissible: false,
-                    );
+                  onPressedCallback: () async {
+                    CheckPassword service = CheckPassword(Dio());
+                    dynamic response = await service.checkPasswordCorrectness(
+                        passwordVarificationController.text);
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                            message: "Wrong Password!",
+                            screenWidth: MediaQuery.of(context).size.width),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const NewEmailDailog(),
+                        barrierColor: Colors.transparent,
+                        barrierDismissible: false,
+                      );
+                    }
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),

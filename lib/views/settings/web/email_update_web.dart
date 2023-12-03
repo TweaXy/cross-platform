@@ -10,9 +10,9 @@ class EmailUpdateWeb extends StatefulWidget {
   State<EmailUpdateWeb> createState() => _EmailUpdateWebState();
 }
 
-class _EmailUpdateWebState extends State<EmailUpdateWeb> {
-  List<String> email = [];
+List<String> emailList = [];
 
+class _EmailUpdateWebState extends State<EmailUpdateWeb> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,9 +43,9 @@ class _EmailUpdateWebState extends State<EmailUpdateWeb> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (email.isNotEmpty)
+            if (emailList.isNotEmpty)
               ListView.builder(
-                  itemCount: email.length,
+                  itemCount: emailList.length,
                   itemBuilder: (context, index) {
                     return ListTile(
                       tileColor: Colors.grey[500],
@@ -54,7 +54,7 @@ class _EmailUpdateWebState extends State<EmailUpdateWeb> {
                         style: TextStyle(color: Colors.grey[600], fontSize: 15),
                       ),
                       subtitle: Text(
-                        email[index],
+                        emailList[index],
                         style: TextStyle(color: Colors.grey[600], fontSize: 15),
                       ),
                     );

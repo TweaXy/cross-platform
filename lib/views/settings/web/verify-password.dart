@@ -1,10 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/services/check_password_correctness.dart';
 
 class VerifyPasswordWeb extends StatefulWidget {
   const VerifyPasswordWeb({super.key});
@@ -78,11 +82,11 @@ class _VerifyPasswordWebState extends State<VerifyPasswordWeb> {
                   textValue: "Please enter your password to get this.",
                   textAlign: TextAlign.left),
             ),
-          CustomTextField(
-                            label: "Password",
-                            validatorFunc: (){},
-                            controller: passwordController,
-                          ),
+            CustomTextField(
+              label: "Password",
+              validatorFunc: () {},
+              controller: passwordController,
+            ),
             Padding(
               padding: EdgeInsets.only(
                   left: MediaQuery.of(context).size.width * 0.01,
@@ -102,8 +106,21 @@ class _VerifyPasswordWebState extends State<VerifyPasswordWeb> {
               child: CustomButton(
                   color: Colors.lightBlue,
                   text: "Confirm",
-                  onPressedCallback: () {
-                    BlocProvider.of<SettingsWebCubit>(context).toggleMenu(3);
+                  onPressedCallback: () async {
+                    CheckPassword service = CheckPassword(Dio());
+                    dynamic response = await service
+                        .checkPasswordCorrectness(passwordController.text);
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                            message: "Wrong Password!",
+                            screenWidth: MediaQuery.of(context).size.width),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else if (mounted) {
+                      BlocProvider.of<SettingsWebCubit>(context).toggleMenu(3);
+                    }
                   },
                   initialEnabled: isButtonEnabled),
             )

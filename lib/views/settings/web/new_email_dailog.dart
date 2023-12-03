@@ -1,9 +1,15 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_dialog_app_bar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/update_email.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/settings/web/varification_code_web.dart';
@@ -98,13 +104,29 @@ class _NewEmailDailogState extends State<NewEmailDailog> {
                 child: CustomButton(
                   color: forgroundColorTheme(context),
                   text: "Next",
-                  onPressedCallback: () {
-                    showDialog(
+                  onPressedCallback: () async{
+                     try {
+                      dynamic response = await UpdateEmail(Dio())
+                          .sendEmailCodeVerification(emailController.text);
+                      if (response is String) {
+                        showToastWidget(
+                          CustomToast(
+                              message: response, screenWidth: MediaQuery.of(context).size.width),
+                          position: ToastPosition.bottom,
+                          duration: const Duration(seconds: 2),
+                        );
+                      } else if (mounted) {
+                        showDialog(
                       context: context,
-                      builder: (context) => const VarificationCodeWeb(),
+                      builder: (context) =>  VarificationCodeWeb(email: emailController.text,),
                       barrierColor: Colors.transparent,
                       barrierDismissible: false,
                     );
+                      }
+                    } catch (e) {
+                      log(e.toString());
+                    }
+                   
                   },
                   initialEnabled: _isnextButtonEnabled,
                 ),
