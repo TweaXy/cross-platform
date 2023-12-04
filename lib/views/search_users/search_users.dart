@@ -65,105 +65,105 @@ class _MyPageState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+        appBar: AppBar(
+          shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
           ),
+          title: TextField(
+            controller: _searchController,
+            maxLines: 1,
+            onChanged: (value) {
+              if (value == '') {
+                showAction = false;
+              } else {
+                showAction = true;
+                query = value;
+              }
+              _pagingController.refresh();
+              setState(() {});
+            },
+            style: const TextStyle(color: Colors.blue, fontSize: 17),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(left: 10.0),
+                hintText: 'Search TweaXy',
+                hintStyle: TextStyle(color: Colors.grey[500])),
+          ),
+          actions: showAction
+              ? [
+                  IconButton(
+                      onPressed: () {
+                        _searchController.text = '';
+                        showAction = false;
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.close_sharp,
+                        color: Colors.black,
+                      ))
+                ]
+              : null,
         ),
-        title: TextField(
-          controller: _searchController,
-          maxLines: 1,
-          onChanged: (value) {
-            if (value == '') {
-              showAction = false;
-            } else {
-              showAction = true;
-              query = value;
-            }
-            _pagingController.refresh();
-            setState(() {});
-          },
-          style: const TextStyle(color: Colors.blue, fontSize: 17),
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.only(left: 10.0),
-              hintText: 'Search TweaXy',
-              hintStyle: TextStyle(color: Colors.grey[500])),
-        ),
-        actions: showAction
-            ? [
-                IconButton(
-                    onPressed: () {
-                      _searchController.text = '';
-                      showAction = false;
-                      setState(() {});
-                    },
-                    icon: const Icon(
-                      Icons.close_sharp,
-                      color: Colors.black,
-                    ))
-              ]
-            : null,
-      ),
-      body: SizedBox(
-      width: double.infinity,
-      child: !showAction
-          ? const Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child: InitialTextSearchUser(),
-            )
-          : SizedBox(
-              width: double.infinity,
-              child: PagedListView<int, User>(
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate(
-                  animateTransitions: true,
-                  firstPageProgressIndicatorBuilder: (context) {
-                    return const Center(
-                      child: SpinKitRing(color: Colors.blueAccent),
-                    );
-                  },
-                  newPageProgressIndicatorBuilder: (context) => const Center(
-                    child: SpinKitRing(color: Colors.blueAccent),
-                  ),
-                  itemBuilder: (context, item, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        User user = item;
-                        String text = '';
-                        if (user.id != id) {
-                          if (user.following == 1) {
-                            text = 'Following';
-                          } else {
-                            text = 'Follow';
-                          }
-                        }
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ProfileScreen(id: user.id!, text: text),
+        body: SizedBox(
+          width: double.infinity,
+          child: !showAction
+              ? const Padding(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: InitialTextSearchUser(),
+                )
+              : SizedBox(
+                  width: double.infinity,
+                  child: PagedListView<int, User>(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      animateTransitions: true,
+                      firstPageProgressIndicatorBuilder: (context) {
+                        return const Center(
+                          child: SpinKitRing(color: Colors.blueAccent),
+                        );
+                      },
+                      newPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                        child: SpinKitRing(color: Colors.blueAccent),
+                      ),
+                      itemBuilder: (context, item, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            User user = item;
+                            String text = '';
+                            if (user.id != id) {
+                              if (user.following == 1) {
+                                text = 'Following';
+                              } else {
+                                text = 'Follow';
+                              }
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfileScreen(id: user.id!, text: text),
+                              ),
+                            );
+                          },
+                          child: SearchUsersListTile(
+                            user: item,
                           ),
                         );
                       },
-                      child: SearchUsersListTile(
-                        user: item,
-                      ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
-              ),
-            ),
-    )
-    );
+        ));
   }
 
   final PagingController<int, User> _pagingController =
@@ -193,7 +193,7 @@ class _MyPageState extends State<SearchScreen> {
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return 
+//     return
 //   }
 // }
 

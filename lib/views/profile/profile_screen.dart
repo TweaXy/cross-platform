@@ -165,8 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                        if (_selectedTabIndex == 2)
-                          ProfileLikes()
+                        if (_selectedTabIndex == 2) ProfileLikes()
                       ],
                     );
                   }
@@ -396,7 +395,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
             : const SizedBox(),
         ElevatedButton(
           onPressed: () async {
-            if (text == 'Follow') {
+            if (text == 'Follow' || text == 'Follow back') {
               //TODO :- Implement the follow logic
               await FollowUser.instance.followUser(widget.user.userName!);
               setState(() {
@@ -418,7 +417,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           },
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' ? Colors.black : Colors.white),
+                text == 'Follow' || text == 'Follow back'
+                    ? Colors.black
+                    : Colors.white),
             minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
@@ -430,7 +431,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           child: Text(
             text!,
             style: TextStyle(
-              color: text == 'Follow' ? Colors.white : Colors.black,
+              color: text == 'Follow' || text == 'Follow back'
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 17,
             ),
           ),
