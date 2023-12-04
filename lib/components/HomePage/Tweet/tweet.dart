@@ -48,15 +48,17 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
-                  child: Text(
-                    tweet.tweetText!,
-                    style: const TextStyle(
-                      fontSize: 18,
+                if (tweet.tweetText != null)
+                  Container(
+                    margin:
+                        const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
+                    child: Text(
+                      tweet.tweetText!,
+                      style: const TextStyle(
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
                 if (t != null)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(60),
