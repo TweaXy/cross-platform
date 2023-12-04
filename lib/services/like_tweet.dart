@@ -26,7 +26,7 @@ class LikeTweet {
       '$baseURL$_endpoint$id/like',
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
-    if (response.statusCode == 200) {
+    if (response.statusCode == 201) {
       print('UnLiked');
 
       return false;
