@@ -8,7 +8,7 @@ class GoogleSignINApi {
   static late GoogleSignInAuthentication googleSignInAuthentication;
   static Future<GoogleSignInAccount?> login() async {
     try {
-      final GoogleSignInAccount? user = await _googleSignInMob.signIn();
+      final GoogleSignInAccount? user = await _googleSignInMob.signInSilently();
       if (user == null) {
         CustomWebToast(message: "Failed to sign in");
       } else {
