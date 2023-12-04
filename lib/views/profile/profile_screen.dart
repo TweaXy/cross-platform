@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/profile_screen_body.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
@@ -55,6 +56,8 @@ List<String> listitems = [
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late ScrollController controller;
+
   String id = '';
   @override
   void initState() {
@@ -73,8 +76,20 @@ class _ProfileScreenState extends State<ProfileScreen>
       text = 'Edit Profile';
     else
       text = widget.text;
-
+    controller = ScrollController();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+    controller.dispose();
   }
 
   String? profileID;
@@ -108,71 +123,66 @@ class _ProfileScreenState extends State<ProfileScreen>
                     TempUser.email = user.email!;
                     TempUser.name = user.name!;
                     TempUser.image = user.avatar!;
-                    return CustomScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      slivers: [
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: ProfileScreenAppBar(
-                            text: text,
-                            user: user,
-                            postsNumber: 216820,
-                            avatarURL: user.avatar ?? '',
-                            coverURL: user.cover ?? '',
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: AccountInformation(
-                            website: user.website ?? '',
-                            birthDate: user.birthdayDate ?? '',
-                            bio: user.bio ?? '',
-                            followers: user.followers ?? 0,
-                            following: user.following ?? 0,
-                            joinedDate: user.joinedDate ?? '',
-                            location: user.location ?? '',
-                            profileName: user.name ?? '',
-                            userName: user.userName ?? '',
-                          ),
-                        ),
-                        SliverTabBar(
-                          expandedHeight: 0,
-                          backgroundColor: Colors.white,
-                          tabBar: TabBar(
-                            indicatorWeight: 3,
-                            indicatorColor: Colors.blue,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            controller: _tabController,
-                            labelColor: Colors.black,
-                            onTap: (value) => setState(() {
-                              _selectedTabIndex = value;
-                            }),
-                            tabs: const [
-                              Tab(
-                                text: 'Posts',
+                    return NestedScrollView(
+                        controller: controller,
+                        physics: const BouncingScrollPhysics(),
+                        headerSliverBuilder:
+                            (BuildContext context, bool innerBoxIsScrolled) {
+                          return <Widget>[
+                            SliverPersistentHeader(
+                              pinned: true,
+                              delegate: ProfileScreenAppBar(
+                                text: text,
+                                user: user,
+                                postsNumber: 216820,
+                                avatarURL: user.avatar ?? '',
+                                coverURL: user.cover ?? '',
                               ),
-                              Tab(
-                                text: 'Replies',
+                            ),
+                            SliverToBoxAdapter(
+                              child: AccountInformation(
+                                website: user.website ?? '',
+                                birthDate: user.birthdayDate ?? '',
+                                bio: user.bio ?? '',
+                                followers: user.followers ?? 0,
+                                following: user.following ?? 0,
+                                joinedDate: user.joinedDate ?? '',
+                                location: user.location ?? '',
+                                profileName: user.name ?? '',
+                                userName: user.userName ?? '',
                               ),
-                              Tab(
-                                text: 'Likes',
-                              )
-                            ],
-                          ),
-                        ),
-                        SliverList.builder(
-                          itemCount: listitems.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: ListTile(
-                                  title: Text(listitems[index].toString() +
-                                      _selectedTabIndex.toString()),
-                                  tileColor: Colors.white,
-                                ));
-                          },
-                        ),
-                      ],
-                    );
+                            ),
+                            SliverTabBar(
+                              expandedHeight: 0,
+                              backgroundColor: Colors.white,
+                              tabBar: TabBar(
+                                indicatorWeight: 3,
+                                indicatorColor: Colors.blue,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                controller: _tabController,
+                                labelColor: Colors.black,
+                                onTap: (value) => setState(() {
+                                  _selectedTabIndex = value;
+                                }),
+                                tabs: const [
+                                  Tab(
+                                    text: 'Posts',
+                                  ),
+                                  Tab(
+                                    text: 'Replies',
+                                  ),
+                                  Tab(
+                                    text: 'Likes',
+                                  )
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                        body: ProfileScreenBody(
+                          tabController: _tabController,
+                          controller: controller,
+                        ));
                   }
                 },
               );

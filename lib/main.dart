@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
@@ -33,8 +35,11 @@ class TweaXy extends StatelessWidget {
     var brightness = MediaQuery.of(context).platformBrightness;
     bool isDarkMode = brightness == Brightness.dark;
     return OKToast(
-      child: BlocProvider(
-        create: (context) => EditProfileCubit(),
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (BuildContext context) => EditProfileCubit()),
+          BlocProvider(create: (BuildContext context) => TweetsUpdateCubit()),
+        ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(

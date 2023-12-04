@@ -1,6 +1,6 @@
 class Tweet {
   final String? userImage;
-  final List <String>? image;
+  final List<String>? image;
   final String userName;
   final String userHandle;
   final String time;
@@ -28,6 +28,23 @@ class Tweet {
   });
   String getId() {
     return id;
+  }
+
+  String toString() {
+    return 'Tweet {'
+        'userImage: $userImage, '
+        'image: $image, '
+        'userName: $userName, '
+        'userHandle: $userHandle, '
+        'time: $time, '
+        'tweetText: $tweetText, '
+        'id: $id, '
+        'userId: $userId, '
+        'likesCount: $likesCount, '
+        'viewsCount: $viewsCount, '
+        'retweetsCount: $retweetsCount, '
+        'commentsCount: $commentsCount'
+        '}';
   }
 
   String getUserId() {

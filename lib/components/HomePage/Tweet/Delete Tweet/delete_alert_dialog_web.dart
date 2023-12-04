@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/homepage_mobile.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/views/homepage.dart';
 
@@ -64,6 +67,10 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
                       ),
                       position: ToastPosition.bottom,
                       duration: const Duration(seconds: 2));
+                  print("t state" + t.toString());
+                  if (t == "success")
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                        .deleteTweet(tweetid: widget.tweetId);
                 },
                 child: const Text('Delete',
                     style: TextStyle(color: Colors.white, fontSize: 16)),

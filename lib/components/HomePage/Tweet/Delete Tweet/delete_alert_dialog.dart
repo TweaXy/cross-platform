@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
 class DeleteAlertDialog extends StatelessWidget {
@@ -44,6 +47,9 @@ class DeleteAlertDialog extends StatelessWidget {
                 ),
                 position: ToastPosition.bottom,
                 duration: const Duration(seconds: 2));
+            if (t == "success")
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .deleteTweet(tweetid: tweetid);
           },
           child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),

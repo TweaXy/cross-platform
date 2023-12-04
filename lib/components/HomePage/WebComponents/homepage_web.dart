@@ -11,6 +11,7 @@ import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/components/HomePage/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class HomePageWeb extends StatefulWidget {
   const HomePageWeb({Key? key, required this.tabController}) : super(key: key);
@@ -156,19 +157,34 @@ class _HomeTweetsState extends State<HomeTweets> {
           ];
         },
         body: Container(
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            border: Border.all(
-                width: 0.03,
-                color: Theme.of(context).brightness == Brightness.light
-                    ? const Color.fromARGB(255, 135, 135, 135)
-                    : const Color.fromARGB(255, 233, 233, 233)),
-          ),
-          child: HomePageBody(
-            controller: controller,
-            tabController: widget.tabController,
-          ),
-        ),
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              border: Border.all(
+                  width: 0.03,
+                  color: Theme.of(context).brightness == Brightness.light
+                      ? const Color.fromARGB(255, 135, 135, 135)
+                      : const Color.fromARGB(255, 233, 233, 233)),
+            ),
+            child:
+                TabBarView(controller: widget.tabController, children: <Widget>[
+              CustomScrollView(
+                  scrollBehavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  slivers: [
+                    // const SliverToBoxAdapter(
+                    //   child: kIsWeb
+                    //       ? AddPost()
+                    //       : SizedBox(
+                    //           height: 0,
+                    //           width: 0,
+                    //         ),
+                    // ),
+                    HomePageBody(
+                      controller: controller,
+                      tabController: widget.tabController,
+                    )
+                  ]),
+            ])),
       ),
     );
   }

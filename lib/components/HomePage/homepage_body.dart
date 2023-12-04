@@ -1,205 +1,89 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
-class HomePageBody extends StatelessWidget {
+class HomePageBody extends StatefulWidget {
   const HomePageBody(
       {super.key, required this.tabController, required this.controller});
   final TabController tabController;
   final ScrollController controller;
-  final List<Map<String, String>> temp = const [
-    {
-      'likesCount': '1',
-      'viewsCount': '2',
-      'retweetsCount': '3',
-      'commentsCount': '4',
-      'id': '1',
-      'userid': '1',
-      'userImage': 'assets/girl.jpg',
-      'image': 'assets/nature.jpeg',
-      'userName': 'Menna Ahmed',
-      'userHandle': 'MennaAhmed71',
-      'time': '4h',
-      'tweetText':
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
-    },
-    {
-      'likesCount': '1',
-      'viewsCount': '2',
-      'retweetsCount': '3',
-      'commentsCount': '4',
-      'id': '2',
-      'userid': '2',
-      'userImage': 'assets/girl.jpg',
-      'image': 'assets/nature.jpeg',
-      'userName': 'Menna Ahmed',
-      'userHandle': 'MennaAhmed71',
-      'time': '4h',
-      'tweetText':
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
-    },
-    {
-      'likesCount': '1',
-      'viewsCount': '2',
-      'retweetsCount': '3',
-      'commentsCount': '4',
-      'id': '3',
-      'userid': '3',
-      'userImage': 'assets/girl.jpg',
-      'image': 'assets/nature.jpeg',
-      'userName': 'Menna Ahmed',
-      'userHandle': 'MennaAhmed71',
-      'time': '4h',
-      'tweetText':
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
-    },
-    {
-      'likesCount': '1',
-      'viewsCount': '2',
-      'retweetsCount': '3',
-      'commentsCount': '4',
-      'id': '4',
-      'userid': '4',
-      'userImage': 'assets/girl.jpg',
-      'image': 'assets/nature.jpeg',
-      'userName': 'Menna Ahmed',
-      'userHandle': 'MennaAhmed71',
-      'time': '4h',
-      'tweetText':
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
-    },
-    {
-      'likesCount': '1',
-      'viewsCount': '2',
-      'retweetsCount': '3',
-      'commentsCount': '4',
-      'id': '5',
-      'userid': '5',
-      'userImage': 'assets/girl.jpg',
-      'image': 'assets/nature.jpeg',
-      'userName': 'Menna Ahmed',
-      'userHandle': 'MennaAhmed71',
-      'time': '4h',
-      'tweetText':
-          'Nature is the reason behind all lives dwelling on the earth. It is the blessing of invisible power for all living organisms. '
-    }
-  ];
-  List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
-    // print('hhh' + temp.toString());
-    return temp
-        .map((e) => Tweet(
-              id: e['id']!,
-              image: _getImageList(e['image']),
-              userImage: e['userImage']!,
-              userHandle: e['userHandle']!,
-              userName: e['userName']!,
-              time: e['time']!,
-              tweetText: e['tweetText'],
-              userId: e['userid'],
-              likesCount: e['likesCount'],
-              viewsCount: e['viewsCount'],
-              retweetsCount: e['retweetsCount'],
-              commentsCount: e['commentsCount'],
-            ))
-        .toList();
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: TweetsServices.getTweetsHome(scroll: controller),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData || snapshot.hasError) {
-          // print('tt' + Tweets.getTweetsHome().toString());
-          return const Scaffold(
-            body: Column(
-              children: [
-                Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.blue,
-                )),
-              ],
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return const Scaffold(
-            body: Column(
-              children: [
-                Center(
-                    child: CircularProgressIndicator(
-                  color: Colors.blue,
-                )),
-              ],
-            ),
-          );
-        } else if (snapshot.data == []) {
-          return const Scaffold(
-              body: kIsWeb
-                  ? CustomWebToast(message: 'no tweets found')
-                  : CustomToast(message: 'no tweets found'));
-        } else {
-          // print('tt' + Tweets.getTweetsHome().toString());
-
-          // print('tw' + snapshot.data!.toString());
-          List<Map<String, dynamic>> s = snapshot.data!;
-          // print(s);
-          List<Tweet> tweets = initializeTweets(s);
-
-          // print(s);
-          return TabBarView(
-            controller: tabController,
-            children: <Widget>[
-              CustomScrollView(
-                scrollBehavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                slivers: [
-                  const SliverToBoxAdapter(
-                    child: kIsWeb
-                        ? AddPost()
-                        : SizedBox(
-                            height: 0,
-                            width: 0,
-                          ),
-                  ),
-                  SliverList(
-                    delegate:
-                        SliverChildBuilderDelegate(childCount: tweets.length,
-                            (BuildContext context, int index) {
-                      return CustomTweet(
-                        forProfile: false,
-                        tweet: tweets[index],
-                      );
-                    }),
-                  ),
-                ],
-              ),
-            ],
-          );
-        }
-      },
-    );
-  }
+  State<HomePageBody> createState() => _MyPageState();
 }
 
-List<String>? _getImageList(dynamic image) {
-  if (image == null) {
-    return null;
-  } else if (image is String) {
-    return [image.toString().trim()];
-  } else if (image is List<dynamic>) {
-    List<String> tmp = image.map((item) => item.toString().trim()).toList();
+class _MyPageState extends State<HomePageBody> {
+  final PagingController<int, Tweet> _pagingController =
+      PagingController(firstPageKey: 0);
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
 
-    // If 'image' is already a List, convert each item to String
-    return tmp
-        .map((item) => 'http://16.171.65.142:3000/uploads/tweetsMedia/$item')
-        .toList();
-  } else {
-    return null;
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  void dispose() {
+    _pagingController.dispose();
+  }
+
+  final _pageSize = 5;
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final List<Tweet> newItems = await TweetsServices.getTweetsHome(
+          scroll: widget.controller, offset: pageKey);
+      print('neew' + newItems.toString());
+      final isLastPage = newItems.length < _pageSize;
+      print('tttt');
+      print(newItems.length);
+      print(_pageSize);
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  String query = '';
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+      builder: (context, state) {
+        if (state is TweetDeleteState) {
+          print('deleteeeeeee');
+          setState() {
+            _pagingController.itemList!
+                .removeWhere((element) => element.id == state.tweetid);
+          }
+
+          _pagingController.refresh();
+        }
+        return PagedSliverList<int, Tweet>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate(
+            animateTransitions: true,
+            itemBuilder: (context, item, index) {
+              return CustomTweet(
+                forProfile: false,
+                tweet: item,
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 }

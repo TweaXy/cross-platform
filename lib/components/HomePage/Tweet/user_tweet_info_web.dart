@@ -13,22 +13,31 @@ class User_TweetInfoWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(1.0),
-          child: Text(
-            tweet.userName,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.all(1.0),
+            child: Text(
+              tweet.userName,
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 3.0),
-          child: Text(
-            tweet.userName.length <= 9
-                ? '@${tweet.userHandle}'
-                : '${'@${tweet.userHandle.substring(0, 8)}'}...',
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 18,
+        Flexible(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+            child: Text(
+              // tweet.userName.length <= 9
+              //     ? '@${tweet.userHandle}'
+              //     : '${'@${tweet.userHandle.substring(0, 8)}'}...',
+              '@${tweet.userHandle}',
+              style: const TextStyle(
+                overflow: TextOverflow.ellipsis,
+                fontSize: 18,
+              ),
             ),
           ),
         ),
@@ -54,7 +63,9 @@ class User_TweetInfoWeb extends StatelessWidget {
         ),
         const Spacer(),
         if (forProfile || tweet.userId == TempUser.id)
-           TweetSettingsProfileWeb(tweetId: tweet.id,)
+          TweetSettingsProfileWeb(
+            tweetId: tweet.id,
+          )
         else
           IconButton(
             splashRadius: 15,

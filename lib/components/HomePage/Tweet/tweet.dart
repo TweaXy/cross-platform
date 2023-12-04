@@ -23,7 +23,6 @@ class CustomTweet extends StatelessWidget {
     if (t != null) k = t[0]!;
     // if (t != null && t.length > 1) k = t[1].trim()!;
 
-    print('kkkk' + k.toString());
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
@@ -48,6 +47,7 @@ class CustomTweet extends StatelessWidget {
           ),
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kIsWeb
@@ -59,17 +59,18 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                Container(
-                  margin: const EdgeInsets.only(
-                      bottom: 5.0, left: 2, right: 2, top: 0),
-                  child: Text(
-                    tweet.tweetText!,
-                    style: const TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 18,
+                if (tweet.tweetText != null)
+                  Container(
+                    margin: const EdgeInsets.only(
+                        bottom: 5.0, left: 2, right: 2, top: 0),
+                    child: Text(
+                      tweet.tweetText!,
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   id: tweet.id,

@@ -21,18 +21,24 @@ class User_TweetInfo extends StatelessWidget {
           padding: const EdgeInsets.all(1.0),
           child: Text(
             tweet.userName,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 18,
+              color: Color.fromARGB(255, 12, 12, 12),
+            ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3.0),
-          child: Text(  
-            tweet.userName.length <= 9
+          child: Text(
+            tweet.userName.length <= 4
                 ? '@${tweet.userHandle}'
-                : '${'@${tweet.userHandle.substring(0, 8)}'}...',
+                : '${'@${tweet.userHandle.substring(0, 4)}'}...',
             overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 18,
+              color: Color.fromARGB(255, 121, 121, 121),
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
@@ -42,7 +48,7 @@ class User_TweetInfo extends StatelessWidget {
             width: 3,
             height: 3,
             decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 133, 132, 132),
+              color: Color.fromARGB(255, 121, 121, 121),
               shape: BoxShape.circle,
             ),
           ),
@@ -53,12 +59,15 @@ class User_TweetInfo extends StatelessWidget {
             tweet.time,
             style: const TextStyle(
               fontSize: 18,
+              color: Color.fromARGB(255, 121, 121, 121),
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
         const Spacer(),
         IconButton(
           icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+          color: const Color.fromARGB(255, 182, 182, 182),
           iconSize: 16,
           onPressed: () {
             if (forProfile || tweet.userId == TempUser.id) {
