@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
@@ -40,48 +41,51 @@ class TweaXy extends StatelessWidget {
     bool isDarkMode = brightness == Brightness.dark;
     return OKToast(
       child: BlocProvider(
-        create: (context) => EditProfileCubit(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            bottomSheetTheme:
-                const BottomSheetThemeData(backgroundColor: Colors.white),
-            brightness: brightness,
-            fontFamily: 'Roboto',
-            useMaterial3: false,
-            scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
-            dialogBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+        create: (context) => UpdateAllCubit(),
+        child: BlocProvider(
+          create: (context) => EditProfileCubit(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              bottomSheetTheme:
+                  const BottomSheetThemeData(backgroundColor: Colors.white),
+              brightness: brightness,
+              fontFamily: 'Roboto',
+              useMaterial3: false,
+              scaffoldBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+              dialogBackgroundColor: isDarkMode ? Colors.black : Colors.white,
+            ),
+            routes: {
+              kSplashScreen: (context) => const SplashScreen(),
+              kStartScreen: (context) => const StartScreen(),
+              kWebStartScreen: (context) => const WebStartScreen(),
+              kLogin1Screen: (context) => const LoginViewPage1(),
+              kCreateAcountScreen: (context) => const CreateAccountView(),
+              kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
+              kAuthenticationScreen: (context) => AuthenticationView(),
+              kHomeScreen: (context) => const HomePage(),
+              kCreateAcountReviewScreen: (context) =>
+                  const CreateAccountDataReview(),
+              kProfileScreen: (context) => ProfileScreen(
+                    id: '',
+                    text: '',
+                  ),
+              kSearchScreen: (context) => const SearchScreen(),
+              kFollowers: (context) => FollowersPage(username: ''),
+              kwebboth: (context) => WebFollowersAndFollowings(
+                  username: 'karim.elsayed401_67616122'),
+              kFollowing: (context) =>
+                  FollowingPage(username: 'karim.elsayed401_67616122'),
+              kLikersInTweets: (context) =>
+                  LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
+              kAccountinfo: (context) => const AccountIfoView(),
+              kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
+              kSettings: (context) => const SettingsView(),
+              kLikersInProfile: (context) => const ProfileLikes(),
+              kUpdatePassword: (context) => const UpdatePasswordView(),
+            },
+            initialRoute: kSplashScreen,
           ),
-          routes: {
-            kSplashScreen: (context) => const SplashScreen(),
-            kStartScreen: (context) => const StartScreen(),
-            kWebStartScreen: (context) => const WebStartScreen(),
-            kLogin1Screen: (context) => const LoginViewPage1(),
-            kCreateAcountScreen: (context) => const CreateAccountView(),
-            kCreateAcountWebScreen: (context) => const CreateAccountWebView(),
-            kAuthenticationScreen: (context) => AuthenticationView(),
-            kHomeScreen: (context) => const HomePage(),
-            kCreateAcountReviewScreen: (context) =>
-                const CreateAccountDataReview(),
-            kProfileScreen: (context) => ProfileScreen(
-                  id: '',
-                  text: '',
-                ),
-            kSearchScreen: (context) => const SearchScreen(),
-            kFollowers: (context) => FollowersPage(username: ''),
-            kwebboth: (context) => WebFollowersAndFollowings(
-                username: 'karim.elsayed401_67616122'),
-            kFollowing: (context) =>
-                FollowingPage(username: 'karim.elsayed401_67616122'),
-            kLikersInTweets: (context) =>
-                LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
-            kAccountinfo: (context) => const AccountIfoView(),
-            kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
-            kSettings: (context) => const SettingsView(),
-            kLikersInProfile: (context) => const ProfileLikes(),
-            kUpdatePassword: (context) => const UpdatePasswordView(),
-          },
-          initialRoute: kSplashScreen,
         ),
       ),
     );
