@@ -27,6 +27,9 @@ class SignupService {
           "emailVerificationToken": UserSignup.emailVerificationToken,
         },
       );
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("id", response.data['data']['user']['id'].toString());
+      prefs.setString("token", response.data['data']['token'].toString());
 
       return response;
     } catch (e) {

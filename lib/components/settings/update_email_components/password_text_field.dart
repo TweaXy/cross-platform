@@ -63,9 +63,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.lightBlue[700]!, width: 2.0),
           ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.red, width: 2.0),
-          ),
+        
         ),
         obscureText: !passwordVisible,
         controller: widget.passwordcontroller);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/Views/settings/update_email/accout_info.dart';
+import 'package:tweaxy/views/settings/update_email/accout_info.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
@@ -49,7 +49,7 @@ class _SettingsViewState extends State<SettingsView> {
                 key: const ValueKey(SettingsKeys.accountInfo),
                 title: "Account information",
                 subtitle:
-                    "See your account information like your ohone number and email address.",
+                    "See your account information like your phone number and email address.",
                 onpress: () {
                   Navigator.push(
                       context,

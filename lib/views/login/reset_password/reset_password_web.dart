@@ -50,7 +50,7 @@ class _ResetPasswordWebState extends State<ResetPasswordWeb> {
       width: MediaQuery.of(context).size.width * 0.4,
       child: Column(
         children: [
-          const CustomDialogAppBar(isDarkMode: true),
+           CustomDialogAppBar(isDarkMode: true),
           Padding(
             padding: EdgeInsets.only(
                 left: screenwidth * 0.02,

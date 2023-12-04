@@ -1,14 +1,20 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomDrawerListTile extends StatelessWidget {
-  const CustomDrawerListTile(
+  CustomDrawerListTile(
       {super.key,
       required this.icon,
       required this.title,
-      required this.onTap});
+      required this.onTap,
+      this.selectedIndex,
+      this.curindex});
   final IconData icon;
   final String title;
   final Function() onTap;
+  int? selectedIndex;
+  int? curindex;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -22,9 +28,13 @@ class CustomDrawerListTile extends StatelessWidget {
           child: Icon(icon, size: 27)),
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
+          fontWeight: kIsWeb
+              ? curindex == selectedIndex
+                  ? FontWeight.bold
+                  : FontWeight.normal
+              : FontWeight.w400,
           fontSize: 20,
-          fontWeight: FontWeight.w400,
         ),
       ),
       titleAlignment: ListTileTitleAlignment.center,

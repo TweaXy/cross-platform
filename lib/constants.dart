@@ -34,6 +34,7 @@ const baseURL = 'http://16.171.65.142:3000/api/v1/';
 const basePhotosURL = 'http://16.171.65.142:3000/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
 const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
+const kLikersInProfile="likers screen";
 Future<List<String>> loadPrefs() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var id = prefs.getString('id');
