@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/like_tweet.dart';
 
 class TweetInteractions extends StatelessWidget {
@@ -55,6 +57,7 @@ class TweetInteractions extends StatelessWidget {
                   token = await prefs.getString('token')!;
                 });
                 if (isLiked) {
+                  BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet();
                   return await LikeTweet.unLikeTweet(id, token);
                 } else {
                   return await LikeTweet.likeTweet(id, token);

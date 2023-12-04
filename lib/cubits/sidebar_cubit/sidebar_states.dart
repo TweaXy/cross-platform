@@ -20,15 +20,7 @@ class OtherProfileState extends SidebarState {
   OtherProfileState(this.id, this.text);
 }
 
-// class TweetInitialState extends SidebarState {}
 
-// class TweetAddedState extends SidebarState {}
-
-// class TweetDeleteState extends SidebarState {
-//   final  String tweetid;
-
-//   TweetDeleteState({required this.tweetid});
-// }
 
 class FollowingListState extends SidebarState {}
 

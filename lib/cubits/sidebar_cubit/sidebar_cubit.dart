@@ -28,13 +28,4 @@ class SidebarCubit extends Cubit<SidebarState> {
   void openProfile(String id, String text) {
     emit(OtherProfileState(id, text));
   }
-
-  // void deleteTweet({required String tweetid}) {
-  //   print('deleted');
-  //   emit(TweetDeleteState(tweetid: tweetid));
-  // }
-
-  // void addTweet() {
-  //   emit(TweetAddedState());
-  // }
 }
