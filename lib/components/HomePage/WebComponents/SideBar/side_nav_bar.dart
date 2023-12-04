@@ -6,11 +6,14 @@ import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class SideNavBar extends StatefulWidget {
@@ -166,8 +169,20 @@ class _SideNavBarState extends State<SideNavBar> {
                     _globalOnTap(4);
                   },
                 ),
+                CustomDrawerListTile(
+                  curindex: 5,
+                  selectedIndex: selectedIndex,
+                  icon: AppIcon.settings,
+                  title: 'Settings and privacy',
+                  onTap: () {
+                    _globalOnTap(5);
+                  },
+                ),
                 // SettingsAndSupport(),
-                const PostButton(),
+                const Padding(
+                  padding: EdgeInsets.only(top: 28.0),
+                  child: PostButton(),
+                ),
               ],
             ),
           ),
@@ -215,30 +230,32 @@ class _SideNavBarState extends State<SideNavBar> {
               alignment: Alignment.bottomCenter,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  UserImageForTweet(image: TempUser.image),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4.5),
-                          child: Text(
-                            TempUser.name,
-                            style: TextStyle(
-                                color: Color.fromARGB(255, 13, 11, 11),
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
+                  UserImageForTweet(
+                    image: TempUser.image,
+                    userid: '',
+                    text: '',
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 4.5),
+                        child: Text(
+                          TempUser.name,
+                          style: const TextStyle(
+                              color: Color.fromARGB(255, 13, 11, 11),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15),
                         ),
-                        Text(
-                          '@${TempUser.username}',
-                          style: TextStyle(
-                              fontSize: 14, color: Colors.grey.shade600),
-                        )
-                      ],
-                    ),
+                      ),
+                      Text(
+                        '@${TempUser.username}',
+                        style: TextStyle(
+                            fontSize: 14, color: Colors.grey.shade600),
+                      )
+                    ],
                   ),
                   const Icon(
                     FontAwesomeIcons.ellipsis,

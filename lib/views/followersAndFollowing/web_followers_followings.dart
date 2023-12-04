@@ -1,4 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/custom_followers.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
@@ -14,24 +19,26 @@ class WebFollowersAndFollowings extends StatefulWidget {
 class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
-  late ScrollController controller;
-
-  Future<void> _refresh1() async {
-    await followApi()
-        .getFollowers(scroll: controller, username: widget.username);
-  }
-
-  Future<void> _refresh2() async {
-    await followApi()
-        .getFollowings(scroll: controller, username: widget.username);
-  }
-
+  ScrollController controller = ScrollController();
+  int offset1 = 0;
+  int offset2 = 0;
+  bool FirstTime1 = true;
+  bool FirstTime2 = true;
+  Set<FollowersModel> allfollow1 = {};
+  Set<FollowersModel> allfollow2 = {};
   @override
   void initState() {
     super.initState();
     tabController = TabController(vsync: this, length: 2);
-    controller = ScrollController();
     tabController.addListener(_handleTabSelection);
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          offset1 += 10;
+          offset2 += 10;
+        });
+      }
+    });
   }
 
   void _handleTabSelection() {
@@ -111,17 +118,79 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
       body: TabBarView(
         controller: tabController,
         children: [
-          CustomFurure(
-            controller: controller,
-            isFollower: true,
-            future: followApi()
-                .getFollowers(scroll: controller, username: widget.username),
+          FutureBuilder<List<FollowersModel>>(
+            future: followApi().getFollowers(
+                scroll: controller, username: widget.username, offset: offset1),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty && FirstTime1) {
+                  return const Center(
+                    child: Text("You don't have Followers",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  );
+                } else {
+                  FirstTime1 = false;
+                  if (snapshot.data!.isNotEmpty)
+                    allfollow1.addAll(snapshot.data!);
+                  return ListView.builder(
+                    controller: controller,
+                    itemBuilder: (context, index) {
+                      List<FollowersModel> myList = allfollow1.toList();
+                      return CustomFollowers(
+                        user: myList[index],
+                        isFollower: true,
+                      );
+                    },
+                    itemCount: allfollow1.length,
+                  );
+                }
+              } else if (snapshot.hasError) {
+                return kIsWeb
+                    ? const CustomWebToast(message: "We have a problem")
+                    : const Center(
+                        child: CustomToast(message: "We have a problem"));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
-          CustomFurure(
-            controller: controller,
-            isFollower: false,
-            future: followApi()
-                .getFollowings(scroll: controller, username: widget.username),
+          FutureBuilder<List<FollowersModel>>(
+            future: followApi().getFollowings(
+                scroll: controller, username: widget.username, offset: offset2),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty && FirstTime1) {
+                  return const Center(
+                    child: Text("You don't Follow any one",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  );
+                } else {
+                  FirstTime2 = false;
+                  if (snapshot.data!.isNotEmpty)
+                    allfollow2.addAll(snapshot.data!);
+                  return ListView.builder(
+                    controller: controller,
+                    itemBuilder: (context, index) {
+                      List<FollowersModel> myList = allfollow2.toList();
+                      return CustomFollowers(
+                        user: myList[index],
+                        isFollower: false,
+                      );
+                    },
+                    itemCount: allfollow2.length,
+                  );
+                }
+              } else if (snapshot.hasError) {
+                return kIsWeb
+                    ? const CustomWebToast(message: "We have a problem")
+                    : const Center(
+                        child: CustomToast(message: "We have a problem"));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
           ),
         ],
       ),

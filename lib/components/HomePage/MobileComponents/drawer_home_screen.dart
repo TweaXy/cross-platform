@@ -1,34 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
+import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 
-class CustomDrawer extends StatefulWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
-
-  @override
-  _CustomDrawerState createState() => _CustomDrawerState();
-}
-
-class _CustomDrawerState extends State<CustomDrawer> {
+class CustomDrawer extends StatelessWidget {
   /// Views to display
-  List<String> items = [
-    'Home',
-    'Explore',
-    'Notifications',
-    'Message',
-    'Profile'
-  ];
+  // List<String> items = [
+  //   'Home',
+  //   'Explore',
+  //   'Notifications',
+  //   'Message',
+  //   'Profile'
+  // ];
 
-  /// The currently selected index of the bar
-  int selectedIndex = 0;
-  int hoveredIndex = -1;
-
-  final List<bool> _isHovered = [false, false, false, false, false];
+  const CustomDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +37,15 @@ class _CustomDrawerState extends State<CustomDrawer> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  child: UserImageForTweet(image: TempUser.image),
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: UserImageForTweet(
+                      image: TempUser.image, userid: '', text: ''),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 4.5),
+                  padding: const EdgeInsets.only(bottom: 4.5),
                   child: Text(
-                      TempUser.name,
-                    style:const TextStyle(
+                    TempUser.name,
+                    style: const TextStyle(
                         color: Color.fromARGB(255, 13, 11, 11),
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
@@ -68,53 +58,31 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ],
             ),
           ),
-          // Padding(
-          //   padding: EdgeInsets.only(bottom: screenHeight * 0.1),
-          //   child:
-          //       ListTile(leading: UserImageForTweet(image: 'assets/girl.jpg')),
-          // ),
           const Divider(height: 7),
-          ListTile(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(
-                30,
-              ),
-            ),
-            leading: Icon(
-              FontAwesomeIcons.user,
-              size: 27,
-              color: Theme.of(context).brightness == Brightness.light
-                  ? (selectedIndex == 4
-                      ? Colors.black
-                      : const Color.fromARGB(255, 137, 137, 137))
-                  : (selectedIndex == 4
-                      ? Colors.white
-                      : const Color.fromARGB(255, 176, 176, 176)),
-            ),
-            title: SideBarText(
-              text: 'Profile',
-              selectedIndex: selectedIndex,
-              curindex: 4,
-            ),
-            onTap: () async{
-              // Navigator.pop(context);
-              // _globalOnTap(4);
-              await Navigator.pushNamed(context, kProfileScreen);
-              setState(() {
-                
-              });
+          CustomDrawerListTile(
+            icon: AppIcon.profile,
+            title: 'Profile',
+            onTap: () {
+              Navigator.pushNamed(context, kProfileScreen);
             },
           ),
-          // SettingsAndSupport(),
+          SizedBox(
+            height: screenHeight * 0.4,
+          ),
+          const Divider(height: 7),
+          CustomDrawerListTile(
+            icon: AppIcon.settings,
+            title: 'Settings and privacy',
+            onTap: () {
+              Navigator.push(
+                  context,
+                  CustomPageRoute(
+                      direction: AxisDirection.left,
+                      child: const SettingsAndPrivacyView()));
+            },
+          ),
         ],
       ),
     );
-  }
-
-  void _globalOnTap(index) {
-    setState(() {
-      selectedIndex = index;
-    });
-    BlocProvider.of<SidebarCubit>(context).toggleMenu(selectedIndex);
   }
 }

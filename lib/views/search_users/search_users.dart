@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
@@ -25,149 +27,175 @@ class _MyPageState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       id = prefs.getString('id')!;
       token = prefs.getString('token')!;
       setState(() {});
     });
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  final _pageSize = 7;
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await SearchForUsers.searchForUser(
+        query,
+        token!,
+        pageSize: _pageSize,
+        pageNumber: pageKey,
+      );
+      print(newItems);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   String query = '';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
-        title: TextField(
-          controller: _searchController,
-          maxLines: 1,
-          onChanged: (value) {
-            if (value == '') {
-              showAction = false;
-            } else {
-              showAction = true;
-              query = value;
-            }
-            setState(() {});
-          },
-          style: const TextStyle(color: Colors.blue, fontSize: 17),
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.only(left: 10.0),
-              hintText: 'Search TweaXy',
-              hintStyle: TextStyle(color: Colors.grey[500])),
-        ),
-        actions: showAction
-            ? [
-                IconButton(
-                    onPressed: () {
-                      _searchController.text = '';
-                      showAction = false;
-                      setState(() {});
-                    },
-                    icon: const Icon(
-                      Icons.close_sharp,
-                      color: Colors.black,
-                    ))
-              ]
-            : null,
-      ),
-      body: SearchingForUsers(
-        showAction: showAction,
-        query: query,
-        id: id,
-        userToken: token!,
-      ),
-    );
-  }
-}
-
-class SearchingForUsers extends StatelessWidget {
-  const SearchingForUsers({
-    super.key,
-    required this.showAction,
-    required this.query,
-    required this.id,
-    required this.userToken,
-  });
-
-  final bool showAction;
-  final String query;
-  final String id;
-  final String userToken;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: !showAction
-          ? const Padding(
-              padding: EdgeInsets.only(top: 30.0),
-              child: InitialTextSearchUser(),
-            )
-          : SizedBox(
-              width: double.infinity,
-              child: StreamBuilder<List<User>>(stream: (() {
-                late final StreamController<List<User>> controller;
-                controller = StreamController<List<User>>(
-                  onListen: () async {
-                    var u =
-                        await SearchForUsers.searchForUser(query, userToken);
-                    controller.add(u);
-                  },
-                );
-                return controller.stream;
-              })(), builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var users = snapshot.data!;
-                  return ListView.builder(
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          User user = users[index];
-                          String text = '';
-                          if (user.id != id) {
-                            if (user.following == 1) {
-                              text = 'Following';
-                            } else {
-                              text = 'Follow';
-                            }
-                          }
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ProfileScreen(id: user.id!, text: text),
-                            ),
-                          );
-                        },
-                        child: SearchUsersListTile(
-                          user: users[index],
-                        ),
-                      );
-                    },
-                    itemCount: snapshot.data!.length,
-                  );
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
+        appBar: AppBar(
+          shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
             ),
-    );
+          ),
+          title: TextField(
+            controller: _searchController,
+            maxLines: 1,
+            onChanged: (value) {
+              if (value == '') {
+                showAction = false;
+              } else {
+                showAction = true;
+                query = value;
+              }
+              _pagingController.refresh();
+              setState(() {});
+            },
+            style: const TextStyle(color: Colors.blue, fontSize: 17),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: const EdgeInsets.only(left: 10.0),
+                hintText: 'Search TweaXy',
+                hintStyle: TextStyle(color: Colors.grey[500])),
+          ),
+          actions: showAction
+              ? [
+                  IconButton(
+                      onPressed: () {
+                        _searchController.text = '';
+                        showAction = false;
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.close_sharp,
+                        color: Colors.black,
+                      ))
+                ]
+              : null,
+        ),
+        body: SizedBox(
+          width: double.infinity,
+          child: !showAction
+              ? const Padding(
+                  padding: EdgeInsets.only(top: 30.0),
+                  child: InitialTextSearchUser(),
+                )
+              : SizedBox(
+                  width: double.infinity,
+                  child: PagedListView<int, User>(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      animateTransitions: true,
+                      firstPageProgressIndicatorBuilder: (context) {
+                        return const Center(
+                          child: SpinKitRing(color: Colors.blueAccent),
+                        );
+                      },
+                      newPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                        child: SpinKitRing(color: Colors.blueAccent),
+                      ),
+                      itemBuilder: (context, item, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            User user = item;
+                            String text = '';
+                            if (user.id != id) {
+                              if (user.following == 1) {
+                                text = 'Following';
+                              } else {
+                                text = 'Follow';
+                              }
+                            }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfileScreen(id: user.id!, text: text),
+                              ),
+                            );
+                          },
+                          child: SearchUsersListTile(
+                            user: item,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+        ));
+  }
+
+  final PagingController<int, User> _pagingController =
+      PagingController(firstPageKey: 0);
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _pagingController.dispose();
   }
 }
+
+// class SearchingForUsers extends StatelessWidget {
+//   const SearchingForUsers({
+//     super.key,
+//     required this.showAction,
+//     required this.query,
+//     required this.id,
+//     required this.userToken,
+//     required this.pagingController,
+//   });
+//   final PagingController<int, User> pagingController;
+//   final bool showAction;
+//   final String query;
+//   final String id;
+//   final String userToken;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return
+//   }
+// }
 
 class InitialTextSearchUser extends StatelessWidget {
   const InitialTextSearchUser({

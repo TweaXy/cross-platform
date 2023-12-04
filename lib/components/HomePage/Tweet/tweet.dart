@@ -2,10 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 
 class CustomTweet extends StatelessWidget {
   const CustomTweet({super.key, required this.tweet, required this.forProfile});
@@ -19,16 +22,16 @@ class CustomTweet extends StatelessWidget {
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0]!;
-    // if (t != null && t.length > 1) k = t[1]!;
+    // if (t != null && t.length > 1) k = t[1].trim()!;
 
     print('kkkk' + k.toString());
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 253, 253, 255),
         border: Border(
             bottom: BorderSide(
-                width: 0.2,
+                width: 0.4,
                 color: Theme.of(context).brightness == Brightness.light
                     ? const Color.fromARGB(255, 135, 135, 135)
                     : const Color.fromARGB(255, 233, 233, 233))),
@@ -37,8 +40,12 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.only(left: 2, right: 7),
-            child: UserImageForTweet(image: tweet.userImage!),
+            margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
+            child: UserImageForTweet(
+              userid: tweet.userId,
+              image: tweet.userImage!,
+              text: tweet.userId == TempUser.id ? '' : 'Following',
+            ),
           ),
           Expanded(
             child: Column(
@@ -53,28 +60,30 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 5.0, left: 2, right: 2),
-                  child: Text(
-                    tweet.tweetText!,
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                ),
-                if (k != null)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(60),
-                    child: Image(
-                      width: screenWidth * 0.7,
-                      height: screenHeight * 0.3,
-                      image: CachedNetworkImageProvider(
-                        'http://16.171.65.142:3000/uploads/tweetsMedia/$k',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LikersInTweet(id: tweet.id),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        bottom: 5.0, left: 2, right: 2, top: 0),
+                    child: Text(
+                      tweet.tweetText!,
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 18,
                       ),
                     ),
                   ),
+                ),
+                if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
-                  id:tweet.id,
+                  id: tweet.id,
                   likesCount: tweet.likesCount,
                   viewsCount: tweet.viewsCount,
                   retweetsCount: tweet.retweetsCount,

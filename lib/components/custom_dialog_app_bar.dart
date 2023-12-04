@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CustomDialogAppBar extends StatelessWidget {
-  const CustomDialogAppBar({
-    super.key,
-    required this.isDarkMode,
-  });
+  CustomDialogAppBar({super.key, required this.isDarkMode, this.icon});
 
   final bool isDarkMode;
-
+  IconData? icon;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -19,8 +16,8 @@ class CustomDialogAppBar extends StatelessWidget {
         onPressed: () {
           Navigator.pop(context);
         },
-        icon:
-            Icon(Icons.close, color: isDarkMode ? Colors.black : Colors.white),
+        icon:  Icon(icon ?? Icons.close,
+            color: isDarkMode ? Colors.black : Colors.white),
       ),
       centerTitle: true,
       title: SvgPicture.asset(

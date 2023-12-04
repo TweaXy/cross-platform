@@ -403,6 +403,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.2.0"
+  flutter_staggered_grid_view:
+    dependency: transitive
+    description:
+      name: flutter_staggered_grid_view
+      sha256: "19e7abb550c96fbfeb546b23f3ff356ee7c59a019a651f8f102a4ba9b7349395"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -546,6 +554,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.0.0"
+  image_downloader:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "2f31d7cc59a984a54b7d9d12c5819387c9fb52c1"
+      url: "https://github.com/VikasTailorbird/image_downloader"
+    source: git
+    version: "0.32.0"
   image_picker:
     dependency: "direct main"
     description:
@@ -610,6 +627,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.1+1"
+  infinite_scroll_pagination:
+    dependency: "direct main"
+    description:
+      name: infinite_scroll_pagination
+      sha256: b68bce20752fcf36c7739e60de4175494f74e99e9a69b4dd2fe3a1dd07a7f16a
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   integration_test:
     dependency: "direct dev"
     description: flutter
@@ -727,6 +752,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.0"
+  multi_image_layout:
+    dependency: "direct main"
+    description:
+      name: multi_image_layout
+      sha256: "41a529a388f0a12c257f24a3b750a954255ebf7411102efe4a20b07e63e2f79e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   nested:
     dependency: transitive
     description:
@@ -871,6 +904,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  photo_view:
+    dependency: transitive
+    description:
+      name: photo_view
+      sha256: "26cb153080a2673bebccaf72d3283e82f8f41a47fe5f9bc5ba8634d2e8a9fc8e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.13.0"
   platform:
     dependency: transitive
     description:
@@ -1052,6 +1093,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_tools:
+    dependency: transitive
+    description:
+      name: sliver_tools
+      sha256: eae28220badfb9d0559207badcbbc9ad5331aac829a88cb0964d330d2a4636a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.12"
   source_map_stack_trace:
     dependency: transitive
     description:

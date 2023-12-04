@@ -8,11 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -21,6 +24,7 @@ import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.id, required this.text});
@@ -56,6 +60,7 @@ List<String> listitems = [
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final ScrollController controller = ScrollController();
   String id = '';
   @override
   void initState() {
@@ -110,6 +115,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     TempUser.name = user.name!;
                     TempUser.image = user.avatar!;
                     return CustomScrollView(
+                      controller: controller,
                       physics: const BouncingScrollPhysics(),
                       slivers: [
                         SliverPersistentHeader(
@@ -160,18 +166,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             ],
                           ),
                         ),
-                        SliverList.builder(
-                          itemCount: listitems.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: ListTile(
-                                  title: Text(listitems[index].toString() +
-                                      _selectedTabIndex.toString()),
-                                  tileColor: Colors.white,
-                                ));
-                          },
-                        ),
+                        if (_selectedTabIndex == 2) ProfileLikes()
                       ],
                     );
                   }
@@ -402,7 +397,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
         ElevatedButton(
           key: const ValueKey(ProfileKeys.editProfileButton),
           onPressed: () async {
-            if (text == 'Follow') {
+            if (text == 'Follow' || text == 'Follow back') {
               //TODO :- Implement the follow logic
               await FollowUser.instance.followUser(widget.user.userName!);
               setState(() {
@@ -424,7 +419,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           },
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' ? Colors.black : Colors.white),
+                text == 'Follow' || text == 'Follow back'
+                    ? Colors.black
+                    : Colors.white),
             minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
@@ -436,7 +433,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           child: Text(
             text!,
             style: TextStyle(
-              color: text == 'Follow' ? Colors.white : Colors.black,
+              color: text == 'Follow' || text == 'Follow back'
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 17,
             ),
           ),

@@ -1,9 +1,15 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:dio/dio.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/models/user_signup.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/views/signup/mobile/add_username_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
@@ -24,6 +30,7 @@ class AddProfilePictureView extends StatefulWidget {
 class _AddProfilePictureViewState extends State<AddProfilePictureView> {
   XFile? image, imageTemporary;
   bool isButtonEnabled = false;
+  SignupService service = SignupService(Dio());
 
   Future pickImage({required ImageSource source}) async {
     final ImagePicker picker = ImagePicker();
@@ -171,7 +178,6 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                         color: backgroundColorTheme(context),
                         text: "Skip for now",
                         onPressedCallback: () {
-                          //make the image the default image first
                           Navigator.pop(context);
                           Navigator.push(
                               context,
@@ -185,13 +191,29 @@ class _AddProfilePictureViewState extends State<AddProfilePictureView> {
                         key: const ValueKey("addProfilePicsNextButton"),
                         color: forgroundColorTheme(context),
                         text: "Next",
-                        onPressedCallback: () {
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              CustomPageRoute(
-                                  direction: AxisDirection.left,
-                                  child: const AddUsernameView()));
+                        onPressedCallback: () async {
+                          UserSignup.profilePicture = image!;
+                          try {
+                            dynamic response = await service.updateAvater();
+                            if (response is String) {
+                              showToastWidget(
+                                CustomToast(
+                                  message: response,
+                                ),
+                                position: ToastPosition.bottom,
+                                duration: const Duration(seconds: 2),
+                              );
+                            } else if (mounted) {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  CustomPageRoute(
+                                      direction: AxisDirection.left,
+                                      child: const AddUsernameView()));
+                            }
+                          } catch (e) {
+                            log(e.toString());
+                          }
                         },
                         initialEnabled: isButtonEnabled,
                       ),

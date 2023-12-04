@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/views/settings/settings_view.dart';
+import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
+import 'package:tweaxy/views/settings/update_password_view.dart';
+import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
+import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
+import 'package:tweaxy/views/settings/update_email/accout_info.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
-import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/signup/mobile/authentication_view.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/views/homepage.dart';
@@ -63,16 +69,33 @@ class TweaXy extends StatelessWidget {
             kHomeScreen: (context) => const HomePage(),
             kCreateAcountReviewScreen: (context) =>
                 const CreateAccountDataReview(),
-            kProfileScreen: (context) => const ProfileScreen(id: '', text: ''),
+            kProfileScreen: (context) => ProfileScreen(
+                  id: '',
+                  text: '',
+                ),
             kSearchScreen: (context) => const SearchScreen(),
             kFollowers: (context) => FollowersPage(username: ''),
-            kFollowing: (context) => FollowingPage(username: ''),
+            kwebboth: (context) => WebFollowersAndFollowings(
+                username: 'karim.elsayed401_67616122'),
+            kFollowing: (context) =>
+                FollowingPage(username: 'karim.elsayed401_67616122'),
+            kLikersInTweets: (context) =>
+                LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
+            kAccountinfo: (context) => const AccountIfoView(),
+            kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
+            kSettings: (context) => const SettingsView(),
+            kLikersInProfile: (context) => const ProfileLikes(),
+            kUpdatePassword: (context) => const UpdatePasswordView(),
           },
           initialRoute: kSplashScreen,
         ),
       ),
     );
   }
+}
+
+class UpdateEmailView {
+  const UpdateEmailView();
 }
 
 void _save() async {

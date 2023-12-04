@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_list.dart';
@@ -59,40 +60,53 @@ class _HomePageWebState extends State<HomePageWeb> {
                 SizedBox(
                   width: screenWidth * 0.02,
                 ),
-                Expanded(
-                  flex: 8,
-                  child: BlocBuilder<SidebarCubit, SidebarState>(
+                BlocBuilder<SidebarCubit, SidebarState>(
                     builder: (context, state) {
-                      if (state is SidebarInitialState ||
-                          state is SidebarHomeState) {
-                        return HomeTweets(tabController: widget.tabController);
-                      } else if (state is SidebarProfileState)
-                        return ProfileComponentWeb(
+                  if (state is SidebarInitialState ||
+                      state is SidebarHomeState) {
+                    return Expanded(
+                        flex: 8,
+                        child: HomeTweets(tabController: widget.tabController));
+                  } else if (state is SidebarProfileState) {
+                    return Expanded(
+                        flex: 8,
+                        child: ProfileComponentWeb(
                           id: profileID,
                           text: '',
-                        );
-                      //TODO:- Provide The rest of the states
-                      else if (state is SidebarExploreState) {
-                        return const ExploreWebScreen();
-                      } else if (state is OtherProfileState) {
-                        return ProfileComponentWeb(
+                        ));
+                  } else if (state is SidebarSettingsState) {
+                    return const Expanded(
+                        flex: 13, child: SettingsAndPrivacyWeb());
+                  } else if (state is SidebarExploreState) {
+                    return const Expanded(flex: 8, child: ExploreWebScreen());
+                  } else if (state is OtherProfileState) {
+                    return Expanded(
+                        flex: 8,
+                        child: ProfileComponentWeb(
                           id: state.id,
                           text: state.text,
-                        );
-                      } else {
-                        return const Placeholder();
-                      }
-                    },
-                  ),
-                ),
+                        ));
+                  }
+                  return const Expanded(flex: 8, child: Placeholder());
+                }),
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
-                const Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [TrendingList()],
-                    ))
+                BlocBuilder<SidebarCubit, SidebarState>(
+                  builder: (context, state) {
+                    if (state is SidebarInitialState ||
+                        state is SidebarHomeState) {
+                      return const Expanded(flex: 5, child: TrendingList());
+                    } else if (state is SidebarSettingsState) {
+                      return const SizedBox(
+                        height: 0,
+                        width: 0,
+                      );
+                    } else {
+                      return const Expanded(flex: 5, child: TrendingList());
+                    }
+                  },
+                ),
               ],
             ),
           ),

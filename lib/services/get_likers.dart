@@ -10,25 +10,18 @@ class Likers {
   Likers();
 
   Future<List<FollowersModel>> getLikers(
-      {required ScrollController scroll, required String id}) async {
+      {required ScrollController scroll,
+      required String id,
+      required int offset}) async {
     dynamic response;
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/interactions/$id/likers?limit=10&offset=0",
+          "http://16.171.65.142:3000/api/v1/interactions/$id/likers?limit=10&offset=$offset",
       token: token,
     );
-    if (scroll.position.userScrollDirection == ScrollDirection.reverse &&
-        response.data['pagination']['nextPage'] != null) {
-      response = await Api.getwithToken(
-          url: response!.data['pagination']['nextPage'], token: token!);
-    } else if (scroll.position.userScrollDirection == ScrollDirection.forward &&
-        response.data['pagination']['prevPage'] != null) {
-      response = await Api.getwithToken(
-          url: response!.data['pagination']['prevPage'], token: token!);
-    }
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
     List<dynamic> allData = jsondata['data']["users"];
