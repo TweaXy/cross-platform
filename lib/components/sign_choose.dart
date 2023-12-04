@@ -27,7 +27,8 @@ class _SignChooseState extends State<SignChoose> {
   Future signInWithGoogle(context) async {
     final user = await GoogleSignINApi.login();
     GoogleSignInAuthentication googleToken = await user!.authentication;
-    print(googleToken);
+
+    print("the token is ::::::::${googleToken.accessToken}");
     String? token = await GoogleSignINApi.getGoogleToken();
     //!TODO print googleToken
   }
@@ -73,3 +74,4 @@ class _SignChooseState extends State<SignChoose> {
     );
   }
 }
+//y27055150
