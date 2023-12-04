@@ -37,6 +37,7 @@ class _DialogVerifyPasswordState extends State<DialogVerifyPassword> {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Dialog(
       backgroundColor: backgroundColorTheme(context),
       shape: RoundedRectangleBorder(
@@ -118,8 +119,7 @@ class _DialogVerifyPasswordState extends State<DialogVerifyPassword> {
                     if (response is String) {
                       showToastWidget(
                         CustomToast(
-                            message: "Wrong Password!",
-                            screenWidth: MediaQuery.of(context).size.width),
+                            message: "Wrong Password!", screenWidth: width),
                         position: ToastPosition.bottom,
                         duration: const Duration(seconds: 2),
                       );
