@@ -15,4 +15,7 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   void unLikeTweet() {
     emit(TweetUnLikedState());
   }
+  void refresh() {
+    emit(TweetHomeRefresh());
+  }
 }

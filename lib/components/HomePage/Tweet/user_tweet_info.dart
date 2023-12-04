@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class User_TweetInfo extends StatelessWidget {
   const User_TweetInfo(
@@ -66,6 +67,7 @@ class User_TweetInfo extends StatelessWidget {
         ),
         const Spacer(),
         IconButton(
+          key:new ValueKey(DeleteTweetKeys.tweetSettingsClickMobile),
           icon: const Icon(FontAwesomeIcons.ellipsisVertical),
           color: const Color.fromARGB(255, 182, 182, 182),
           iconSize: 16,

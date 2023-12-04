@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class ApplicationBar extends StatelessWidget {
   const ApplicationBar(
@@ -20,8 +23,10 @@ class ApplicationBar extends StatelessWidget {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: IconButton(
+        key: new ValueKey(HomePageKeys.iconRefreshAppBar),
         onPressed: () {
           //refresh
+          BlocProvider.of<TweetsUpdateCubit>(context).refresh();
         },
         icon: Container(
           color: Colors.transparent,
@@ -41,6 +46,7 @@ class ApplicationBar extends StatelessWidget {
           //swipe left
         },
         icon: Icon(
+          key: new ValueKey(HomePageKeys.userIconAppBar),
           FontAwesomeIcons.user,
           size: 25,
           color: Theme.of(context).brightness == Brightness.light

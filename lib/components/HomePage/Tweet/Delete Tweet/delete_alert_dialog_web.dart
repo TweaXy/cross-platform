@@ -6,6 +6,7 @@ import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 import 'package:tweaxy/views/homepage.dart';
 
 class DeleteAlertDialogWeb extends StatefulWidget {
@@ -46,6 +47,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                key: new ValueKey(DeleteTweetKeys.tweetDeleteConfirmMobile),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
 
@@ -82,6 +84,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                key: new ValueKey(DeleteTweetKeys.tweetCancelDeleteMobile),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
                   side: const BorderSide(

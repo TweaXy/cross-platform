@@ -356,7 +356,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     },
                     body: ProfileScreenBody(
                       tabController: _tabController,
-                      controller: controller,
                     ),
                   ),
                 );

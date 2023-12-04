@@ -5,6 +5,7 @@ import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class TweetInteractions extends StatelessWidget {
   const TweetInteractions(
@@ -13,11 +14,18 @@ class TweetInteractions extends StatelessWidget {
       required this.likesCount,
       required this.viewsCount,
       required this.retweetsCount,
-      required this.commentsCount});
+      required this.commentsCount,
+      required this.isUserLiked,
+      required this.isUserCommented,
+      required this.isUserRetweeted});
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
+  final bool isUserLiked;
+  final bool isUserCommented;
+  final bool isUserRetweeted;
+
   final String id;
   @override
   Widget build(BuildContext context) {
@@ -49,6 +57,7 @@ class TweetInteractions extends StatelessWidget {
             ],
           ),
           LikeButton(
+              key: new ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
                 await Future(() async {

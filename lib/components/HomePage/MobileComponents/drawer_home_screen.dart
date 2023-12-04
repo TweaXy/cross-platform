@@ -6,6 +6,8 @@ import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomDrawer extends StatefulWidget {
   const CustomDrawer({Key? key}) : super(key: key);
@@ -44,32 +46,46 @@ class _CustomDrawerState extends State<CustomDrawer> {
           Padding(
             padding: EdgeInsets.only(
                 left: screenWidth * 0.05, bottom: screenHeight * 0.07),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
-                  child: UserImageForTweet(
-                    image: TempUser.image,
-                    userid: '',
-                    text: '',
+            child: GestureDetector(
+              key:new ValueKey(HomePageKeys.userInfoInDrawerClick),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                      id: '',
+                      text: '',
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: 4.5),
-                  child: Text(
-                    TempUser.name,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 13, 11, 11),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: UserImageForTweet(
+                      image: TempUser.image,
+                      userid: '',
+                      text: '',
+                    ),
                   ),
-                ),
-                Text(
-                  '@${TempUser.username}',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                )
-              ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4.5),
+                    child: Text(
+                      TempUser.name,
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 13, 11, 11),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                  Text(
+                    '@${TempUser.username}',
+                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                  )
+                ],
+              ),
             ),
           ),
           // Padding(
@@ -85,6 +101,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
             ),
             leading: Icon(
+              key:new ValueKey(HomePageKeys.profileNavigatorInDrawer),
               FontAwesomeIcons.user,
               size: 27,
               color: Theme.of(context).brightness == Brightness.light
@@ -100,13 +117,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               selectedIndex: selectedIndex,
               curindex: 4,
             ),
-            onTap: () async{
+            onTap: () async {
               // Navigator.pop(context);
               // _globalOnTap(4);
               await Navigator.pushNamed(context, kProfileScreen);
-              setState(() {
-                
-              });
+              setState(() {});
             },
           ),
           // SettingsAndSupport(),

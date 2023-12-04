@@ -33,14 +33,16 @@ class _MyPageState extends State<HomePageBody> {
   }
 
   void dispose() {
+    super.dispose();
+
     _pagingController.dispose();
   }
 
   final _pageSize = 5;
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems = await TweetsServices.getTweetsHome(
-          scroll: widget.controller, offset: pageKey);
+      final List<Tweet> newItems =
+          await TweetsServices.getTweetsHome(offset: pageKey);
       print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       print('tttt');
@@ -62,12 +64,11 @@ class _MyPageState extends State<HomePageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState) {
-          print('deleteeeeeee');
-          setState() {
-            _pagingController.itemList!
-                .removeWhere((element) => element.id == state.tweetid);
-          }
+        if (state is TweetDeleteState || state is TweetHomeRefresh) {
+          // setState() {
+          //   _pagingController.itemList!
+          //       .removeWhere((element) => element.id == state.tweetid);
+          // }
 
           _pagingController.refresh();
         }

@@ -181,7 +181,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                         },
                         body: ProfileScreenBody(
                           tabController: _tabController,
-                          controller: controller,
                         ));
                   }
                 },

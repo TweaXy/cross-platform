@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/tweet_settings_profile_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class User_TweetInfoWeb extends StatelessWidget {
   const User_TweetInfoWeb(
@@ -68,6 +69,7 @@ class User_TweetInfoWeb extends StatelessWidget {
           )
         else
           IconButton(
+            key:new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
             splashRadius: 15,
             hoverColor: const Color.fromARGB(255, 207, 232, 253),
             icon: const Icon(FontAwesomeIcons.ellipsis),

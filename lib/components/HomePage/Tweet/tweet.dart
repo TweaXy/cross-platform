@@ -8,6 +8,7 @@ import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
   const CustomTweet({super.key, required this.tweet, required this.forProfile});
@@ -15,6 +16,7 @@ class CustomTweet extends StatelessWidget {
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
+    print('twee' + tweet.toString());
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -38,6 +40,7 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            key:new ValueKey(HomePageKeys.userImageInTweetClick),
             margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
             child: UserImageForTweet(
               userid: tweet.userId,
@@ -60,14 +63,17 @@ class CustomTweet extends StatelessWidget {
                         forProfile: forProfile,
                       ),
                 if (tweet.tweetText != null)
-                  Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 5.0, left: 2, right: 2, top: 0),
-                    child: Text(
-                      tweet.tweetText!,
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 18,
+                  GestureDetector(
+                    child: Container(
+                      key:new ValueKey(HomePageKeys.tweetContainer),
+                      margin: const EdgeInsets.only(
+                          bottom: 5.0, left: 2, right: 2, top: 0),
+                      child: Text(
+                        tweet.tweetText!,
+                        style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
@@ -78,6 +84,9 @@ class CustomTweet extends StatelessWidget {
                   viewsCount: tweet.viewsCount,
                   retweetsCount: tweet.retweetsCount,
                   commentsCount: tweet.commentsCount,
+                  isUserLiked: tweet.isUserLiked,
+                  isUserCommented: tweet.isUserCommented,
+                  isUserRetweeted: tweet.isUserCommented,
                 ),
               ],
             ),

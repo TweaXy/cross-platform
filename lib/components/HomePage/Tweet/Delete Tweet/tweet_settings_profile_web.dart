@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dialog_web.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class TweetSettingsProfileWeb extends StatelessWidget {
   const TweetSettingsProfileWeb({super.key, required this.tweetId});
@@ -32,12 +33,14 @@ class TweetSettingsProfileWeb extends StatelessWidget {
           }
         },
         itemBuilder: (BuildContext bc) {
-          return const [
+          return [
             PopupMenuItem(
               value: 'delete',
               child: Wrap(
                 children: [
                   Icon(
+                    key: new ValueKey(
+                        DeleteTweetKeys.tweetSettingsMenuDeleteWeb),
                     FontAwesomeIcons.trashCan,
                     size: 20,
                     color: Colors.red,
@@ -55,7 +58,8 @@ class TweetSettingsProfileWeb extends StatelessWidget {
             ),
           ];
         },
-        icon: const Icon(
+        icon: Icon(
+          key: new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
           FontAwesomeIcons.ellipsis,
           size: 16,
         ));

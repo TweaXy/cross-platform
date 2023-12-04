@@ -6,10 +6,8 @@ import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class ProfileScreenBody extends StatelessWidget {
-  const ProfileScreenBody(
-      {super.key, required this.tabController, required this.controller});
+  const ProfileScreenBody({super.key, required this.tabController});
   final TabController tabController;
-  final ScrollController controller;
   // final List<Map<String, String>> temp = const [
   //   {
   //     'likesCount': '1',
@@ -98,11 +96,9 @@ class ProfileScreenBody extends StatelessWidget {
     return TabBarView(
       controller: tabController,
       children: <Widget>[
-        // ProfilePosts(
-        //   controller: controller,
-        // ),
-        Container(),
-        Container()
+        CustomScrollView(slivers: [ProfilePosts()]),
+        Placeholder(),
+        Placeholder()
       ],
     );
   }

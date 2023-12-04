@@ -11,8 +11,15 @@ class Tweet {
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
+  final bool isUserLiked;
+  final bool isUserRetweeted;
+  final bool isUserCommented;
+
   //+++++++++video
   const Tweet({
+    required this.isUserLiked,
+    required this.isUserRetweeted,
+    required this.isUserCommented,
     required this.userImage,
     required this.image,
     required this.userName,

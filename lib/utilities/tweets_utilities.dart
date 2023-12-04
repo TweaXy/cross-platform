@@ -20,7 +20,7 @@ List<String>? _getImageList(dynamic image) {
 }
 
 List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
-  // print('hhh' + temp.toString());
+  print('hhh' + temp.toString());
   return temp
       .map((e) => Tweet(
             id: e['id']!,
@@ -35,6 +35,9 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
             viewsCount: 1,
             retweetsCount: 1,
             commentsCount: 1,
+            isUserLiked: e['isUserLiked'],
+            isUserRetweeted: e['isUserRetweeted'],
+            isUserCommented: e['isUserCommented'],
           ))
       .toList();
 }
