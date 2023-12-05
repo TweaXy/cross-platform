@@ -54,7 +54,7 @@ class _LikersInTweetState extends State<LikersInTweet> {
         if (state is LoadingStata) {
           alllikers.clear();
           return LoadingScreen(asyncCall: true);
-        } else
+        } else {
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -119,6 +119,7 @@ class _LikersInTweetState extends State<LikersInTweet> {
                 )),
             floatingActionButton: const FloatingButton(),
           );
+        }
       },
     );
   }
