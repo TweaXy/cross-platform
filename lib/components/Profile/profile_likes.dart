@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/get_likers_in_profile.dart';
 
@@ -29,7 +32,8 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems = await services.likersList(pageNumber: pageKey);
+      final List<Tweet> newItems =
+          await services.likersList(pageNumber: pageKey);
       print(newItems);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -47,29 +51,41 @@ class _ProfileLikesState extends State<ProfileLikes> {
       PagingController(firstPageKey: 0);
   @override
   Widget build(BuildContext context) {
-    return PagedSliverList<int, Tweet>(
-      pagingController: _pagingController,
-      builderDelegate: PagedChildBuilderDelegate(
-        animateTransitions: true,
-        firstPageProgressIndicatorBuilder: (context) {
-          return const Center(
-            heightFactor: 3,
-            child: CircularProgressIndicator(
-              color: Colors.blue,
-            ),
-          );
-        },
-        newPageProgressIndicatorBuilder: (context) => const Center(
-            child: CircularProgressIndicator(
-          color: Colors.blue,
-        )),
-        itemBuilder: (context, item, index) {
-          return CustomTweet(
-            forProfile: true,
-            tweet: item,
-          );
-        },
-      ),
-    );
+    return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+        builder: (context, state) {
+      if (state is TweetDeleteState || state is TweetUnLikedState|| state is TweetAddedState) {
+        // setState() {
+        //   _pagingController.itemList!
+        //       .removeWhere((element) => element.id == state.tweetid);
+        // }
+
+        _pagingController.refresh();
+      }
+
+      return PagedSliverList<int, Tweet>(
+        pagingController: _pagingController,
+        builderDelegate: PagedChildBuilderDelegate(
+          animateTransitions: true,
+          firstPageProgressIndicatorBuilder: (context) {
+            return const Center(
+              heightFactor: 3,
+              child: CircularProgressIndicator(
+                color: Colors.blue,
+              ),
+            );
+          },
+          newPageProgressIndicatorBuilder: (context) => const Center(
+              child: CircularProgressIndicator(
+            color: Colors.blue,
+          )),
+          itemBuilder: (context, item, index) {
+            return CustomTweet(
+              forProfile: true,
+              tweet: item,
+            );
+          },
+        ),
+      );
+    });
   }
 }

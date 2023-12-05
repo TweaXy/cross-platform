@@ -1,11 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/add_tweet/Cutom_add_post_bar_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/services/add_tweet.dart';
@@ -107,6 +109,9 @@ class _AddPostState extends State<AddPost> {
                           const CustomWebToast(message: "tweet posted"));
                       tweetcontent.text = "";
                       xfilePick = [];
+                      if (mounted) {
+                        BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
+                      }
                     }
                   } else {
                     showToastWidget(const CustomWebToast(

@@ -28,11 +28,11 @@ class _MyPageState extends State<ProfilePosts> {
     });
   }
 
-  void dispose() {
-    super.dispose();
+  // void dispose() {
+  //   super.dispose();
 
-    _pagingController.dispose();
-  }
+  //   _pagingController.dispose();
+  // }
 
   final _pageSize = 5;
   Future<void> _fetchPage(int pageKey) async {
@@ -60,11 +60,11 @@ class _MyPageState extends State<ProfilePosts> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState) {
-          setState() {
-            _pagingController.itemList!
-                .removeWhere((element) => element.id == state.tweetid);
-          }
+        if (state is TweetDeleteState|| state is TweetAddedState) {
+          // setState() {
+          //   _pagingController.itemList!
+          //       .removeWhere((element) => element.id == state.tweetid);
+          // }
 
           _pagingController.refresh();
         }

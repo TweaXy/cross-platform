@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/add_tweet.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
@@ -38,6 +40,7 @@ class CustomAddTweetButton extends StatelessWidget {
             showToastWidget(
                 const CustomToast(message: "the tweet has been posted"));
           }
+          BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
           Navigator.pop(context);
         } else {
           showToastWidget(

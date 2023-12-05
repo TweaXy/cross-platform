@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
@@ -8,6 +9,7 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/add_tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
@@ -93,7 +95,8 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                       children: [
                         UserImageForTweet(
                           image: TempUser.image,
-                          userid:'', text: '',
+                          userid: '',
+                          text: '',
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
@@ -144,7 +147,11 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                             } else {
                               showToastWidget(const CustomWebToast(
                                   message: "tweet posted"));
+
                               if (mounted) {
+                                BlocProvider.of<TweetsUpdateCubit>(context)
+                                    .addTweet();
+
                                 Navigator.pop(context);
                               }
                             }
