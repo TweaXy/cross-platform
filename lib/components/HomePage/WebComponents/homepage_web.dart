@@ -66,51 +66,52 @@ class _HomePageWebState extends State<HomePageWeb> {
                   width: screenWidth * 0.02,
                 ),
                 BlocBuilder<SidebarCubit, SidebarState>(
-                    builder: (context, state) {
-                  if (state is SidebarInitialState ||
-                      state is SidebarHomeState) {
-                    return Expanded(
-                        flex: 8,
-                        child: HomeTweets(tabController: widget.tabController));
-                  } else if (state is SidebarProfileState) {
-                    return Expanded(
-                        flex: 8,
-                        child: ProfileComponentWeb(
-                          id: profileID,
-                          text: '',
-                        ));
-                  } else if (state is SidebarSettingsState) {
-                    return const Expanded(
-                        flex: 13, child: SettingsAndPrivacyWeb());
-                  } else if (state is SidebarExploreState) {
-                    return const Expanded(flex: 8, child: ExploreWebScreen());
-                  } else if (state is OtherProfileState) {
-                    return Expanded(
-                        flex: 8,
-                        child: ProfileComponentWeb(
-                          id: state.id,
-                          text: state.text,
-                        );
-                      } else if (state is SearchUserLoadingState) {
-                        return const Scaffold(
-                          body: Center(
-                            child: SpinKitRing(
-                              color: Colors.blueAccent,
-                            ),
+                  builder: (context, state) {
+                    if (state is SidebarInitialState ||
+                        state is SidebarHomeState) {
+                      return Expanded(
+                          flex: 8,
+                          child:
+                              HomeTweets(tabController: widget.tabController));
+                    } else if (state is SidebarProfileState) {
+                      return Expanded(
+                          flex: 8,
+                          child: ProfileComponentWeb(
+                            id: profileID,
+                            text: '',
+                          ));
+                    } else if (state is SidebarSettingsState) {
+                      return const Expanded(
+                          flex: 13, child: SettingsAndPrivacyWeb());
+                    } else if (state is SidebarExploreState) {
+                      return const Expanded(flex: 8, child: ExploreWebScreen());
+                    } else if (state is OtherProfileState) {
+                      return Expanded(
+                          flex: 8,
+                          child: ProfileComponentWeb(
+                            id: state.id,
+                            text: state.text,
+                          ));
+                    } else if (state is SearchUserLoadingState) {
+                      return const Scaffold(
+                        body: Center(
+                          child: SpinKitRing(
+                            color: Colors.blueAccent,
                           ),
-                        );
-                      } else {
-                        return const Placeholder();
-                      }
-                    },
-                  ),
+                        ),
+                      );
+                    } else {
+                      return const Placeholder();
+                    }
+                  },
                 ),
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
                 BlocBuilder<SidebarCubit, SidebarState>(
                   builder: (context, state) {
-                    if (state is SidebarHomeState||state is SidebarInitialState) {
+                    if (state is SidebarHomeState ||
+                        state is SidebarInitialState) {
                       return Expanded(
                           flex: 5,
                           child: Column(
