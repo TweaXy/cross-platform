@@ -21,8 +21,6 @@ class _TrendingScreenState extends State<TrendingScreen> {
   final PagingController<int, Trend> _pagingController =
       PagingController(firstPageKey: 0);
   final int _pageSize = 7;
-  String id = '';
-  String token = '';
   @override
   void initState() {
     super.initState();

@@ -102,6 +102,8 @@ class _HomePageWebState extends State<HomePageWeb> {
                         height: 0,
                         width: 0,
                       );
+                    } else if (state is SidebarExploreState) {
+                      return Expanded(flex: 5, child: Container());
                     } else {
                       return const Expanded(flex: 5, child: TrendingList());
                     }
