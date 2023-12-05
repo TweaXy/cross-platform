@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
@@ -8,6 +9,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_li
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/explore_web_screen.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/search_bar_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
@@ -28,16 +30,19 @@ class _HomePageWebState extends State<HomePageWeb> {
     super.initState();
     Future(() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token')!;
       profileID = prefs.getString('id')!;
+      setState(() {});
     });
   }
 
   String profileID = '';
+  String token = '';
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
+    print(token);
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light
           ? Colors.white
@@ -61,54 +66,69 @@ class _HomePageWebState extends State<HomePageWeb> {
                   width: screenWidth * 0.02,
                 ),
                 BlocBuilder<SidebarCubit, SidebarState>(
-                    builder: (context, state) {
-                  if (state is SidebarInitialState ||
-                      state is SidebarHomeState) {
-                    return Expanded(
-                        flex: 8,
-                        child: HomeTweets(tabController: widget.tabController));
-                  } else if (state is SidebarProfileState) {
-                    return Expanded(
-                        flex: 8,
-                        child: ProfileComponentWeb(
-                          id: profileID,
-                          text: '',
-                        ));
-                  } else if (state is SidebarSettingsState) {
-                    return const Expanded(
-                        flex: 13, child: SettingsAndPrivacyWeb());
-                  } else if (state is SidebarExploreState) {
-                    return const Expanded(flex: 8, child: ExploreWebScreen());
-                  } else if (state is OtherProfileState) {
-                    return Expanded(
-                        flex: 8,
-                        child: ProfileComponentWeb(
-                          id: state.id,
-                          text: state.text,
-                        ));
-                  }
-                  return const Expanded(flex: 8, child: Placeholder());
-                }),
+                  builder: (context, state) {
+                    if (state is SidebarInitialState ||
+                        state is SidebarHomeState) {
+                      return Expanded(
+                          flex: 8,
+                          child:
+                              HomeTweets(tabController: widget.tabController));
+                    } else if (state is SidebarProfileState) {
+                      return Expanded(
+                          flex: 8,
+                          child: ProfileComponentWeb(
+                            id: profileID,
+                            text: '',
+                          ));
+                    } else if (state is SidebarSettingsState) {
+                      return const Expanded(
+                          flex: 13, child: SettingsAndPrivacyWeb());
+                    } else if (state is SidebarExploreState) {
+                      return const Expanded(flex: 8, child: ExploreWebScreen());
+                    } else if (state is OtherProfileState) {
+                      return Expanded(
+                          flex: 8,
+                          child: ProfileComponentWeb(
+                            id: state.id,
+                            text: state.text,
+                          ));
+                    } else if (state is SearchUserLoadingState) {
+                      return const Scaffold(
+                        body: Center(
+                          child: SpinKitRing(
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      );
+                    } else {
+                      return const Placeholder();
+                    }
+                  },
+                ),
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
                 BlocBuilder<SidebarCubit, SidebarState>(
                   builder: (context, state) {
-                    if (state is SidebarInitialState ||
-                        state is SidebarHomeState) {
-                      return const Expanded(flex: 5, child: TrendingList());
-                    } else if (state is SidebarSettingsState) {
-                      return const SizedBox(
-                        height: 0,
-                        width: 0,
-                      );
-                    } else if (state is SidebarExploreState) {
-                      return Expanded(flex: 5, child: Container());
+                    if (state is SidebarHomeState ||
+                        state is SidebarInitialState) {
+                      return Expanded(
+                          flex: 5,
+                          child: Column(
+                            children: [
+                              SearchBarWeb(id: profileID, token: token),
+                              TrendingList()
+                            ],
+                          ));
                     } else {
-                      return const Expanded(flex: 5, child: TrendingList());
+                      return Expanded(
+                          flex: 5,
+                          child: Column(
+                            children: [TrendingList()],
+                          ));
                     }
                   },
-                ),
+                )
               ],
             ),
           ),

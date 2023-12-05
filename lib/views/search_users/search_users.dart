@@ -234,7 +234,7 @@ class SearchUsersListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: kIsWeb ? 60 : 100,
+      height: kIsWeb ? 70 : 100,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
