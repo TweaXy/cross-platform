@@ -7,8 +7,10 @@ import 'package:tweaxy/components/Profile/posts_profile.dart';
 import 'package:tweaxy/components/Profile/profile_likes.dart';
 
 class ProfileScreenBody extends StatelessWidget {
-  const ProfileScreenBody({super.key, required this.tabController});
+  const ProfileScreenBody(
+      {super.key, required this.tabController, required this.id});
   final TabController tabController;
+  final String id;
   // final List<Map<String, String>> temp = const [
   //   {
   //     'likesCount': '1',
@@ -100,12 +102,20 @@ class ProfileScreenBody extends StatelessWidget {
         CustomScrollView(
             scrollBehavior:
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
-            slivers: [ProfilePosts()]),
+            slivers: [
+              ProfilePosts(
+                id: id,
+              )
+            ]),
         Placeholder(),
         CustomScrollView(
           scrollBehavior:
               ScrollConfiguration.of(context).copyWith(scrollbars: false),
-          slivers: [ProfileLikes()],
+          slivers: [
+            ProfileLikes(
+              id: id,
+            )
+          ],
         )
       ],
     );

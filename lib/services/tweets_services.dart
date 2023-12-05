@@ -81,15 +81,13 @@ class TweetsServices {
       return "success";
   }
 
-  static Future<List<Tweet>> getProfilePosts({required int offset}) async {
+  static Future<List<Tweet>> getProfilePosts(
+      {required int offset, required String id}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
-    // print('kkk' + s.toString());
     //down->false
-    // print('scroll=' + scroll.position.userScrollDirection.toString());
-    String userid = TempUser.id;
     Response res = await Api.getwithToken(
-        url: '$baseUrl/users/$userid/tweets?limit=5&offset=$offset', token: s);
+        url: '$baseUrl/users/$id/tweets?limit=5&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];

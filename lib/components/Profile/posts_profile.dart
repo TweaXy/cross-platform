@@ -10,7 +10,8 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
 class ProfilePosts extends StatefulWidget {
-  const ProfilePosts({super.key});
+  const ProfilePosts({super.key, required this.id});
+  final String id;
   @override
   State<ProfilePosts> createState() => _MyPageState();
 }
@@ -38,7 +39,7 @@ class _MyPageState extends State<ProfilePosts> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<Tweet> newItems =
-          await TweetsServices.getProfilePosts(offset: pageKey);
+          await TweetsServices.getProfilePosts(offset: pageKey,id:widget.id);
       print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       print('tttt');

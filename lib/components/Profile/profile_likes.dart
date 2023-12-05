@@ -9,8 +9,8 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/get_likers_in_profile.dart';
 
 class ProfileLikes extends StatefulWidget {
-  const ProfileLikes({super.key});
-
+  const ProfileLikes({super.key, required this.id});
+  final String id;
   @override
   State<ProfileLikes> createState() => _ProfileLikesState();
 }
@@ -33,7 +33,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      dynamic response = await services.likersList(pageNumber: pageKey);
+      dynamic response = await services.likersList(pageNumber: pageKey,id:widget.id);
       if (response != String) {
         final List<Tweet> newItems = response as List<Tweet>;
         final isLastPage = newItems.length < _pageSize;

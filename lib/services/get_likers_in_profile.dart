@@ -12,8 +12,8 @@ class GetLikersInProfile {
 
   GetLikersInProfile(this.dio);
 
-  Future<Object> likersList({int pageNumber = 0}) async {
-    String? id ;
+  Future<Object> likersList({int pageNumber = 0, required String id}) async {
+    String? id;
     try {
       List<String> s = await loadPrefs();
       id = s[0];
