@@ -13,7 +13,7 @@ class LikeTweet {
         '$baseURL$_endpoint$id/like',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
-
+      print('Liked');
       return true;
     } catch (e) {
       return false;
@@ -26,7 +26,7 @@ class LikeTweet {
       '$baseURL$_endpoint$id/like',
       options: Options(headers: {'Authorization': 'Bearer $token'}),
     );
-    if (response.statusCode == 201) {
+    if (response.statusCode == 200) {
       print('UnLiked');
 
       return false;
