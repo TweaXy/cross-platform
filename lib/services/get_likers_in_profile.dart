@@ -10,7 +10,7 @@ class GetLikersInProfile {
 
   GetLikersInProfile(this.dio);
 
-Future<List<Tweet>> likersList({int pageNumber = 0}) async {
+  Future<List<Tweet>> likersList({int pageNumber = 0}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
     Response response = await Api.getwithToken(
@@ -48,6 +48,9 @@ Future<List<Tweet>> likersList({int pageNumber = 0}) async {
               viewsCount: 1,
               retweetsCount: 1,
               commentsCount: 1,
+              isUserLiked: true,
+              isUserRetweeted: false,
+              isUserCommented: false,
             ))
         .toList();
   }

@@ -5,7 +5,6 @@ import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/profile_screen_body.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
@@ -14,8 +13,9 @@ import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_likes.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 
 class ProfileComponentWeb extends StatefulWidget {
   const ProfileComponentWeb({

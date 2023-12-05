@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/posts_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
+import 'package:tweaxy/components/Profile/posts_profile.dart';
+import 'package:tweaxy/components/Profile/profile_likes.dart';
 
 class ProfileScreenBody extends StatelessWidget {
   const ProfileScreenBody({super.key, required this.tabController});
@@ -98,7 +99,9 @@ class ProfileScreenBody extends StatelessWidget {
       children: <Widget>[
         CustomScrollView(slivers: [ProfilePosts()]),
         Placeholder(),
-        Placeholder()
+        CustomScrollView(
+          slivers: [ProfileLikes()],
+        )
       ],
     );
   }

@@ -36,7 +36,7 @@ class CustomDrawer extends StatelessWidget {
             padding: EdgeInsets.only(
                 left: screenWidth * 0.05, bottom: screenHeight * 0.07),
             child: GestureDetector(
-              key:new ValueKey(HomePageKeys.userInfoInDrawerClick),
+              key: new ValueKey(HomePageKeys.userInfoInDrawerClick),
               onTap: () {
                 Navigator.push(
                   context,
@@ -79,6 +79,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           const Divider(height: 7),
           CustomDrawerListTile(
+            key: new ValueKey(HomePageKeys.profileNavigatorInDrawer),
             icon: AppIcon.profile,
             title: 'Profile',
             onTap: () {

@@ -241,25 +241,30 @@ class _SideNavBarState extends State<SideNavBar> {
                       text: '',
                     ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 4.5),
-                        child: Text(
-                          TempUser.name,
-                          style: const TextStyle(
-                              color: Color.fromARGB(255, 13, 11, 11),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 4.5),
+                          child: Text(
+                            TempUser.name,
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Color.fromARGB(255, 13, 11, 11),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15),
+                          ),
                         ),
-                      ),
-                      Text(
-                        '@${TempUser.username}',
-                        style: TextStyle(
-                            fontSize: 14, color: Colors.grey.shade600),
-                      )
-                    ],
+                        Text(
+                            maxLines: 1,
+                          '@${TempUser.username}',
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 14, color: Colors.grey.shade600),
+                        )
+                      ],
+                    ),
                   ),
                   const Icon(
                     FontAwesomeIcons.ellipsis,

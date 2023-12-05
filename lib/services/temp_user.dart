@@ -45,11 +45,11 @@ class TempUser {
     if (result is String) {
     } else if (result is Response) {
       Response res = result;
-      setEmail(email: res!.data['data']['user']['email']);
-      setName(name: res!.data['data']['user']['name']);
-      setUserName(username: res!.data['data']['user']['username']);
-      setImage(image: res!.data['data']['user']['avatar']);
-      setId(id: res!.data['data']['user']['id']);
+      setEmail(email: res.data['data']['user']['email']);
+      setName(name: res.data['data']['user']['name']);
+      setUserName(username: res.data['data']['user']['username']);
+      setImage(image: res.data['data']['user']['avatar']);
+      setId(id: res.data['data']['user']['id']);
     }
   }
 }

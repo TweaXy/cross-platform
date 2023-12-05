@@ -11,7 +11,6 @@ import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
 import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/profile_screen_body.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
@@ -24,7 +23,8 @@ import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.id, required this.text});
