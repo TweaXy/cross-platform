@@ -16,6 +16,8 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
 import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
+import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -395,68 +397,74 @@ class _FollowEditButtonState extends State<FollowEditButton> {
   @override
   Widget build(BuildContext context) {
     text = text ?? widget.text;
-    return Row(
-      children: [
-        text == 'Following'
-            ? Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: ProfileIconButton(
-                  borderWidth: 2,
-                  icon: Icons.notification_add_outlined,
-                  onPressed: () {
-                    //TODO: Implement mute notification
-                  },
-                  color: Colors.white,
-                  iconColor: Colors.black,
+    return BlocProvider(
+      create: (context) => UpdateAllCubit(),
+      child: Row(
+        children: [
+          text == 'Following'
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: ProfileIconButton(
+                    borderWidth: 2,
+                    icon: Icons.notification_add_outlined,
+                    onPressed: () {
+                      //TODO: Implement mute notification
+                    },
+                    color: Colors.white,
+                    iconColor: Colors.black,
+                  ),
+                )
+              : const SizedBox(),
+          ElevatedButton(
+            onPressed: () async {
+              BlocProvider.of<UpdateAllCubit>(context).emit(LoadingStata());
+              if (text == 'Follow' || text == 'Follow back') {
+                //TODO :- Implement the follow logic
+                await FollowUser.instance.followUser(widget.user.userName!);
+                setState(() {
+                  text = 'Following';
+                });
+              } else if (text == 'Following') {
+                //TODO :- Implement the unfollow logic
+                await FollowUser.instance.deleteUser(widget.user.userName!);
+                setState(() {
+                  text = 'Follow';
+                });
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => EditProfileScreen(
+                    user: widget.user,
+                  ),
+                ));
+              }
+              BlocProvider.of<UpdateAllCubit>(context)
+                  .emit(UpdataAllinitialState());
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(
+                  text == 'Follow' || text == 'Follow back'
+                      ? Colors.black
+                      : Colors.white),
+              minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: const BorderSide(color: Colors.grey),
                 ),
-              )
-            : const SizedBox(),
-        ElevatedButton(
-          onPressed: () async {
-            if (text == 'Follow' || text == 'Follow back') {
-              //TODO :- Implement the follow logic
-              await FollowUser.instance.followUser(widget.user.userName!);
-              setState(() {
-                text = 'Following';
-              });
-            } else if (text == 'Following') {
-              //TODO :- Implement the unfollow logic
-              await FollowUser.instance.deleteUser(widget.user.userName!);
-              setState(() {
-                text = 'Follow';
-              });
-            } else {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => EditProfileScreen(
-                  user: widget.user,
-                ),
-              ));
-            }
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' || text == 'Follow back'
-                    ? Colors.black
-                    : Colors.white),
-            minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: const BorderSide(color: Colors.grey),
+              ),
+            ),
+            child: Text(
+              text!,
+              style: TextStyle(
+                color: text == 'Follow' || text == 'Follow back'
+                    ? Colors.white
+                    : Colors.black,
+                fontSize: 17,
               ),
             ),
           ),
-          child: Text(
-            text!,
-            style: TextStyle(
-              color: text == 'Follow' || text == 'Follow back'
-                  ? Colors.white
-                  : Colors.black,
-              fontSize: 17,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
