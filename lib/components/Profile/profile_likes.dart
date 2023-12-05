@@ -55,8 +55,9 @@ class _ProfileLikesState extends State<ProfileLikes> {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
       if (state is TweetDeleteState ||
-          state is TweetAddedState ||
-          state is TweetInitialState) {
+          state is TweetAddedState ||state is TweetUnLikedState
+          // || state is TweetInitialState
+          ) {
         // setState() {
         //   _pagingController.itemList!
         //       .removeWhere((element) => element.id == state.tweetid);
@@ -64,10 +65,19 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
         _pagingController.refresh();
       }
-      if (state is TweetUnLikedState) {
-        _pagingController.itemList!
-            .removeWhere((element) => element.id == state.tweetid);
-      }
+      // if (state is TweetUnLikedState) {
+      //   // List<Tweet> list = [];
+      //   // for (int i = 0; i < _pagingController.itemList!.length; i++) {
+      //   //   String id = _pagingController.itemList![i].id;
+      //   //   if (id != state.tweetid) ;
+      //   //   list.add(_pagingController.itemList![i]);
+      //   // }
+      //   // _pagingController.itemList!.clear();
+      //   // _pagingController.itemList = list;
+      //   // _pagingController.refresh();
+      //   // _pagingController.itemList!
+      //   //     .removeWhere((element) => element.id == state.tweetid);
+      // }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(
@@ -85,8 +95,11 @@ class _ProfileLikesState extends State<ProfileLikes> {
               ),
             );
           },
-          noMoreItemsIndicatorBuilder: (context){
-            return const SizedBox(width: 0,height: 0,);
+          noMoreItemsIndicatorBuilder: (context) {
+            return const SizedBox(
+              width: 0,
+              height: 0,
+            );
           },
           newPageProgressIndicatorBuilder: (context) => const Center(
               child: CircularProgressIndicator(
