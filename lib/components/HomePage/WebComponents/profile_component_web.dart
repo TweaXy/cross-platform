@@ -103,7 +103,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int postsNumber = 678530;
   void Function() onPressed = () {};
   int? selectedMenu;
-  ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditProfileCubit, EditProfileState>(

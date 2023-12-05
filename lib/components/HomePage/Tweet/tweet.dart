@@ -41,7 +41,7 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            key:new ValueKey(HomePageKeys.userImageInTweetClick),
+            key: new ValueKey(HomePageKeys.userImageInTweetClick),
             margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
             child: UserImageForTweet(
               userid: tweet.userId,
@@ -63,27 +63,28 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LikersInTweet(id: tweet.id),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 5.0, left: 2, right: 2, top: 0),
-                    child: Text(
-                      tweet.tweetText!,
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 18,
+                if (tweet.tweetText != null)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LikersInTweet(id: tweet.id),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          bottom: 5.0, left: 2, right: 2, top: 0),
+                      child: Text(
+                        tweet.tweetText!,
+                        style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
-                ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   id: tweet.id,
