@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/components/showallFollowers.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
@@ -20,31 +22,47 @@ class FollowingPage extends StatefulWidget {
 }
 
 class _FollowingPageState extends State<FollowingPage> {
-  final ScrollController controller = ScrollController();
-  int offset = 0;
-  bool FirstTime = true;
-  int myindex = 0;
-  Set<FollowersModel> allfollow = {};
+  PagingController<int, FollowersModel> _pagingController =
+      PagingController(firstPageKey: 0);
+
   Future<void> _refresh() async {
+    _pagingController.refresh();
     setState(() {});
-    allfollow = {};
-    offset = 0;
-    myindex = 0;
-    FirstTime = true;
-    // await followApi().getFollowings(
-    //     scroll: controller, username: widget.username, offset: 0);
   }
 
   @override
   void initState() {
     super.initState();
-    controller.addListener(() {
-      if (controller.position.maxScrollExtent == controller.offset) {
-        setState(() {
-          offset += 10;
-        });
-      }
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
+
+  final _pageSize = 7;
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems = await followApi().getFollowings(
+        username: widget.username,
+        pageSize: _pageSize,
+        offset: pageKey,
+      );
+      print(newItems);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
   }
 
   @override
@@ -52,7 +70,11 @@ class _FollowingPageState extends State<FollowingPage> {
     return BlocBuilder<UpdateAllCubit, UpdataAllState>(
       builder: (context, state) {
         if (state is LoadingStata) {
-          allfollow.clear();
+          _pagingController.dispose();
+          _pagingController = PagingController(firstPageKey: 0);
+          _pagingController.addPageRequestListener((pageKey) {
+            _fetchPage(pageKey);
+          });
           return const LoadingScreen(asyncCall: true);
         } else {
           return Scaffold(
@@ -86,48 +108,34 @@ class _FollowingPageState extends State<FollowingPage> {
               ],
             ),
             body: RefreshIndicator(
-                onRefresh: _refresh,
-                child: FutureBuilder<List<FollowersModel>>(
-                  future: followApi().getFollowings(
-                      scroll: controller,
-                      username: widget.username,
-                      offset: offset),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data!.isEmpty && FirstTime) {
-                        return const Center(
-                          child: Text("You don't Follow any one",
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold)),
-                        );
-                      } else {
-                        FirstTime = false;
-                        if (snapshot.data!.isNotEmpty)
-                          allfollow.addAll(snapshot.data!);
-                        myindex = allfollow.length;
-                        return ListView.builder(
-                          controller: controller,
-                          itemBuilder: (context, index) {
-                            List<FollowersModel> myList = allfollow.toList();
-                            return CustomFollowers(
-                              user: myList[index],
-                              isFollower: false,
-                            );
-                          },
-                          itemCount: allfollow.length,
-                        );
-                      }
-                    } else if (snapshot.hasError) {
-                      return kIsWeb
-                          ? const CustomWebToast(message: "We have a problem")
-                          : const Center(
-                              child: CustomToast(message: "We have a problem"));
-                    } else {
-                      return const Center(child: CircularProgressIndicator());
-                    }
+              onRefresh: _refresh,
+              child: PagedListView<int, FollowersModel>(
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate(
+                  animateTransitions: true,
+                  noItemsFoundIndicatorBuilder: (context) {
+                    return const Center(
+                      child: Text(
+                        "You don't Follow any one",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    );
                   },
-                )),
+                  firstPageProgressIndicatorBuilder: (context) {
+                    return const Center(
+                      child: SpinKitRing(color: Colors.blueAccent),
+                    );
+                  },
+                  newPageProgressIndicatorBuilder: (context) => const Center(
+                    child: SpinKitRing(color: Colors.blueAccent),
+                  ),
+                  itemBuilder: (context, item, index) {
+                    return CustomFollowers(isFollower: false, user: item);
+                  },
+                ),
+              ),
+            ),
           );
         }
       },
