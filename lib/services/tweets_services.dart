@@ -95,19 +95,10 @@ class TweetsServices {
       return [];
     }
     // Response response = res;
-    // if (scroll.position.userScrollDirection == ScrollDirection.reverse &&
-    //     response.data['pagination']['nextPage'] != null) //downward
-    // {
-    //   response = await Api.getwithToken(
-    //       url: response!.data['pagination']['nextPage'], token: s!);
-    // } else if (scroll.position.userScrollDirection == ScrollDirection.forward &&
-    //     response.data['pagination']['prevPage'] != null) //up
-    // {
-    //   response = await Api.getwithToken(
-    //       url: response!.data['pagination']['prevPage'], token: s!);
-    // }
-    print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = (res.data['data']['items']['data'] as List<dynamic>)
+
+    // print('rrrrr' + res.toString());
+    List<Map<String, dynamic>> m = (res.data['data']['items']['data']
+            as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],
               'viewsCount': item['mainInteraction']['viewsCount'],
