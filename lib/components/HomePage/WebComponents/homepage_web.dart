@@ -9,7 +9,7 @@ import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/explore_web_screen.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
-import 'package:tweaxy/components/HomePage/trending_screen.dart';
+import 'package:tweaxy/views/trends/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 

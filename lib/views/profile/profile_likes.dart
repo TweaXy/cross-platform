@@ -29,7 +29,8 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems = await services.likersList(pageNumber: pageKey);
+      final List<Tweet> newItems =
+          await services.likersList(pageNumber: pageKey);
       print(newItems);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {

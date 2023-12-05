@@ -66,7 +66,11 @@ class _MyPageState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
+          shape: UnderlineInputBorder(
+              borderSide: BorderSide(
+            width: 0.4,
+            color: Colors.grey[300]!,
+          )),
           elevation: 0,
           backgroundColor: Colors.white,
           leading: IconButton(
