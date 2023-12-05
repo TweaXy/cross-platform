@@ -7,7 +7,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/like_tweet.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
-class TweetInteractions extends StatelessWidget {
+class TweetInteractions extends StatefulWidget {
   const TweetInteractions(
       {super.key,
       required this.id,
@@ -27,6 +27,20 @@ class TweetInteractions extends StatelessWidget {
   final bool isUserRetweeted;
 
   final String id;
+
+  @override
+  State<TweetInteractions> createState() => _TweetInteractionsState();
+}
+
+class _TweetInteractionsState extends State<TweetInteractions> {
+  bool postLiked = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    postLiked = widget.isUserLiked;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -43,7 +57,8 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(commentsCount.toString()), // Replace with your desired label
+              Text(widget.commentsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           Row(
@@ -53,7 +68,8 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(retweetsCount.toString()), // Replace with your desired label
+              Text(widget.retweetsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           LikeButton(
@@ -65,15 +81,20 @@ class TweetInteractions extends StatelessWidget {
                       await SharedPreferences.getInstance();
                   token = await prefs.getString('token')!;
                 });
+
                 if (isLiked) {
-                  BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet(id);
-                  return await LikeTweet.unLikeTweet(id, token);
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .unLikeTweet(widget.id);
+
+                  return !(await LikeTweet.unLikeTweet(widget.id, token));
                 } else {
-                  return await LikeTweet.likeTweet(id, token);
+
+                  return await LikeTweet.likeTweet(widget.id, token);
                 }
               },
-              likeCount: likesCount,
+              likeCount: widget.likesCount,
               size: 20,
+              isLiked: widget.isUserLiked,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),
           Row(
             children: [
@@ -81,7 +102,8 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(viewsCount.toString()), // Replace with your desired label
+              Text(widget.viewsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           // Replace with your desired icon
