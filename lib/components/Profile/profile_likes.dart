@@ -94,7 +94,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
           )),
           itemBuilder: (context, item, index) {
             return CustomTweet(
-              forProfile: true,
+              forProfile: false,
               tweet: item,
             );
           },

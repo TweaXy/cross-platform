@@ -97,11 +97,15 @@ class ProfileScreenBody extends StatelessWidget {
     return TabBarView(
       controller: tabController,
       children: <Widget>[
-        CustomScrollView(slivers: [ProfilePosts()]),
+        CustomScrollView(
+            scrollBehavior:
+                ScrollConfiguration.of(context).copyWith(scrollbars: false),
+            slivers: [ProfilePosts()]),
         Placeholder(),
         CustomScrollView(
-          slivers: [
-            ProfileLikes()],
+          scrollBehavior:
+              ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          slivers: [ProfileLikes()],
         )
       ],
     );

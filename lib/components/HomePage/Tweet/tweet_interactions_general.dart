@@ -86,7 +86,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
 
-                  return !(await LikeTweet.unLikeTweet(widget.id, token));
+                  return (await LikeTweet.unLikeTweet(widget.id, token));
                 } else {
 
                   return await LikeTweet.likeTweet(widget.id, token);

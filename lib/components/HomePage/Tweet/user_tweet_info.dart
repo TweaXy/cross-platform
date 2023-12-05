@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/wrap_modal_bottom_profile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom_profile.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
@@ -11,7 +11,6 @@ class User_TweetInfo extends StatelessWidget {
       {super.key, required this.tweet, required this.forProfile});
   final Tweet tweet;
   final bool forProfile;
-
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -66,31 +65,34 @@ class User_TweetInfo extends StatelessWidget {
           ),
         ),
         const Spacer(),
-        IconButton(
-          key:new ValueKey(DeleteTweetKeys.tweetSettingsClickMobile),
-          icon: const Icon(FontAwesomeIcons.ellipsisVertical),
-          color: const Color.fromARGB(255, 182, 182, 182),
-          iconSize: 16,
-          onPressed: () {
-            if (forProfile || tweet.userId == TempUser.id) {
-              showModalBottomSheet(
-                showDragHandle: true,
-                useSafeArea: false,
-                enableDrag: true,
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(30.0),
+        Container(
+          alignment: Alignment.bottomRight,
+          child: IconButton(
+            key: new ValueKey(DeleteTweetKeys.tweetSettingsClickMobile),
+            icon: const Icon(FontAwesomeIcons.ellipsisVertical),
+            color: const Color.fromARGB(255, 182, 182, 182),
+            iconSize: 16,
+            onPressed: () {
+              if (forProfile || tweet.userId == TempUser.id) {
+                showModalBottomSheet(
+                  showDragHandle: true,
+                  useSafeArea: false,
+                  enableDrag: true,
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(30.0),
+                    ),
                   ),
-                ),
-                builder: (context) {
-                  return WrapModalBottomProfile(
-                    tweetid: tweet.id,
-                  );
-                },
-              );
-            }
-          },
+                  builder: (context) {
+                    return WrapModalBottomProfile(
+                      tweetid: tweet.id,
+                    );
+                  },
+                );
+              }
+            },
+          ),
         )
       ],
     );
