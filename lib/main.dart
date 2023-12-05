@@ -4,6 +4,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/Views/signup/mobile/create_account_data_review_view.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
 import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
@@ -60,6 +61,7 @@ class TweaXy extends StatelessWidget {
             kFollowers: (context) => const FollowersPage(),
             kFollowing: (context) => const FollowingPage(),
             kwebboth: (context) => const WebFollowersAndFollowings(),
+            kaddtweet:(context)=> const AddTweetView(photoIconPressed: true,),
           },
           initialRoute: kSplashScreen,
         ),

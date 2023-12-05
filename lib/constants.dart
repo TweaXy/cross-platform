@@ -22,6 +22,7 @@ const kProfileScreen = 'profile_screen';
 const kHomeScreen = 'home_page';
 const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
+const kaddtweet ="add tweet";
 const kFollowing = 'following';
 const kwebboth = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
