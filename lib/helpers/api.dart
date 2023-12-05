@@ -122,7 +122,7 @@ class Api {
     return response;
   }
 
-  static Future<Response> patch({
+  static Future patch({
     required String url,
     @required dynamic body,
     @required String? token,
@@ -138,7 +138,7 @@ class Api {
       print(response.statusCode);
     } on DioException catch (e) {
       print(e.response!.data['message']);
-      throw Exception(e.response!.statusMessage);
+      return (e.response!.data['message']);
     }
     return response;
   }
