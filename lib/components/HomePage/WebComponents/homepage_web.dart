@@ -117,11 +117,18 @@ class _HomePageWebState extends State<HomePageWeb> {
                           child: Column(
                             children: [
                               SearchBarWeb(id: profileID, token: token),
-                              TrendingList()
+                              const TrendingList()
                             ],
                           ));
+                    } else if (state is SidebarExploreState) {
+                      return const Expanded(
+                          flex: 5,
+                          child: SizedBox(
+                            height: 0,
+                            width: 0,
+                          ));
                     } else {
-                      return Expanded(
+                      return const Expanded(
                           flex: 5,
                           child: Column(
                             children: [TrendingList()],
