@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dialog.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
-class WrapModalBottomProfile extends StatelessWidget {
-  const WrapModalBottomProfile({super.key, required this.tweetid});
+class ModalBottomProfilePosts extends StatelessWidget {
+  const ModalBottomProfilePosts({super.key, required this.tweetid});
   final String tweetid;
-
   @override
   Widget build(BuildContext context) {
     return Wrap(
@@ -30,14 +30,6 @@ class WrapModalBottomProfile extends StatelessWidget {
             style: TextStyle(fontSize: 20),
           ),
         ),
-        // ListTile(
-        //   leading: Icon(Icons.copy),
-        //   title: Text('Copy Link'),
-        // ),
-        // ListTile(
-        //   leading: Icon(Icons.edit),
-        //   title: Text('Edit'),
-        // ),
       ],
     );
   }

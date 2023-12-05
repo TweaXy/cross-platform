@@ -38,7 +38,7 @@ class _MyPageState extends State<ProfilePosts> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<Tweet> newItems =
-          await TweetsServices.getTweetsHome(offset: pageKey);
+          await TweetsServices.getProfilePosts(offset: pageKey);
       print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       print('tttt');
@@ -60,7 +60,7 @@ class _MyPageState extends State<ProfilePosts> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState|| state is TweetAddedState) {
+        if (state is TweetDeleteState || state is TweetAddedState) {
           // setState() {
           //   _pagingController.itemList!
           //       .removeWhere((element) => element.id == state.tweetid);

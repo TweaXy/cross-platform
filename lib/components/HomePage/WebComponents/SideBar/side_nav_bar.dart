@@ -257,11 +257,12 @@ class _SideNavBarState extends State<SideNavBar> {
                           ),
                         ),
                         Text(
-                            maxLines: 1,
+                          maxLines: 1,
                           '@${TempUser.username}',
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
-                              fontSize: 14, color: Colors.grey.shade600),
+                              fontSize: 14,
+                              color: Colors.grey.shade600),
                         )
                       ],
                     ),

@@ -13,6 +13,7 @@ class User_TweetInfoWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.max,
       children: [
         Flexible(
           child: Padding(
@@ -62,22 +63,26 @@ class User_TweetInfoWeb extends StatelessWidget {
             ),
           ),
         ),
-        const Spacer(),
-        if (forProfile || tweet.userId == TempUser.id)
-          TweetSettingsProfileWeb(
-            tweetId: tweet.id,
-          )
-        else
-          IconButton(
-            key:new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
-            splashRadius: 15,
-            hoverColor: const Color.fromARGB(255, 207, 232, 253),
-            icon: const Icon(FontAwesomeIcons.ellipsis),
-            iconSize: 16,
-            onPressed: () {
-              // if (isProfile)
-            },
+        Spacer(),
+        Container(
+          alignment: Alignment.bottomRight,
+          child: Container(
+            child: (forProfile || tweet.userId == TempUser.id)
+                ? TweetSettingsProfileWeb(
+                    tweetId: tweet.id,
+                  )
+                : IconButton(
+                    key: new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
+                    splashRadius: 15,
+                    hoverColor: const Color.fromARGB(255, 207, 232, 253),
+                    icon: const Icon(FontAwesomeIcons.ellipsis),
+                    iconSize: 16,
+                    onPressed: () {
+                      // if (isProfile)
+                    },
+                  ),
           ),
+        )
       ],
     );
   }

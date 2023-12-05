@@ -53,7 +53,9 @@ class _ProfileLikesState extends State<ProfileLikes> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
-      if (state is TweetDeleteState || state is TweetUnLikedState|| state is TweetAddedState) {
+      if (state is TweetDeleteState ||
+          state is TweetUnLikedState ||
+          state is TweetAddedState) {
         // setState() {
         //   _pagingController.itemList!
         //       .removeWhere((element) => element.id == state.tweetid);
@@ -80,7 +82,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
           )),
           itemBuilder: (context, item, index) {
             return CustomTweet(
-              forProfile: true,
+              forProfile: false,
               tweet: item,
             );
           },

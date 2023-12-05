@@ -156,6 +156,8 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     ),
                   ),
                   body: NestedScrollView(
+                    scrollBehavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
                     controller: controller,
                     headerSliverBuilder:
                         (BuildContext context, bool innerBoxIsScrolled) {

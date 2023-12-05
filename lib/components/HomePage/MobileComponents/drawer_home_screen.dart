@@ -64,14 +64,19 @@ class CustomDrawer extends StatelessWidget {
                     child: Text(
                       TempUser.name,
                       style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
                           color: Color.fromARGB(255, 13, 11, 11),
                           fontWeight: FontWeight.bold,
                           fontSize: 20),
                     ),
                   ),
                   Text(
+                    maxLines: 1,
                     '@${TempUser.username}',
-                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
+                    style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
+                        color: Colors.grey.shade600),
                   )
                 ],
               ),

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Video/network_video_player.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
@@ -12,12 +13,16 @@ import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet, required this.forProfile});
+  const CustomTweet({
+    super.key,
+    required this.tweet,
+    required this.forProfile,
+  });
   final bool forProfile;
+
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
-    print('twee' + tweet.toString());
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
