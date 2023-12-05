@@ -24,6 +24,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
 
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
@@ -53,7 +54,9 @@ class _ProfileLikesState extends State<ProfileLikes> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
-      if (state is TweetDeleteState || state is TweetUnLikedState|| state is TweetAddedState) {
+      if (state is TweetDeleteState ||
+          state is TweetAddedState ||
+          state is TweetInitialState) {
         // setState() {
         //   _pagingController.itemList!
         //       .removeWhere((element) => element.id == state.tweetid);
@@ -61,10 +64,18 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
         _pagingController.refresh();
       }
-
+      if (state is TweetUnLikedState) {
+        _pagingController.itemList!
+            .removeWhere((element) => element.id == state.tweetid);
+      }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(
+          noItemsFoundIndicatorBuilder: (context) {
+            return const Center(
+              child: Text("You have no liked Tweets"),
+            );
+          },
           animateTransitions: true,
           firstPageProgressIndicatorBuilder: (context) {
             return const Center(

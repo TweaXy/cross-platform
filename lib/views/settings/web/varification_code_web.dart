@@ -12,7 +12,6 @@ import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/update_email.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/settings/web/email_update_web.dart';
 
 class VarificationCodeWeb extends StatefulWidget {
   const VarificationCodeWeb({super.key, required this.email});
@@ -120,7 +119,7 @@ class _VarificationCodeWebState extends State<VarificationCodeWeb> {
                       );
                     } else {
                       setState(() {
-                        emailList.add(widget.email);
+                       
                         TempUser.email = widget.email;
                       });
                       showToastWidget(

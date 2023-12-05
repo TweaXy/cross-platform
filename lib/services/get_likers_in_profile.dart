@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
@@ -11,8 +13,13 @@ class GetLikersInProfile {
   GetLikersInProfile(this.dio);
 
   Future<List<Tweet>> likersList({int pageNumber = 0}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
+    String? token;
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     Response response = await Api.getwithToken(
         url: '${baseUrl}home?/limit=5&offset=$pageNumber', token: token);
     List<Map<String, dynamic>> tweets =

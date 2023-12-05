@@ -10,9 +10,9 @@ class EmailUpdateWeb extends StatefulWidget {
   State<EmailUpdateWeb> createState() => _EmailUpdateWebState();
 }
 
-List<String> emailList = [];
 
 class _EmailUpdateWebState extends State<EmailUpdateWeb> {
+  String? email;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,22 +43,19 @@ class _EmailUpdateWebState extends State<EmailUpdateWeb> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (emailList.isNotEmpty)
-              ListView.builder(
-                  itemCount: emailList.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      tileColor: Colors.grey[500],
-                      title: Text(
-                        "current",
-                        style: TextStyle(color: Colors.grey[600], fontSize: 15),
-                      ),
-                      subtitle: Text(
-                        emailList[index],
-                        style: TextStyle(color: Colors.grey[600], fontSize: 15),
-                      ),
-                    );
-                  }),
+            if(email!=null)
+            ListTile(
+                    tileColor: Colors.grey[500],
+                    title: Text(
+                      "current",
+                      style: TextStyle(color: Colors.grey[600], fontSize: 15),
+                    ),
+                    subtitle: Text(
+                      email!,
+                      style: TextStyle(color: Colors.grey[600], fontSize: 15),
+                    ),
+                  ),
+                 
             Padding(
               padding: EdgeInsets.symmetric(
                   vertical: MediaQuery.of(context).size.height * .02),
@@ -67,7 +64,9 @@ class _EmailUpdateWebState extends State<EmailUpdateWeb> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) => const DialogVerifyPassword(),
+                      builder: (context) => DialogVerifyPassword(
+                     
+                      ),
                       barrierColor: const Color.fromARGB(100, 97, 119, 129),
                     );
                   },

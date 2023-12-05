@@ -100,7 +100,8 @@ class ProfileScreenBody extends StatelessWidget {
         CustomScrollView(slivers: [ProfilePosts()]),
         Placeholder(),
         CustomScrollView(
-          slivers: [ProfileLikes()],
+          slivers: [
+            ProfileLikes()],
         )
       ],
     );

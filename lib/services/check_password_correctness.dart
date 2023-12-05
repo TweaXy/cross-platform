@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 
 class CheckPassword {
@@ -14,9 +14,12 @@ class CheckPassword {
   Future checkPasswordCorrectness(String password) async {
     dynamic response;
     String? token;
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    token = pref.getString('token');
-
+      try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     try {
       response = await Api.post(
         url: '${baseUrl}users/checkPassword',
