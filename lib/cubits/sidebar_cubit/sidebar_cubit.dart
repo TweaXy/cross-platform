@@ -18,6 +18,7 @@ class SidebarCubit extends Cubit<SidebarState> {
         emit(SidebarMessageState());
         break;
       case 4:
+        emit(SearchUserLoadingState());
         emit(SidebarProfileState());
         break;
       default:
