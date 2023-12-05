@@ -12,9 +12,14 @@ class GetTrendsService {
   static String token = '';
   final Dio dio;
 
-  Future<List<Trend>> getTrendsList({required int pageNumber}) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token')!;
+  Future<List<Trend>> getTrendsList(String? tokenSent,
+      {required int pageNumber}) async {
+    if (tokenSent != null) {
+      token = tokenSent;
+    } else {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token')!;
+    }
     log('token:$token');
     String url = '${baseURL}trends?limit=7&offset=$pageNumber';
     Response response = await Api.getwithToken(url: url, token: token);
