@@ -61,7 +61,6 @@ class TweetsServices {
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
             })
         .toList();
-    print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
@@ -74,7 +73,6 @@ class TweetsServices {
     print(tweetid);
     dynamic res =
         await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
-    print('ressss of delete' + res.toString());
     if (res is String)
       return res;
     else
