@@ -1,45 +1,31 @@
 import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/HomePage/WebComponents/search_bar_web.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/trend.dart';
-import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_trends.dart';
-import 'package:tweaxy/services/search_for_users.dart';
-import 'package:tweaxy/views/search_users/search_users.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
-class ExploreWebScreen extends StatefulWidget {
-  const ExploreWebScreen({super.key});
-
+class TrendingScreen extends StatefulWidget {
+  const TrendingScreen({super.key});
   @override
-  State<ExploreWebScreen> createState() => _ExploreWebScreenState();
+  State<TrendingScreen> createState() => _TrendingScreenState();
 }
 
-class _ExploreWebScreenState extends State<ExploreWebScreen> {
-  String id = '';
-  String token = '';
+class _TrendingScreenState extends State<TrendingScreen> {
   GetTrendsService services = GetTrendsService(dio: Dio());
   final PagingController<int, Trend> _pagingController =
       PagingController(firstPageKey: 0);
-
   final int _pageSize = 7;
+  @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
-    });
-    Future(() async {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getString('id')!;
-      token = prefs.getString('token')!;
-      setState(() {});
     });
   }
 
@@ -67,48 +53,76 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
     super.dispose();
   }
 
-  bool cleared = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              color: Colors.black.withOpacity(0.2),
-              width: 0.5,
+        appBar: AppBar(
+          elevation: 0,
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(4.0),
+            child: Container(
+              color: Colors.grey[300],
+              height: 0.7,
             ),
-            right: BorderSide(
-              color: Colors.black.withOpacity(0.2),
-              width: 0.5,
+          ),
+          backgroundColor: Colors.white,
+          leading: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, kProfileScreen);
+              },
+              child: CircleAvatar(
+                backgroundColor: Colors.transparent,
+                backgroundImage:
+                    CachedNetworkImageProvider(basePhotosURL + TempUser.image),
+              ),
+            ),
+          ),
+          titleSpacing: 10,
+          title: GestureDetector(
+            onTap: () {
+              //Todo Add navigation to Search View
+              Navigator.pushNamed(context, kSearchScreen);
+            },
+            child: Container(
+              width: double.infinity,
+              height: AppBar().preferredSize.height * 2 / 3,
+              decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  border: Border.all(
+                    color: Colors.transparent,
+                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(30))),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('      Search TweaXy',
+                      style: TextStyle(color: Colors.grey[500], fontSize: 15))),
             ),
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        body: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10),
-                child: SearchBarWeb(id: id, token: token)),
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.03,
+                  vertical: MediaQuery.of(context).size.height * 0.01),
+              child: const Text(
+                "Trends",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    letterSpacing: 0.5),
+              ),
+            ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.9,
+              height: MediaQuery.of(context).size.height * 0.74,
               child: CustomScrollView(
                 shrinkWrap: true,
                 slivers: [
-                  const SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: 10.0, left: 11),
-                      child: Text(
-                        "Trends",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            letterSpacing: 0.5),
-                      ),
-                    ),
-                  ),
                   PagedSliverList<int, Trend>(
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate(
@@ -187,8 +201,6 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
               ),
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

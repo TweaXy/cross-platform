@@ -18,6 +18,7 @@ class SidebarCubit extends Cubit<SidebarState> {
         emit(SidebarMessageState());
         break;
       case 4:
+        emit(SearchUserLoadingState());
         emit(SidebarProfileState());
         break;
       default:
@@ -27,5 +28,9 @@ class SidebarCubit extends Cubit<SidebarState> {
 
   void openProfile(String id, String text) {
     emit(OtherProfileState(id, text));
+  }
+
+  void openExplore() {
+    emit(SidebarExploreState());
   }
 }

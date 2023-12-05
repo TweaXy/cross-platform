@@ -9,17 +9,18 @@ class Likers {
   final dio = Dio();
   Likers();
 
-  Future<List<FollowersModel>> getLikers(
-      {required ScrollController scroll,
-      required String id,
-      required int offset}) async {
+  Future<List<FollowersModel>> getLikers({
+    required String id,
+    required int offset,
+    required int pageSize,
+  }) async {
     dynamic response;
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/interactions/$id/likers?limit=10&offset=$offset",
+          "http://16.171.65.142:3000/api/v1/interactions/$id/likers?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

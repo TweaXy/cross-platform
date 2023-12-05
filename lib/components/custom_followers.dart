@@ -45,8 +45,11 @@ class _CustomFollowersState extends State<CustomFollowers> {
           MaterialPageRoute(
               builder: (context) => ProfileScreen(
                     id: widget.user.id,
-                    text:
-                        widget.user.followedByMe ? 'Following' : 'Follow back',
+                    text: id == widget.user.id
+                        ? ""
+                        : widget.user.followedByMe
+                            ? 'Following'
+                            : 'Follow back',
                   )),
         );
       },
