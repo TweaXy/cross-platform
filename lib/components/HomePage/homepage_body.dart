@@ -64,11 +64,15 @@ class _MyPageState extends State<HomePageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState ||
-            state is TweetHomeRefresh ||
+        if (state is TweetHomeRefresh ||
             state is TweetAddedState ||
-            state is TweetLikedState ) {
+            state is TweetLikedState) {
           _pagingController.refresh();
+        }
+        if (state is TweetDeleteState) {
+          _pagingController.itemList!
+              .removeWhere((element) => element.id == state.tweetid);
+          BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
         }
         // if (state is TweetLikedState) {
         //   _pagingController.itemList!.where((element) {
