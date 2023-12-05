@@ -13,7 +13,7 @@ class GetTrendsService {
   final Dio dio;
 
   Future<List<Trend>> getTrendsList(String? tokenSent,
-      {required int pageNumber}) async {
+      {required int pageNumber, required int limit}) async {
     if (tokenSent != null) {
       token = tokenSent;
     } else {
@@ -21,7 +21,7 @@ class GetTrendsService {
       token = prefs.getString('token')!;
     }
     log('token:$token');
-    String url = '${baseURL}trends?limit=7&offset=$pageNumber';
+    String url = '${baseURL}trends?limit=$limit&offset=$pageNumber';
     Response response = await Api.getwithToken(url: url, token: token);
     List<Map<String, dynamic>> trends =
         (response.data['data']['items'] as List<dynamic>)

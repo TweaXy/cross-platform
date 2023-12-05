@@ -45,7 +45,7 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<Trend> newItems =
-          await services.getTrendsList(null, pageNumber: pageKey);
+          await services.getTrendsList(null, limit: 7, pageNumber: pageKey);
       log(newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
