@@ -13,17 +13,17 @@ class GetLikersInProfile {
   GetLikersInProfile(this.dio);
 
   Future<List<Tweet>> likersList({int pageNumber = 0}) async {
-    String? token;
+    String? id;
     try {
       List<String> s = await loadPrefs();
-      token = s[1];
+      id = s[0];
     } catch (e) {
       log(e.toString());
     }
-    Response response = await Api.getwithToken(
-        url: '${baseUrl}home?/limit=5&offset=$pageNumber', token: token);
+    Response response = await Api.get(
+     '${baseUrl}users/$id/tweets/liked?limit=4&offset=$pageNumber');
     List<Map<String, dynamic>> tweets =
-        (response.data['data']['items'] as List<dynamic>)
+        (response.data['data']['items']['data'] as List<dynamic>)
             .map((item) => {
                   'likesCount': item['mainInteraction']['likesCount'],
                   'viewsCount': item['mainInteraction']['viewsCount'],

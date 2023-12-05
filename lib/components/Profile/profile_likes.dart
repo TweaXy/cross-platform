@@ -15,7 +15,7 @@ class ProfileLikes extends StatefulWidget {
   State<ProfileLikes> createState() => _ProfileLikesState();
 }
 
-final _pageSize = 7;
+final _pageSize = 4;
 
 class _ProfileLikesState extends State<ProfileLikes> {
   GetLikersInProfile services = GetLikersInProfile(Dio());
@@ -84,6 +84,9 @@ class _ProfileLikesState extends State<ProfileLikes> {
                 color: Colors.blue,
               ),
             );
+          },
+          noMoreItemsIndicatorBuilder: (context){
+            return const SizedBox(width: 0,height: 0,);
           },
           newPageProgressIndicatorBuilder: (context) => const Center(
               child: CircularProgressIndicator(
