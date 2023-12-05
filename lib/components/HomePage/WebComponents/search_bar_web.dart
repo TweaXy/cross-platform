@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
@@ -79,6 +80,7 @@ class _SearchBarWebState extends State<SearchBarWeb> {
       },
       constraints: const BoxConstraints(maxHeight: 500),
       onSelected: (item) {
+        BlocProvider.of<SidebarCubit>(context).emit(SearchUserLoadingState());
         if (item.id == null) return;
         String text = '';
         if (item.following == 1) {
@@ -90,7 +92,10 @@ class _SearchBarWebState extends State<SearchBarWeb> {
           text = '';
         }
         log('Text = $text', name: 'Testing Explore');
-        BlocProvider.of<SidebarCubit>(context).openProfile(item.id!, text);
+        BlocProvider.of<SidebarCubit>(context).emit(OtherProfileState(
+          item.id!,
+          text,
+        ));
       },
       suggestionsCallback: (search) async {
         if (search != '') {

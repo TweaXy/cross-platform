@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
@@ -7,6 +8,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending_li
 import 'package:tweaxy/components/HomePage/WebComponents/add_post.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/explore_web_screen.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_component_web.dart';
+import 'package:tweaxy/components/HomePage/WebComponents/search_bar_web.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/components/HomePage/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
@@ -27,16 +29,19 @@ class _HomePageWebState extends State<HomePageWeb> {
     super.initState();
     Future(() async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token')!;
       profileID = prefs.getString('id')!;
+      setState(() {});
     });
   }
 
   String profileID = '';
+  String token = '';
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
+    print(token);
     return Scaffold(
       backgroundColor: Theme.of(context).brightness == Brightness.light
           ? Colors.white
@@ -79,6 +84,14 @@ class _HomePageWebState extends State<HomePageWeb> {
                           id: state.id,
                           text: state.text,
                         );
+                      } else if (state is SearchUserLoadingState) {
+                        return const Scaffold(
+                          body: Center(
+                            child: SpinKitRing(
+                              color: Colors.blueAccent,
+                            ),
+                          ),
+                        );
                       } else {
                         return const Placeholder();
                       }
@@ -88,10 +101,13 @@ class _HomePageWebState extends State<HomePageWeb> {
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
-                const Expanded(
+                Expanded(
                     flex: 5,
                     child: Column(
-                      children: [TrendingList()],
+                      children: [
+                        SearchBarWeb(id: profileID, token: token),
+                        TrendingList()
+                      ],
                     ))
               ],
             ),
