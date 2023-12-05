@@ -101,14 +101,26 @@ class _HomePageWebState extends State<HomePageWeb> {
                 SizedBox(
                   width: screenWidth * 0.0009,
                 ),
-                Expanded(
-                    flex: 5,
-                    child: Column(
-                      children: [
-                        SearchBarWeb(id: profileID, token: token),
-                        TrendingList()
-                      ],
-                    ))
+                BlocBuilder<SidebarCubit, SidebarState>(
+                  builder: (context, state) {
+                    if (state is SidebarHomeState||state is SidebarInitialState) {
+                      return Expanded(
+                          flex: 5,
+                          child: Column(
+                            children: [
+                              SearchBarWeb(id: profileID, token: token),
+                              TrendingList()
+                            ],
+                          ));
+                    } else {
+                      return Expanded(
+                          flex: 5,
+                          child: Column(
+                            children: [TrendingList()],
+                          ));
+                    }
+                  },
+                )
               ],
             ),
           ),
