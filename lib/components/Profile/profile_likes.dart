@@ -15,7 +15,7 @@ class ProfileLikes extends StatefulWidget {
   State<ProfileLikes> createState() => _ProfileLikesState();
 }
 
-final _pageSize = 7;
+final _pageSize = 4;
 
 class _ProfileLikesState extends State<ProfileLikes> {
   GetLikersInProfile services = GetLikersInProfile(Dio());
@@ -33,15 +33,16 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems =
-          await services.likersList(pageNumber: pageKey);
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(newItems, nextPageKey);
+      dynamic response = await services.likersList(pageNumber: pageKey);
+      if (response != String) {
+        final List<Tweet> newItems = response as List<Tweet>;
+        final isLastPage = newItems.length < _pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + newItems.length;
+          _pagingController.appendPage(newItems, nextPageKey);
+        }
       }
     } catch (error) {
       _pagingController.error = error;
@@ -55,8 +56,10 @@ class _ProfileLikesState extends State<ProfileLikes> {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
       if (state is TweetDeleteState ||
-          state is TweetAddedState ||
-          state is TweetInitialState) {
+              state is TweetAddedState ||
+              state is TweetUnLikedState
+          // || state is TweetInitialState
+          ) {
         // setState() {
         //   _pagingController.itemList!
         //       .removeWhere((element) => element.id == state.tweetid);
@@ -64,10 +67,19 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
         _pagingController.refresh();
       }
-      if (state is TweetUnLikedState) {
-        _pagingController.itemList!
-            .removeWhere((element) => element.id == state.tweetid);
-      }
+      // if (state is TweetUnLikedState) {
+      //   // List<Tweet> list = [];
+      //   // for (int i = 0; i < _pagingController.itemList!.length; i++) {
+      //   //   String id = _pagingController.itemList![i].id;
+      //   //   if (id != state.tweetid) ;
+      //   //   list.add(_pagingController.itemList![i]);
+      //   // }
+      //   // _pagingController.itemList!.clear();
+      //   // _pagingController.itemList = list;
+      //   // _pagingController.refresh();
+      //   // _pagingController.itemList!
+      //   //     .removeWhere((element) => element.id == state.tweetid);
+      // }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(
@@ -83,6 +95,12 @@ class _ProfileLikesState extends State<ProfileLikes> {
               child: CircularProgressIndicator(
                 color: Colors.blue,
               ),
+            );
+          },
+          noMoreItemsIndicatorBuilder: (context) {
+            return const SizedBox(
+              width: 0,
+              height: 0,
             );
           },
           newPageProgressIndicatorBuilder: (context) => const Center(
