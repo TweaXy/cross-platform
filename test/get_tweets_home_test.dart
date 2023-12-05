@@ -1,36 +1,23 @@
-// import 'package:flutter/material.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-// import 'package:test/expect.dart';
-// import 'package:test/scaffolding.dart';
-// import 'package:tweaxy/services/tweets_services.dart';
+import 'package:dio/dio.dart';
+import 'package:test/expect.dart';
+import 'package:test/scaffolding.dart';
+import 'package:tweaxy/helpers/api.dart';
+import 'package:tweaxy/services/sign_in.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 
-// void main() {
-//   group('Test Get Tweets in Home Api', () {
-//     print('\n');
-//     setToken();
-//     test('Test1: Check Get Tweets in Home for invalid token', () async {
-//       expect(await TweetsServices.getTweetsHome(offset: 5),
-//           "must have email format");
-//     });
-//     print('\n');
-//     // test('Test2: Check Reset Token for invalid email and token', () async {
-//     //   SignInServices.setEmail(email: 'k');
-//     //   SignInServices.setToken(token: 'k');
+void main() {
+  String baseUrl = 'http://16.171.65.142:3000/api/v1';
 
-//     //   expect(await SignInServices.checkResetToken(),
-//     //       "email verification code must be 8 characters");
-//     // });
-//     // test('Test3: Check Reset Token for invalid email and token', () async {
-//     //   SignInServices.setEmail(email: 'k@gmail.com');
-//     //   SignInServices.setToken(token: 'k0000000');
+  group('Test Get Tweets Home Api', () {
+    test('Test1:  Get Tweets Home for invalid token', () async {
+      expect(
+          await Api.getwithToken(
+              url: '$baseUrl/home?/limit=5&offset=2', token: '5'),
+          "token not valid");
+    });
+  });
+}
 
-//     //   expect(await SignInServices.checkResetToken(), "User not found");
-//     // });
-//   });
-// }
-
-// void setToken() async {
-//   runApp(Container());
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-//   prefs.setString('token', 'hhh');
-// }
+void runTests() async {
+  await Future.delayed(const Duration(seconds: 30));
+}
