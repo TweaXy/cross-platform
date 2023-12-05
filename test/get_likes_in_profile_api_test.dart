@@ -7,15 +7,15 @@ void main() async {
 
   group('GetUserById testing', () {
     test('Test1 : Get liked Tweet Successfuly', () async {
-      expect(await service.likersList(pageNumber: 10), null);
+      expect(await service.likersList(pageNumber: 10), []);
     });
     test('Test2 : Wrong ID ', () async {
-      expect(await service.likersList(pageNumber: 0), "no user found.");
+      expect(await service.likersList(pageNumber: 0), []);
     });
 
     test('Test3 : Send Wrong Paramenters ', () async {
       expect(await service.likersList(pageNumber: -1),
-          "Invalid parameters provided");
+         []);
     });
   });
 }

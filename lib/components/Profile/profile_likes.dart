@@ -33,15 +33,16 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems =
-          await services.likersList(pageNumber: pageKey);
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController.appendPage(newItems, nextPageKey);
+      dynamic response = await services.likersList(pageNumber: pageKey);
+      if (response != String) {
+        final List<Tweet> newItems = response as List<Tweet>;
+        final isLastPage = newItems.length < _pageSize;
+        if (isLastPage) {
+          _pagingController.appendLastPage(newItems);
+        } else {
+          final nextPageKey = pageKey + newItems.length;
+          _pagingController.appendPage(newItems, nextPageKey);
+        }
       }
     } catch (error) {
       _pagingController.error = error;
@@ -55,7 +56,8 @@ class _ProfileLikesState extends State<ProfileLikes> {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
       if (state is TweetDeleteState ||
-          state is TweetAddedState ||state is TweetUnLikedState
+              state is TweetAddedState ||
+              state is TweetUnLikedState
           // || state is TweetInitialState
           ) {
         // setState() {

@@ -87,7 +87,7 @@ class TweaXy extends StatelessWidget {
                 kSettingsAndPrivacy: (context) =>
                     const SettingsAndPrivacyView(),
                 kSettings: (context) => const SettingsView(),
-                kLikersInProfile: (context) => const ProfileLikes(),
+                // kLikersInProfile: (context) => const ProfileLikes(),
                 kUpdatePassword: (context) => const UpdatePasswordView(),
               },
               initialRoute: kSplashScreen,
