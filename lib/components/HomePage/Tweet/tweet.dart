@@ -8,6 +8,7 @@ import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
@@ -62,21 +63,27 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                if (tweet.tweetText != null)
-                  GestureDetector(
-                    child: Container(
-                      key:new ValueKey(HomePageKeys.tweetContainer),
-                      margin: const EdgeInsets.only(
-                          bottom: 5.0, left: 2, right: 2, top: 0),
-                      child: Text(
-                        tweet.tweetText!,
-                        style: const TextStyle(
-                          fontFamily: 'Roboto',
-                          fontSize: 18,
-                        ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LikersInTweet(id: tweet.id),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(
+                        bottom: 5.0, left: 2, right: 2, top: 0),
+                    child: Text(
+                      tweet.tweetText!,
+                      style: const TextStyle(
+                        fontFamily: 'Roboto',
+                        fontSize: 18,
                       ),
                     ),
                   ),
+                ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   id: tweet.id,

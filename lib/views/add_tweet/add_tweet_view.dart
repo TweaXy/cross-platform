@@ -1,13 +1,17 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/models/app_icons.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 import 'package:video_player/video_player.dart';
 
@@ -47,9 +51,21 @@ class _AddTweetViewState extends State<AddTweetView> {
     final ImagePicker picker = ImagePicker();
     try {
       mediaTemporary = await picker.pickMultipleMedia();
-
+      if (media.length + mediaTemporary.length > 4) {
+        {
+          showToastWidget(
+            const CustomToast(
+              message: "Maximum number of media in tweet is 4",
+            ),
+            position: ToastPosition.bottom,
+            duration: const Duration(seconds: 2),
+          );
+          return;
+        }
+      }
       setState(() {
         media.addAll(mediaTemporary);
+
         _updateButtonState();
       });
 
@@ -178,12 +194,12 @@ class _AddTweetViewState extends State<AddTweetView> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8.0, left: 0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, left: 0),
                     child: CircleAvatar(
                       radius: 21,
-                      backgroundImage:
-                          AssetImage('assets/girl.jpg'), //TODO : image of
+                      backgroundImage: CachedNetworkImageProvider(
+                          'http://16.171.65.142:3000/${TempUser.image}'),
                     ),
                   ),
                   Container(

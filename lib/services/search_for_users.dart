@@ -6,10 +6,10 @@ class SearchForUsers {
   static const String _endpoint = 'users/search/';
   SearchForUsers._();
   static Future<List<User>> searchForUser(String query, String token,
-      ) async {
-
+      {int pageSize = 100, int pageNumber = 0}) async {
     var response = await Api.getwithToken(
-        url: '$baseURL$_endpoint$query?limit=100&offset=0', token: token);
+        url: '$baseURL$_endpoint$query?limit=$pageSize&offset=$pageNumber',
+        token: token);
     var data = response.data['data']['users'] as List<dynamic>;
     List<User> u = [];
     for (var i = 0; i < data.length; i++) {

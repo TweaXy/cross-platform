@@ -142,8 +142,11 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                               showToastWidget(
                                   CustomWebToast(message: response.toString()));
                             } else {
-                              showToastWidget(
-                                  CustomWebToast(message: "tweet posted"));
+                              showToastWidget(const CustomWebToast(
+                                  message: "tweet posted"));
+                              if (mounted) {
+                                Navigator.pop(context);
+                              }
                             }
                           } else {
                             showToastWidget(const CustomWebToast(

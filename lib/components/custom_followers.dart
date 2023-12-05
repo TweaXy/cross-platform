@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/constants.dart';
 
 class CustomFollowers extends StatefulWidget {
   CustomFollowers({super.key, required this.isFollower, required this.user});
@@ -15,6 +17,16 @@ class CustomFollowers extends StatefulWidget {
 }
 
 class _CustomFollowersState extends State<CustomFollowers> {
+  String id = '0';
+  void initState() {
+    super.initState();
+    Future(() async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      id = prefs.getString("id")!;
+      setState(() {});
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -150,132 +162,136 @@ class _CustomFollowersState extends State<CustomFollowers> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        SizedBox(
-                          // width: 140,
-                          // height: 45,
-                          child: CustomButton(
-                              color: !widget.user.followedByMe
-                                  ? Colors.black
-                                  : Colors.white,
-                              text: !widget.user.followedByMe
-                                  ? kIsWeb
-                                      ? 'Follow'
-                                      : 'Follow Back'
-                                  : 'Following',
-                              onPressedCallback: () {
-                                if (!kIsWeb) {
-                                  setState(() {
-                                    if (!widget.user.followedByMe) {
-                                      FollowUser.instance
-                                          .followUser(widget.user.username);
-                                      widget.user.followedByMe = true;
-                                    } else {
-                                      FollowUser.instance
-                                          .deleteUser(widget.user.username);
-                                      widget.user.followedByMe = false;
-                                    }
-                                  });
-                                } else {
-                                  if (widget.user.followedByMe) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16.0),
-                                        ),
-                                        content: SizedBox(
-                                          width: 300,
-                                          height: 240,
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Text(
-                                                "Unfollow ${widget.user.username}?",
-                                                style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20,
+                        if (id != widget.user.id)
+                          SizedBox(
+                            // width: 140,
+                            // height: 45,
+                            child: CustomButton(
+                                color: !widget.user.followedByMe
+                                    ? Colors.black
+                                    : Colors.white,
+                                text: !widget.user.followedByMe
+                                    ? kIsWeb
+                                        ? 'Follow'
+                                        : 'Follow Back'
+                                    : 'Following',
+                                onPressedCallback: () {
+                                  if (!kIsWeb) {
+                                    setState(() {
+                                      if (!widget.user.followedByMe) {
+                                        FollowUser.instance
+                                            .followUser(widget.user.username);
+                                        widget.user.followedByMe = true;
+                                      } else {
+                                        FollowUser.instance
+                                            .deleteUser(widget.user.username);
+                                        widget.user.followedByMe = false;
+                                      }
+                                    });
+                                  } else {
+                                    if (widget.user.followedByMe) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(16.0),
+                                          ),
+                                          content: SizedBox(
+                                            width: 300,
+                                            height: 240,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Text(
+                                                  "Unfollow ${widget.user.username}?",
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20,
+                                                  ),
                                                 ),
-                                              ),
-                                              const SizedBox(height: 10),
-                                              const Text(
-                                                "Their posts will no longer show up in your For You timeline. You can still view their profile, unless their posts are protected.",
-                                                style: TextStyle(
-                                                    color: Color(0xff536471)),
-                                              ),
-                                              const SizedBox(height: 20),
-                                              ButtonBar(
-                                                alignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      SizedBox(
-                                                        width: 250,
-                                                        child: CustomButton(
-                                                          initialEnabled: true,
-                                                          color: Colors.black,
-                                                          text: "Unfollow",
-                                                          onPressedCallback:
-                                                              () {
-                                                            FollowUser.instance
-                                                                .deleteUser(widget
-                                                                    .user
-                                                                    .username);
-                                                            setState(() {
-                                                              widget.user
-                                                                      .followedByMe =
-                                                                  false;
-                                                            });
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(top: 5),
-                                                        child: SizedBox(
+                                                const SizedBox(height: 10),
+                                                const Text(
+                                                  "Their posts will no longer show up in your For You timeline. You can still view their profile, unless their posts are protected.",
+                                                  style: TextStyle(
+                                                      color: Color(0xff536471)),
+                                                ),
+                                                const SizedBox(height: 20),
+                                                ButtonBar(
+                                                  alignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment.end,
+                                                      children: [
+                                                        SizedBox(
                                                           width: 250,
                                                           child: CustomButton(
                                                             initialEnabled:
                                                                 true,
-                                                            color: Colors.white,
-                                                            text: "Cancel",
+                                                            color: Colors.black,
+                                                            text: "Unfollow",
                                                             onPressedCallback:
                                                                 () {
+                                                              FollowUser
+                                                                  .instance
+                                                                  .deleteUser(widget
+                                                                      .user
+                                                                      .username);
+                                                              setState(() {
+                                                                widget.user
+                                                                        .followedByMe =
+                                                                    false;
+                                                              });
                                                               Navigator.of(
                                                                       context)
                                                                   .pop();
                                                             },
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(top: 5),
+                                                          child: SizedBox(
+                                                            width: 250,
+                                                            child: CustomButton(
+                                                              initialEnabled:
+                                                                  true,
+                                                              color:
+                                                                  Colors.white,
+                                                              text: "Cancel",
+                                                              onPressedCallback:
+                                                                  () {
+                                                                Navigator.of(
+                                                                        context)
+                                                                    .pop();
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                                  } else {
-                                    setState(() {
-                                      FollowUser.instance
-                                          .followUser(widget.user.username);
-                                      widget.user.followedByMe = true;
-                                    });
+                                      );
+                                    } else {
+                                      setState(() {
+                                        FollowUser.instance
+                                            .followUser(widget.user.username);
+                                        widget.user.followedByMe = true;
+                                      });
+                                    }
                                   }
-                                }
-                              },
-                              initialEnabled: true),
-                        ),
+                                },
+                                initialEnabled: true),
+                          ),
                       ],
                     ),
                   )

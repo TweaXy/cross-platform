@@ -1,10 +1,14 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/add_tweet/Cutom_add_post_bar_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/services/add_tweet.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -62,7 +66,8 @@ class _AddPostState extends State<AddPost> {
             children: [
               UserImageForTweet(
                 image: TempUser.image,
-                userid:'', text: '',
+                userid: '',
+                text: '',
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
@@ -88,7 +93,26 @@ class _AddPostState extends State<AddPost> {
                 addTweetController: tweetcontent,
                 getImage: getImages,
                 postbuttonenabled: postbuttonenable,
-                postbuttonpress: () {},
+                postbuttonpress: () async {
+                  if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
+                    AddTweet service = AddTweet(Dio());
+                    dynamic response =
+                        await service.addTweet(tweetcontent.text, xfilePick);
+                    print(response.toString());
+                    if (response is String) {
+                      showToastWidget(
+                          CustomWebToast(message: response.toString()));
+                    } else {
+                      showToastWidget(
+                          const CustomWebToast(message: "tweet posted"));
+                      tweetcontent.text = "";
+                      xfilePick = [];
+                    }
+                  } else {
+                    showToastWidget(const CustomWebToast(
+                        message: "the tweet cant be empty"));
+                  }
+                },
               ))
         ],
       ),

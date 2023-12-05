@@ -1,4 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/custom_followers.dart';
+import 'package:tweaxy/components/showallFollowers.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 
@@ -10,19 +16,31 @@ class FollowingPage extends StatefulWidget {
 }
 
 class _FollowingPageState extends State<FollowingPage> {
-  late ScrollController controller;
-
+  final ScrollController controller = ScrollController();
+  int offset = 0;
+  bool FirstTime = true;
+  int myindex = 0;
+  Set<FollowersModel> allfollow = {};
   Future<void> _refresh() async {
     setState(() {});
-
-    await followApi()
-        .getFollowings(scroll: controller, username: widget.username);
+    allfollow = {};
+    offset = 0;
+    myindex = 0;
+    FirstTime = true;
+    // await followApi().getFollowings(
+    //     scroll: controller, username: widget.username, offset: 0);
   }
 
   @override
   void initState() {
     super.initState();
-    controller = ScrollController();
+    controller.addListener(() {
+      if (controller.position.maxScrollExtent == controller.offset) {
+        setState(() {
+          offset += 10;
+        });
+      }
+    });
   }
 
   @override
@@ -55,23 +73,46 @@ class _FollowingPageState extends State<FollowingPage> {
           )
         ],
       ),
-      body: NestedScrollView(
-        physics: const BouncingScrollPhysics(),
-        controller: controller,
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[];
-        },
-        body: RefreshIndicator(
+      body: RefreshIndicator(
           onRefresh: _refresh,
-          child: CustomFurure(
-            controller: controller,
-            isFollower: false,
-            future: followApi()
-                .getFollowings(scroll: controller, username: widget.username),
-          ),
-        ),
-      ),
+          child: FutureBuilder<List<FollowersModel>>(
+            future: followApi().getFollowings(
+                scroll: controller, username: widget.username, offset: offset),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data!.isEmpty && FirstTime) {
+                  return const Center(
+                    child: Text("You don't Follow any one",
+                        style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold)),
+                  );
+                } else {
+                  FirstTime = false;
+                  if (snapshot.data!.isNotEmpty)
+                    allfollow.addAll(snapshot.data!);
+                  myindex = allfollow.length;
+                  return ListView.builder(
+                    controller: controller,
+                    itemBuilder: (context, index) {
+                      List<FollowersModel> myList = allfollow.toList();
+                      return CustomFollowers(
+                        user: myList[index],
+                        isFollower: false,
+                      );
+                    },
+                    itemCount: allfollow.length,
+                  );
+                }
+              } else if (snapshot.hasError) {
+                return kIsWeb
+                    ? const CustomWebToast(message: "We have a problem")
+                    : const Center(
+                        child: CustomToast(message: "We have a problem"));
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          )),
     );
   }
 }

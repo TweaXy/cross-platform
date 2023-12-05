@@ -8,12 +8,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/Views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/profile_screen_body.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
+import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -21,6 +24,7 @@ import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
+import 'package:tweaxy/views/profile/profile_likes.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.id, required this.text});
@@ -409,7 +413,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
             : const SizedBox(),
         ElevatedButton(
           onPressed: () async {
-            if (text == 'Follow') {
+            if (text == 'Follow' || text == 'Follow back') {
               //TODO :- Implement the follow logic
               await FollowUser.instance.followUser(widget.user.userName!);
               setState(() {
@@ -431,7 +435,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           },
           style: ButtonStyle(
             backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' ? Colors.black : Colors.white),
+                text == 'Follow' || text == 'Follow back'
+                    ? Colors.black
+                    : Colors.white),
             minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
             shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
@@ -443,7 +449,9 @@ class _FollowEditButtonState extends State<FollowEditButton> {
           child: Text(
             text!,
             style: TextStyle(
-              color: text == 'Follow' ? Colors.white : Colors.black,
+              color: text == 'Follow' || text == 'Follow back'
+                  ? Colors.white
+                  : Colors.black,
               fontSize: 17,
             ),
           ),

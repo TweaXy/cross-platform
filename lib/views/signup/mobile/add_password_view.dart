@@ -1,6 +1,11 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/shared/keys/sign_up_keys.dart';
 import 'package:tweaxy/views/signup/mobile/add_profile_picture_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -25,6 +30,7 @@ class AddPasswordView extends StatefulWidget {
 class _AddPasswordViewState extends State<AddPasswordView> {
   TextEditingController myController = TextEditingController();
   bool isButtonEnabled = false;
+  SignupService service = SignupService(Dio());
   @override
   void initState() {
     super.initState();
@@ -108,15 +114,43 @@ class _AddPasswordViewState extends State<AddPasswordView> {
               key: const ValueKey(SignUpKeys.addPasswordNextButtonKey),
               color: forgroundColorTheme(context),
               text: "Next",
-              onPressedCallback: () {
+              onPressedCallback: () async {
                 if (_formKey.currentState!.validate()) {
                   UserSignup.password = myController.text;
-                  Navigator.pop(context);
-                  Navigator.push(
-                      context,
-                      CustomPageRoute(
-                          direction: AxisDirection.left,
-                          child: const AddProfilePictureView()));
+                  try {
+                    dynamic response = await service.createAccount();
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                          message: response,
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else {
+                      try {
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
+                        prefs.setString("id",
+                            response.data['data']['user']['id'].toString());
+                        prefs.setString(
+                            "token", response.data['data']['token'].toString());
+
+                        if (mounted) {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const AddProfilePictureView()));
+                        }
+                      } catch (e) {
+                        log(e.toString());
+                      }
+                    }
+                  } catch (e) {
+                    log(e.toString());
+                  }
                 } else {
                   showToastWidget(
                     CustomToast(

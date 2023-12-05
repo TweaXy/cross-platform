@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/user_signup.dart';
 
@@ -20,15 +21,16 @@ class SignupService {
         token: UserSignup.emailVerificationToken,
         body: {
           "email": UserSignup.email,
-          "username": UserSignup.username,
           "name": UserSignup.name,
           "birthdayDate": UserSignup.birthdayDate,
           "password": UserSignup.password,
           "emailVerificationToken": UserSignup.emailVerificationToken,
-          "avatar": UserSignup.profilePicture
         },
       );
-    
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("id", response.data['data']['user']['id'].toString());
+      prefs.setString("token", response.data['data']['token'].toString());
+
       return response;
     } catch (e) {
       if (kDebugMode) {
@@ -118,6 +120,63 @@ class SignupService {
         url: '${baseUrl}auth/captcha',
         token: UserSignup.emailVerificationToken,
         body: {},
+      );
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('Capthca authentication error');
+    }
+  }
+
+  Future updateAvater() async {
+    dynamic response;
+    String? token;
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token');
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      final bytes = await UserSignup.profilePicture.readAsBytes();
+      FormData formData = FormData.fromMap({
+        "avatar": MultipartFile.fromBytes(
+          bytes.toList(),
+          filename: 'avatar.png',
+        ),
+      });
+      response = await Api.patch(
+        url: '${baseUrl}users',
+        token: token,
+        body: formData,
+      );
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('Capthca authentication error');
+    }
+  }
+
+  Future updateUsername(String newUsername) async {
+    dynamic response;
+    String? token;
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token');
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      response = await Api.patch(
+        url: '${baseUrl}users/updateUserName',
+        token: token,
+        body: {
+          "username": newUsername,
+        },
       );
       return response;
     } catch (e) {
