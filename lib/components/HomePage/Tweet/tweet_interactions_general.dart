@@ -66,7 +66,7 @@ class TweetInteractions extends StatelessWidget {
                   token = await prefs.getString('token')!;
                 });
                 if (isLiked) {
-                  BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet();
+                  BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet(id);
                   return await LikeTweet.unLikeTweet(id, token);
                 } else {
                   return await LikeTweet.likeTweet(id, token);
