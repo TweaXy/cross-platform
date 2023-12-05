@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tweaxy/Views/settings/web/account_info_web_view.dart';
+import 'package:tweaxy/views/settings/web/account_info_web_view.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/setting_web_states.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
 import 'package:tweaxy/views/settings/web/email_update_web.dart';
