@@ -126,9 +126,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                     );
                   } else {
                     User user = snapshot.data!;
-                    TempUser.email = user.email!;
-                    TempUser.name = user.name!;
-                    TempUser.image = user.avatar!;
+                    // TempUser.email = user.email!;
+                    // TempUser.name = user.name!;
+                    // TempUser.image = user.avatar!;
                     return NestedScrollView(
                         controller: controller,
                         physics: const BouncingScrollPhysics(),

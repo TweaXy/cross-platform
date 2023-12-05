@@ -81,7 +81,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                       await SharedPreferences.getInstance();
                   token = await prefs.getString('token')!;
                 });
-
+print(" the like value $isLiked");
                 if (isLiked) {
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
@@ -94,6 +94,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
               },
               likeCount: widget.likesCount,
               size: 20,
+              
               isLiked: widget.isUserLiked,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),
           Row(
