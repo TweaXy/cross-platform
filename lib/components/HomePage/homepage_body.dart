@@ -38,7 +38,7 @@ class _MyPageState extends State<HomePageBody> {
     _pagingController.dispose();
   }
 
-  final _pageSize = 5;
+  final _pageSize = 10;
   Future<void> _fetchPage(int pageKey) async {
     try {
       final List<Tweet> newItems =
@@ -64,10 +64,30 @@ class _MyPageState extends State<HomePageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState || state is TweetHomeRefresh|| state is TweetAddedState) {
-
+        if (state is TweetDeleteState ||
+            state is TweetHomeRefresh ||
+            state is TweetAddedState ||
+            state is TweetLikedState ) {
           _pagingController.refresh();
         }
+        // if (state is TweetLikedState) {
+        //   _pagingController.itemList!.where((element) {
+        //     if (element.id == state.tweetid) {
+        //       return element.isUserLiked = !element.isUserLiked;
+        //     } else {
+        //       return element.isUserLiked;
+        //     }
+        //   });
+        // }
+        //   if (state is TweetUnLikedState) {
+        //   _pagingController.itemList!.where((element) {
+        //     if (element.id == state.tweetid) {
+        //       return element.isUserLiked = !element.isUserLiked;
+        //     } else {
+        //       return element.isUserLiked;
+        //     }
+        //   });
+        // }
         return PagedSliverList<int, Tweet>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate(

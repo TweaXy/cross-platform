@@ -81,20 +81,21 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                       await SharedPreferences.getInstance();
                   token = await prefs.getString('token')!;
                 });
-print(" the like value $isLiked");
+                print(" the like value $isLiked");
                 if (isLiked) {
+                  var res = await LikeTweet.unLikeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
-
-                  return (await LikeTweet.unLikeTweet(widget.id, token));
+                  return (res);
                 } else {
-
-                  return await LikeTweet.likeTweet(widget.id, token);
+                  var res = await LikeTweet.likeTweet(widget.id, token);
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                      .likeTweet(widget.id);
+                  return res;
                 }
               },
               likeCount: widget.likesCount,
               size: 20,
-              
               isLiked: widget.isUserLiked,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),
           Row(

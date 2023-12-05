@@ -33,7 +33,8 @@ class _ProfileLikesState extends State<ProfileLikes> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      dynamic response = await services.likersList(pageNumber: pageKey,id:widget.id);
+      dynamic response =
+          await services.likersList(pageNumber: pageKey, id: widget.id);
       if (response != String) {
         final List<Tweet> newItems = response as List<Tweet>;
         final isLastPage = newItems.length < _pageSize;
@@ -49,37 +50,25 @@ class _ProfileLikesState extends State<ProfileLikes> {
     }
   }
 
-  final PagingController<int, Tweet> _pagingController =
+  PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
       if (state is TweetDeleteState ||
-              state is TweetAddedState ||
-              state is TweetUnLikedState
-          // || state is TweetInitialState
+              state is TweetAddedState
+              //  || state is TweetUnLikedState
+          || state is TweetInitialState
           ) {
-        // setState() {
-        //   _pagingController.itemList!
-        //       .removeWhere((element) => element.id == state.tweetid);
-        // }
-
+           
         _pagingController.refresh();
       }
-      // if (state is TweetUnLikedState) {
-      //   // List<Tweet> list = [];
-      //   // for (int i = 0; i < _pagingController.itemList!.length; i++) {
-      //   //   String id = _pagingController.itemList![i].id;
-      //   //   if (id != state.tweetid) ;
-      //   //   list.add(_pagingController.itemList![i]);
-      //   // }
-      //   // _pagingController.itemList!.clear();
-      //   // _pagingController.itemList = list;
-      //   // _pagingController.refresh();
-      //   // _pagingController.itemList!
-      //   //     .removeWhere((element) => element.id == state.tweetid);
-      // }
+      if (state is TweetUnLikedState) {
+       
+        _pagingController.itemList!
+            .removeWhere((element) => element.id == state.tweetid);
+      }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(

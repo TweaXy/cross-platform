@@ -61,13 +61,13 @@ class _MyPageState extends State<ProfilePosts> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
-        if (state is TweetDeleteState || state is TweetAddedState) {
-          // setState() {
-          //   _pagingController.itemList!
-          //       .removeWhere((element) => element.id == state.tweetid);
-          // }
-
+        if ( state is TweetAddedState) {
+        
           _pagingController.refresh();
+        }
+        if(state is TweetDeleteState){
+           _pagingController.itemList!
+            .removeWhere((element) => element.id == state.tweetid);
         }
         return PagedSliverList<int, Tweet>(
           pagingController: _pagingController,

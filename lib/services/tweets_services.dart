@@ -19,7 +19,7 @@ class TweetsServices {
     //down->false
     // print('scroll=' + scroll.position.userScrollDirection.toString());
     Response res = await Api.getwithToken(
-        url: '$baseUrl/home?/limit=5&offset=$offset', token: s);
+        url: '$baseUrl/home?/limit=10&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
