@@ -57,17 +57,16 @@ class _ProfileLikesState extends State<ProfileLikes> {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
       if (state is TweetDeleteState ||
-              state is TweetAddedState
-              //  || state is TweetUnLikedState
-          || state is TweetInitialState
-          ) {
-           
+          state is TweetAddedState
+          //  || state is TweetUnLikedState
+          ||
+          state is TweetInitialState) {
         _pagingController.refresh();
       }
       if (state is TweetUnLikedState) {
-       
         _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
+        BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
       }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,

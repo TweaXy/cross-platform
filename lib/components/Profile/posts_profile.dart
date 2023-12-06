@@ -68,6 +68,8 @@ class _MyPageState extends State<ProfilePosts> {
         if(state is TweetDeleteState){
            _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                        .initializeTweet();
         }
         return PagedSliverList<int, Tweet>(
           pagingController: _pagingController,
