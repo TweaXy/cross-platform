@@ -173,9 +173,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             // height: 45,
                             child: CustomButton(
                                 color: !widget.user.followedByMe
-                                    ? (!widget.user.followesMe
-                                        ? Colors.white
-                                        : Colors.black)
+                                    ? Colors.black
                                     : Colors.white,
                                 text: !widget.user.followedByMe
                                     ? kIsWeb

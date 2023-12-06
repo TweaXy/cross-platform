@@ -196,7 +196,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
                     noItemsFoundIndicatorBuilder: (context) {
                       return const Center(
                         child: Text(
-                          'No one Follow you',
+                          'No Followers',
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
@@ -227,7 +227,7 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
                     noItemsFoundIndicatorBuilder: (context) {
                       return const Center(
                         child: Text(
-                          "You don't Follow any one",
+                          "No Followings",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),

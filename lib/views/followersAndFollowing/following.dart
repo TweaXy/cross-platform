@@ -116,7 +116,7 @@ class _FollowingPageState extends State<FollowingPage> {
                   noItemsFoundIndicatorBuilder: (context) {
                     return const Center(
                       child: Text(
-                        "You don't Follow any one",
+                        "No Following ",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),
