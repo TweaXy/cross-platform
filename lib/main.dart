@@ -49,8 +49,8 @@ class TweaXy extends StatelessWidget {
             create: (context) => EditProfileCubit(),
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
+              themeMode: ThemeMode.light,
               theme: ThemeData(
-                
                 bottomSheetTheme:
                     const BottomSheetThemeData(backgroundColor: Colors.white),
                 brightness: brightness,

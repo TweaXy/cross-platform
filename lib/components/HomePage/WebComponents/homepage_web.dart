@@ -127,6 +127,14 @@ class _HomePageWebState extends State<HomePageWeb> {
                             height: 0,
                             width: 0,
                           ));
+                    }
+                    if (state is SidebarSettingsState) {
+                      return const Expanded(
+                          flex: 0,
+                          child: SizedBox(
+                            width: 0,
+                            height: 0,
+                          ));
                     } else {
                       return const Expanded(
                           flex: 5,
@@ -213,14 +221,9 @@ class _HomeTweetsState extends State<HomeTweets> {
                   scrollBehavior: ScrollConfiguration.of(context)
                       .copyWith(scrollbars: false),
                   slivers: [
-                    // const SliverToBoxAdapter(
-                    //   child: kIsWeb
-                    //       ? AddPost()
-                    //       : SizedBox(
-                    //           height: 0,
-                    //           width: 0,
-                    //         ),
-                    // ),
+                    SliverToBoxAdapter(
+                      child: isweb(),
+                    ),
                     HomePageBody(
                       controller: controller,
                       tabController: widget.tabController,
@@ -228,6 +231,17 @@ class _HomeTweetsState extends State<HomeTweets> {
                   ]),
             ])),
       ),
+    );
+  }
+}
+
+Widget isweb() {
+  if (kIsWeb) {
+    return const AddPost();
+  } else {
+    return SizedBox(
+      height: 0,
+      width: 0,
     );
   }
 }
