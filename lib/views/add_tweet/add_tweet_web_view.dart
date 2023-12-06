@@ -138,7 +138,7 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                           if (tweetcontent.text.isNotEmpty ||
                               xfilePick.isNotEmpty) {
                             AddTweet service = AddTweet(Dio());
-                            dynamic response = await service.addTweet(
+                            dynamic response = await service.addTweetWeb(
                                 tweetcontent.text, xfilePick);
                             print(response.toString());
                             if (response is String) {

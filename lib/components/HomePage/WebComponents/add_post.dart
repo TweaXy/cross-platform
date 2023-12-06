@@ -99,7 +99,7 @@ class _AddPostState extends State<AddPost> {
                   if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
                     AddTweet service = AddTweet(Dio());
                     dynamic response =
-                        await service.addTweet(tweetcontent.text, xfilePick);
+                        await service.addTweetWeb(tweetcontent.text, xfilePick);
                     print(response.toString());
                     if (response is String) {
                       showToastWidget(
