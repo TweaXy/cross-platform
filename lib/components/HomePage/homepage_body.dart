@@ -42,11 +42,11 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItems =
           await TweetsServices.getTweetsHome(offset: pageKey);
-      print('neew' + newItems.toString());
+      // print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
-      print('tttt');
-      print(newItems.length);
-      print(_pageSize);
+      // print('tttt');
+      // print(newItems.length);
+      // print(_pageSize);
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {

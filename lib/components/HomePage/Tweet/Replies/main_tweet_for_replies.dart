@@ -109,7 +109,7 @@ class MainTweetReplies extends StatelessWidget {
                 TextReplyInfo(count: '', text: tweet.createdDate[1]),
                 Center(
                   child: Container(
-                    margin: const EdgeInsets.only(left: 3.0, right: 7),
+                    margin: const EdgeInsets.only(left: 5.0, right: 7),
                     width: 3,
                     height: 3,
                     decoration: const BoxDecoration(
@@ -131,13 +131,15 @@ class MainTweetReplies extends StatelessWidget {
             padding: const EdgeInsets.only(top: 15.0, left: 12, bottom: 10),
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: TextReplyInfo(
-                      count: tweet.retweetsCount.toString(), text: 'Reposts'),
-                ),
-                TextReplyInfo(
-                    count: tweet.likesCount.toString(), text: 'Likes'),
+                if (tweet.retweetsCount > 0)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: TextReplyInfo(
+                        count: tweet.retweetsCount.toString(), text: 'Reposts'),
+                  ),
+                if (tweet.likesCount > 0)
+                  TextReplyInfo(
+                      count: tweet.likesCount.toString(), text: 'Likes'),
               ],
             ),
           ),

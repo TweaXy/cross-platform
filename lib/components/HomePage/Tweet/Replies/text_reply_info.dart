@@ -10,7 +10,7 @@ class TextReplyInfo extends StatelessWidget {
       text: TextSpan(
         text: count + ' ',
         style: const TextStyle(
-          fontSize: 18,
+          fontSize: 17.5,
           color: Colors.black,
           fontWeight: FontWeight.bold,
         ),
