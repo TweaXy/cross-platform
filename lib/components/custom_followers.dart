@@ -45,8 +45,13 @@ class _CustomFollowersState extends State<CustomFollowers> {
           MaterialPageRoute(
               builder: (context) => ProfileScreen(
                     id: widget.user.id,
-                    text:
-                        widget.user.followedByMe ? 'Following' : 'Follow back',
+                    text: id == widget.user.id
+                        ? ""
+                        : widget.user.followedByMe
+                            ? 'Following'
+                            : (!widget.user.followesMe
+                                ? 'Follow'
+                                : 'Follow back'),
                   )),
         );
       },
@@ -102,7 +107,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                   .user.avatar ==
                               null
                           ? "https://www.gstatic.com/webp/gallery2/4.png"
-                          : 'http://16.171.65.142:3000/${widget.user.avatar}'),
+                          : 'https://tweaxybackend.mywire.org/${widget.user.avatar}'),
                     ),
                   ),
                   Padding(
@@ -119,7 +124,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               overflow: TextOverflow.clip,
-                              fontSize: 19,
+                              fontSize: 17,
                               color: Colors.black),
                         ),
                         Padding(
@@ -173,7 +178,9 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                 text: !widget.user.followedByMe
                                     ? kIsWeb
                                         ? 'Follow'
-                                        : 'Follow Back'
+                                        : (!widget.user.followesMe
+                                            ? 'Follow'
+                                            : 'Follow Back')
                                     : 'Following',
                                 onPressedCallback: () {
                                   if (!kIsWeb) {

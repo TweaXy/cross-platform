@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class DeleteAlertDialog extends StatelessWidget {
   const DeleteAlertDialog({super.key, required this.tweetid});
@@ -22,6 +25,7 @@ class DeleteAlertDialog extends StatelessWidget {
           'This can\'t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results'), // Message which will be pop up on the screen
       actions: [
         TextButton(
+          key: new ValueKey(DeleteTweetKeys.tweetCancelDeleteMobile),
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
@@ -32,6 +36,7 @@ class DeleteAlertDialog extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 19)),
         ),
         TextButton(
+          key: new ValueKey(DeleteTweetKeys.tweetDeleteConfirmMobile),
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
@@ -44,6 +49,9 @@ class DeleteAlertDialog extends StatelessWidget {
                 ),
                 position: ToastPosition.bottom,
                 duration: const Duration(seconds: 2));
+            if (t == "success")
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .deleteTweet(tweetid: tweetid);
           },
           child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),

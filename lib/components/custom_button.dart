@@ -43,10 +43,11 @@ class _CustomButtonState extends State<CustomButton> {
           style: TextStyle(
               color: getTextColor(),
               fontWeight: FontWeight.w600,
-              fontSize:
-                  widget.text == "Follow Back" || widget.text == 'Following'
-                      ? 16
-                      : 20),
+              fontSize: widget.text == "Follow Back" ||
+                      widget.text == 'Following' ||
+                      widget.text == 'Follow'
+                  ? 16
+                  : 20),
         ),
       ),
     );

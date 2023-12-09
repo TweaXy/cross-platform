@@ -29,6 +29,7 @@ class UpdatePasswordService {
           url: '${baseURL}users/password', body: data, token: token);
     } catch (e) {
       log(e.toString());
+      return e.toString();
     }
 
     return response;

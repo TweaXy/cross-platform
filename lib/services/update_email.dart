@@ -2,19 +2,23 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 
 class UpdateEmail {
   final Dio dio;
-  final String baseUrl = 'http://16.171.65.142:3000/api/v1/';
+  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
   UpdateEmail(this.dio);
   Future<dynamic> sendEmailCodeVerification(String email) async {
     dynamic response;
     String? token;
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    token = pref.getString('token');
+      try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     try {
       response = await Api.post(
         url: '${baseUrl}auth/sendEmailVerification',
@@ -33,8 +37,12 @@ class UpdateEmail {
   Future changeEmail(String code, String email) async {
     dynamic response;
     String? token;
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    token = pref.getString('token');
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
 
     try {
       response = await Api.patch(

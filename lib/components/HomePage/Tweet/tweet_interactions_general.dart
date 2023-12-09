@@ -1,22 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
-class TweetInteractions extends StatelessWidget {
+class TweetInteractions extends StatefulWidget {
   const TweetInteractions(
       {super.key,
       required this.id,
       required this.likesCount,
       required this.viewsCount,
       required this.retweetsCount,
-      required this.commentsCount});
+      required this.commentsCount,
+      required this.isUserLiked,
+      required this.isUserCommented,
+      required this.isUserRetweeted});
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
+  final bool isUserLiked;
+  final bool isUserCommented;
+  final bool isUserRetweeted;
+
   final String id;
+
+  @override
+  State<TweetInteractions> createState() => _TweetInteractionsState();
+}
+
+class _TweetInteractionsState extends State<TweetInteractions> {
+  bool postLiked = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    postLiked = widget.isUserLiked;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -28,12 +52,15 @@ class TweetInteractions extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(
-                  FontAwesomeIcons.comment), // Replace with your desired icon
+              IconButton(
+                icon: const Icon(FontAwesomeIcons.comment),
+                onPressed: () {},
+              ), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(commentsCount.toString()), // Replace with your desired label
+              Text(widget.commentsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           Row(
@@ -43,10 +70,12 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(retweetsCount.toString()), // Replace with your desired label
+              Text(widget.retweetsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           LikeButton(
+              key: new ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
                 await Future(() async {
@@ -54,14 +83,22 @@ class TweetInteractions extends StatelessWidget {
                       await SharedPreferences.getInstance();
                   token = await prefs.getString('token')!;
                 });
+                print(" the like value $isLiked");
                 if (isLiked) {
-                  return await LikeTweet.unLikeTweet(id, token);
+                  var res = await LikeTweet.unLikeTweet(widget.id, token);
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .unLikeTweet(widget.id);
+                  return (res);
                 } else {
-                  return await LikeTweet.likeTweet(id, token);
+                  var res = await LikeTweet.likeTweet(widget.id, token);
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .likeTweet(widget.id);
+                  return res;
                 }
               },
-              likeCount: likesCount,
+              likeCount: widget.likesCount,
               size: 20,
+              isLiked: widget.isUserLiked,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),
           Row(
             children: [
@@ -69,7 +106,8 @@ class TweetInteractions extends StatelessWidget {
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
-              Text(viewsCount.toString()), // Replace with your desired label
+              Text(widget.viewsCount
+                  .toString()), // Replace with your desired label
             ],
           ),
           // Replace with your desired icon

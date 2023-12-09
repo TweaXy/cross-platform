@@ -20,9 +20,9 @@ class TweetMedia extends StatefulWidget {
 class _TweetMediaState extends State<TweetMedia> {
   @override
   Widget build(BuildContext context) {
-    double screenwidth = MediaQuery.of(context).size.width;
-    double screenheight = MediaQuery.of(context).size.height;
-    List<String> s = widget.pickedfiles.map((item) => '').toList();
+    // double screenwidth = MediaQuery.of(context).size.width;
+    // double screenheight = MediaQuery.of(context).size.height;
+    // List<String> s = widget.pickedfiles.map((item) => '').toList();
 
     return MultiImageViewer(
       images: widget.pickedfiles,
@@ -49,7 +49,6 @@ class _TweetMediaState extends State<TweetMedia> {
   Widget buildImageElement(String image) {
     Future<List<int>> s =
         getImageInfo('http://16.171.65.142:3000/uploads/tweetsMedia/$image');
-    // print(future.s[0]);
     return AspectRatio(
       aspectRatio: 16 / 16,
       child: Image.network(

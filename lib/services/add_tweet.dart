@@ -3,12 +3,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 
 class AddTweet {
   final Dio dio;
-  final String baseUrl = 'http://16.171.65.142:3000/api/v1/';
+  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
   AddTweet(this.dio);
 
@@ -17,8 +17,12 @@ class AddTweet {
     print(text);
     print(media);
     String? token;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString("token");
+      try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     Map<String, dynamic> data = {};
     if (text.isNotEmpty) {
       data['text'] = text;
@@ -46,12 +50,58 @@ class AddTweet {
         token: token,
         body: formData,
       );
+
       return response;
     } catch (e) {
       if (kDebugMode) {
         log(e.toString());
       } //debug mode only
       throw Exception('oops something went wrong');
+    }
+  }
+  
+  Future addTweetWeb(String text, List<XFile> media) async {
+    dynamic response;
+    print(text);
+    print(media);
+    String? token;
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
+    // Create FormData
+    FormData formData = FormData();
+    Map<String, dynamic> data = {};
+    data.addEntries({'text': text}.entries);
+    // Add text field
+    List<MultipartFile> files = [];
+    // Add media files
+    for (int i = 0; i < media.length; i++) {
+      files.add(
+        MultipartFile.fromBytes(await media[i].readAsBytes(),
+            contentType: MediaType('image', 'png'),
+            filename: 'new_media_$i.png'),
+      );
+      // Add each media as a separate field
+    }
+
+    data.addEntries({'media': files}.entries);
+    formData = FormData.fromMap(data);
+    print(token);
+    try {
+      response = await Api.post(
+        url: '${baseUrl}tweets/',
+        token: token,
+        body: formData,
+      );
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } // debug mode only
+      throw Exception('Oops, something went wrong');
     }
   }
 }

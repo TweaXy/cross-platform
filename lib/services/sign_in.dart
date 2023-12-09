@@ -11,9 +11,7 @@ class SignInServices {
   static String email = '';
   // http://16.171.65.142:3000/api/v1/docs/
   static String token = ''; //code sent to email
-  static String baseUrl = kIsWeb
-      ? 'http://16.171.65.142:3000/api/v1'
-      : 'http://16.171.65.142:3000/api/v1';
+  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     SignInServices.email = email;

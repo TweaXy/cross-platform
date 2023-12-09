@@ -16,6 +16,8 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
 import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
+import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
@@ -24,7 +26,8 @@ import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.id, required this.text});
@@ -60,7 +63,8 @@ List<String> listitems = [
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  final ScrollController controller = ScrollController();
+  late ScrollController controller;
+
   String id = '';
   @override
   void initState() {
@@ -79,8 +83,20 @@ class _ProfileScreenState extends State<ProfileScreen>
       text = 'Edit Profile';
     else
       text = widget.text;
-
+    controller = ScrollController();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+    controller.dispose();
   }
 
   String? profileID;
@@ -111,64 +127,69 @@ class _ProfileScreenState extends State<ProfileScreen>
                     );
                   } else {
                     User user = snapshot.data!;
-                    TempUser.email = user.email!;
-                    TempUser.name = user.name!;
-                    TempUser.image = user.avatar!;
-                    return CustomScrollView(
-                      controller: controller,
-                      physics: const BouncingScrollPhysics(),
-                      slivers: [
-                        SliverPersistentHeader(
-                          pinned: true,
-                          delegate: ProfileScreenAppBar(
-                            text: text,
-                            user: user,
-                            postsNumber: 216820,
-                            avatarURL: user.avatar ?? '',
-                            coverURL: user.cover ?? '',
-                          ),
-                        ),
-                        SliverToBoxAdapter(
-                          child: AccountInformation(
-                            website: user.website ?? '',
-                            birthDate: user.birthdayDate ?? '',
-                            bio: user.bio ?? '',
-                            followers: user.followers ?? 0,
-                            following: user.following ?? 0,
-                            joinedDate: user.joinedDate ?? '',
-                            location: user.location ?? '',
-                            profileName: user.name ?? '',
-                            userName: user.userName ?? '',
-                          ),
-                        ),
-                        SliverTabBar(
-                          expandedHeight: 0,
-                          backgroundColor: Colors.white,
-                          tabBar: TabBar(
-                            indicatorWeight: 3,
-                            indicatorColor: Colors.blue,
-                            indicatorSize: TabBarIndicatorSize.label,
-                            controller: _tabController,
-                            labelColor: Colors.black,
-                            onTap: (value) => setState(() {
-                              _selectedTabIndex = value;
-                            }),
-                            tabs: const [
-                              Tab(
-                                text: 'Posts',
+                    // TempUser.email = user.email!;
+                    // TempUser.name = user.name!;
+                    // TempUser.image = user.avatar!;
+                    return NestedScrollView(
+                        controller: controller,
+                        physics: const BouncingScrollPhysics(),
+                        headerSliverBuilder:
+                            (BuildContext context, bool innerBoxIsScrolled) {
+                          return <Widget>[
+                            SliverPersistentHeader(
+                              pinned: true,
+                              delegate: ProfileScreenAppBar(
+                                text: text,
+                                user: user,
+                                postsNumber: 216820,
+                                avatarURL: user.avatar ?? '',
+                                coverURL: user.cover ?? '',
                               ),
-                              Tab(
-                                text: 'Replies',
+                            ),
+                            SliverToBoxAdapter(
+                              child: AccountInformation(
+                                website: user.website ?? '',
+                                birthDate: user.birthdayDate ?? '',
+                                bio: user.bio ?? '',
+                                followers: user.followers ?? 0,
+                                following: user.following ?? 0,
+                                joinedDate: user.joinedDate ?? '',
+                                location: user.location ?? '',
+                                profileName: user.name ?? '',
+                                userName: user.userName ?? '',
                               ),
-                              Tab(
-                                text: 'Likes',
-                              )
-                            ],
-                          ),
-                        ),
-                        if (_selectedTabIndex == 2) ProfileLikes()
-                      ],
-                    );
+                            ),
+                            SliverTabBar(
+                              expandedHeight: 0,
+                              backgroundColor: Colors.white,
+                              tabBar: TabBar(
+                                indicatorWeight: 3,
+                                indicatorColor: Colors.blue,
+                                indicatorSize: TabBarIndicatorSize.label,
+                                controller: _tabController,
+                                labelColor: Colors.black,
+                                onTap: (value) => setState(() {
+                                  _selectedTabIndex = value;
+                                }),
+                                tabs: const [
+                                  Tab(
+                                    text: 'Posts',
+                                  ),
+                                  Tab(
+                                    text: 'Replies',
+                                  ),
+                                  Tab(
+                                    text: 'Likes',
+                                  )
+                                ],
+                              ),
+                            ),
+                          ];
+                        },
+                        body: ProfileScreenBody(
+
+                          tabController: _tabController, id: id,
+                        ));
                   }
                 },
               );
@@ -378,69 +399,74 @@ class _FollowEditButtonState extends State<FollowEditButton> {
   @override
   Widget build(BuildContext context) {
     text = text ?? widget.text;
-    return Row(
-      children: [
-        text == 'Following'
-            ? Padding(
-                padding: const EdgeInsets.only(right: 16),
-                child: ProfileIconButton(
-                  borderWidth: 2,
-                  icon: Icons.notification_add_outlined,
-                  onPressed: () {
-                    //TODO: Implement mute notification
-                  },
-                  color: Colors.white,
-                  iconColor: Colors.black,
+    return BlocProvider(
+      create: (context) => UpdateAllCubit(),
+      child: Row(
+        children: [
+          text == 'Following'
+              ? Padding(
+                  padding: const EdgeInsets.only(right: 16),
+                  child: ProfileIconButton(
+                    borderWidth: 2,
+                    icon: Icons.notification_add_outlined,
+                    onPressed: () {
+                      //TODO: Implement mute notification
+                    },
+                    color: Colors.white,
+                    iconColor: Colors.black,
+                  ),
+                )
+              : const SizedBox(),
+          ElevatedButton(
+            onPressed: () async {
+              BlocProvider.of<UpdateAllCubit>(context).emit(LoadingStata());
+              if (text == 'Follow' || text == 'Follow back') {
+                //TODO :- Implement the follow logic
+                await FollowUser.instance.followUser(widget.user.userName!);
+                setState(() {
+                  text = 'Following';
+                });
+              } else if (text == 'Following') {
+                //TODO :- Implement the unfollow logic
+                await FollowUser.instance.deleteUser(widget.user.userName!);
+                setState(() {
+                  text = 'Follow';
+                });
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => EditProfileScreen(
+                    user: widget.user,
+                  ),
+                ));
+              }
+              BlocProvider.of<UpdateAllCubit>(context)
+                  .emit(UpdataAllinitialState());
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(
+                  text == 'Follow' || text == 'Follow back'
+                      ? Colors.black
+                      : Colors.white),
+              minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
+              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                  side: const BorderSide(color: Colors.grey),
                 ),
-              )
-            : const SizedBox(),
-        ElevatedButton(
-          key: const ValueKey(ProfileKeys.editProfileButton),
-          onPressed: () async {
-            if (text == 'Follow' || text == 'Follow back') {
-              //TODO :- Implement the follow logic
-              await FollowUser.instance.followUser(widget.user.userName!);
-              setState(() {
-                text = 'Following';
-              });
-            } else if (text == 'Following') {
-              //TODO :- Implement the unfollow logic
-              await FollowUser.instance.deleteUser(widget.user.userName!);
-              setState(() {
-                text = 'Follow';
-              });
-            } else {
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => EditProfileScreen(
-                  user: widget.user,
-                ),
-              ));
-            }
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
-                text == 'Follow' || text == 'Follow back'
-                    ? Colors.black
-                    : Colors.white),
-            minimumSize: const MaterialStatePropertyAll<Size>(Size(90, 35)),
-            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-                side: const BorderSide(color: Colors.grey),
+              ),
+            ),
+            child: Text(
+              text!,
+              style: TextStyle(
+                color: text == 'Follow' || text == 'Follow back'
+                    ? Colors.white
+                    : Colors.black,
+                fontSize: 17,
               ),
             ),
           ),
-          child: Text(
-            text!,
-            style: TextStyle(
-              color: text == 'Follow' || text == 'Follow back'
-                  ? Colors.white
-                  : Colors.black,
-              fontSize: 17,
-            ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -66,7 +66,11 @@ class _MyPageState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          shape: const UnderlineInputBorder(borderSide: BorderSide(width: 0.4)),
+          shape: UnderlineInputBorder(
+              borderSide: BorderSide(
+            width: 0.4,
+            color: Colors.grey[300]!,
+          )),
           elevation: 0,
           backgroundColor: Colors.white,
           leading: IconButton(
@@ -230,7 +234,7 @@ class SearchUsersListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: kIsWeb ? 60 : 100,
+      height: kIsWeb ? 70 : 100,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

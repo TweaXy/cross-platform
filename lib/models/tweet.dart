@@ -1,6 +1,6 @@
 class Tweet {
   final String? userImage;
-  final List <String>? image;
+  final List<String>? image;
   final String userName;
   final String userHandle;
   final String time;
@@ -11,8 +11,15 @@ class Tweet {
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
+  final bool isUserLiked;
+  final bool isUserRetweeted;
+  final bool isUserCommented;
+
   //+++++++++video
   const Tweet({
+    required this.isUserLiked,
+    required this.isUserRetweeted,
+    required this.isUserCommented,
     required this.userImage,
     required this.image,
     required this.userName,
@@ -28,6 +35,23 @@ class Tweet {
   });
   String getId() {
     return id;
+  }
+
+  String toString() {
+    return 'Tweet {'
+        'userImage: $userImage, '
+        'image: $image, '
+        'userName: $userName, '
+        'userHandle: $userHandle, '
+        'time: $time, '
+        'tweetText: $tweetText, '
+        'id: $id, '
+        'userId: $userId, '
+        'likesCount: $likesCount, '
+        'viewsCount: $viewsCount, '
+        'retweetsCount: $retweetsCount, '
+        'commentsCount: $commentsCount'
+        '}';
   }
 
   String getUserId() {

@@ -14,7 +14,7 @@ class TempUser {
   static String username = '';
   static String name = '';
   static String image = 'uploads/default.png';
-  static String baseUrl = 'http://16.171.65.142:3000/api/v1';
+  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     TempUser.email = email;
@@ -45,11 +45,11 @@ class TempUser {
     if (result is String) {
     } else if (result is Response) {
       Response res = result;
-      setEmail(email: res!.data['data']['user']['email']);
-      setName(name: res!.data['data']['user']['name']);
-      setUserName(username: res!.data['data']['user']['username']);
-      setImage(image: res!.data['data']['user']['avatar']);
-      setId(id: res!.data['data']['user']['id']);
+      setEmail(email: res.data['data']['user']['email']);
+      setName(name: res.data['data']['user']['name']);
+      setUserName(username: res.data['data']['user']['username']);
+      setImage(image: res.data['data']['user']['avatar']);
+      setId(id: res.data['data']['user']['id']);
     }
   }
 }

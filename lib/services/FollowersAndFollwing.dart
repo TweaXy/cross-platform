@@ -8,10 +8,11 @@ import 'package:tweaxy/models/followers_model.dart';
 class followApi {
   final dio = Dio();
   followApi();
-  Future<List<FollowersModel>> getFollowers(
-      {required ScrollController scroll,
-      required String username,
-      required int offset}) async {
+  Future<List<FollowersModel>> getFollowers({
+    required String username,
+    required int offset,
+    required int pageSize,
+  }) async {
     dynamic response;
     String token;
 
@@ -20,7 +21,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/users/followers/$username?limit=10&offset=$offset",
+          "https://tweaxybackend.mywire.org/api/v1/users/followers/$username?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
@@ -35,9 +36,9 @@ class followApi {
   }
 
   Future<List<FollowersModel>> getFollowings(
-      {required ScrollController scroll,
-      required String username,
-      required int offset}) async {
+      {required String username,
+      required int offset,
+      required int pageSize}) async {
     dynamic response;
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
@@ -45,7 +46,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/users/followings/$username?limit=10&offset=$offset",
+          "https://tweaxybackend.mywire.org/api/v1/users/followings/$username?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

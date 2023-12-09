@@ -4,6 +4,7 @@ import 'package:tweaxy/views/settings/web/account_info_web_view.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/setting_web_states.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
 import 'package:tweaxy/views/settings/web/email_update_web.dart';
+import 'package:tweaxy/views/settings/web/update_password_web_view.dart';
 import 'package:tweaxy/views/settings/web/verify-password.dart';
 
 class SettingsAndPrivacyWeb extends StatefulWidget {
@@ -108,17 +109,18 @@ class _SettingsAndPrivacyWebState extends State<SettingsAndPrivacyWeb> {
                   builder: (context, state) {
                 if (state is SettingsWebInitialState) {
                   return const AccountInfoWebView();
-                } 
+                }
                 if (state is SettingsWebAccountInfo) {
                   return const AccountInfoWebView();
-                } if(state is SettingsWebVerifyPassword)
-                {
-                  return const VerifyPasswordWeb();
-                }if(state is SettingsWebChangeEmail)
-                {
-                  return const EmailUpdateWeb();
                 }
-                else {
+                if (state is SettingsWebVerifyPassword) {
+                  return const VerifyPasswordWeb();
+                }
+                if (state is SettingsWebChangeEmail) {
+                  return const EmailUpdateWeb();
+                } else if (state is SettingsWebChangePassword) {
+                  return const UpdatePasswordWebView();
+                } else {
                   return const AccountInfoWebView();
                 }
               }),

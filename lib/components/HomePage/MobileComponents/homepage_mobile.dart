@@ -10,10 +10,11 @@ import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
-import 'package:tweaxy/components/HomePage/trending_screen.dart';
+import 'package:tweaxy/views/trends/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class HomePageMobile extends StatefulWidget {
   HomePageMobile({super.key, required this.tabController});
@@ -111,6 +112,7 @@ class _HomePage2State extends State<HomePageMobile>
                 //search icon
                 BottomNavigationBarItem(
                     icon: SearchIcon(
+                      key: new ValueKey(HomePageKeys.navSearchIcon),
                       selectedIndex: _selectedIndex,
                     ),
                     label: ''),
@@ -168,9 +170,11 @@ class HomeTweetsMobile extends StatelessWidget {
             )
           ];
         },
-        body: HomePageBody(
-          controller: controller,
-          tabController: tabController,
-        ));
+        body: CustomScrollView(slivers: [
+          HomePageBody(
+            controller: controller,
+            tabController: tabController,
+          ),
+        ]));
   }
 }

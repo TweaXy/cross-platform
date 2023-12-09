@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/homepage_mobile.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 import 'package:tweaxy/views/homepage.dart';
 
 class DeleteAlertDialogWeb extends StatefulWidget {
@@ -43,6 +47,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                key: new ValueKey(DeleteTweetKeys.tweetDeleteConfirmMobile),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
 
@@ -64,6 +69,10 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
                       ),
                       position: ToastPosition.bottom,
                       duration: const Duration(seconds: 2));
+                  print("t state" + t.toString());
+                  if (t == "success")
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                        .deleteTweet(tweetid: widget.tweetId);
                 },
                 child: const Text('Delete',
                     style: TextStyle(color: Colors.white, fontSize: 16)),
@@ -75,6 +84,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
             child: SizedBox(
               width: double.infinity,
               child: ElevatedButton(
+                key: new ValueKey(DeleteTweetKeys.tweetCancelDeleteMobile),
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
                   side: const BorderSide(

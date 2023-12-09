@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class UserImageForTweet extends StatelessWidget {
@@ -27,6 +30,9 @@ class UserImageForTweet extends StatelessWidget {
               ),
             ),
           );
+        } else {
+          BlocProvider.of<SidebarCubit>(context)
+              .openProfile(userid, userid == TempUser.id ? '' : 'Following');
         }
       },
       child: ClipRRect(
@@ -35,8 +41,8 @@ class UserImageForTweet extends StatelessWidget {
             width: 40,
             image: CachedNetworkImageProvider(
               image == null
-                  ? "https://www.gstatic.com/webp/gallery2/4.png"
-                  : 'http://16.171.65.142:3000/$image',
+                  ? "https://tweaxybackend.mywire.org/uploads/default.png"
+                  : 'https://tweaxybackend.mywire.org/$image',
             ),
           )),
     );

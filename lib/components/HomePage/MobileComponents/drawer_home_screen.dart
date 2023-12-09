@@ -6,6 +6,8 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
   /// Views to display
@@ -33,33 +35,56 @@ class CustomDrawer extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(
                 left: screenWidth * 0.05, bottom: screenHeight * 0.07),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: UserImageForTweet(
-                      image: TempUser.image, userid: '', text: ''),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4.5),
-                  child: Text(
-                    TempUser.name,
-                    style: const TextStyle(
-                        color: Color.fromARGB(255, 13, 11, 11),
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20),
+            child: GestureDetector(
+              key: new ValueKey(HomePageKeys.userInfoInDrawerClick),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                      id: '',
+                      text: '',
+                    ),
                   ),
-                ),
-                Text(
-                  '@${TempUser.username}',
-                  style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                )
-              ],
+                );
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: UserImageForTweet(
+                      image: TempUser.image,
+                      userid: '',
+                      text: '',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 4.5),
+                    child: Text(
+                      TempUser.name,
+                      style: const TextStyle(
+                          overflow: TextOverflow.ellipsis,
+                          color: Color.fromARGB(255, 13, 11, 11),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),
+                    ),
+                  ),
+                  Text(
+                    maxLines: 1,
+                    '@${TempUser.username}',
+                    style: TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
+                        color: Colors.grey.shade600),
+                  )
+                ],
+              ),
             ),
           ),
           const Divider(height: 7),
           CustomDrawerListTile(
+            key: new ValueKey(HomePageKeys.profileNavigatorInDrawer),
             icon: AppIcon.profile,
             title: 'Profile',
             onTap: () {

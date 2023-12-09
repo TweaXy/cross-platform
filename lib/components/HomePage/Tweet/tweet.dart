@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Video/network_video_player.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
@@ -9,10 +10,16 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet, required this.forProfile});
+  const CustomTweet({
+    super.key,
+    required this.tweet,
+    required this.forProfile,
+  });
   final bool forProfile;
+
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
@@ -24,7 +31,6 @@ class CustomTweet extends StatelessWidget {
     if (t != null) k = t[0]!;
     // if (t != null && t.length > 1) k = t[1].trim()!;
 
-    print('kkkk' + k.toString());
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
@@ -40,6 +46,7 @@ class CustomTweet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            key: new ValueKey(HomePageKeys.userImageInTweetClick),
             margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
             child: UserImageForTweet(
               userid: tweet.userId,
@@ -49,6 +56,7 @@ class CustomTweet extends StatelessWidget {
           ),
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kIsWeb
@@ -60,27 +68,31 @@ class CustomTweet extends StatelessWidget {
                         tweet: tweet,
                         forProfile: forProfile,
                       ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => LikersInTweet(id: tweet.id),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                        bottom: 5.0, left: 2, right: 2, top: 0),
-                    child: Text(
-                      tweet.tweetText!,
-                      style: const TextStyle(
-                        fontFamily: 'Roboto',
-                        fontSize: 18,
+                if (tweet.tweetText != null)
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LikersInTweet(id: tweet.id),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          bottom: 5.0, left: 2, right: 2, top: 0),
+                      child: Text(
+                        tweet.tweetText!,
+                        style: const TextStyle(
+                          fontFamily: 'Roboto',
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                // const NetworkVideoPlayer(
+                //   video: '',
+                // ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   id: tweet.id,
@@ -88,6 +100,9 @@ class CustomTweet extends StatelessWidget {
                   viewsCount: tweet.viewsCount,
                   retweetsCount: tweet.retweetsCount,
                   commentsCount: tweet.commentsCount,
+                  isUserLiked: tweet.isUserLiked,
+                  isUserCommented: tweet.isUserCommented,
+                  isUserRetweeted: tweet.isUserCommented,
                 ),
               ],
             ),

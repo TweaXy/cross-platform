@@ -13,8 +13,9 @@ import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/components/Profile/profile_likes.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 
 class ProfileComponentWeb extends StatefulWidget {
   const ProfileComponentWeb({
@@ -36,6 +37,8 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
 
   String id = '';
   late TabController _tabController;
+  late ScrollController controller;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +55,20 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
       if (widget.id != '') id = widget.id;
       setState(() {});
     });
+    controller = ScrollController();
+
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabSelection);
+  }
+
+  void _handleTabSelection() {
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   List<String> listitems = [
@@ -87,7 +103,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int postsNumber = 678530;
   void Function() onPressed = () {};
   int? selectedMenu;
-  ScrollController controller = ScrollController();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -140,212 +155,213 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                       profileNameTextSize: 21,
                     ),
                   ),
-                  body: CustomScrollView(
+                  body: NestedScrollView(
+                    scrollBehavior: ScrollConfiguration.of(context)
+                        .copyWith(scrollbars: false),
                     controller: controller,
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: Stack(
-                          children: [
-                            Column(
-                              children: [
-                                SizedBox(
-                                  width: double.maxFinite,
-                                  height: 200,
-                                  child: CachedNetworkImage(
-                                    fit: BoxFit.fill,
-                                    imageUrl: user.cover == null
-                                        ? kDefaultBannerPhoto
-                                        : basePhotosURL + user.cover!,
-                                    placeholder: (context, url) => const Center(
-                                      child: SizedBox(
-                                          width: 20,
-                                          height: 20,
-                                          child: CircularProgressIndicator(
-                                            color: Colors.blue,
-                                            strokeWidth: 5,
-                                          )),
+                    headerSliverBuilder:
+                        (BuildContext context, bool innerBoxIsScrolled) {
+                      return <Widget>[
+                        SliverToBoxAdapter(
+                          child: Stack(
+                            children: [
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    width: double.maxFinite,
+                                    height: 200,
+                                    child: CachedNetworkImage(
+                                      fit: BoxFit.fill,
+                                      imageUrl: user.cover == null
+                                          ? kDefaultBannerPhoto
+                                          : basePhotosURL + user.cover!,
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                        child: SizedBox(
+                                            width: 20,
+                                            height: 20,
+                                            child: CircularProgressIndicator(
+                                              color: Colors.blue,
+                                              strokeWidth: 5,
+                                            )),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      text == 'Following'
-                                          ? Row(
-                                              children: [
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10),
-                                                  child: PopupMenuButton<int>(
-                                                    icon: const Icon(Icons
-                                                        .more_horiz_outlined),
-                                                    offset:
-                                                        const Offset(-180, 0),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      side: const BorderSide(
-                                                          color: Colors
-                                                              .transparent,
-                                                          width: 0.1),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
+                                  Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        text == 'Following'
+                                            ? Row(
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: PopupMenuButton<int>(
+                                                      icon: const Icon(Icons
+                                                          .more_horiz_outlined),
+                                                      offset:
+                                                          const Offset(-180, 0),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        side: const BorderSide(
+                                                            color: Colors
+                                                                .transparent,
+                                                            width: 0.1),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8),
+                                                      ),
+                                                      initialValue:
+                                                          selectedMenu,
+                                                      // Callback that sets the selected popup menu item.
+                                                      onSelected: (item) {
+                                                        setState(() {
+                                                          selectedMenu = item;
+                                                        });
+                                                      },
+                                                      itemBuilder: (BuildContext
+                                                              context) =>
+                                                          [
+                                                        _popupMenu(
+                                                            0,
+                                                            Icons.link_outlined,
+                                                            'Copy link to profile'),
+                                                        _popupMenu(
+                                                            1,
+                                                            Icons
+                                                                .volume_off_outlined,
+                                                            'Mute ${user.userName}'),
+                                                        _popupMenu(
+                                                            2,
+                                                            Icons
+                                                                .block_outlined,
+                                                            'Block ${user.userName}'),
+                                                        _popupMenu(
+                                                            3,
+                                                            Icons.outlined_flag,
+                                                            'Report ${user.userName}'),
+                                                      ],
                                                     ),
-                                                    initialValue: selectedMenu,
-                                                    // Callback that sets the selected popup menu item.
-                                                    onSelected: (item) {
-                                                      setState(() {
-                                                        selectedMenu = item;
-                                                      });
-                                                    },
-                                                    itemBuilder: (BuildContext
-                                                            context) =>
-                                                        [
-                                                      _popupMenu(
-                                                          0,
-                                                          Icons.link_outlined,
-                                                          'Copy link to profile'),
-                                                      _popupMenu(
-                                                          1,
-                                                          Icons
-                                                              .volume_off_outlined,
-                                                          'Mute ${user.userName}'),
-                                                      _popupMenu(
-                                                          2,
-                                                          Icons.block_outlined,
-                                                          'Block ${user.userName}'),
-                                                      _popupMenu(
-                                                          3,
-                                                          Icons.outlined_flag,
-                                                          'Report ${user.userName}'),
-                                                    ],
                                                   ),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10),
-                                                  child: ProfileIconButton(
-                                                      borderWidth: 1,
-                                                      icon: Icons.mail_outline,
-                                                      onPressed: () {},
-                                                      color: Colors.white,
-                                                      iconColor: Colors.black),
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 10),
-                                                  child: ProfileIconButton(
-                                                      borderWidth: 1,
-                                                      icon: Icons
-                                                          .notification_add_outlined,
-                                                      onPressed: () {},
-                                                      color: Colors.white,
-                                                      iconColor: Colors.black),
-                                                ),
-                                              ],
-                                            )
-                                          : const SizedBox(),
-                                      _followEditButton(user, context),
-                                    ],
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: ProfileIconButton(
+                                                        borderWidth: 1,
+                                                        icon:
+                                                            Icons.mail_outline,
+                                                        onPressed: () {},
+                                                        color: Colors.white,
+                                                        iconColor:
+                                                            Colors.black),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10),
+                                                    child: ProfileIconButton(
+                                                        borderWidth: 1,
+                                                        icon: Icons
+                                                            .notification_add_outlined,
+                                                        onPressed: () {},
+                                                        color: Colors.white,
+                                                        iconColor:
+                                                            Colors.black),
+                                                  ),
+                                                ],
+                                              )
+                                            : const SizedBox(),
+                                        _followEditButton(user, context),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                            ),
-                            Positioned(
-                              top: MediaQuery.of(context).size.height / 6.7,
-                              left: 15,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(80),
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
-                                    child: CircleAvatar(
-                                      radius: 60,
-                                      backgroundColor: Colors.white,
-                                      backgroundImage:
-                                          CachedNetworkImageProvider(
-                                        '$basePhotosURL${user.avatar}',
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
+                              Positioned(
+                                top: MediaQuery.of(context).size.height / 6.7,
+                                left: 15,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(80),
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(4.0),
+                                      child: CircleAvatar(
+                                        radius: 60,
+                                        backgroundColor: Colors.white,
+                                        backgroundImage:
+                                            CachedNetworkImageProvider(
+                                          '$basePhotosURL${user.avatar}',
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: AccountInformation(
-                          website: user.website ?? '',
-                          bio: user.bio ?? '',
-                          followers: user.followers ?? 24870,
-                          following: user.following ?? 230,
-                          joinedDate: user.joinedDate ?? '2023-10-05',
-                          location: user.location ?? '',
-                          profileName: user.name ?? '',
-                          birthDate: user.birthdayDate ?? '2002-08-27',
-                          userName: user.userName ?? '',
-                        ),
-                      ),
-                      SliverAppBar(
-                        pinned: false,
-                        toolbarHeight: 5,
-                        backgroundColor: Colors.white,
-                        bottom: TabBar(
-                          labelColor: Colors.black,
-                          controller: _tabController,
-                          indicator: const UnderlineTabIndicator(
-                            insets: EdgeInsets.symmetric(horizontal: 50),
-                            borderSide: BorderSide(
-                              color: Colors.blue,
-                              width: 5,
-                            ),
+                            ],
                           ),
-                          indicatorWeight: 5,
-                          onTap: (value) {
-                            _selectedTabIndex = value;
-                            _tabController.animateTo(_selectedTabIndex);
-                            setState(() {});
-                          },
-                          tabs: const [
-                            Tab(
-                              text: 'Posts',
-                            ),
-                            Tab(
-                              text: 'Replies',
-                            ),
-                            Tab(
-                              text: 'Likes',
-                            )
-                          ],
                         ),
-                      ),
-                      if (_selectedTabIndex == 2) const ProfileLikes(),
-                      if (_selectedTabIndex != 2)
-                        SliverList.builder(
-                          itemCount: listitems.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: ListTile(
-                                  title: Text(listitems[index].toString() +
-                                      _selectedTabIndex.toString()),
-                                  tileColor: Colors.white,
-                                ));
-                          },
+                        SliverToBoxAdapter(
+                          child: AccountInformation(
+                            website: user.website ?? '',
+                            bio: user.bio ?? '',
+                            followers: user.followers ?? 24870,
+                            following: user.following ?? 230,
+                            joinedDate: user.joinedDate ?? '2023-10-05',
+                            location: user.location ?? '',
+                            profileName: user.name ?? '',
+                            birthDate: user.birthdayDate ?? '2002-08-27',
+                            userName: user.userName ?? '',
+                          ),
                         ),
-                    ],
+                        SliverAppBar(
+                          pinned: false,
+                          toolbarHeight: 5,
+                          backgroundColor: Colors.white,
+                          bottom: TabBar(
+                            labelColor: Colors.black,
+                            controller: _tabController,
+                            indicator: const UnderlineTabIndicator(
+                              insets: EdgeInsets.symmetric(horizontal: 50),
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                                width: 5,
+                              ),
+                            ),
+                            indicatorWeight: 5,
+                            onTap: (value) {
+                              _selectedTabIndex = value;
+                              _tabController.animateTo(_selectedTabIndex);
+                              setState(() {});
+                            },
+                            tabs: const [
+                              Tab(
+                                text: 'Posts',
+                              ),
+                              Tab(
+                                text: 'Replies',
+                              ),
+                              Tab(
+                                text: 'Likes',
+                              )
+                            ],
+                          ),
+                        ),
+                      ];
+                    },
+                    body: ProfileScreenBody(
+                      tabController: _tabController,
+                      id: id,
+                    ),
                   ),
                 );
               }
