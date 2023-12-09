@@ -6,7 +6,7 @@ import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
 void main() {
-  String baseUrl = 'http://16.171.65.142:3000/api/v1';
+  String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
 
   group('Test Get Tweets Home Api', () {
     test('Test1:  Get Tweets Home for invalid token', () async {

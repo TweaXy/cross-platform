@@ -11,7 +11,7 @@ List<String>? _getImageList(dynamic image) {
 
     // If 'image' is already a List, convert each item to String
     return tmp
-        .map((item) => 'http://16.171.65.142:3000/uploads/tweetsMedia/$item')
+        .map((item) => 'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$item')
         .toList();
   } else {
     return null;

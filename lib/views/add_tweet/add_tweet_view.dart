@@ -199,7 +199,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                     child: CircleAvatar(
                       radius: 21,
                       backgroundImage: CachedNetworkImageProvider(
-                          'http://16.171.65.142:3000/${TempUser.image}'),
+                          'https://tweaxybackend.mywire.org/${TempUser.image}'),
                     ),
                   ),
                   Container(

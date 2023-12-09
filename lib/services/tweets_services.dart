@@ -11,7 +11,7 @@ import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetsServices {
-  static String baseUrl = 'http://16.171.65.142:3000/api/v1';
+  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
   static Future<List<Tweet>> getTweetsHome({required int offset}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');

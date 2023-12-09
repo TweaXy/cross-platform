@@ -52,8 +52,10 @@ class _TweetInteractionsState extends State<TweetInteractions> {
         children: [
           Row(
             children: [
-              const Icon(
-                  FontAwesomeIcons.comment), // Replace with your desired icon
+              IconButton(
+                icon: const Icon(FontAwesomeIcons.comment),
+                onPressed: () {},
+              ), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
                       0.009), // Adjust the width as per your preference
@@ -89,7 +91,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   return (res);
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
-                    BlocProvider.of<TweetsUpdateCubit>(context)
+                  BlocProvider.of<TweetsUpdateCubit>(context)
                       .likeTweet(widget.id);
                   return res;
                 }

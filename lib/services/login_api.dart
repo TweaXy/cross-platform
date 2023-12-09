@@ -9,7 +9,7 @@ class LoginApi {
   LoginApi();
   Future<dynamic> postUser(Map<String, String> data) async {
     Response response =
-        await dio.post('http://16.171.65.142:3000/api/v1/auth/login',
+        await dio.post('https://tweaxybackend.mywire.org/api/v1/auth/login',
             data: data,
             options: Options(headers: {
               "Content-Type": "application/json",
@@ -27,7 +27,7 @@ class LoginApi {
 
   Future<dynamic> getEmailExist(Map<String, String> data) async {
     Response response =
-        await dio.post('http://16.171.65.142:3000/api/v1/users/checkUUIDExists',
+        await dio.post('https://tweaxybackend.mywire.org/api/v1/users/checkUUIDExists',
             data: data,
             options: Options(headers: {
               "Content-Type": "application/json",

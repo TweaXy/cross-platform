@@ -21,7 +21,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/users/followers/$username?limit=$pageSize&offset=$offset",
+          "https://tweaxybackend.mywire.org/api/v1/users/followers/$username?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
@@ -46,7 +46,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/users/followings/$username?limit=$pageSize&offset=$offset",
+          "https://tweaxybackend.mywire.org/api/v1/users/followings/$username?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

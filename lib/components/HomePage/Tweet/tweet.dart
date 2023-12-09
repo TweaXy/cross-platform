@@ -90,6 +90,9 @@ class CustomTweet extends StatelessWidget {
                       ),
                     ),
                   ),
+                // const NetworkVideoPlayer(
+                //   video: '',
+                // ),
                 if (t != null) TweetMedia(pickedfiles: tweet.image!),
                 TweetInteractions(
                   id: tweet.id,

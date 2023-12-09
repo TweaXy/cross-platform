@@ -20,7 +20,7 @@ class Likers {
     token = user.getString("token")!;
     response = await Api.getwithToken(
       url:
-          "http://16.171.65.142:3000/api/v1/interactions/$id/likers?limit=$pageSize&offset=$offset",
+          "https://tweaxybackend.mywire.org/api/v1/interactions/$id/likers?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
