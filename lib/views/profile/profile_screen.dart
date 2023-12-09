@@ -27,6 +27,7 @@ import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 import 'package:tweaxy/components/Profile/profile_likes.dart';
 import 'package:tweaxy/components/Profile/profile_screen_body.dart';
+import 'package:tweaxy/views/search_users/search_tweets.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.id, required this.text});
@@ -186,8 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ];
                         },
                         body: ProfileScreenBody(
-
-                          tabController: _tabController, id: id,
+                          tabController: _tabController,
+                          id: id,
                         ));
                   }
                 },
@@ -302,7 +303,14 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                         icon: Icons.search,
                         iconColor: Colors.white,
                         color: Colors.black,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    SearchTweets(username: user.userName!)),
+                          );
+                        },
                       ),
                     ),
                     ProfileIconButton(

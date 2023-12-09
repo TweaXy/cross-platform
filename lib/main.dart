@@ -4,6 +4,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
+import 'package:tweaxy/views/search_users/search_tweets.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 import 'package:tweaxy/views/settings/update_password_view.dart';
@@ -90,8 +91,11 @@ class TweaXy extends StatelessWidget {
                 kSettings: (context) => const SettingsView(),
                 // kLikersInProfile: (context) => const ProfileLikes(),
                 kUpdatePassword: (context) => const UpdatePasswordView(),
+                kSearchTweets: (context) => SearchTweets(
+                      username: "Angel_Herzog",
+                    ),
               },
-              initialRoute: kSplashScreen,
+              initialRoute: kSearchTweets,
             ),
           ),
         ),
