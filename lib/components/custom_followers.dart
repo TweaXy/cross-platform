@@ -74,7 +74,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                       size: 15,
                     ),
                     Text(
-                      "  Follwers you",
+                      "  Follows you",
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 12,
@@ -150,7 +150,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                     color: Color(0xffc7ced2),
                                   ),
                                   child: const Text(
-                                    'Follwers you',
+                                    'Follows you',
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 13,

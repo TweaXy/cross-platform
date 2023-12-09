@@ -41,7 +41,6 @@ class TempUser {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
     dynamic result = await Api.get('$baseUrl/users/$userid');
-    print('resss' + result.toString());
     if (result is String) {
     } else if (result is Response) {
       Response res = result;

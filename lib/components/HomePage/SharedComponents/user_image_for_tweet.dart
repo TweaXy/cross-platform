@@ -38,7 +38,7 @@ class UserImageForTweet extends StatelessWidget {
       child: ClipRRect(
           borderRadius: BorderRadius.circular(1000),
           child: Image(
-            width: 40,
+            width: 45,
             image: CachedNetworkImageProvider(
               image == null
                   ? "https://tweaxybackend.mywire.org/uploads/default.png"

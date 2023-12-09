@@ -11,7 +11,8 @@ List<String>? _getImageList(dynamic image) {
 
     // If 'image' is already a List, convert each item to String
     return tmp
-        .map((item) => 'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$item')
+        .map((item) =>
+            'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$item')
         .toList();
   } else {
     return null;
@@ -23,41 +24,28 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
   print('hhh' + temp.toString());
   return temp
       .map((e) => Tweet(
-            id: e['id']!,
-            image: _getImageList(e['image']),
-            userImage: e['userImage']!,
-            userHandle: e['userHandle']!,
-            userName: e['userName']!,
-            time: e['time']!,
-            tweetText: e['tweetText'],
-            userId: e['userid'],
-            likesCount: e['likesCount'],
-            viewsCount: e['viewsCount'],
-            retweetsCount: e['retweetsCount'],
-            commentsCount: e['commentsCount'],
-            isUserLiked: e['isUserLiked'],
-            isUserRetweeted: e['isUserRetweeted'],
-            isUserCommented: e['isUserCommented'],
-          ))
+          id: e['id']!,
+          image: _getImageList(e['image']),
+          userImage: e['userImage']!,
+          userHandle: e['userHandle']!,
+          userName: e['userName']!,
+          time: e['time']!,
+          tweetText: e['tweetText'],
+          userId: e['userid'],
+          likesCount: e['likesCount'],
+          viewsCount: e['viewsCount'],
+          retweetsCount: e['retweetsCount'],
+          commentsCount: e['commentsCount'],
+          isUserLiked: e['isUserLiked'],
+          isUserRetweeted: e['isUserRetweeted'],
+          isUserCommented: e['isUserCommented'],
+          createdDate: e['createdDate']))
       .toList();
 }
 
 String dateFormatter(String date) {
   print(date);
-  List<String> months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
+
   DateTime dt1 = DateTime.parse(date).toLocal();
   DateTime now = DateTime.now().toLocal();
   // print('dt1=' + dt1.toString());
@@ -90,3 +78,46 @@ String dateFormatter(String date) {
   // print('time=' + time.toString());
   return time;
 }
+
+List<String> calculateTime(String fulldate) {
+  DateTime dt1 = DateTime.parse(fulldate).toLocal();
+
+  print(dt1.day);
+  print(dt1.month);
+  print(dt1.year);
+  print(dt1.hour);
+  String time;
+  String date;
+  if (dt1.hour <= 12)
+    time = '${dt1.hour}' + ':' + '${dt1.minute}' + ' ' + 'AM';
+  else
+    time = '${dt1.hour - 12}' + ':' + '${dt1.minute}' + ' ' + 'PM';
+  if (dt1.day < 10)
+    date = '0' +
+        '${dt1.day}' +
+        ' ' +
+        '${months[dt1.month - 1]}' +
+        ' ' +
+        '${dt1.year - 2000}';
+  else
+    date = '${dt1.day}' +
+        ' ' +
+        '${months[dt1.month - 1]}' +
+        ' ' +
+        '${dt1.year - 2000}';
+  return [time, date];
+}
+ List<String> months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sept',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];

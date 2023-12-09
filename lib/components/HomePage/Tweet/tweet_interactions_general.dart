@@ -46,19 +46,21 @@ class _TweetInteractionsState extends State<TweetInteractions> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 9.0),
+      padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
               IconButton(
+                constraints: BoxConstraints(),
+                padding: EdgeInsets.zero,
                 icon: const Icon(FontAwesomeIcons.comment),
                 onPressed: () {},
               ), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
-                      0.009), // Adjust the width as per your preference
+                      0.03), // Adjust the width as per your preference
               Text(widget.commentsCount
                   .toString()), // Replace with your desired label
             ],
@@ -69,7 +71,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   FontAwesomeIcons.retweet), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
-                      0.009), // Adjust the width as per your preference
+                      0.03), // Adjust the width as per your preference
               Text(widget.retweetsCount
                   .toString()), // Replace with your desired label
             ],
@@ -99,7 +101,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
               likeCount: widget.likesCount,
               size: 20,
               isLiked: widget.isUserLiked,
-              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.0009)),
+              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.009)),
           Row(
             children: [
               const Icon(Icons.bar_chart), // Replace with your desired icon

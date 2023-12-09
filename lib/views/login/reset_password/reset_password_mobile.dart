@@ -109,7 +109,7 @@ class _ResetPasswordMobileState extends State<ResetPasswordMobile> {
                                     color: Colors.blue)),
                           ],
                         ),
-                      )),
+                      ),),
                   Padding(
                     padding: EdgeInsets.only(
                       bottom: screenheight * 0.06,

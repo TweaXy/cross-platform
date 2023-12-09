@@ -9,6 +9,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/trend.dart';
 import 'package:tweaxy/services/get_trends.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/trends/view_trend_tweets.dart';
 
 class TrendingScreen extends StatefulWidget {
   const TrendingScreen({super.key});
@@ -152,12 +153,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
                                   MediaQuery.of(context).size.height * 0.01),
                           child: ListTile(
                             onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: ((context) => ViewTrendTweets(
-                              //               trendName: item.name,
-                              //             ))));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => ViewTrendTweets(
+                                            trendName: item.name,
+                                          ))));
                             },
                             title: Text(
                               '${index + 1} . Trending',
