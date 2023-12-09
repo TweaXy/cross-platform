@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class InteractionReplyScreen extends StatelessWidget {
   const InteractionReplyScreen({super.key, required this.tweet});
@@ -22,7 +23,9 @@ class InteractionReplyScreen extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(FontAwesomeIcons.comment),
-              onPressed: () {},
+              onPressed: () {
+                addReplyPress();
+              },
             ), // Replace with your desired icon
             SizedBox(
                 width: screenWidth *
