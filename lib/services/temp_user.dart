@@ -10,7 +10,7 @@ class TempUser {
   static TempUser? _instance;
   static String email = '';
   static String id = '';
-
+  static String token = '';
   static String username = '';
   static String name = '';
   static String image = 'uploads/default.png';
@@ -18,6 +18,10 @@ class TempUser {
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     TempUser.email = email;
+  }
+
+  static void setToken({required String token}) {
+    TempUser.token = token;
   }
 
   static void setUserName({required String username}) {
@@ -40,7 +44,13 @@ class TempUser {
     //  print(email);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
-    dynamic result = await Api.get('$baseUrl/users/$userid');
+    String? token = prefs.getString('token');
+    setToken(token: token!);
+    print('hhhhhh' + userid.toString());
+    dynamic result = await Api.getwithToken(
+        token: token,
+        url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
+    print('hhh' + result.toString());
     if (result is String) {
     } else if (result is Response) {
       Response res = result;

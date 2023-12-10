@@ -74,6 +74,11 @@ class _MyPageState extends State<ProfilePosts> {
         return PagedSliverList<int, Tweet>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate(
+              noItemsFoundIndicatorBuilder: (context) {
+            return const Center(
+              child: Text("This user have no posts yet"),
+            );
+          },
             animateTransitions: true,
             itemBuilder: (context, item, index) {
               return CustomTweet(

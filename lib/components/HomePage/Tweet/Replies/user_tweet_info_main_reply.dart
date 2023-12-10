@@ -11,6 +11,8 @@ class UserTweetInfoReply extends StatelessWidget {
   final List<String> replyto;
   @override
   Widget build(BuildContext context) {
+    double screenwidth = MediaQuery.of(context).size.width;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -19,26 +21,29 @@ class UserTweetInfoReply extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenwidth * 0.6),
                   child: Text(
+                    maxLines: 1,
                     tweet.userName,
                     style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.w700,
                       fontSize: 18,
                       color: Color.fromARGB(255, 12, 12, 12),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 3.0),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenwidth * 0.6),
                   child: Text(
-                    '@${tweet.userHandle}',
-                    // tweet.userName.length <= 4
+                    maxLines: 1,
+                    // tweet.userName.trim().length <= 5
                     //     ? '@${tweet.userHandle}'
-                    //     : '${'@${tweet.userHandle.substring(0, 4)}'}...',
-                    overflow: TextOverflow.ellipsis,
+                    //     : '${'@${tweet.userHandle.substring(0, 7)}'}...',
+                    '${'@' + tweet.userHandle.toString()}',
                     style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
                       fontSize: 18,
                       color: Color.fromARGB(255, 108, 108, 108),
                       fontWeight: FontWeight.w400,
