@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -15,6 +14,9 @@ class LoginApi {
               "Content-Type": "application/json",
             }));
     SharedPreferences user = await SharedPreferences.getInstance();
+    print('kk'+response.data.toString());
+    print('kk'+response.data['data']['token'].toString());
+
     user.setString('username', response.data['data']['user']['username']);
     user.setString("token", response.data['data']['token']);
     user.setString("id", response.data['data']['user']['id']);
@@ -26,12 +28,12 @@ class LoginApi {
   }
 
   Future<dynamic> getEmailExist(Map<String, String> data) async {
-    Response response =
-        await dio.post('https://tweaxybackend.mywire.org/api/v1/users/checkUUIDExists',
-            data: data,
-            options: Options(headers: {
-              "Content-Type": "application/json",
-            }));
+    Response response = await dio.post(
+        'https://tweaxybackend.mywire.org/api/v1/users/checkUUIDExists',
+        data: data,
+        options: Options(headers: {
+          "Content-Type": "application/json",
+        }));
     return response.data;
   }
 
