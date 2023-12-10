@@ -14,9 +14,11 @@ class Tweet {
   final bool isUserLiked;
   final bool isUserRetweeted;
   final bool isUserCommented;
+  final List<String> createdDate;
 
   //+++++++++video
   const Tweet({
+    required this.createdDate,
     required this.isUserLiked,
     required this.isUserRetweeted,
     required this.isUserCommented,

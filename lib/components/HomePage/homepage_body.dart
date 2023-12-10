@@ -11,10 +11,7 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
 class HomePageBody extends StatefulWidget {
-  const HomePageBody(
-      {super.key, required this.tabController, required this.controller});
-  final TabController tabController;
-  final ScrollController controller;
+  const HomePageBody({super.key});
   @override
   State<HomePageBody> createState() => _MyPageState();
 }
@@ -22,6 +19,7 @@ class HomePageBody extends StatefulWidget {
 class _MyPageState extends State<HomePageBody> {
   final PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void initState() {
     // TODO: implement initState
@@ -43,11 +41,11 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItems =
           await TweetsServices.getTweetsHome(offset: pageKey);
-      print('neew' + newItems.toString());
+      // print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
-      print('tttt');
-      print(newItems.length);
-      print(_pageSize);
+      // print('tttt');
+      // print(newItems.length);
+      // print(_pageSize);
       if (isLastPage) {
         _pagingController.appendLastPage(newItems);
       } else {
@@ -95,11 +93,17 @@ class _MyPageState extends State<HomePageBody> {
         return PagedSliverList<int, Tweet>(
           pagingController: _pagingController,
           builderDelegate: PagedChildBuilderDelegate(
+            // noItemsFoundIndicatorBuilder: (context) {
+            //   return const Center(
+            //     child: Text("No tweets yet"),
+            //   );
+            // },
             animateTransitions: true,
             itemBuilder: (context, item, index) {
               return CustomTweet(
                 forProfile: false,
                 tweet: item,
+                replyto: const [],
               );
             },
           ),

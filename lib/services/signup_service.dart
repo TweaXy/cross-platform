@@ -113,13 +113,13 @@ class SignupService {
     }
   }
 
-  Future<dynamic> authentication() async {
+  Future<dynamic> authentication({required String captcha}) async {
     dynamic response;
     try {
       response = await Api.post(
         url: '${baseUrl}auth/captcha',
         token: UserSignup.emailVerificationToken,
-        body: {},
+        body: {"captcha": captcha},
       );
       return response;
     } catch (e) {

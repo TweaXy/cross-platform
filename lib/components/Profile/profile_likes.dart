@@ -73,7 +73,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
         builderDelegate: PagedChildBuilderDelegate(
           noItemsFoundIndicatorBuilder: (context) {
             return const Center(
-              child: Text("You have no liked Tweets"),
+              child: Text("This user have no liked Tweets"),
             );
           },
           animateTransitions: true,
@@ -98,7 +98,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
           itemBuilder: (context, item, index) {
             return CustomTweet(
               forProfile: false,
-              tweet: item,
+              tweet: item, replyto: [],
             );
           },
         ),

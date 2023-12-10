@@ -224,10 +224,7 @@ class _HomeTweetsState extends State<HomeTweets> {
                     SliverToBoxAdapter(
                       child: isweb(),
                     ),
-                    HomePageBody(
-                      controller: controller,
-                      tabController: widget.tabController,
-                    )
+                    HomePageBody()
                   ]),
             ])),
       ),

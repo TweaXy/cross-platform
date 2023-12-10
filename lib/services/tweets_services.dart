@@ -24,19 +24,7 @@ class TweetsServices {
       // throw Future.error(res);
       return [];
     }
-    // Response response = res;
-    // if (scroll.position.userScrollDirection == ScrollDirection.reverse &&
-    //     response.data['pagination']['nextPage'] != null) //downward
-    // {
-    //   response = await Api.getwithToken(
-    //       url: response!.data['pagination']['nextPage'], token: s!);
-    // } else if (scroll.position.userScrollDirection == ScrollDirection.forward &&
-    //     response.data['pagination']['prevPage'] != null) //up
-    // {
-    //   response = await Api.getwithToken(
-    //       url: response!.data['pagination']['prevPage'], token: s!);
-    // }
-// print('rrrrr'+res.t)
+
     List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],
@@ -59,6 +47,8 @@ class TweetsServices {
                   item['mainInteraction']['isUserInteract']['isUserRetweeted']),
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
+              'createdDate':
+                  calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
     List<Tweet> t = initializeTweets(m);
@@ -116,6 +106,8 @@ class TweetsServices {
                   item['mainInteraction']['isUserInteract']['isUserRetweeted']),
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
+              'createdDate':
+                  calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
     print('mm' + m.toString());

@@ -53,6 +53,8 @@ class GetLikersInProfile {
                   item['mainInteraction']['isUserInteract']['isUserRetweeted']),
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
+              'createdDate':
+                  calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
     print('mm' + m.toString());

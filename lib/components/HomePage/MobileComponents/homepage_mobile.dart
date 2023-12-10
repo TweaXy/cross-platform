@@ -172,8 +172,6 @@ class HomeTweetsMobile extends StatelessWidget {
         },
         body: CustomScrollView(slivers: [
           HomePageBody(
-            controller: controller,
-            tabController: tabController,
           ),
         ]));
   }
