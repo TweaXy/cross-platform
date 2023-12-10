@@ -28,14 +28,14 @@ import 'package:tweaxy/views/splash_screen.dart';
 import 'package:tweaxy/views/start_screen.dart';
 import 'package:tweaxy/views/start_screen_web.dart';
 
-// void _clear() async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   await prefs.clear();
-// }
+void _clear() async {
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.clear();
+}
 
 void main() {
   // _save();
- // _clear();
+  _clear();
   runApp(const TweaXy());
 }
 
