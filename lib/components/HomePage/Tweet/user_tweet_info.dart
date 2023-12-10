@@ -86,7 +86,10 @@ class User_TweetInfo extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
-                  key: new ValueKey(DeleteTweetKeys.tweetSettingsClickMobile),
+                  key: ValueKey((Utils()).hashText(
+                      DeleteTweetKeys.tweetSettingsClickMobile +
+                          tweet.tweetText!.toString() +
+                          tweet.userHandle.toString())),
                   icon: const Icon(FontAwesomeIcons.ellipsisVertical),
                   color: const Color.fromARGB(255, 182, 182, 182),
                   iconSize: 18,
