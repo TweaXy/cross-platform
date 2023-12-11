@@ -35,7 +35,7 @@ void _clear() async {
 
 void main() {
   // _save();
-  _clear();
+  // _clear();
   runApp(const TweaXy());
 }
 

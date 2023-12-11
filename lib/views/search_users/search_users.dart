@@ -20,6 +20,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _MyPageState extends State<SearchScreen> {
+  bool isHashTag = false;
   final TextEditingController _searchController = TextEditingController();
   bool showAction = false;
   String id = '';
@@ -42,7 +43,8 @@ class _MyPageState extends State<SearchScreen> {
   final _pageSize = 7;
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await SearchForUsers.searchForUser(
+      final newItems =
+       await SearchForUsers.searchForUser(
         query,
         token!,
         pageSize: _pageSize,
@@ -91,7 +93,11 @@ class _MyPageState extends State<SearchScreen> {
               } else {
                 showAction = true;
                 query = value;
+                if (value[0] == '#') {
+                  isHashTag = true;
+                }
               }
+
               _pagingController.refresh();
               setState(() {});
             },
@@ -118,56 +124,90 @@ class _MyPageState extends State<SearchScreen> {
               : null,
         ),
         body: SizedBox(
-          width: double.infinity,
-          child: !showAction
-              ? const Padding(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child: InitialTextSearchUser(),
-                )
-              : SizedBox(
-                  width: double.infinity,
-                  child: PagedListView<int, User>(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      animateTransitions: true,
-                      firstPageProgressIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SpinKitRing(color: Colors.blueAccent),
-                        );
-                      },
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                        child: SpinKitRing(color: Colors.blueAccent),
-                      ),
-                      itemBuilder: (context, item, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            User user = item;
-                            String text = '';
-                            if (user.id != id) {
-                              if (user.following == 1) {
-                                text = 'Following';
-                              } else {
-                                text = 'Follow';
-                              }
-                            }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProfileScreen(id: user.id!, text: text),
-                              ),
-                            );
-                          },
-                          child: SearchUsersListTile(
-                            user: item,
+            width: double.infinity,
+            child: !showAction
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: InitialTextSearchUser(),
+                  )
+                : !isHashTag
+                    ? SizedBox(
+                        width: double.infinity,
+                        child: PagedListView<int, User>(
+                          pagingController: _pagingController,
+                          builderDelegate: PagedChildBuilderDelegate(
+                            animateTransitions: true,
+                            noItemsFoundIndicatorBuilder: (context) {
+                              return const Center(
+                                child: Text("nothing is found"),
+                              );
+                            },
+                            firstPageProgressIndicatorBuilder: (context) {
+                              return const Center(
+                                child: SpinKitRing(color: Colors.blueAccent),
+                              );
+                            },
+                            newPageProgressIndicatorBuilder: (context) =>
+                                const Center(
+                              child: SpinKitRing(color: Colors.blueAccent),
+                            ),
+                            itemBuilder: (context, item, index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  User user = item;
+                                  String text = '';
+                                  if (user.id != id) {
+                                    if (user.following == 1) {
+                                      text = 'Following';
+                                    } else {
+                                      text = 'Follow';
+                                    }
+                                  }
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ProfileScreen(
+                                          id: user.id!, text: text),
+                                    ),
+                                  );
+                                },
+                                child: SearchUsersListTile(
+                                  user: item,
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-        ));
+                        ),
+                      )
+                    : SizedBox(
+                        width: double.infinity,
+                        child: PagedListView(
+                            pagingController: _pagingController,
+                            builderDelegate: PagedChildBuilderDelegate(
+                                noItemsFoundIndicatorBuilder: (context) {
+                                  return const Center(
+                                    child: Text("nothing is found"),
+                                  );
+                                },
+                                animateTransitions: true,
+                                firstPageProgressIndicatorBuilder: (context) {
+                                  return const Center(
+                                    child:
+                                        SpinKitRing(color: Colors.blueAccent),
+                                  );
+                                },
+                                newPageProgressIndicatorBuilder: (context) =>
+                                    const Center(
+                                      child:
+                                          SpinKitRing(color: Colors.blueAccent),
+                                    ),
+                                    
+                                itemBuilder: (context, item, index) {
+                                  return const ListTile(
+                                    title: Text("hash search"),
+                                  );
+                                })),
+                      )));
   }
 
   final PagingController<int, User> _pagingController =
