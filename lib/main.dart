@@ -34,10 +34,11 @@ void _clear() async {
 }
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
 
   // _save();
-  _clear();
+  // _clear();
+  // WidgetsFlutterBinding.ensureInitialized();
+
   runApp(const TweaXy());
 }
 

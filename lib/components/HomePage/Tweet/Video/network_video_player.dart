@@ -52,11 +52,14 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
 
   @override
   Widget build(BuildContext context) => Container(
-        alignment: Alignment.center,
+        width: 100,
+        height: 50,
         child: Column(
           children: [
             AspectRatio(
-              aspectRatio: controller.value.aspectRatio,
+              aspectRatio: 9 / 16,
+        
+              // aspectRatio: controller.value.aspectRatio,
               child: Stack(
                 alignment: Alignment.topRight,
                 children: [

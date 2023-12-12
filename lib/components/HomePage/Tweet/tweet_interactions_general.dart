@@ -80,7 +80,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
             ],
           ),
           LikeButton(
-              isLiked:postLiked,
+              isLiked: widget.isUserLiked,
               key: new ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
@@ -92,19 +92,16 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 print(" the like value $isLiked");
                 if (isLiked) {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
+                  print("ress" + res.toString());
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
-                  setState(() {
-                    postLiked = false;
-                  });
-                  return (res);
+                  return res;
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
+                  print("ress" + res.toString());
+
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .likeTweet(widget.id);
-                  setState(() {
-                    postLiked = true;
-                  });
                   return res;
                 }
               },

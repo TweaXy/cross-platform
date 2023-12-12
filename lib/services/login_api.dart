@@ -15,7 +15,7 @@ class LoginApi {
             }));
     SharedPreferences user = await SharedPreferences.getInstance();
     print('kk'+response.data.toString());
-    print('kk'+response.data['data']['token'].toString());
+    print('kkkk'+response.data['data']['token'].toString());
 
     user.setString('username', response.data['data']['user']['username']);
     user.setString("token", response.data['data']['token']);

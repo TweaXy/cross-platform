@@ -76,6 +76,7 @@ dependencies:
   multi_image_layout: ^0.0.2
   provider: ^6.1.1
   crypto: ^3.0.3
+  multi_video_player: ^0.0.5
 dev_dependencies:
   flutter_driver:
     sdk: flutter

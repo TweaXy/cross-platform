@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/network_video_player.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
@@ -109,9 +110,10 @@ class CustomTweet extends StatelessWidget {
                         ),
                       ),
                     ),
-                  const NetworkVideoPlayer(
-                    video: '',
-                  ),
+                  // const NetworkVideoPlayer(
+                  //   video: '',
+                  // ),
+                  // MultiVideo(),
                   if (t != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5),

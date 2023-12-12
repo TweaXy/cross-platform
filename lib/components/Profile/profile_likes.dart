@@ -7,6 +7,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/get_likers_in_profile.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class ProfileLikes extends StatefulWidget {
   const ProfileLikes({super.key, required this.id});
@@ -56,14 +57,22 @@ class _ProfileLikesState extends State<ProfileLikes> {
   Widget build(BuildContext context) {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
         builder: (context, state) {
-      if (state is TweetDeleteState ||
-          state is TweetAddedState
-          //  || state is TweetUnLikedState
-          ||
-          state is TweetInitialState) {
+      if (state is TweetDeleteState || state is TweetAddedState) {
         _pagingController.refresh();
       }
-      if (state is TweetUnLikedState) {
+        if (state is TweetLikedState) {
+              _pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserLiked;
+                  element.likesCount++;
+                }
+                return element;
+              }).toList();
+
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+           
+      if (state is TweetUnLikedState && TempUser.id == widget.id) {
         _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
         BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
@@ -98,7 +107,8 @@ class _ProfileLikesState extends State<ProfileLikes> {
           itemBuilder: (context, item, index) {
             return CustomTweet(
               forProfile: false,
-              tweet: item, replyto: [],
+              tweet: item,
+              replyto: [],
             );
           },
         ),

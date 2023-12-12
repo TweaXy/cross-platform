@@ -44,7 +44,7 @@ class ApplicationBar extends StatelessWidget {
       leading: IconButton(
         key: const ValueKey(ProfileKeys.homeScreenProfileButton),
         onPressed: () {
-          Navigator.pushNamed(context, kProfileScreen);
+          Scaffold.of(context).openDrawer();
         },
         icon: Icon(
           key: new ValueKey(HomePageKeys.userIconAppBar),
