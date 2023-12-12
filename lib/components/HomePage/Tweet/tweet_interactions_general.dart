@@ -58,7 +58,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 padding: EdgeInsets.zero,
                 icon: const Icon(FontAwesomeIcons.comment),
                 onPressed: () {
-                  addReplyPress();
+                  addReplyPress(context);
                 },
               ), // Replace with your desired icon
               SizedBox(
@@ -80,7 +80,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
             ],
           ),
           LikeButton(
-              isLiked:postLiked,
+              isLiked: postLiked,
               key: new ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';

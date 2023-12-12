@@ -67,6 +67,7 @@ class FloatingButton extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AddTweetView(
+                              isReply: false,
                               photoIconPressed: false,
                             )));
               },
@@ -88,6 +89,7 @@ class FloatingButton extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AddTweetView(
+                              isReply: false,
                               photoIconPressed: true,
                             )));
               },

@@ -10,17 +10,21 @@ import 'package:tweaxy/services/add_tweet.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
 class CustomAddTweetButton extends StatelessWidget {
-  const CustomAddTweetButton(
-      {super.key,
-      required this.isButtonEnabled,
-      required this.textPadding,
-      required this.tweetcontent,
-      required this.xfilePick});
+  const CustomAddTweetButton({
+    super.key,
+    required this.isButtonEnabled,
+    required this.textPadding,
+    required this.tweetcontent,
+    required this.xfilePick,
+    required this.isReply,
+  });
 
   final bool isButtonEnabled;
   final EdgeInsetsGeometry textPadding;
   final dynamic tweetcontent;
   final dynamic xfilePick;
+
+  final bool isReply;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,7 @@ class CustomAddTweetButton extends StatelessWidget {
       onPressed: () async {
         if (tweetcontent.text.isNotEmpty) {
           // if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
-          AddTweet service = AddTweet(Dio());
+          AddTweetReply service = AddTweetReply(Dio());
           dynamic response =
               await service.addTweet(tweetcontent.text, xfilePick);
           log(response.toString());
@@ -57,10 +61,10 @@ class CustomAddTweetButton extends StatelessWidget {
       ),
       child: Padding(
         padding: textPadding,
-        child: const Text(
-          "Post",
+        child: Text(
+          isReply ? 'Reply' : 'Post',
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.w700, fontSize: 19),
         ),
       ),

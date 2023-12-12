@@ -78,7 +78,9 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                             showDialog<String>(
                               context: context,
                               builder: (BuildContext context) =>
-                                  const CustomAddTweetAlertDialog(),
+                                  const CustomAddTweetAlertDialog(
+                                text: "post",
+                              ),
                             );
                           } else {
                             Navigator.pop(context);
@@ -107,6 +109,7 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                               child: CustomAddTweetTextField(
                                 key: const ValueKey("post tweet content field"),
                                 tweetController: tweetcontent,
+                                isReply: false,
                               )),
                         )
                       ],
@@ -137,7 +140,7 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                         postbuttonpress: () async {
                           if (tweetcontent.text.isNotEmpty ||
                               xfilePick.isNotEmpty) {
-                            AddTweet service = AddTweet(Dio());
+                            AddTweetReply service = AddTweetReply(Dio());
                             dynamic response = await service.addTweetWeb(
                                 tweetcontent.text, xfilePick);
                             print(response.toString());

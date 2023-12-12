@@ -79,6 +79,7 @@ class _AddPostState extends State<AddPost> {
                     child: CustomAddTweetTextField(
                       key: const ValueKey("quick tweet add content"),
                       tweetController: tweetcontent,
+                      isReply: false,
                     )),
               )
             ],
@@ -97,7 +98,7 @@ class _AddPostState extends State<AddPost> {
                 postbuttonenabled: postbuttonenable,
                 postbuttonpress: () async {
                   if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
-                    AddTweet service = AddTweet(Dio());
+                    AddTweetReply service = AddTweetReply(Dio());
                     dynamic response =
                         await service.addTweetWeb(tweetcontent.text, xfilePick);
                     print(response.toString());

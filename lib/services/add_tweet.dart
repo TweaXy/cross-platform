@@ -6,18 +6,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 
-class AddTweet {
+class AddTweetReply {
   final Dio dio;
   final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
-  AddTweet(this.dio);
+  AddTweetReply(this.dio);
 
   Future addTweet(String text, List<XFile> media) async {
     dynamic response;
     print(text);
     print(media);
     String? token;
-      try {
+    try {
       List<String> s = await loadPrefs();
       token = s[1];
     } catch (e) {
@@ -59,7 +59,7 @@ class AddTweet {
       throw Exception('oops something went wrong');
     }
   }
-  
+
   Future addTweetWeb(String text, List<XFile> media) async {
     dynamic response;
     print(text);
