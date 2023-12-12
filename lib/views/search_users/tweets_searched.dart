@@ -11,12 +11,18 @@ import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 
 class TweetsSearched extends StatefulWidget {
-  TweetsSearched({super.key, required this.text, required this.username});
+  TweetsSearched(
+      {super.key,
+      required this.text,
+      required this.username,
+      required this.id});
   String text;
+  String id;
   String username;
   @override
   State<TweetsSearched> createState() => _TweetsSearchedState();
@@ -24,8 +30,6 @@ class TweetsSearched extends StatefulWidget {
 
 class _TweetsSearchedState extends State<TweetsSearched>
     with SingleTickerProviderStateMixin {
-  final PagingController<int, Tweet> _pagingController1 =
-      PagingController(firstPageKey: 0);
   final PagingController<int, Tweet> _pagingController2 =
       PagingController(firstPageKey: 0);
   final PagingController<int, FollowersModel> _pagingController3 =
@@ -35,15 +39,18 @@ class _TweetsSearchedState extends State<TweetsSearched>
   final FocusNode _searchFocusNode = FocusNode();
   String initText = '';
   String id = '';
-  String query = '';
+  String token = '';
+  String queryPeople = '';
+  String queryTweets = '';
 
   @override
   void initState() {
-    _searchController.text = 'form:@${widget.username} ${widget.text}';
-    initText = makeText();
-    query = makequery();
+    // _searchController.text = 'form:@${widget.username} ${widget.text}';
+    // initText = makeText();
+    // query = makequery();
+    querySearch();
     super.initState();
-    tabController = TabController(vsync: this, length: 3);
+    tabController = TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
     _searchFocusNode.addListener(() {
       if (_searchFocusNode.hasFocus) {
@@ -52,13 +59,12 @@ class _TweetsSearchedState extends State<TweetsSearched>
           MaterialPageRoute(
               builder: (context) => SearchTweets(
                     username: widget.username,
+                    id: widget.id,
                   )),
         );
       }
     });
-    _pagingController1.addPageRequestListener((pageKey) {
-      _fetchPage1(pageKey);
-    });
+
     _pagingController2.addPageRequestListener((pageKey) {
       _fetchPage2(pageKey);
     });
@@ -67,7 +73,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
     });
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
-      id = prefs.getString('id')!;
       token = prefs.getString('token')!;
       setState(() {});
     });
@@ -80,78 +85,84 @@ class _TweetsSearchedState extends State<TweetsSearched>
   @override
   void dispose() {
     super.dispose();
-    _pagingController1.dispose();
     _pagingController2.dispose();
     _pagingController3.dispose();
   }
 
   Future<void> _refresh() async {
-    _pagingController1.refresh();
     _pagingController2.refresh();
     _pagingController3.refresh();
     setState(() {});
   }
 
   final _pageSize = 7;
-  Future<void> _fetchPage1(int pageKey) async {
-    try {
-      final newItems = await followApi().getFollowers(
-        username: widget.username,
-        pageSize: _pageSize,
-        offset: pageKey,
-      );
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController1.appendLastPage(newItems.cast<Tweet>());
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController1.appendPage(newItems.cast<Tweet>(), nextPageKey);
-      }
-    } catch (error) {
-      _pagingController1.error = error;
-    }
-  }
 
   Future<void> _fetchPage2(int pageKey) async {
-    try {
-      final newItems = await followApi().getFollowings(
-        username: widget.username,
-        pageSize: _pageSize,
-        offset: pageKey,
-      );
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController1.appendLastPage(newItems.cast<Tweet>());
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController1.appendPage(newItems.cast<Tweet>(), nextPageKey);
+    if (queryTweets == '') {
+      try {
+        final newItems = await TweetsServices.getProfilePosts(
+            offset: pageKey, id: widget.id);
+        print(newItems);
+        final isLastPage = newItems.length < _pageSize;
+        if (isLastPage) {
+          _pagingController2.appendLastPage(newItems.cast<Tweet>());
+        } else {
+          final nextPageKey = pageKey + newItems.length;
+          _pagingController2.appendPage(newItems.cast<Tweet>(), nextPageKey);
+        }
+      } catch (error) {
+        _pagingController2.error = error;
       }
-    } catch (error) {
-      _pagingController2.error = error;
+    } else {
+      if ((queryPeople == queryTweets && widget.text.indexOf('from:@') == 0) ||
+          (queryPeople == '' && widget.text[0] == '#')) {
+        //هبحث عن كل التويت من غير username
+      } else {
+        //search for tweets with username
+        try {
+          final newItems = await followApi().getFollowings(
+            username: widget.username,
+            pageSize: _pageSize,
+            offset: pageKey,
+          );
+          print(newItems);
+          final isLastPage = newItems.length < _pageSize;
+          if (isLastPage) {
+            _pagingController2.appendLastPage(newItems.cast<Tweet>());
+          } else {
+            final nextPageKey = pageKey + newItems.length;
+            _pagingController2.appendPage(newItems.cast<Tweet>(), nextPageKey);
+          }
+        } catch (error) {
+          _pagingController2.error = error;
+        }
+      }
     }
   }
 
   Future<void> _fetchPage3(int pageKey) async {
-    try {
-      final newItems = await SearchForUsers.searchForUser(
-        query,
-        token!,
-        pageSize: _pageSize,
-        pageNumber: pageKey,
-      );
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController3.appendLastPage(newItems.cast<FollowersModel>());
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController3.appendPage(
-            newItems.cast<FollowersModel>(), nextPageKey);
+    if (queryPeople != '') {
+      try {
+        final newItems = await SearchForUsers.searchForUser(
+          queryPeople,
+          token!,
+          pageSize: _pageSize,
+          pageNumber: pageKey,
+        );
+        print(newItems);
+        final isLastPage = newItems.length < _pageSize;
+        if (isLastPage) {
+          _pagingController3.appendLastPage(newItems.cast<FollowersModel>());
+        } else {
+          final nextPageKey = pageKey + newItems.length;
+          _pagingController3.appendPage(
+              newItems.cast<FollowersModel>(), nextPageKey);
+        }
+      } catch (error) {
+        _pagingController3.error = error;
       }
-    } catch (error) {
-      _pagingController3.error = error;
+    } else {
+      _pagingController3.itemList = [];
     }
   }
 
@@ -231,18 +242,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
           tabs: [
             Tab(
               child: Text(
-                "Top",
-                style: TextStyle(
-                  color: tabController.index == 0
-                      ? Colors.black
-                      : const Color(0xffADB5BC),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ),
-            Tab(
-              child: Text(
                 "Latest",
                 style: TextStyle(
                   color: tabController.index == 1
@@ -272,35 +271,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
         controller: tabController,
         children: [
           PagedListView<int, Tweet>(
-            pagingController: _pagingController1,
-            builderDelegate: PagedChildBuilderDelegate(
-              animateTransitions: true,
-              noItemsFoundIndicatorBuilder: (context) {
-                return Center(
-                  child: Text(
-                    'No results for ${_searchController.text}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                );
-              },
-              firstPageProgressIndicatorBuilder: (context) {
-                return const Center(
-                  child: SpinKitRing(color: Colors.blueAccent),
-                );
-              },
-              newPageProgressIndicatorBuilder: (context) => const Center(
-                child: SpinKitRing(color: Colors.blueAccent),
-              ),
-              itemBuilder: (context, item, index) {
-                return CustomTweet(
-                  forProfile: false,
-                  tweet: item,
-                  replyto: [],
-                );
-              },
-            ),
-          ),
-          PagedListView<int, Tweet>(
             pagingController: _pagingController2,
             builderDelegate: PagedChildBuilderDelegate(
               animateTransitions: true,
@@ -312,7 +282,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               noItemsFoundIndicatorBuilder: (context) {
                 return Center(
                   child: Text(
-                    'No results for ${_searchController.text}',
+                    'No results for ${queryTweets}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 );
@@ -341,7 +311,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               noItemsFoundIndicatorBuilder: (context) {
                 return Center(
                   child: Text(
-                    'No results for ${_searchController.text}',
+                    'No results for ${queryPeople == '' ? queryTweets : queryPeople}}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 );
@@ -362,19 +332,37 @@ class _TweetsSearchedState extends State<TweetsSearched>
     );
   }
 
-  String makeText() {
-    String text;
-    if (_searchController.text.length > 20) {
-      text = _searchController.text.substring(0, 20) + '...';
-    } else
-      text = _searchController.text;
-    return text;
-  }
+  // String makeText() {
+  //   String text;
+  //   if (_searchController.text.length > 20) {
+  //     text = _searchController.text.substring(0, 20) + '...';
+  //   } else
+  //     text = _searchController.text;
+  //   return text;
+  // }
 
-  String makequery() {
-    String text;
-    int i = _searchController.text.indexOf('${widget.username}');
-    text = _searchController.text.substring(i + widget.username.length);
-    return text;
+  // String makequery() {
+  //   String text;
+  //   int i = _searchController.text.indexOf('${widget.username}');
+  //   text = _searchController.text.substring(i + widget.username.length);
+  //   return text;
+  // }
+
+  void querySearch() {
+    if (widget.text[0] == '#') {
+      queryPeople = '';
+      queryTweets = widget.text;
+    } else if (widget.text.indexOf('from:@') == 0) {
+      if (widget.text.length > 6 + widget.username.length) {
+        queryTweets = widget.text.substring(6 + widget.username.length + 1);
+        queryPeople = widget.username;
+      } else {
+        queryPeople = widget.username;
+        queryTweets = '';
+      }
+    } else {
+      queryPeople = widget.text;
+      queryTweets = widget.text;
+    }
   }
 }

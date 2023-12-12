@@ -91,11 +91,11 @@ class TweaXy extends StatelessWidget {
                 kSettings: (context) => const SettingsView(),
                 // kLikersInProfile: (context) => const ProfileLikes(),
                 kUpdatePassword: (context) => const UpdatePasswordView(),
-                kSearchTweets: (context) => SearchTweets(
-                      username: "Angel_Herzog",
-                    ),
+                // kSearchTweets: (context) => SearchTweets(
+                //       username: "Angel_Herzog",
+                //     ),
               },
-              initialRoute: kSearchTweets,
+              initialRoute: kSplashScreen,
             ),
           ),
         ),

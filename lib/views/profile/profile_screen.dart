@@ -307,8 +307,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SearchTweets(username: user.userName!)),
+                                builder: (context) => SearchTweets(
+                                    username: user.userName!, id: user.id!)),
                           );
                         },
                       ),

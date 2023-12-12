@@ -4,9 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:tweaxy/views/search_users/tweets_searched.dart';
 
 class SearchTweets extends StatefulWidget {
-  SearchTweets({required this.username});
+  SearchTweets({required this.username, required this.id});
   String username;
-
+  String id;
   @override
   State<SearchTweets> createState() => _SearchTweetsState();
 }
@@ -92,6 +92,7 @@ class _SearchTweetsState extends State<SearchTweets> {
             builder: (context) => TweetsSearched(
                   text: _searchController.text,
                   username: widget.username,
+                  id: widget.id,
                 )),
       );
     }
