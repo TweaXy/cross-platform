@@ -10,7 +10,7 @@ import 'package:tweaxy/components/add_tweet/image_display_web.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
-import 'package:tweaxy/services/add_tweet.dart';
+import 'package:tweaxy/services/add_tweet_and_reply.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class AddTweetWebView extends StatefulWidget {
@@ -140,7 +140,7 @@ class _AddTweetWebViewState extends State<AddTweetWebView> {
                         postbuttonpress: () async {
                           if (tweetcontent.text.isNotEmpty ||
                               xfilePick.isNotEmpty) {
-                            AddTweetReply service = AddTweetReply(Dio());
+                            AddTweetAndReply service = AddTweetAndReply(Dio());
                             dynamic response = await service.addTweetWeb(
                                 tweetcontent.text, xfilePick);
                             print(response.toString());

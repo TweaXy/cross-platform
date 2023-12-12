@@ -10,7 +10,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
-import 'package:tweaxy/services/add_tweet.dart';
+import 'package:tweaxy/services/add_tweet_and_reply.dart';
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -98,7 +98,7 @@ class _AddPostState extends State<AddPost> {
                 postbuttonenabled: postbuttonenable,
                 postbuttonpress: () async {
                   if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
-                    AddTweetReply service = AddTweetReply(Dio());
+                    AddTweetAndReply service = AddTweetAndReply(Dio());
                     dynamic response =
                         await service.addTweetWeb(tweetcontent.text, xfilePick);
                     print(response.toString());

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
-import 'package:tweaxy/services/add_tweet.dart';
+import 'package:tweaxy/services/add_tweet_and_reply.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 
 class CustomAddTweetButton extends StatelessWidget {
@@ -33,9 +33,11 @@ class CustomAddTweetButton extends StatelessWidget {
       onPressed: () async {
         if (tweetcontent.text.isNotEmpty) {
           // if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
-          AddTweetReply service = AddTweetReply(Dio());
-          dynamic response =
-              await service.addTweet(tweetcontent.text, xfilePick);
+          AddTweetAndReply service = AddTweetAndReply(Dio());
+          dynamic response = isReply
+              ? await service.addReply(
+                  tweetcontent.text, xfilePick, 'id') //TODO : set tweet id
+              : await service.addTweet(tweetcontent.text, xfilePick);
           log(response.toString());
           if (response is String) {
             showToastWidget(
