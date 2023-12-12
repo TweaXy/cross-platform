@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/views/settings/notification_settings/filters.dart';
+import 'package:tweaxy/views/settings/notification_settings/fitered_notifications.dart';
 
-class NoticicationSettingsView extends StatefulWidget {
-  const NoticicationSettingsView({super.key});
+class Filters extends StatefulWidget {
+  const Filters({super.key});
 
   @override
-  State<NoticicationSettingsView> createState() =>
-      _NoticicationSettingsViewState();
+  State<Filters> createState() => _FiltersState();
 }
 
-class _NoticicationSettingsViewState extends State<NoticicationSettingsView> {
+class _FiltersState extends State<Filters> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const SettingsAppBar(
-        title: "Notifications",
+        title: "Filters",
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -38,10 +36,10 @@ class _NoticicationSettingsViewState extends State<NoticicationSettingsView> {
                         vertical: MediaQuery.of(context).size.height * .01),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width * .02),
+                          horizontal: MediaQuery.of(context).size.width * .01),
                       child: CustomParagraphText(
                         textValue:
-                            "Select kinds of notifications you get about your activation, interests, and recommendations",
+                            "Choose the notifications you'd like to see--and those you don't",
                         textAlign: TextAlign.start,
                         size: 17,
                       ),
@@ -51,26 +49,33 @@ class _NoticicationSettingsViewState extends State<NoticicationSettingsView> {
                 Padding(
                   padding: EdgeInsets.symmetric(
                       vertical: MediaQuery.of(context).size.height * .02),
-                  child: CustomdataDisplay(
-                    onpress: () {
-                      Navigator.push(
-                          context,
-                          CustomPageRoute(
-                              direction: AxisDirection.left,
-                              child: const Filters()));
-                    },
-                    title: "Filters",
-                    subtitle:
-                        "Choose the notifications you'd like to see -- and those you don't",
-                    lead: const Icon(Icons.notifications_on_rounded),
+                  child: ListTile(
+                    leading: const Text(
+                      "Muted notificatios",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            CustomPageRoute(
+                                direction: AxisDirection.left,
+                                child: const FilteredNotification()));
+                      },
+                    ),
                   ),
                 ),
-                CustomdataDisplay(
-                  onpress: () {},
-                  title: "Preferences",
-                  subtitle: "Select your preferences by notification type",
-                  lead: const Icon(Icons.phonelink_ring_outlined),
-                )
+                ListTile(
+                  leading: const Text(
+                    "Muted words",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.arrow_forward_ios),
+                    onPressed: () {},
+                  ),
+                ),
               ],
             ),
           ),
