@@ -7,6 +7,8 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
+import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 
@@ -17,7 +19,7 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _MyPageState extends State<HomePageBody> {
-  final PagingController<int, Tweet> _pagingController =
+  PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -60,53 +62,60 @@ class _MyPageState extends State<HomePageBody> {
   String query = '';
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
-      builder: (context, state) {
-        if (state is TweetHomeRefresh ||
-            state is TweetAddedState ||
-            state is TweetLikedState) {
-          _pagingController.refresh();
-        }
-        if (state is TweetDeleteState) {
-          _pagingController.itemList!
-              .removeWhere((element) => element.id == state.tweetid);
-          BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
-        }
-        // if (state is TweetLikedState) {
-        //   _pagingController.itemList!.where((element) {
-        //     if (element.id == state.tweetid) {
-        //       return element.isUserLiked = !element.isUserLiked;
-        //     } else {
-        //       return element.isUserLiked;
-        //     }
-        //   });
-        // }
-        //   if (state is TweetUnLikedState) {
-        //   _pagingController.itemList!.where((element) {
-        //     if (element.id == state.tweetid) {
-        //       return element.isUserLiked = !element.isUserLiked;
-        //     } else {
-        //       return element.isUserLiked;
-        //     }
-        //   });
-        // }
-        return PagedSliverList<int, Tweet>(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate(
-            // noItemsFoundIndicatorBuilder: (context) {
-            //   return const Center(
-            //     child: Text("No tweets yet"),
-            //   );
-            // },
-            animateTransitions: true,
-            itemBuilder: (context, item, index) {
-              return CustomTweet(
-                forProfile: false,
-                tweet: item,
-                replyto: const [],
-              );
-            },
-          ),
+    return BlocBuilder<UpdateAllCubit, UpdataAllState>(
+      builder: (context, updateallstate) {
+        return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+          builder: (context, state) {
+            if (updateallstate is LoadingStata ||
+                state is TweetHomeRefresh ||
+                state is TweetAddedState) {
+              _pagingController.refresh();
+            }
+            if (state is TweetDeleteState) {
+              _pagingController.itemList!
+                  .removeWhere((element) => element.id == state.tweetid);
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            if (state is TweetLikedState) {
+              _pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserLiked;
+                  element.likesCount++;
+                }
+                return element;
+              }).toList();
+
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            if (state is TweetUnLikedState) {
+              _pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserLiked;
+                  element.likesCount--;
+                }
+                return element;
+              }).toList();
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            return PagedSliverList<int, Tweet>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate(
+                // noItemsFoundIndicatorBuilder: (context) {
+                //   return const Center(
+                //     child: Text("No tweets yet"),
+                //   );
+                // },
+                animateTransitions: true,
+                itemBuilder: (context, item, index) {
+                  return CustomTweet(
+                    forProfile: false,
+                    tweet: item,
+                    replyto: const [],
+                  );
+                },
+              ),
+            );
+          },
         );
       },
     );

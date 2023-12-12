@@ -75,16 +75,18 @@ class TweetsServices {
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '$baseUrl/users/$id/tweets?limit=5&offset=$offset', token: s);
+        url: '$baseUrl/users/tweets/$id?limit=5&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
     }
     // Response response = res;
+    print('ttt' + s.toString());
+    print('ttt' + id.toString());
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = (res.data['data']['items']['data']
-            as List<dynamic>)
+    print('ressss' + res.toString());
+    List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],
               'viewsCount': item['mainInteraction']['viewsCount'],
@@ -110,10 +112,31 @@ class TweetsServices {
                   calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
+    print('ressss' + m.toString());
+
     print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
+  }
+
+  static Future<List<bool>> isFollowed(String userid) async {
+    dynamic result = await Api.getwithToken(
+        token: TempUser.token,
+        url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
+    if (result is String) {
+      return [];
+    } else if (result is Response) {
+      Response res = result;
+      List<bool> ret = [
+        res.data['data']['user']['followedByMe'],
+        res.data['data']['user']['followsMe'],
+        TempUser.id == userid
+      ];
+      print(ret);
+      return ret;
+    }
+    return [];
   }
 }
 

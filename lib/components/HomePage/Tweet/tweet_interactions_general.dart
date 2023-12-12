@@ -80,6 +80,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
             ],
           ),
           LikeButton(
+              isLiked:postLiked,
               key: new ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
@@ -93,17 +94,22 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
+                  setState(() {
+                    postLiked = false;
+                  });
                   return (res);
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .likeTweet(widget.id);
+                  setState(() {
+                    postLiked = true;
+                  });
                   return res;
                 }
               },
               likeCount: widget.likesCount,
               size: 20,
-              isLiked: widget.isUserLiked,
               likeCountPadding: EdgeInsets.only(left: screenWidth * 0.009)),
           Row(
             children: [

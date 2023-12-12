@@ -32,7 +32,7 @@ class MainTweetReplies extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                margin: const EdgeInsets.only(left: 9, right: 7, top: 7),
+                margin: const EdgeInsets.only(left: 9, right: 7, top: 4),
                 child: UserImageForTweet(
                   userid: tweet.userId,
                   image: tweet.userImage!,
@@ -41,7 +41,8 @@ class MainTweetReplies extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 7),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 7, vertical: 7),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
@@ -44,7 +45,6 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
 }
 
 String dateFormatter(String date) {
-  print(date);
 
   DateTime dt1 = DateTime.parse(date).toLocal();
   DateTime now = DateTime.now().toLocal();
@@ -82,10 +82,6 @@ String dateFormatter(String date) {
 List<String> calculateTime(String fulldate) {
   DateTime dt1 = DateTime.parse(fulldate).toLocal();
 
-  print(dt1.day);
-  print(dt1.month);
-  print(dt1.year);
-  print(dt1.hour);
   String time;
   String date;
   if (dt1.hour <= 12)
@@ -107,6 +103,36 @@ List<String> calculateTime(String fulldate) {
         '${dt1.year - 2000}';
   return [time, date];
 }
+
+List<Map<String, dynamic>> mapToList(Response res) {
+  return (res.data['data']['items']['data'] as List<dynamic>)
+      .map((item) => {
+            'likesCount': item['mainInteraction']['likesCount'],
+            'viewsCount': item['mainInteraction']['viewsCount'],
+            'retweetsCount': item['mainInteraction']['retweetsCount'],
+            'commentsCount': item['mainInteraction']['commentsCount'],
+            'id': item['mainInteraction']['id'],
+            'userid': item['mainInteraction']['user']['id'],
+            'userImage': item['mainInteraction']['user']['avatar'],
+            'image': item['mainInteraction']['media'] != null
+                ? item['mainInteraction']['media'].toList()
+                : null,
+            'userName': item['mainInteraction']['user']['name'],
+            'userHandle': item['mainInteraction']['user']['username'],
+            'time': dateFormatter(item['mainInteraction']['createdDate']),
+            'tweetText': item['mainInteraction']['text'],
+            'isUserLiked': intToBool(
+                item['mainInteraction']['isUserInteract']['isUserLiked']),
+            'isUserRetweeted': intToBool(
+                item['mainInteraction']['isUserInteract']['isUserRetweeted']),
+            'isUserCommented': intToBool(
+                item['mainInteraction']['isUserInteract']['isUserCommented']),
+            'createdDate': calculateTime(item['mainInteraction']['createdDate'])
+          })
+      .toList();
+}
+
+bool intToBool(int a) => a == 0 ? false : true;
 
 List<String> months = [
   'Jan',

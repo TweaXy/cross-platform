@@ -7,17 +7,17 @@ class Tweet {
   final String? tweetText;
   final String id;
   final String userId;
-  final int likesCount;
+   int likesCount;
   final int viewsCount;
   final int retweetsCount;
   final int commentsCount;
-  final bool isUserLiked;
+  bool isUserLiked;
   final bool isUserRetweeted;
   final bool isUserCommented;
   final List<String> createdDate;
 
   //+++++++++video
-  const Tweet({
+  Tweet({
     required this.createdDate,
     required this.isUserLiked,
     required this.isUserRetweeted,

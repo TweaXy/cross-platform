@@ -4,12 +4,13 @@ import 'package:dio/dio.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class GetLikersInProfile {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
+  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
 
   GetLikersInProfile(this.dio);
 
@@ -21,8 +22,9 @@ class GetLikersInProfile {
     // } catch (e) {
     //   log(e.toString());
     // }
-    Response response = await Api.get(
-        '${baseUrl}users/$id/tweets/liked?limit=4&offset=$pageNumber');
+    Response response = await Api.getwithToken(
+        url: '$baseUrl/users/tweets/liked/$id?limit=4&offset=$pageNumber',
+        token: TempUser.token);
     if (response is String) {
       // throw Future.error(res);
       return [];
@@ -30,7 +32,7 @@ class GetLikersInProfile {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = (response.data['data']['items']['data']
+    List<Map<String, dynamic>> m = (response.data['data']['items']
             as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],
@@ -57,7 +59,6 @@ class GetLikersInProfile {
                   calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
-    print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;

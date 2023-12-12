@@ -40,19 +40,22 @@ class User_TweetInfo extends StatelessWidget {
                   ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: screenwidth * 0.2),
-                child: Text(
-                  maxLines: 1,
-                  // tweet.userName.trim().length <= 5
-                  //     ? '@${tweet.userHandle}'
-                  //     : '${'@${tweet.userHandle.substring(0, 7)}'}...',
-                  '${'@' + tweet.userHandle.toString()}',
-                  style: const TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    fontSize: 18,
-                    color: Color.fromARGB(255, 108, 108, 108),
-                    fontWeight: FontWeight.w400,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenwidth * 0.2),
+                  child: Text(
+                    maxLines: 1,
+                    // tweet.userName.trim().length <= 5
+                    //     ? '@${tweet.userHandle}'
+                    //     : '${'@${tweet.userHandle.substring(0, 7)}'}...',
+                    '${'@' + tweet.userHandle.toString()}',
+                    style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 108, 108, 108),
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
                 ),
               ),

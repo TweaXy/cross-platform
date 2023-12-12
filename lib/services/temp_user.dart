@@ -46,11 +46,9 @@ class TempUser {
     String? userid = prefs.getString('id');
     String? token = prefs.getString('token');
     setToken(token: token!);
-    print('hhhhhh' + userid.toString());
     dynamic result = await Api.getwithToken(
         token: token,
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
-    print('hhh' + result.toString());
     if (result is String) {
     } else if (result is Response) {
       Response res = result;
