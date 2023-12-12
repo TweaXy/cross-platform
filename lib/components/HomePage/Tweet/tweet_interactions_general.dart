@@ -92,13 +92,11 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 print(" the like value $isLiked");
                 if (isLiked) {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
-                  print("ress" + res.toString());
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .unLikeTweet(widget.id);
                   return res;
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
-                  print("ress" + res.toString());
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .likeTweet(widget.id);
