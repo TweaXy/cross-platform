@@ -81,11 +81,8 @@ class TweetsServices {
       return [];
     }
     // Response response = res;
-    print('ttt' + s.toString());
-    print('ttt' + id.toString());
 
     // print('rrrrr' + res.toString());
-    print('ressss' + res.toString());
     List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],

@@ -109,9 +109,9 @@ class CustomTweet extends StatelessWidget {
                         ),
                       ),
                     ),
-                  // const NetworkVideoPlayer(
-                  //   video: '',
-                  // ),
+                  const NetworkVideoPlayer(
+                    video: '',
+                  ),
                   if (t != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5),

@@ -34,6 +34,8 @@ void _clear() async {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   // _save();
   _clear();
   runApp(const TweaXy());

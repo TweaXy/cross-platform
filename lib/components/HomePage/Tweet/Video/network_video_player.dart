@@ -10,8 +10,8 @@ class NetworkVideoPlayer extends StatefulWidget {
 }
 
 class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
-  VideoPlayerController controller =
-      VideoPlayerController.asset('assets/video.mp4');
+  VideoPlayerController controller = VideoPlayerController.networkUrl(Uri.parse(
+      'https://www.shutterstock.com/shutterstock/videos/1089393687/preview/stock-footage--seconds-countdown-timer-animation-neon-glowing-countdown-number.webm'));
   @override
   void initState() {
     super.initState();
