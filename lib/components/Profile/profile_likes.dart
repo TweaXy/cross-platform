@@ -66,14 +66,14 @@ class _ProfileLikesState extends State<ProfileLikes> {
       if (state is TweetUnLikedState) {
         _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
-        BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+        // BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
       }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
         builderDelegate: PagedChildBuilderDelegate(
           noItemsFoundIndicatorBuilder: (context) {
             return const Center(
-              child: Text("You have no liked Tweets"),
+              child: Text("This user have no liked Tweets"),
             );
           },
           animateTransitions: true,

@@ -42,7 +42,10 @@ class CustomTweet extends StatelessWidget {
         Navigator.push(
             context,
             CustomPageRoute(
-                child: RepliesScreen(tweet: tweet, replyto: replyto,),
+                child: RepliesScreen(
+                  tweet: tweet,
+                  replyto: replyto,
+                ),
                 direction: AxisDirection.left));
       },
       child: Container(
@@ -94,6 +97,7 @@ class CustomTweet extends StatelessWidget {
                         );
                       },
                       child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 5),
                         margin:
                             const EdgeInsets.only(left: 2, right: 2, bottom: 5),
                         child: Text(

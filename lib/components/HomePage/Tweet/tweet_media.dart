@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 // import 'package:multi_image_layout/multi_image_layout.dart';
 import 'package:video_player/video_player.dart';
 
@@ -48,11 +48,11 @@ class _TweetMediaState extends State<TweetMedia> {
 
   Widget buildImageElement(String image) {
     Future<List<int>> s =
-        getImageInfo('http://16.171.65.142:3000/uploads/tweetsMedia/$image');
+        getImageInfo('https://tweaxybackend.mywire.org/uploads/tweetsMedia/$image');
     return AspectRatio(
       aspectRatio: 16 / 16,
       child: Image.network(
-        'http://16.171.65.142:3000/uploads/tweetsMedia/$image',
+        'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$image',
         fit: BoxFit.fill,
         // width: double.infinity,
         height: double.infinity,
@@ -63,7 +63,7 @@ class _TweetMediaState extends State<TweetMedia> {
   Widget buildVideoElement(String video) {
     final VideoPlayerController videoController =
         VideoPlayerController.networkUrl(
-      Uri.parse('http://16.171.65.142:3000/uploads/tweetsMedia/$video'),
+      Uri.parse('https://tweaxybackend.mywire.org/uploads/tweetsMedia/$video'),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     )
           ..setLooping(true)

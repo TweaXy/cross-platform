@@ -13,6 +13,7 @@ import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/shared/keys/profile_keys.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key, required this.user});
@@ -95,6 +96,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           color: Colors.black,
         ),
         elevation: 0,
+        key: const ValueKey(ProfileKeys.editProfileButton),
         title: const Text('Edit Profile'),
         titleTextStyle: const TextStyle(
           color: Colors.black,
@@ -106,6 +108,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ? Center(
                   child: BlocProvider(
                     create: (context) => EditProfileCubit(),
+                    key: const ValueKey(ProfileKeys.saveButton),
                     child: ElevatedButton(
                       onPressed: () async {
                         var tempUser = user!;
@@ -144,6 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               : BlocProvider(
                   create: (context) => EditProfileCubit(),
                   child: TextButton(
+                    key: const ValueKey(ProfileKeys.saveButton),
                     onPressed: () async {
                       var tempUser = user!;
                       tempUser.name = _nameController.text;
@@ -288,7 +292,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   vertical: 16,
                 ),
                 child: TextFormField(
-                  key: const ValueKey('nameTextFormField'),
+                  key: const ValueKey(ProfileKeys.nameTextfield),
                   maxLines: 1,
                   keyboardType: TextInputType.name,
                   controller: _nameController,
@@ -304,17 +308,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ),
               ),
               EditProfileTextField(
+                key: const ValueKey(ProfileKeys.bioTextfield),
                 controller: _bioController,
                 labelText: 'Bio',
                 minLines: 3,
                 maxLines: 20,
               ),
               EditProfileTextField(
+                  key: const ValueKey(ProfileKeys.locationTextfield),
                   controller: _locationController,
                   labelText: 'Location',
                   minLines: 1,
                   maxLines: 1),
               EditProfileTextField(
+                  key: const ValueKey(ProfileKeys.websiteTextfield),
                   controller: _websiteController,
                   labelText: 'Website',
                   minLines: 1,
