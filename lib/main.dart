@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/firebase_options.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
@@ -30,12 +32,15 @@ import 'package:tweaxy/views/start_screen_web.dart';
 
 void _clear() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  
   await prefs.clear();
 }
 
-void main() {
+void main() async {
   // _save();
-  _clear();
+  // _clear();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const TweaXy());
 }
 
