@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,7 @@ class _MyPageState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    isHashTag = false;
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       id = prefs.getString('id')!;
@@ -37,14 +38,34 @@ class _MyPageState extends State<SearchScreen> {
     });
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
+      _fetchseuggestPage(pageKey);
     });
   }
 
+  final FocusNode _searchFocus = FocusNode();
+
+  final items = ["item", "item2", "item2", "item2", "item2", "item2", "item2"];
+  void _fetchseuggestPage(pagekey) {
+    //call api and get top 3 items
+  }
+void _submitSearch() {
+    // Add your search logic here
+    if (_searchController.text != '') {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //       builder: (context) => TweetsSearched(
+      //             text: _searchController.text,
+      //             username: widget.username,
+      //             id: widget.id,
+      //           )),
+      // );
+    }
+  }
   final _pageSize = 7;
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems =
-       await SearchForUsers.searchForUser(
+      final newItems = await SearchForUsers.searchForUser(
         query,
         token!,
         pageSize: _pageSize,
@@ -85,17 +106,15 @@ class _MyPageState extends State<SearchScreen> {
             ),
           ),
           title: TextField(
+            focusNode: _searchFocus,
             controller: _searchController,
             maxLines: 1,
             onChanged: (value) {
-              if (value == '') {
+              if (value == '' || isHashTag == true) {
                 showAction = false;
               } else {
                 showAction = true;
                 query = value;
-                if (value[0] == '#') {
-                  isHashTag = true;
-                }
               }
 
               _pagingController.refresh();
@@ -112,6 +131,7 @@ class _MyPageState extends State<SearchScreen> {
               ? [
                   IconButton(
                       onPressed: () {
+                        isHashTag = false;
                         _searchController.text = '';
                         showAction = false;
                         setState(() {});
@@ -123,95 +143,90 @@ class _MyPageState extends State<SearchScreen> {
                 ]
               : null,
         ),
-        body: SizedBox(
-            width: double.infinity,
+        body: RawKeyboardListener(
+            focusNode: _searchFocus,
+            onKey: (RawKeyEvent event) {
+              if (event is RawKeyUpEvent &&
+                  event.logicalKey == LogicalKeyboardKey.enter) {
+                _submitSearch();
+              }
+            },
             child: !showAction
                 ? const Padding(
                     padding: EdgeInsets.only(top: 30.0),
                     child: InitialTextSearchUser(),
                   )
-                : !isHashTag
-                    ? SizedBox(
-                        width: double.infinity,
-                        child: PagedListView<int, User>(
-                          pagingController: _pagingController,
-                          builderDelegate: PagedChildBuilderDelegate(
-                            animateTransitions: true,
-                            noItemsFoundIndicatorBuilder: (context) {
-                              return const Center(
-                                child: Text("nothing is found"),
-                              );
-                            },
-                            firstPageProgressIndicatorBuilder: (context) {
-                              return const Center(
-                                child: SpinKitRing(color: Colors.blueAccent),
-                              );
-                            },
-                            newPageProgressIndicatorBuilder: (context) =>
-                                const Center(
+                : CustomScrollView(
+                    slivers: [
+                      SliverList.builder(
+                          itemCount: items.length > 3 ? 3 : items.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(items[index]),
+                              leading: IconButton(
+                                icon: const Icon(Icons.arrow_outward_outlined),
+                                onPressed: () {
+                                  _searchController.text = items[index];
+                                  _pagingController.itemList = [];
+                                  setState(() {
+                                    isHashTag = true;
+                                  });
+                                },
+                              ),
+                            );
+                          }),
+                      PagedSliverList<int, User>(
+                        pagingController: _pagingController,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          animateTransitions: true,
+                          noItemsFoundIndicatorBuilder: (context) {
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                          firstPageProgressIndicatorBuilder: (context) {
+                            return const Center(
                               child: SpinKitRing(color: Colors.blueAccent),
-                            ),
-                            itemBuilder: (context, item, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  User user = item;
-                                  String text = '';
-                                  if (user.id != id) {
-                                    if (user.following == 1) {
-                                      text = 'Following';
-                                    } else {
-                                      text = 'Follow';
-                                    }
-                                  }
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => ProfileScreen(
-                                          id: user.id!, text: text),
-                                    ),
-                                  );
-                                },
-                                child: SearchUsersListTile(
-                                  user: item,
-                                ),
-                              );
-                            },
+                            );
+                          },
+                          newPageProgressIndicatorBuilder: (context) =>
+                              const Center(
+                            child: SpinKitRing(color: Colors.blueAccent),
                           ),
+                          itemBuilder: (context, item, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                User user = item;
+                                String text = '';
+                                if (user.id != id) {
+                                  if (user.following == 1) {
+                                    text = 'Following';
+                                  } else {
+                                    text = 'Follow';
+                                  }
+                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfileScreen(id: user.id!, text: text),
+                                  ),
+                                );
+                              },
+                              child: SearchUsersListTile(
+                                user: item,
+                              ),
+                            );
+                          },
                         ),
-                      )
-                    : SizedBox(
-                        width: double.infinity,
-                        child: PagedListView(
-                            pagingController: _pagingController,
-                            builderDelegate: PagedChildBuilderDelegate(
-                                noItemsFoundIndicatorBuilder: (context) {
-                                  return const Center(
-                                    child: Text("nothing is found"),
-                                  );
-                                },
-                                animateTransitions: true,
-                                firstPageProgressIndicatorBuilder: (context) {
-                                  return const Center(
-                                    child:
-                                        SpinKitRing(color: Colors.blueAccent),
-                                  );
-                                },
-                                newPageProgressIndicatorBuilder: (context) =>
-                                    const Center(
-                                      child:
-                                          SpinKitRing(color: Colors.blueAccent),
-                                    ),
-                                    
-                                itemBuilder: (context, item, index) {
-                                  return const ListTile(
-                                    title: Text("hash search"),
-                                  );
-                                })),
-                      )));
+                      ),
+                    ],
+                  )));
   }
 
   final PagingController<int, User> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void dispose() {
     // TODO: implement dispose

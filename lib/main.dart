@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/services/suggestions_search.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
@@ -36,6 +38,7 @@ void _clear() async {
 void main() {
   // _save();
   // _clear();
+//  dynamic response= SuggestionsSearch(Dio()).getSuggesstion("an",7);
   runApp(const TweaXy());
 }
 
