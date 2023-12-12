@@ -11,6 +11,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/views/search_users/tweets_searched.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -48,20 +49,37 @@ class _MyPageState extends State<SearchScreen> {
   void _fetchseuggestPage(pagekey) {
     //call api and get top 3 items
   }
-void _submitSearch() {
+  void _submitSearch() {
     // Add your search logic here
     if (_searchController.text != '') {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //       builder: (context) => TweetsSearched(
-      //             text: _searchController.text,
-      //             username: widget.username,
-      //             id: widget.id,
-      //           )),
-      // );
+      if (_searchController.text.indexOf('from:@') == 0) {
+        int atIndex = _searchController.text.indexOf('@');
+        int spaceIndex = _searchController.text.indexOf(' ', atIndex);
+        String result =
+            _searchController.text.substring(atIndex + 1, spaceIndex);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TweetsSearched(
+                    text: _searchController.text,
+                    username: result,
+                    id: '',
+                  )),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TweetsSearched(
+                    text: _searchController.text,
+                    username: '',
+                    id: '',
+                  )),
+        );
+      }
     }
   }
+
   final _pageSize = 7;
   Future<void> _fetchPage(int pageKey) async {
     try {
