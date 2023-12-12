@@ -5,6 +5,7 @@ import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
+import 'package:tweaxy/shared/utils.dart';
 
 class User_TweetInfo extends StatelessWidget {
   const User_TweetInfo(
@@ -88,7 +89,10 @@ class User_TweetInfo extends StatelessWidget {
                 child: IconButton(
                   padding: EdgeInsets.zero,
                   constraints: BoxConstraints(),
-                  key: new ValueKey(DeleteTweetKeys.tweetSettingsClickMobile),
+                  key: ValueKey((Utils()).hashText(
+                      DeleteTweetKeys.tweetSettingsClickMobile +
+                          tweet.tweetText!.toString() +
+                          tweet.userHandle.toString())),
                   icon: const Icon(FontAwesomeIcons.ellipsisVertical),
                   color: const Color.fromARGB(255, 182, 182, 182),
                   iconSize: 18,

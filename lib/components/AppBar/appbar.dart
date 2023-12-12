@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
@@ -41,9 +42,9 @@ class ApplicationBar extends StatelessWidget {
         ),
       ),
       leading: IconButton(
+        key: const ValueKey(ProfileKeys.homeScreenProfileButton),
         onPressed: () {
-          Scaffold.of(context).openDrawer();
-          //swipe left
+          Navigator.pushNamed(context, kProfileScreen);
         },
         icon: Icon(
           key: new ValueKey(HomePageKeys.userIconAppBar),
