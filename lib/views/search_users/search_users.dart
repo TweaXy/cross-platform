@@ -54,12 +54,45 @@ class _MyPageState extends State<SearchScreen> {
     //call api and get top 3 items
   }
 
+  String usrID = "";
+
+  void findUser() async {
+    String username = "";
+    if (_searchController.text.indexOf("from:@") == 0) {
+      int firstSpace=_searchController.text.length;
+       bool hasquery = _searchController.text.contains(' ');
+        if (hasquery == true) {
+          firstSpace = _searchController.text.indexOf(' ');
+        }
+      
+      username = _searchController.text.substring(6, firstSpace);
+    }
+    try {
+      List<User> response = await SearchForUsers.searchForUser(
+        username,
+        token!,
+        pageSize: _pageSize,
+        pageNumber: 0,
+      );
+      usrID = response[0].id!;
+    } on Exception catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
+
   void _submitSearch() {
     // Add your search logic here
     if (_searchController.text != '') {
       if (_searchController.text.indexOf('from:@') == 0) {
         int atIndex = _searchController.text.indexOf('@');
-        int spaceIndex = _searchController.text.indexOf(' ', atIndex);
+        int spaceIndex = _searchController.text.length;
+        bool hasquery = _searchController.text.contains(' ');
+        if (hasquery == true) {
+          spaceIndex = _searchController.text.indexOf(' ')-1;
+        }
+        findUser();
         String result =
             _searchController.text.substring(atIndex + 1, spaceIndex);
         Navigator.push(
@@ -68,7 +101,7 @@ class _MyPageState extends State<SearchScreen> {
               builder: (context) => TweetsSearched(
                     text: _searchController.text,
                     username: result,
-                    id: '',
+                    id: usrID,
                   )),
         );
       } else {
@@ -78,7 +111,7 @@ class _MyPageState extends State<SearchScreen> {
               builder: (context) => TweetsSearched(
                     text: _searchController.text,
                     username: '',
-                    id: '',
+                    id: usrID,
                   )),
         );
       }

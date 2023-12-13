@@ -99,7 +99,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
   final _pageSize = 7;
 
   Future<void> _fetchPage2(int pageKey) async {
-    if (queryTweets == '') {
+    if (queryTweets == ''||queryPeople == queryTweets && widget.text.indexOf('from:@') == 0) {
       try {
         final newItems = await TweetsServices.getProfilePosts(
             offset: pageKey, id: widget.id);
