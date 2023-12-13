@@ -10,6 +10,7 @@ import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/trends/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
@@ -27,7 +28,7 @@ class HomePageMobile extends StatefulWidget {
 class _HomePage2State extends State<HomePageMobile>
     with SingleTickerProviderStateMixin {
   var _isVisible = true;
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -63,6 +64,7 @@ class _HomePage2State extends State<HomePageMobile>
         isVisible: _isVisible,
       ),
       TrendingScreen(),
+      NotificationScreen(),
     ];
     return BlocProvider(
       create: (context) => SidebarCubit(),

@@ -5,6 +5,8 @@ import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
+import 'package:tweaxy/helpers/firebase_api.dart';
+import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
@@ -32,7 +34,6 @@ import 'package:tweaxy/views/start_screen_web.dart';
 
 void _clear() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  
   await prefs.clear();
 }
 
@@ -41,6 +42,7 @@ void main() async {
   // _clear();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseApi.initNotifications();
   runApp(const TweaXy());
 }
 
@@ -59,8 +61,8 @@ class TweaXy extends StatelessWidget {
           child: BlocProvider(
             create: (context) => EditProfileCubit(),
             child: MaterialApp(
+              navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.light,
               theme: ThemeData(
                 bottomSheetTheme:
                     const BottomSheetThemeData(backgroundColor: Colors.white),
@@ -81,6 +83,7 @@ class TweaXy extends StatelessWidget {
                     const CreateAccountWebView(),
                 kAuthenticationScreen: (context) => AuthenticationView(),
                 kHomeScreen: (context) => const HomePage(),
+                kNotificationScreen: (context) => const NotificationScreen(),
                 kCreateAcountReviewScreen: (context) =>
                     const CreateAccountDataReview(),
                 kProfileScreen: (context) => ProfileScreen(
