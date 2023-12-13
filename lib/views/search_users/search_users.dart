@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,6 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
+import 'package:tweaxy/services/suggestions_search.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/views/search_users/tweets_searched.dart';
 import 'package:tweaxy/views/splash_screen.dart';
@@ -45,10 +47,13 @@ class _MyPageState extends State<SearchScreen> {
 
   final FocusNode _searchFocus = FocusNode();
 
-  final items = ["item", "item2", "item2", "item2", "item2", "item2", "item2"];
-  void _fetchseuggestPage(pagekey) {
+  List<String> items = ["item"];
+  void _fetchseuggestPage(pagekey) async {
+    items = await SuggestionsSearch(Dio()).getSuggesstion(query, 0);
+    setState(() {});
     //call api and get top 3 items
   }
+
   void _submitSearch() {
     // Add your search logic here
     if (_searchController.text != '') {
@@ -127,6 +132,11 @@ class _MyPageState extends State<SearchScreen> {
             focusNode: _searchFocus,
             controller: _searchController,
             maxLines: 1,
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                _submitSearch();
+              }
+            },
             onChanged: (value) {
               if (value == '' || isHashTag == true) {
                 showAction = false;

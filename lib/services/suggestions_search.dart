@@ -11,21 +11,21 @@ class SuggestionsSearch {
   SuggestionsSearch(this.dio);
 
   Future getSuggesstion(String query, int pagenumber) async {
-    dynamic response;
-    String? token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xxMmdsYmdsMDAwMGh6M3AyaXV5cjdsM1wiIiwiaWF0IjoxNzAyMzk1NTMwLCJleHAiOjE3MDQ5ODc1MzB9.Jnf7DP-pKpIqPdpCnul5UfbmDrGuAHEELdln-5oYJvI";
-    // try {
-    //   List<String> s = await loadPrefs();
-    //   token = s[1];
-    // } catch (e) {
-    //   log(e.toString());
-    // }
+    Response response;
+    String? token;
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
     try {
       response = await Api.getwithToken(
         url:
-            '${baseUrl}tweets/suggest?keyword=$query&limit=value&offset=$pagenumber',
+           '${baseUrl}tweets/suggest?keyword=$query&limit=7&offset=$pagenumber',
         token: token,
       );
-      log(response.toString());
+      // log(response.toString());
       return formatSuggestions(response);
     } catch (e) {
       if (kDebugMode) {
@@ -38,9 +38,11 @@ class SuggestionsSearch {
   print(response) {}
 }
 
-List<String> formatSuggestions(dynamic response) {
+List<String> formatSuggestions(Response response) {
   List<String> items = [];
-  for (var i in response.data['data']['item']) {
+  var data=response.data;
+  // var itemsa=data[1];
+  for (var i in response.data['data']['items']) {
     items.add(i["rightSnippet"]);
     items.add(i["leftSnippet"]);
   }

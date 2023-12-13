@@ -10,6 +10,7 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/services/get_search_tweets.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
@@ -45,8 +46,8 @@ class _TweetsSearchedState extends State<TweetsSearched>
 
   @override
   void initState() {
-    // _searchController.text = 'form:@${widget.username} ${widget.text}';
-    // initText = makeText();
+    _searchController.text = widget.text;
+    initText = widget.text;
     // query = makequery();
     querySearch();
     super.initState();
@@ -114,17 +115,31 @@ class _TweetsSearchedState extends State<TweetsSearched>
         _pagingController2.error = error;
       }
     } else {
-      if ((queryPeople == queryTweets && widget.text.indexOf('from:@') == 0) ||
+      if ((queryPeople == queryTweets && widget.text.indexOf('from:@') != 0) ||
           (queryPeople == '' && widget.text[0] == '#')) {
         //هبحث عن كل التويت من غير username
+        try {
+          final newItems = await SearchTweetTweets().getSearchTweets(
+              query: queryTweets, offset: pageKey, pageSize: _pageSize);
+          print(newItems);
+          final isLastPage = newItems.length < _pageSize;
+          if (isLastPage) {
+            _pagingController2.appendLastPage(newItems.cast<Tweet>());
+          } else {
+            final nextPageKey = pageKey + newItems.length;
+            _pagingController2.appendPage(newItems.cast<Tweet>(), nextPageKey);
+          }
+        } catch (error) {
+          _pagingController2.error = error;
+        }
       } else {
         //search for tweets with username
         try {
-          final newItems = await followApi().getFollowings(
-            username: widget.username,
-            pageSize: _pageSize,
-            offset: pageKey,
-          );
+          final newItems = await SearchTweetTweets().getSearchTweets(
+              username: widget.username,
+              query: queryTweets,
+              offset: pageKey,
+              pageSize: _pageSize);
           print(newItems);
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -143,11 +158,10 @@ class _TweetsSearchedState extends State<TweetsSearched>
   Future<void> _fetchPage3(int pageKey) async {
     if (queryPeople != '') {
       try {
-        final newItems = await SearchForUsers.searchForUser(
-          queryPeople,
-          token!,
+        final newItems = await SearchForUsers.searchForUserinside(
+          username: queryPeople,
           pageSize: _pageSize,
-          pageNumber: pageKey,
+          offset: pageKey,
         );
         print(newItems);
         final isLastPage = newItems.length < _pageSize;
@@ -244,7 +258,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               child: Text(
                 "Latest",
                 style: TextStyle(
-                  color: tabController.index == 1
+                  color: tabController.index == 0
                       ? Colors.black
                       : const Color(0xffADB5BC),
                   fontWeight: FontWeight.bold,
@@ -256,7 +270,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               child: Text(
                 "People",
                 style: TextStyle(
-                  color: tabController.index == 2
+                  color: tabController.index == 1
                       ? Colors.black
                       : const Color(0xffADB5BC),
                   fontWeight: FontWeight.bold,
@@ -311,7 +325,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               noItemsFoundIndicatorBuilder: (context) {
                 return Center(
                   child: Text(
-                    'No results for ${queryPeople == '' ? queryTweets : queryPeople}}',
+                    'No results for ${queryPeople == '' ? queryTweets : queryPeople}',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 );
@@ -355,10 +369,10 @@ class _TweetsSearchedState extends State<TweetsSearched>
     } else if (widget.text.indexOf('from:@') == 0) {
       if (widget.text.length > 6 + widget.username.length) {
         queryTweets = widget.text.substring(6 + widget.username.length + 1);
-        queryPeople = widget.username;
+        queryPeople = widget.text.substring(6 + widget.username.length + 1);
       } else {
         queryPeople = widget.username;
-        queryTweets = '';
+        queryTweets = widget.username;
       }
     } else {
       queryPeople = widget.text;

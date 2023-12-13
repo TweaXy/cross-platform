@@ -90,7 +90,7 @@ class _SearchTweetsState extends State<SearchTweets> {
         context,
         MaterialPageRoute(
             builder: (context) => TweetsSearched(
-                  text: _searchController.text,
+                  text: 'from:@${widget.username} ${_searchController.text}',
                   username: widget.username,
                   id: widget.id,
                 )),
