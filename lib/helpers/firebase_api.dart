@@ -7,13 +7,11 @@ class FirebaseApi {
   //*Step 1:- Create an instance of Firebase Messaging
   static final _firebaseMessaging = FirebaseMessaging.instance;
   //*Step 2:- Create a function to initialize notifications
-  static Future<void> initNotifications() async {
+  static Future<String?> initNotifications() async {
     //!Request Permession from user
     await _firebaseMessaging.requestPermission();
     //!Fetch the firebase messaging token for this device
-    final token = await _firebaseMessaging.getToken();
-    //?print the token
-    print('Token = $token');
+    return await _firebaseMessaging.getToken();
   }
 
   //*Step 3:- Create a function to handle received messages

@@ -42,7 +42,6 @@ void main() async {
   // _clear();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  FirebaseApi.initNotifications();
   runApp(const TweaXy());
 }
 
