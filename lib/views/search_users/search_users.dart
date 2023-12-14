@@ -51,7 +51,7 @@ class _MyPageState extends State<SearchScreen> {
 
   final FocusNode _searchFocus = FocusNode();
 
-  List<String> items = ["item"];
+  List<String> items = [];
   void _fetchseuggestPage(pagekey) async {
     items = await SuggestionsSearch(Dio()).getSuggesstion(query, 0);
     setState(() {});
@@ -123,6 +123,9 @@ class _MyPageState extends State<SearchScreen> {
 
   final _pageSize = 7;
   Future<void> _fetchPage(int pageKey) async {
+    if (query[0] == '#') {
+      _pagingController.itemList = [];
+    }
     try {
       final newItems = await SearchForUsers.searchForUser(
         query,
@@ -139,7 +142,14 @@ class _MyPageState extends State<SearchScreen> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = null;
+      _pagingController.error = Container(
+        child: Center(
+          child: Text(
+            'No results found',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+      );
     }
   }
 
@@ -174,7 +184,7 @@ class _MyPageState extends State<SearchScreen> {
               }
             },
             onChanged: (value) {
-              if (value == '' || isHashTag == true) {
+              if (value == '') {
                 showAction = false;
               } else {
                 showAction = true;
@@ -215,10 +225,12 @@ class _MyPageState extends State<SearchScreen> {
                 _pagingController.dispose();
                 _pagingController = PagingController(firstPageKey: 0);
                 _pagingController.addPageRequestListener((pageKey) {
-                  _fetchPage(pageKey);
+                  _fetchPage(0);
                 });
                 // Handle delete key press
-                setState(() {});
+                setState(() {
+                  showAction = true;
+                });
               }
               if (event is RawKeyUpEvent &&
                   event.logicalKey == LogicalKeyboardKey.enter) {

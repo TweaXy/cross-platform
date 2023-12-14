@@ -60,6 +60,8 @@ class _TweetsSearchedState extends State<TweetsSearched>
     tabController.addListener(_handleTabSelection);
     _searchFocusNode.addListener(() {
       if (_searchFocusNode.hasFocus) {
+        Navigator.pop(context);
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -236,35 +238,35 @@ class _TweetsSearchedState extends State<TweetsSearched>
                   contentPadding: const EdgeInsets.only(left: 10.0),
                 ),
               ),
-              actions: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.format_list_bulleted_rounded,
-                      color: Colors.black,
-                    )),
-                PopupMenuButton(
-                  icon: const Icon(
-                    Icons.more_vert,
-                    color: Colors.black,
-                  ),
-                  itemBuilder: (context) => [
-                    const PopupMenuItem(
-                      value: 'Search Setteing',
-                      child: Text('Search Setteing'),
-                    ),
-                    const PopupMenuItem(
-                      value: 'Delete Search',
-                      child: Text('Delete Search'),
-                    ),
-                    const PopupMenuItem(
-                      value: 'Share',
-                      child: Text('Share'),
-                    ),
-                  ],
-                  onSelected: (value) {},
-                ),
-              ],
+              // actions: [
+              //   IconButton(
+              //       onPressed: () {},
+              //       icon: const Icon(
+              //         Icons.format_list_bulleted_rounded,
+              //         color: Colors.black,
+              //       )),
+              //   PopupMenuButton(
+              //     icon: const Icon(
+              //       Icons.more_vert,
+              //       color: Colors.black,
+              //     ),
+              //     itemBuilder: (context) => [
+              //       const PopupMenuItem(
+              //         value: 'Search Setteing',
+              //         child: Text('Search Setteing'),
+              //       ),
+              //       const PopupMenuItem(
+              //         value: 'Delete Search',
+              //         child: Text('Delete Search'),
+              //       ),
+              //       const PopupMenuItem(
+              //         value: 'Share',
+              //         child: Text('Share'),
+              //       ),
+              //     ],
+              //     onSelected: (value) {},
+              //   ),
+              // ],
               bottom: TabBar(
                 controller: tabController,
                 isScrollable: false,
