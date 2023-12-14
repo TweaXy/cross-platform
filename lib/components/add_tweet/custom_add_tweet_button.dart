@@ -17,6 +17,7 @@ class CustomAddTweetButton extends StatelessWidget {
     required this.tweetcontent,
     required this.xfilePick,
     required this.isReply,
+    this.tweetId,
   });
 
   final bool isButtonEnabled;
@@ -25,32 +26,31 @@ class CustomAddTweetButton extends StatelessWidget {
   final dynamic xfilePick;
 
   final bool isReply;
+  final String? tweetId;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       key: const ValueKey(AddTweetKeys.postTweet),
       onPressed: () async {
+        String type = isReply ? 'reply' : 'post';
+
         if (tweetcontent.text.isNotEmpty) {
           // if (tweetcontent.text.isNotEmpty || xfilePick.isNotEmpty) {
           AddTweetAndReply service = AddTweetAndReply(Dio());
           dynamic response = isReply
-              ? await service.addReply(
-                  tweetcontent.text, xfilePick, 'id') //TODO : set tweet id
+              ? await service.addReply(tweetcontent.text, xfilePick, tweetId!)
               : await service.addTweet(tweetcontent.text, xfilePick);
           log(response.toString());
           if (response is String) {
-            showToastWidget(
-                const CustomToast(message: "the tweet cant be posted"));
+            showToastWidget(CustomToast(message: "the $type cant be posted"));
           } else {
-            showToastWidget(
-                const CustomToast(message: "the tweet has been posted"));
+            showToastWidget(CustomToast(message: "the $type has been posted"));
           }
           BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
           Navigator.pop(context);
         } else {
-          showToastWidget(
-              const CustomToast(message: "the tweet cant be empty"));
+          showToastWidget(CustomToast(message: "the $type cant be empty"));
         }
       },
       style: ElevatedButton.styleFrom(

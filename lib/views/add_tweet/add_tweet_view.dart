@@ -17,9 +17,13 @@ import 'package:video_player/video_player.dart';
 
 class AddTweetView extends StatefulWidget {
   const AddTweetView(
-      {super.key, required this.photoIconPressed, required this.isReply});
+      {super.key,
+      required this.photoIconPressed,
+      required this.isReply,
+      this.tweetId});
   final bool photoIconPressed;
   final bool isReply;
+  final String? tweetId;
 
   @override
   State<AddTweetView> createState() => _AddTweetViewState();
@@ -158,6 +162,7 @@ class _AddTweetViewState extends State<AddTweetView> {
           children: [
             CusstomAddTweetAppbar(
               isReply: widget.isReply,
+              tweetId: widget.tweetId,
               tweetController: _tweetController,
               media: media,
               isButtonEnabled: isButtonEnabled,

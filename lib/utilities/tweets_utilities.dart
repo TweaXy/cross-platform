@@ -149,12 +149,13 @@ List<String> months = [
   'Nov',
   'Dec'
 ];
-void addReplyPress(context) {
+void addReplyPress(context, {required String tweetId}) {
   Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => const AddTweetView(
+          builder: (context) => AddTweetView(
                 isReply: true,
+                tweetId: tweetId,
                 photoIconPressed: false,
               )));
 }

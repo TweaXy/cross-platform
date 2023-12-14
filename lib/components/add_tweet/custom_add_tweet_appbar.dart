@@ -11,12 +11,14 @@ class CusstomAddTweetAppbar extends StatelessWidget {
     required this.media,
     required this.isButtonEnabled,
     required this.isReply,
+    this.tweetId,
   }) : super(key: key);
 
   final TextEditingController tweetController;
   final List<XFile> media;
   final bool isButtonEnabled;
   final bool isReply;
+  final String? tweetId;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,7 @@ class CusstomAddTweetAppbar extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 5.0),
                 child: CustomAddTweetButton(
                   isReply: isReply,
+                  tweetId: tweetId,
                   tweetcontent: tweetController,
                   xfilePick: media,
                   isButtonEnabled: isButtonEnabled,

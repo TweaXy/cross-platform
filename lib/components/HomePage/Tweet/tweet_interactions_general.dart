@@ -58,7 +58,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 padding: EdgeInsets.zero,
                 icon: const Icon(FontAwesomeIcons.comment),
                 onPressed: () {
-                  addReplyPress(context);
+                  addReplyPress(context, tweetId: widget.id);
                 },
               ), // Replace with your desired icon
               SizedBox(

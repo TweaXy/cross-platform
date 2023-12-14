@@ -24,7 +24,7 @@ class InteractionReplyScreen extends StatelessWidget {
             IconButton(
               icon: const Icon(FontAwesomeIcons.comment),
               onPressed: () {
-                addReplyPress(context);
+                addReplyPress(context, tweetId: tweet.id);
               },
             ), // Replace with your desired icon
             SizedBox(
