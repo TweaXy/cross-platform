@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_notification.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
+import 'package:tweaxy/services/get_mentioned_tweets.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
@@ -21,7 +24,8 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   static const _pageSize = 20;
-
+  final PagingController<int, Tweet> _mentionsPagingController =
+      PagingController(firstPageKey: 0);
   final PagingController<int, UserNotification> _pagingController =
       PagingController(firstPageKey: 0);
 
@@ -29,6 +33,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
+    });
+    _mentionsPagingController.addPageRequestListener((pageKey) {
+      _fetchMentionPage(pageKey);
     });
     super.initState();
   }
@@ -43,6 +50,26 @@ class _NotificationScreenState extends State<NotificationScreen> {
       } else {
         final nextPageKey = pageKey + newItems.length;
         _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  Future<void> _fetchMentionPage(int pageKey) async {
+    try {
+      final newItems = await GetMentionedTweets.getMentionedTweets(
+        TempUser.id,
+        pageSize: _pageSize,
+        offset: pageKey,
+        token: TempUser.token,
+      );
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _mentionsPagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _mentionsPagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
       _pagingController.error = error;
@@ -167,14 +194,46 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ),
               ),
             ),
-            ListView.separated(
-              itemBuilder: (context, index) {
-                return Placeholder();
+            RefreshIndicator(
+              onRefresh: () async {
+                return _mentionsPagingController.refresh();
               },
-              separatorBuilder: (context, index) => const Divider(
-                color: Colors.grey,
+              child: PagedListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey,
+                ),
+                pagingController: _mentionsPagingController,
+                builderDelegate: PagedChildBuilderDelegate<Tweet>(
+                  noItemsFoundIndicatorBuilder: (context) => const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'There Are No Notifications',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'Any mention notification on post will appear here',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  animateTransitions: true,
+                  itemBuilder: (context, item, index) {
+                    return CustomTweet(
+                        tweet: item, forProfile: false, replyto: const []);
+                  },
+                ),
               ),
-              itemCount: 200,
             ),
           ],
         ),
@@ -203,7 +262,8 @@ class AllNotificationsListTile extends StatefulWidget {
   final String followStatus;
 
   @override
-  State<AllNotificationsListTile> createState() => _AllNotificationsListTileState();
+  State<AllNotificationsListTile> createState() =>
+      _AllNotificationsListTileState();
 }
 
 class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
