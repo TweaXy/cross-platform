@@ -7,6 +7,7 @@ import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_notification.dart';
+import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
@@ -57,135 +58,133 @@ class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-          length: 2,
-          child: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return [
-                SliverAppBar(
-                  elevation: 0,
-                  floating: true,
-                  pinned: true,
-                  bottom: const TabBar(
-                    indicatorWeight: 3,
-                    indicatorPadding: EdgeInsets.symmetric(horizontal: 50),
-                    labelStyle: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    unselectedLabelStyle: TextStyle(
-                      color: Colors.blueGrey,
-                      fontSize: 16,
-                    ),
-                    isScrollable: false,
-                    tabs: <Widget>[
-                      Tab(
-                        text: 'All',
+      length: 2,
+      child: NestedScrollView(
+        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+          return [
+            SliverAppBar(
+              elevation: 0,
+              floating: true,
+              pinned: true,
+              bottom: const TabBar(
+                indicatorWeight: 3,
+                indicatorPadding: EdgeInsets.symmetric(horizontal: 50),
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: TextStyle(
+                  color: Colors.blueGrey,
+                  fontSize: 16,
+                ),
+                isScrollable: false,
+                tabs: <Widget>[
+                  Tab(
+                    text: 'All',
+                  ),
+                  Tab(
+                    text: 'Mentions',
+                  ),
+                ],
+              ),
+              backgroundColor: Colors.white,
+              leading: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    // Navigator.pushNamed(context, kProfileScreen);
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: CachedNetworkImageProvider(
+                        basePhotosURL + TempUser.image),
+                  ),
+                ),
+              ),
+              titleSpacing: 10,
+              title: const Text('Notifications'),
+              centerTitle: true,
+              titleTextStyle: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.w700,
+                fontSize: 20,
+              ),
+            ),
+          ];
+        },
+        body: TabBarView(
+          physics: const BouncingScrollPhysics(),
+          children: <Widget>[
+            RefreshIndicator(
+              onRefresh: () async {
+                return _pagingController.refresh();
+              },
+              child: PagedListView.separated(
+                separatorBuilder: (context, index) => Divider(
+                  color: Colors.grey,
+                ),
+                pagingController: _pagingController,
+                builderDelegate: PagedChildBuilderDelegate<UserNotification>(
+                  noItemsFoundIndicatorBuilder: (context) => const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'There Are No Notifications',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 28,
+                        ),
                       ),
-                      Tab(
-                        text: 'Mentions',
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text(
+                          'Any new notification will appear here',
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                            fontSize: 18,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  backgroundColor: Colors.white,
-                  leading: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        // Navigator.pushNamed(context, kProfileScreen);
-                        Scaffold.of(context).openDrawer();
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage: CachedNetworkImageProvider(
-                            basePhotosURL + TempUser.image),
-                      ),
-                    ),
-                  ),
-                  titleSpacing: 10,
-                  title: const Text('Notifications'),
-                  centerTitle: true,
-                  titleTextStyle: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 20,
-                  ),
-                ),
-              ];
-            },
-            body: TabBarView(
-              physics: const BouncingScrollPhysics(),
-              children: <Widget>[
-                RefreshIndicator(
-                  onRefresh: () async {
-                    return _pagingController.refresh();
+                  animateTransitions: true,
+                  itemBuilder: (context, item, index) {
+                    return AllNotificationsListTile(
+                      notificationType: item.action!,
+                      avatarURL: item.avatar!,
+                      name: item.name!,
+                      tweet: item.interaction == null
+                          ? ''
+                          : item.interaction!.text ?? '',
+                      followStatus: 'Follow back',
+                      userId: item.userId!,
+                      username: item.userName!,
+                    );
                   },
-                  child: PagedListView.separated(
-                    separatorBuilder: (context, index) => Divider(
-                      color: Colors.grey,
-                    ),
-                    pagingController: _pagingController,
-                    builderDelegate:
-                        PagedChildBuilderDelegate<UserNotification>(
-                      noItemsFoundIndicatorBuilder: (context) => const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'There Are No Notifications',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 28,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text(
-                              'There Are No Notifications',
-                              style: TextStyle(
-                                color: Colors.blueGrey,
-                                fontSize: 18,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      animateTransitions: true,
-                      itemBuilder: (context, item, index) {
-                        return NotificationListTile(
-                          notificationType: item.action!,
-                          avatarURL: item.avatar!,
-                          name: item.name!,
-                          tweet: item.interaction == null
-                              ? ''
-                              : item.interaction!.text ?? '',
-                          followStatus: 'Follow Back',
-                          userId: item.userId!,
-                          username: item.userName!,
-                        );
-                      },
-                    ),
-                  ),
                 ),
-                ListView.separated(
-                  itemBuilder: (context, index) {
-                    return Placeholder();
-                  },
-                  separatorBuilder: (context, index) => const Divider(
-                    color: Colors.grey,
-                  ),
-                  itemCount: 200,
-                ),
-              ],
+              ),
             ),
-          ),
-        );
+            ListView.separated(
+              itemBuilder: (context, index) {
+                return Placeholder();
+              },
+              separatorBuilder: (context, index) => const Divider(
+                color: Colors.grey,
+              ),
+              itemCount: 200,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 
-class NotificationListTile extends StatelessWidget {
-  const NotificationListTile({
+class AllNotificationsListTile extends StatefulWidget {
+  const AllNotificationsListTile({
     super.key,
     required this.notificationType,
     required this.avatarURL,
@@ -202,11 +201,25 @@ class NotificationListTile extends StatelessWidget {
   final String userId;
   final String username;
   final String followStatus;
+
+  @override
+  State<AllNotificationsListTile> createState() => _AllNotificationsListTileState();
+}
+
+class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
+  String _followStatus = '';
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _followStatus = widget.followStatus;
+  }
+
   @override
   Widget build(BuildContext context) {
     String text = '';
     void Function() onPressed = () {};
-    switch (notificationType) {
+    switch (widget.notificationType) {
       case 'like':
         text = 'Liked your tweet';
         break;
@@ -221,7 +234,7 @@ class NotificationListTile extends StatelessWidget {
         onPressed = () {
           Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-              return ProfileScreen(id: userId, text: followStatus);
+              return ProfileScreen(id: widget.userId, text: _followStatus);
             },
           ));
         };
@@ -232,7 +245,7 @@ class NotificationListTile extends StatelessWidget {
       default:
     }
     Color color = Colors.blueGrey;
-    if (notificationType == 'like') {
+    if (widget.notificationType == 'like') {
       color = Colors.pink;
     } else {
       color = Colors.blue[800]!;
@@ -243,19 +256,122 @@ class NotificationListTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SvgPicture.asset(
-            'assets/images/$notificationType.svg',
+            'assets/images/${widget.notificationType}.svg',
             width: 24,
             height: 24,
-            colorFilter: ColorFilter.mode(color, BlendMode.src),
+            colorFilter: ColorFilter.mode(color, BlendMode.srcATop),
           ),
-          notificationType == 'follow'
-              ? const SizedBox()
-              : CircleAvatarNotification(avatarURL: avatarURL)
+          widget.notificationType == 'follow'
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: RichText(
+                      text: TextSpan(children: [
+                    TextSpan(
+                      text: widget.name,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' $text',
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ])),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: CircleAvatarNotification(avatarURL: widget.avatarURL),
+                )
         ],
       ),
-      subtitle: notificationType == 'follow'
-          ? FollowNotificationSubtitle(
-              name: name, username: username, text: text, avatar: avatarURL)
+      subtitle: widget.notificationType == 'follow'
+          ? Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(50, 20, 30, 0),
+              child: Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CircleAvatarNotification(avatarURL: widget.avatarURL),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (_followStatus == 'Follow back') {
+                              //TODO :- Implement the follow logic
+                              await FollowUser.instance
+                                  .followUser(widget.username);
+                              setState(() {
+                                _followStatus = 'Following';
+                              });
+                            } else if (_followStatus == 'Following') {
+                              //TODO :- Implement the unfollow logic
+                              await FollowUser.instance
+                                  .deleteUser(widget.username);
+                              setState(() {
+                                _followStatus = 'Follow back';
+                              });
+                            }
+                          },
+                          style: ButtonStyle(
+                            elevation: const MaterialStatePropertyAll(3),
+                            shape:
+                                MaterialStatePropertyAll(RoundedRectangleBorder(
+                                    side: BorderSide(
+                                      color: _followStatus == 'Follow back'
+                                          ? Colors.transparent
+                                          : Colors.black26,
+                                    ),
+                                    borderRadius: BorderRadius.circular(80))),
+                            backgroundColor: MaterialStatePropertyAll(
+                                _followStatus == 'Follow back'
+                                    ? Colors.black
+                                    : Colors.white),
+                          ),
+                          child: Text(
+                            _followStatus,
+                            style: TextStyle(
+                              color: _followStatus == 'Follow back'
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                      child: Text(
+                        widget.name,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '@${widget.username}',
+                      style: TextStyle(
+                        color: Color(0xFF3A5771),
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           : Padding(
               padding: const EdgeInsets.only(
                   left: 35.0, top: 15, bottom: 15, right: 10),
@@ -267,7 +383,7 @@ class NotificationListTile extends StatelessWidget {
                     text: TextSpan(
                       children: [
                         TextSpan(
-                          text: name,
+                          text: widget.name,
                           style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
@@ -282,7 +398,7 @@ class NotificationListTile extends StatelessWidget {
                           ),
                         ),
                         TextSpan(
-                          text: '\n\n$tweet',
+                          text: '\n\n${widget.tweet}',
                           style: const TextStyle(
                             color: Colors.blueGrey,
                             fontWeight: FontWeight.w500,
@@ -307,98 +423,29 @@ class CircleAvatarNotification extends StatelessWidget {
   });
 
   final String avatarURL;
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-      child: ClipOval(
-        child: CachedNetworkImage(
-            width: 40,
-            height: 40,
-            fit: BoxFit.cover,
-            progressIndicatorBuilder: (context, url, progress) {
-              return const Center(
-                child: SpinKitRing(
-                  lineWidth: 3,
-                  size: 20,
-                  color: Colors.blueAccent,
-                ),
-              );
-            },
-            errorWidget: (context, url, error) {
-              return const Icon(
-                Icons.error_outline,
+    return ClipOval(
+      child: CachedNetworkImage(
+          width: 40,
+          height: 40,
+          fit: BoxFit.cover,
+          progressIndicatorBuilder: (context, url, progress) {
+            return const Center(
+              child: SpinKitRing(
+                lineWidth: 3,
+                size: 20,
                 color: Colors.blueAccent,
-              );
-            },
-            imageUrl: basePhotosURL + avatarURL),
-      ),
-    );
-  }
-}
-
-class FollowNotificationSubtitle extends StatelessWidget {
-  const FollowNotificationSubtitle({
-    super.key,
-    required this.name,
-    required this.username,
-    required this.text,
-    required this.avatar,
-  });
-  final String name;
-  final String username;
-  final String text;
-  final String avatar;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsetsDirectional.fromSTEB(50, 20, 30, 0),
-      child: Container(
-        width: double.infinity,
-        height: 150,
-        decoration: BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                    width: 50,
-                    height: 50,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                    ),
-                    child: CircleAvatarNotification(avatarURL: avatar)),
-                FollowEditButton(text: text, user: User(userName: username))
-              ],
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-              child: Text(
-                name,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
               ),
-            ),
-            Text(
-              '@$username',
-              style: TextStyle(
-                color: Color(0xFF3A5771),
-                fontWeight: FontWeight.normal,
-              ),
-            ),
-          ],
-        ),
-      ),
+            );
+          },
+          errorWidget: (context, url, error) {
+            return const Icon(
+              Icons.error_outline,
+              color: Colors.blueAccent,
+            );
+          },
+          imageUrl: basePhotosURL + avatarURL),
     );
   }
 }
