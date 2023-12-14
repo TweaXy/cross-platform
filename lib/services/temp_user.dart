@@ -1,12 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/helpers/api.dart';
+import 'package:tweaxy/services/get_unseen_notification_count.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TempUser {
   TempUser._();
+  static int notificationCount = 0;
   static TempUser? _instance;
   static String email = '';
   static String id = '';
@@ -53,12 +55,15 @@ class TempUser {
     print('hhh' + result.toString());
     if (result is String) {
     } else if (result is Response) {
+      // int notifica =
+          // await GetUnseenNotificationCount.getUnseenNotificationCount(token);
       Response res = result;
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
       setImage(image: res.data['data']['user']['avatar']);
       setId(id: res.data['data']['user']['id']);
+      // TempUser.notificationCount = notifica;
     }
   }
 }

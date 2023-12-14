@@ -5,9 +5,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/models/notification.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/models/user_notification.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
@@ -54,9 +56,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: FloatingButton(),
-        body: DefaultTabController(
+    return DefaultTabController(
           length: 2,
           child: NestedScrollView(
             headerSliverBuilder:
@@ -93,7 +93,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     padding: const EdgeInsets.all(10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, kProfileScreen);
+                        // Navigator.pushNamed(context, kProfileScreen);
+                        Scaffold.of(context).openDrawer();
                       },
                       child: CircleAvatar(
                         backgroundColor: Colors.transparent,
@@ -116,22 +117,55 @@ class _NotificationScreenState extends State<NotificationScreen> {
             body: TabBarView(
               physics: const BouncingScrollPhysics(),
               children: <Widget>[
-                PagedListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                    color: Colors.grey,
-                  ),
-                  pagingController: _pagingController,
-                  builderDelegate: PagedChildBuilderDelegate<UserNotification>(
-                    animateTransitions: true,
-                    itemBuilder: (context, item, index) {
-                      return NotificationListTile(
-                        notificationType: item.action!,
-                        avatarURL: item.avatar!,
-                        name: item.name!,
-                        tweet: '',
-                        userId: item.userId!,
-                      );
-                    },
+                RefreshIndicator(
+                  onRefresh: () async {
+                    return _pagingController.refresh();
+                  },
+                  child: PagedListView.separated(
+                    separatorBuilder: (context, index) => Divider(
+                      color: Colors.grey,
+                    ),
+                    pagingController: _pagingController,
+                    builderDelegate:
+                        PagedChildBuilderDelegate<UserNotification>(
+                      noItemsFoundIndicatorBuilder: (context) => const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'There Are No Notifications',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 28,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text(
+                              'There Are No Notifications',
+                              style: TextStyle(
+                                color: Colors.blueGrey,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      animateTransitions: true,
+                      itemBuilder: (context, item, index) {
+                        return NotificationListTile(
+                          notificationType: item.action!,
+                          avatarURL: item.avatar!,
+                          name: item.name!,
+                          tweet: item.interaction == null
+                              ? ''
+                              : item.interaction!.text ?? '',
+                          followStatus: 'Follow Back',
+                          userId: item.userId!,
+                          username: item.userName!,
+                        );
+                      },
+                    ),
                   ),
                 ),
                 ListView.separated(
@@ -146,7 +180,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               ],
             ),
           ),
-        ));
+        );
   }
 }
 
@@ -158,16 +192,20 @@ class NotificationListTile extends StatelessWidget {
     required this.name,
     required this.tweet,
     required this.userId,
+    required this.username,
+    required this.followStatus,
   });
   final String notificationType;
   final String avatarURL;
   final String name;
   final String tweet;
   final String userId;
+  final String username;
+  final String followStatus;
   @override
   Widget build(BuildContext context) {
     String text = '';
-    var onPressed = () {};
+    void Function() onPressed = () {};
     switch (notificationType) {
       case 'like':
         text = 'Liked your tweet';
@@ -179,7 +217,14 @@ class NotificationListTile extends StatelessWidget {
         text = 'Retweeted your tweet';
         break;
       case 'follow':
-        text = 'Retweeted your tweet';
+        text = 'Followed you';
+        onPressed = () {
+          Navigator.push(context, MaterialPageRoute(
+            builder: (context) {
+              return ProfileScreen(id: userId, text: followStatus);
+            },
+          ));
+        };
         break;
       case 'mention':
         text = 'Mentioned you';
@@ -203,68 +248,152 @@ class NotificationListTile extends StatelessWidget {
             height: 24,
             colorFilter: ColorFilter.mode(color, BlendMode.src),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: ClipOval(
-              child: CachedNetworkImage(
-                  width: 40,
-                  height: 40,
-                  fit: BoxFit.cover,
-                  progressIndicatorBuilder: (context, url, progress) {
-                    return const Center(
-                      child: SpinKitRing(
-                        lineWidth: 3,
-                        size: 20,
-                        color: Colors.blueAccent,
-                      ),
-                    );
-                  },
-                  errorWidget: (context, url, error) {
-                    return const Icon(
-                      Icons.error_outline,
-                      color: Colors.blueAccent,
-                    );
-                  },
-                  imageUrl: basePhotosURL + avatarURL),
-            ),
-          )
+          notificationType == 'follow'
+              ? const SizedBox()
+              : CircleAvatarNotification(avatarURL: avatarURL)
         ],
       ),
-      subtitle: Padding(
-        padding:
-            const EdgeInsets.only(left: 35.0, top: 15, bottom: 15, right: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            RichText(
-              maxLines: 10,
-              text: TextSpan(
+      subtitle: notificationType == 'follow'
+          ? FollowNotificationSubtitle(
+              name: name, username: username, text: text, avatar: avatarURL)
+          : Padding(
+              padding: const EdgeInsets.only(
+                  left: 35.0, top: 15, bottom: 15, right: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  TextSpan(
-                    text: name,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' $text',
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 14,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '\n\n$tweet',
-                    style: const TextStyle(
-                      color: Colors.blueGrey,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                      overflow: TextOverflow.ellipsis,
+                  RichText(
+                    maxLines: 10,
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: name,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 15,
+                          ),
+                        ),
+                        TextSpan(
+                          text: ' $text',
+                          style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 14,
+                          ),
+                        ),
+                        TextSpan(
+                          text: '\n\n$tweet',
+                          style: const TextStyle(
+                            color: Colors.blueGrey,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
+              ),
+            ),
+    );
+  }
+}
+
+class CircleAvatarNotification extends StatelessWidget {
+  const CircleAvatarNotification({
+    super.key,
+    required this.avatarURL,
+  });
+
+  final String avatarURL;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: ClipOval(
+        child: CachedNetworkImage(
+            width: 40,
+            height: 40,
+            fit: BoxFit.cover,
+            progressIndicatorBuilder: (context, url, progress) {
+              return const Center(
+                child: SpinKitRing(
+                  lineWidth: 3,
+                  size: 20,
+                  color: Colors.blueAccent,
+                ),
+              );
+            },
+            errorWidget: (context, url, error) {
+              return const Icon(
+                Icons.error_outline,
+                color: Colors.blueAccent,
+              );
+            },
+            imageUrl: basePhotosURL + avatarURL),
+      ),
+    );
+  }
+}
+
+class FollowNotificationSubtitle extends StatelessWidget {
+  const FollowNotificationSubtitle({
+    super.key,
+    required this.name,
+    required this.username,
+    required this.text,
+    required this.avatar,
+  });
+  final String name;
+  final String username;
+  final String text;
+  final String avatar;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsetsDirectional.fromSTEB(50, 20, 30, 0),
+      child: Container(
+        width: double.infinity,
+        height: 150,
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                    width: 50,
+                    height: 50,
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatarNotification(avatarURL: avatar)),
+                FollowEditButton(text: text, user: User(userName: username))
+              ],
+            ),
+            Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+              child: Text(
+                name,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Text(
+              '@$username',
+              style: TextStyle(
+                color: Color(0xFF3A5771),
+                fontWeight: FontWeight.normal,
               ),
             ),
           ],

@@ -7,6 +7,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/helpers/firebase_api.dart';
 import 'package:tweaxy/services/send_device_token.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -22,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLogin();
+    checkNotificationTokenSent();
     Timer(const Duration(seconds: 2), () {
       if (token == null) {
         kIsWeb
@@ -48,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var notificationToken = prefs.getString('notificationTokenSent');
     var retrivedtoken = prefs.getString("token");
     token = retrivedtoken;
+    TempUser.token = token ?? '';
     if (notificationToken == null) {
       var notificationToken = await FirebaseApi.initNotifications();
       SendDeviceToken.getAllNotifications(
