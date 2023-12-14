@@ -59,7 +59,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
     tabController = TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
     _searchFocusNode.addListener(() {
-      
       if (_searchFocusNode.hasFocus) {
         Navigator.push(
           context,
@@ -327,7 +326,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
                     ),
                     itemBuilder: (context, item, index) {
                       return CustomTweet(
-                        forProfile: false,
                         tweet: item,
                         replyto: [],
                       );

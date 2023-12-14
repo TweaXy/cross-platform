@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/services/get_likers_in_profile.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class SearchTweetTweets {
@@ -67,8 +66,11 @@ class SearchTweetTweets {
                   calculateTime(item['mainInteraction']['createdDate'])
             })
         .toList();
+    print('ressss' + m.toString());
+
     print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
+    // print('hh' + m.whereType().toString());
     return t;
   }
 }
