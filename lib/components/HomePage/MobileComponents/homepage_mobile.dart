@@ -28,7 +28,7 @@ class HomePageMobile extends StatefulWidget {
 class _HomePage2State extends State<HomePageMobile>
     with SingleTickerProviderStateMixin {
   var _isVisible = true;
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -132,7 +132,6 @@ class _HomePage2State extends State<HomePageMobile>
               ],
               currentIndex: _selectedIndex,
               onTap: _onItemTapped, // Handle item selection
-
               showSelectedLabels: false,
               showUnselectedLabels: false,
             ),
@@ -173,8 +172,7 @@ class HomeTweetsMobile extends StatelessWidget {
           ];
         },
         body: CustomScrollView(slivers: [
-          HomePageBody(
-          ),
+          HomePageBody(),
         ]));
   }
 }
