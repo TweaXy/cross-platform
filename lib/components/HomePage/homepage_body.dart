@@ -108,7 +108,6 @@ class _MyPageState extends State<HomePageBody> {
                 animateTransitions: true,
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
-                    forProfile: false,
                     tweet: item,
                     replyto: const [],
                   );

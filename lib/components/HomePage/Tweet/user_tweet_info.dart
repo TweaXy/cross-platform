@@ -11,10 +11,8 @@ class User_TweetInfo extends StatelessWidget {
   const User_TweetInfo(
       {super.key,
       required this.tweet,
-      required this.forProfile,
       required this.replyto});
   final Tweet tweet;
-  final bool forProfile;
   final List<String> replyto;
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,7 @@ class User_TweetInfo extends StatelessWidget {
                   color: const Color.fromARGB(255, 182, 182, 182),
                   iconSize: 18,
                   onPressed: () {
-                    if (forProfile || tweet.userId == TempUser.id) {
+                    if ( tweet.userId == TempUser.id) {
                       showModalBottomSheet(
                         showDragHandle: true,
                         useSafeArea: false,

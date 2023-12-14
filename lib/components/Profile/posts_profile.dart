@@ -105,7 +105,6 @@ class _MyPageState extends State<ProfilePosts> {
                 animateTransitions: true,
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
-                    forProfile: true,
                     tweet: item,
                     replyto: [],
                   );

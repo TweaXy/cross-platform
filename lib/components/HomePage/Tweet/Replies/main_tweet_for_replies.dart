@@ -50,7 +50,6 @@ class MainTweetReplies extends StatelessWidget {
                       kIsWeb
                           ? User_TweetInfoWeb(
                               tweet: tweet,
-                              forProfile: false,
                             )
                           : UserTweetInfoReply(
                               tweet: tweet,

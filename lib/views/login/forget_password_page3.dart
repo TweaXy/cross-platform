@@ -95,7 +95,7 @@ class _LoginViewPage1State extends State<ForgetPasswordPage3> {
             child: CustomTextField(
               key:
                   const ValueKey(SignInKeys.forgetPasswordVerificationFieldKey),
-              validatorFunc: codeValidation,
+              validatorFunc: (){},
               label: 'Enter your code',
               controller: myController,
             ),

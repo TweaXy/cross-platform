@@ -96,7 +96,6 @@ class _MyPageState extends State<RepliesList> {
             animateTransitions: true,
             itemBuilder: (context, item, index) {
               return CustomTweet(
-                forProfile: false,
                 tweet: item,
                 replyto: widget.replyto,
               );

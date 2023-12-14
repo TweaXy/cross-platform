@@ -20,10 +20,8 @@ class CustomTweet extends StatelessWidget {
   const CustomTweet({
     super.key,
     required this.tweet,
-    required this.forProfile,
     required this.replyto,
   });
-  final bool forProfile;
   final List<String> replyto;
 
   final Tweet tweet;
@@ -80,11 +78,9 @@ class CustomTweet extends StatelessWidget {
                   kIsWeb
                       ? User_TweetInfoWeb(
                           tweet: tweet,
-                          forProfile: forProfile,
                         )
                       : User_TweetInfo(
                           tweet: tweet,
-                          forProfile: forProfile,
                           replyto: replyto,
                         ),
                   if (tweet.tweetText != null)

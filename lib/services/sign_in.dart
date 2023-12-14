@@ -48,6 +48,7 @@ class SignInServices {
       print('token' + res.data['data']['token'].toString());
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("token", res.data['data']['token'].toString());
+      prefs.setString("id", res.data['data']['id'].toString());
 
       return "success";
     }

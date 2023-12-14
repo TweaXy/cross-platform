@@ -58,6 +58,6 @@ class _ViewTrendTweetsState extends State<ViewTrendTweets> {
             ),
           ),
         ),
-        body: CustomScrollView(slivers: [TweetsListTrend()]));
+        body: CustomScrollView(slivers: [TweetsListTrend(trendName:widget.trendName,)]));
   }
 }

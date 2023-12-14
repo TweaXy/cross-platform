@@ -7,9 +7,8 @@ import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class User_TweetInfoWeb extends StatelessWidget {
   const User_TweetInfoWeb(
-      {super.key, required this.tweet, required this.forProfile});
+      {super.key, required this.tweet});
   final Tweet tweet;
-  final bool forProfile;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -67,7 +66,7 @@ class User_TweetInfoWeb extends StatelessWidget {
         Container(
           alignment: Alignment.bottomRight,
           child: Container(
-            child: (forProfile || tweet.userId == TempUser.id)
+            child: ( tweet.userId == TempUser.id)
                 ? TweetSettingsProfileWeb(
                     tweetId: tweet.id,
                   )
