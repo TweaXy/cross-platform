@@ -34,7 +34,8 @@ const baseURL = 'https://tweaxybackend.mywire.org/api/v1/';
 const basePhotosURL = 'https://tweaxybackend.mywire.org/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
 const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
-const kLikersInProfile="likers screen";
+const kLikersInProfile = "likers screen";
+const kSearchTweets = "search tweets screen";
 Future<List<String>> loadPrefs() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var id = prefs.getString('id');

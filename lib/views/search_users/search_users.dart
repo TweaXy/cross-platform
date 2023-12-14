@@ -1,25 +1,31 @@
 import 'dart:async';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
+import 'package:tweaxy/services/suggestions_search.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/views/search_users/tweets_searched.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key, this.txt});
+  String? txt;
 
   @override
   State<SearchScreen> createState() => _MyPageState();
 }
 
 class _MyPageState extends State<SearchScreen> {
+  bool isHashTag = false;
   final TextEditingController _searchController = TextEditingController();
   bool showAction = false;
   String id = '';
@@ -27,7 +33,10 @@ class _MyPageState extends State<SearchScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+    isHashTag = false;
+    if (widget.txt != null) {
+      _searchController.text = widget.txt!;
+    }
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       id = prefs.getString('id')!;
@@ -36,7 +45,80 @@ class _MyPageState extends State<SearchScreen> {
     });
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
+      _fetchseuggestPage(pageKey);
     });
+  }
+
+  final FocusNode _searchFocus = FocusNode();
+
+  List<String> items = ["item"];
+  void _fetchseuggestPage(pagekey) async {
+    items = await SuggestionsSearch(Dio()).getSuggesstion(query, 0);
+    setState(() {});
+    //call api and get top 3 items
+  }
+
+  String usrID = "";
+
+  // void findUser() async {
+  //   String username = "";
+  //   if (_searchController.text.indexOf("from:@") == 0) {
+  //     int firstSpace=_searchController.text.length;
+  //      bool hasquery = _searchController.text.contains(' ');
+  //       if (hasquery == true) {
+  //         firstSpace = _searchController.text.indexOf(' ');
+  //       }
+
+  //     username = _searchController.text.substring(6, firstSpace);
+  //   }
+  //   try {
+  //     List<User> response = await SearchForUsers.searchForUser(
+  //       username,
+  //       token!,
+  //       pageSize: _pageSize,
+  //       pageNumber: 0,
+  //     );
+  //     usrID = response[0].id!;
+  //   } on Exception catch (e) {
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  // }
+
+  void _submitSearch() {
+    // Add your search logic here
+    if (_searchController.text != '') {
+      if (_searchController.text.indexOf('from:@') == 0) {
+        int atIndex = _searchController.text.indexOf('@');
+        int spaceIndex = _searchController.text.length;
+        bool hasquery = _searchController.text.contains(' ');
+        if (hasquery == true) {
+          spaceIndex = _searchController.text.indexOf(' ');
+        }
+        String result =
+            _searchController.text.substring(atIndex + 1, spaceIndex);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TweetsSearched(
+                    text: _searchController.text,
+                    username: result,
+                    id: usrID,
+                  )),
+        );
+      } else {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => TweetsSearched(
+                    text: _searchController.text,
+                    username: '',
+                    id: '',
+                  )),
+        );
+      }
+    }
   }
 
   final _pageSize = 7;
@@ -57,7 +139,7 @@ class _MyPageState extends State<SearchScreen> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _pagingController.error = null;
     }
   }
 
@@ -83,15 +165,22 @@ class _MyPageState extends State<SearchScreen> {
             ),
           ),
           title: TextField(
+            focusNode: _searchFocus,
             controller: _searchController,
             maxLines: 1,
+            onSubmitted: (value) {
+              if (value.isNotEmpty) {
+                _submitSearch();
+              }
+            },
             onChanged: (value) {
-              if (value == '') {
+              if (value == '' || isHashTag == true) {
                 showAction = false;
               } else {
                 showAction = true;
                 query = value;
               }
+
               _pagingController.refresh();
               setState(() {});
             },
@@ -106,6 +195,7 @@ class _MyPageState extends State<SearchScreen> {
               ? [
                   IconButton(
                       onPressed: () {
+                        isHashTag = false;
                         _searchController.text = '';
                         showAction = false;
                         setState(() {});
@@ -117,61 +207,105 @@ class _MyPageState extends State<SearchScreen> {
                 ]
               : null,
         ),
-        body: SizedBox(
-          width: double.infinity,
-          child: !showAction
-              ? const Padding(
-                  padding: EdgeInsets.only(top: 30.0),
-                  child: InitialTextSearchUser(),
-                )
-              : SizedBox(
-                  width: double.infinity,
-                  child: PagedListView<int, User>(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      animateTransitions: true,
-                      firstPageProgressIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SpinKitRing(color: Colors.blueAccent),
-                        );
-                      },
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                        child: SpinKitRing(color: Colors.blueAccent),
-                      ),
-                      itemBuilder: (context, item, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            User user = item;
-                            String text = '';
-                            if (user.id != id) {
-                              if (user.following == 1) {
-                                text = 'Following';
-                              } else {
-                                text = 'Follow';
-                              }
-                            }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ProfileScreen(id: user.id!, text: text),
+        body: RawKeyboardListener(
+            focusNode: _searchFocus,
+            onKey: (RawKeyEvent event) {
+              if (event is RawKeyDownEvent &&
+                  event.logicalKey == LogicalKeyboardKey.delete) {
+                _pagingController.dispose();
+                _pagingController = PagingController(firstPageKey: 0);
+                _pagingController.addPageRequestListener((pageKey) {
+                  _fetchPage(pageKey);
+                });
+                // Handle delete key press
+                setState(() {});
+              }
+              if (event is RawKeyUpEvent &&
+                  event.logicalKey == LogicalKeyboardKey.enter) {
+                _submitSearch();
+              }
+            },
+            child: !showAction
+                ? const Padding(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: InitialTextSearchUser(),
+                  )
+                : CustomScrollView(
+                    slivers: [
+                      SliverList.builder(
+                          itemCount: items.length > 3 ? 3 : items.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                              title: Text(items[index]),
+                              leading: IconButton(
+                                icon: const Icon(Icons.arrow_outward_outlined),
+                                onPressed: () {
+                                  _searchController.text = items[index];
+                                  _pagingController.itemList = [];
+                                  _pagingController.refresh();
+                                  setState(() {
+                                    _searchController.text = items[index];
+                                    isHashTag = true;
+                                  });
+                                },
+                              ),
+                            );
+                          }),
+                      PagedSliverList<int, User>(
+                        pagingController: _pagingController,
+                        builderDelegate: PagedChildBuilderDelegate(
+                          animateTransitions: true,
+                          noItemsFoundIndicatorBuilder: (context) {
+                            return const Center(
+                              child: SizedBox(),
+                            );
+                          },
+                          newPageErrorIndicatorBuilder: (context) {
+                            return const SizedBox();
+                          },
+                          firstPageProgressIndicatorBuilder: (context) {
+                            return const Center(
+                              child: SpinKitRing(color: Colors.blueAccent),
+                            );
+                          },
+                          newPageProgressIndicatorBuilder: (context) =>
+                              const Center(
+                            child: SpinKitRing(color: Colors.blueAccent),
+                          ),
+                          itemBuilder: (context, item, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                User user = item;
+                                String text = '';
+                                if (user.id != id) {
+                                  if (user.following == 1) {
+                                    text = 'Following';
+                                  } else {
+                                    text = 'Follow';
+                                  }
+                                }
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfileScreen(id: user.id!, text: text),
+                                  ),
+                                );
+                              },
+                              child: SearchUsersListTile(
+                                user: item,
                               ),
                             );
                           },
-                          child: SearchUsersListTile(
-                            user: item,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-        ));
+                        ),
+                      ),
+                    ],
+                  )));
   }
 
-  final PagingController<int, User> _pagingController =
+  PagingController<int, User> _pagingController =
       PagingController(firstPageKey: 0);
+
   @override
   void dispose() {
     // TODO: implement dispose

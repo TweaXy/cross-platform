@@ -75,7 +75,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
       if (state is TweetUnLikedState && TempUser.id == widget.id) {
         _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
-        BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+        // BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
       }
       return PagedSliverList<int, Tweet>(
         pagingController: _pagingController,
