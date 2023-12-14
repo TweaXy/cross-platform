@@ -1,7 +1,6 @@
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/services/get_likers_in_profile.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class GetMentionedTweets {
