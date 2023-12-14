@@ -1,11 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_notification.dart';
@@ -91,7 +95,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
           return [
             SliverAppBar(
               elevation: 0,
-              floating: true,
+              floating: kIsWeb ? false : true,
               pinned: true,
               bottom: const TabBar(
                 indicatorWeight: 3,
@@ -116,23 +120,25 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 ],
               ),
               backgroundColor: Colors.white,
-              leading: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: GestureDetector(
-                  onTap: () {
-                    // Navigator.pushNamed(context, kProfileScreen);
-                    Scaffold.of(context).openDrawer();
-                  },
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: CachedNetworkImageProvider(
-                        basePhotosURL + TempUser.image),
-                  ),
-                ),
-              ),
+              leading: kIsWeb
+                  ? null
+                  : Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigator.pushNamed(context, kProfileScreen);
+                          Scaffold.of(context).openDrawer();
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          backgroundImage: CachedNetworkImageProvider(
+                              basePhotosURL + TempUser.image),
+                        ),
+                      ),
+                    ),
               titleSpacing: 10,
               title: const Text('Notifications'),
-              centerTitle: true,
+              centerTitle: kIsWeb ? false : true,
               titleTextStyle: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.w700,
@@ -148,49 +154,52 @@ class _NotificationScreenState extends State<NotificationScreen> {
               onRefresh: () async {
                 return _pagingController.refresh();
               },
-              child: PagedListView.separated(
-                separatorBuilder: (context, index) => Divider(
-                  color: Colors.grey,
-                ),
-                pagingController: _pagingController,
-                builderDelegate: PagedChildBuilderDelegate<UserNotification>(
-                  noItemsFoundIndicatorBuilder: (context) => const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'There Are No Notifications',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 28,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(
-                          'Any new notification will appear here',
+              child: BlocProvider(
+                create: (context) => SidebarCubit(),
+                child: PagedListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                    color: Colors.grey,
+                  ),
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate<UserNotification>(
+                    noItemsFoundIndicatorBuilder: (context) => const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'There Are No Notifications',
                           style: TextStyle(
-                            color: Colors.blueGrey,
-                            fontSize: 18,
+                            color: Colors.black,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 28,
                           ),
                         ),
-                      ),
-                    ],
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Text(
+                            'Any new notification will appear here',
+                            style: TextStyle(
+                              color: Colors.blueGrey,
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return AllNotificationsListTile(
+                        notificationType: item.action!,
+                        avatarURL: item.avatar!,
+                        name: item.name!,
+                        tweet: item.interaction == null
+                            ? ''
+                            : item.interaction!.text ?? '',
+                        followStatus: 'Follow back',
+                        userId: item.userId!,
+                        username: item.userName!,
+                      );
+                    },
                   ),
-                  animateTransitions: true,
-                  itemBuilder: (context, item, index) {
-                    return AllNotificationsListTile(
-                      notificationType: item.action!,
-                      avatarURL: item.avatar!,
-                      name: item.name!,
-                      tweet: item.interaction == null
-                          ? ''
-                          : item.interaction!.text ?? '',
-                      followStatus: 'Follow back',
-                      userId: item.userId!,
-                      username: item.userName!,
-                    );
-                  },
                 ),
               ),
             ),
@@ -292,11 +301,16 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
       case 'follow':
         text = 'Followed you';
         onPressed = () {
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) {
-              return ProfileScreen(id: widget.userId, text: _followStatus);
-            },
-          ));
+          if (!kIsWeb) {
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context) {
+                return ProfileScreen(id: widget.userId, text: _followStatus);
+              },
+            ));
+          } else {
+            BlocProvider.of<SidebarCubit>(context)
+                .emit(OtherProfileState(widget.userId, _followStatus));
+          }
         };
         break;
       case 'mention':

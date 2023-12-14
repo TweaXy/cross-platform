@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/side_nav_bar.dart';
@@ -100,6 +101,8 @@ class _HomePageWebState extends State<HomePageWeb> {
                           ),
                         ),
                       );
+                    } else if (state is SidebarNotificationState) {
+                      return const Expanded(flex: 8, child: NotificationScreen());
                     } else {
                       return const Placeholder();
                     }
