@@ -1,9 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/firebase_options.dart';
+import 'package:tweaxy/helpers/firebase_api.dart';
+import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/services/suggestions_search.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
@@ -36,12 +40,11 @@ void _clear() async {
   await prefs.clear();
 }
 
-void main() {
-
+void main() async {
   // _save();
   // _clear();
-  // WidgetsFlutterBinding.ensureInitialized();
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const TweaXy());
 }
 
@@ -60,8 +63,8 @@ class TweaXy extends StatelessWidget {
           child: BlocProvider(
             create: (context) => EditProfileCubit(),
             child: MaterialApp(
+              navigatorKey: navigatorKey,
               debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.light,
               theme: ThemeData(
                 bottomSheetTheme:
                     const BottomSheetThemeData(backgroundColor: Colors.white),
@@ -82,6 +85,7 @@ class TweaXy extends StatelessWidget {
                     const CreateAccountWebView(),
                 kAuthenticationScreen: (context) => AuthenticationView(),
                 kHomeScreen: (context) => const HomePage(),
+                kNotificationScreen: (context) => const NotificationScreen(),
                 kCreateAcountReviewScreen: (context) =>
                     const CreateAccountDataReview(),
                 kProfileScreen: (context) => ProfileScreen(
