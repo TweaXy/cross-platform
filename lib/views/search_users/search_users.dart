@@ -17,7 +17,8 @@ import 'package:tweaxy/views/search_users/tweets_searched.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key, this.txt});
+  String? txt;
 
   @override
   State<SearchScreen> createState() => _MyPageState();
@@ -33,6 +34,9 @@ class _MyPageState extends State<SearchScreen> {
     // TODO: implement initState
     super.initState();
     isHashTag = false;
+    if (widget.txt != null) {
+      _searchController.text = widget.txt!;
+    }
     Future(() async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       id = prefs.getString('id')!;
@@ -56,31 +60,31 @@ class _MyPageState extends State<SearchScreen> {
 
   String usrID = "";
 
-  void findUser() async {
-    String username = "";
-    if (_searchController.text.indexOf("from:@") == 0) {
-      int firstSpace=_searchController.text.length;
-       bool hasquery = _searchController.text.contains(' ');
-        if (hasquery == true) {
-          firstSpace = _searchController.text.indexOf(' ');
-        }
-      
-      username = _searchController.text.substring(6, firstSpace);
-    }
-    try {
-      List<User> response = await SearchForUsers.searchForUser(
-        username,
-        token!,
-        pageSize: _pageSize,
-        pageNumber: 0,
-      );
-      usrID = response[0].id!;
-    } on Exception catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
-  }
+  // void findUser() async {
+  //   String username = "";
+  //   if (_searchController.text.indexOf("from:@") == 0) {
+  //     int firstSpace=_searchController.text.length;
+  //      bool hasquery = _searchController.text.contains(' ');
+  //       if (hasquery == true) {
+  //         firstSpace = _searchController.text.indexOf(' ');
+  //       }
+
+  //     username = _searchController.text.substring(6, firstSpace);
+  //   }
+  //   try {
+  //     List<User> response = await SearchForUsers.searchForUser(
+  //       username,
+  //       token!,
+  //       pageSize: _pageSize,
+  //       pageNumber: 0,
+  //     );
+  //     usrID = response[0].id!;
+  //   } on Exception catch (e) {
+  //     if (kDebugMode) {
+  //       print(e);
+  //     }
+  //   }
+  // }
 
   void _submitSearch() {
     // Add your search logic here
@@ -90,9 +94,8 @@ class _MyPageState extends State<SearchScreen> {
         int spaceIndex = _searchController.text.length;
         bool hasquery = _searchController.text.contains(' ');
         if (hasquery == true) {
-          spaceIndex = _searchController.text.indexOf(' ')-1;
+          spaceIndex = _searchController.text.indexOf(' ');
         }
-        findUser();
         String result =
             _searchController.text.substring(atIndex + 1, spaceIndex);
         Navigator.push(
@@ -111,7 +114,7 @@ class _MyPageState extends State<SearchScreen> {
               builder: (context) => TweetsSearched(
                     text: _searchController.text,
                     username: '',
-                    id: usrID,
+                    id: '',
                   )),
         );
       }
@@ -136,7 +139,7 @@ class _MyPageState extends State<SearchScreen> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _pagingController.error = null;
     }
   }
 
@@ -207,6 +210,16 @@ class _MyPageState extends State<SearchScreen> {
         body: RawKeyboardListener(
             focusNode: _searchFocus,
             onKey: (RawKeyEvent event) {
+              if (event is RawKeyDownEvent &&
+                  event.logicalKey == LogicalKeyboardKey.delete) {
+                _pagingController.dispose();
+                _pagingController = PagingController(firstPageKey: 0);
+                _pagingController.addPageRequestListener((pageKey) {
+                  _fetchPage(pageKey);
+                });
+                // Handle delete key press
+                setState(() {});
+              }
               if (event is RawKeyUpEvent &&
                   event.logicalKey == LogicalKeyboardKey.enter) {
                 _submitSearch();
@@ -229,7 +242,9 @@ class _MyPageState extends State<SearchScreen> {
                                 onPressed: () {
                                   _searchController.text = items[index];
                                   _pagingController.itemList = [];
+                                  _pagingController.refresh();
                                   setState(() {
+                                    _searchController.text = items[index];
                                     isHashTag = true;
                                   });
                                 },
@@ -244,6 +259,9 @@ class _MyPageState extends State<SearchScreen> {
                             return const Center(
                               child: SizedBox(),
                             );
+                          },
+                          newPageErrorIndicatorBuilder: (context) {
+                            return const SizedBox();
                           },
                           firstPageProgressIndicatorBuilder: (context) {
                             return const Center(
@@ -285,7 +303,7 @@ class _MyPageState extends State<SearchScreen> {
                   )));
   }
 
-  final PagingController<int, User> _pagingController =
+  PagingController<int, User> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override

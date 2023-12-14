@@ -86,7 +86,7 @@ class TweaXy extends StatelessWidget {
                       id: '',
                       text: '',
                     ),
-                kSearchScreen: (context) => const SearchScreen(),
+                kSearchScreen: (context) =>  SearchScreen(),
                 kFollowers: (context) => FollowersPage(username: ''),
                 kwebboth: (context) => WebFollowersAndFollowings(
                     username: 'karim.elsayed401_67616122'),

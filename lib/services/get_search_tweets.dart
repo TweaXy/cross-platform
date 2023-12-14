@@ -10,7 +10,7 @@ class SearchTweetTweets {
   SearchTweetTweets();
   Future<List<Tweet>> getSearchTweets({
     String? username,
-    required String query,
+    String? query,
     required int offset,
     required int pageSize,
   }) async {
@@ -21,15 +21,22 @@ class SearchTweetTweets {
     token = user.getString("token")!;
     print(token);
     if (username == null) {
+      String u =
+          "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=$query&username=&limit=$pageSize&offset=$offset";
+      response = await Api.getwithToken(
+        url: u,
+        token: token,
+      );
+    } else if (query == null) {
       response = await Api.getwithToken(
         url:
-            "https://tweaxybackend.mywire.org/api/v1/tweets/search/$query?username=&limit=$pageSize&offset=$offset",
+            "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=&username=$username&limit=$pageSize&offset=$offset",
         token: token,
       );
     } else {
       response = await Api.getwithToken(
         url:
-            "https://tweaxybackend.mywire.org/api/v1/tweets/search/$query?username=$username&limit=$pageSize&offset=$offset",
+            "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=$query&username=$username&limit=$pageSize&offset=$offset",
         token: token,
       );
     }

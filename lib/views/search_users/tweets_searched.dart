@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/custom_followers.dart';
+import 'package:tweaxy/cubits/updata/updata_cubit.dart';
+import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
@@ -13,7 +16,9 @@ import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_search_tweets.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
+import 'package:tweaxy/views/search_users/search_users.dart';
 import 'package:tweaxy/views/splash_screen.dart';
 
 class TweetsSearched extends StatefulWidget {
@@ -31,9 +36,9 @@ class TweetsSearched extends StatefulWidget {
 
 class _TweetsSearchedState extends State<TweetsSearched>
     with SingleTickerProviderStateMixin {
-  final PagingController<int, Tweet> _pagingController2 =
+  PagingController<int, Tweet> _pagingController2 =
       PagingController(firstPageKey: 0);
-  final PagingController<int, FollowersModel> _pagingController3 =
+  PagingController<int, FollowersModel> _pagingController3 =
       PagingController(firstPageKey: 0);
   final TextEditingController _searchController = TextEditingController();
   late TabController tabController;
@@ -54,13 +59,13 @@ class _TweetsSearchedState extends State<TweetsSearched>
     tabController = TabController(vsync: this, length: 2);
     tabController.addListener(_handleTabSelection);
     _searchFocusNode.addListener(() {
+      
       if (_searchFocusNode.hasFocus) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => SearchTweets(
-                    username: widget.username,
-                    id: widget.id,
+              builder: (context) => SearchScreen(
+                    txt: _searchController.text,
                   )),
         );
       }
@@ -99,10 +104,10 @@ class _TweetsSearchedState extends State<TweetsSearched>
   final _pageSize = 7;
 
   Future<void> _fetchPage2(int pageKey) async {
-    if (queryTweets == ''||queryPeople == queryTweets && widget.text.indexOf('from:@') == 0) {
+    if (queryTweets == '') {
       try {
-        final newItems = await TweetsServices.getProfilePosts(
-            offset: pageKey, id: widget.id);
+        final newItems = await SearchTweetTweets().getSearchTweets(
+            username: widget.username, offset: pageKey, pageSize: _pageSize);
         print(newItems);
         final isLastPage = newItems.length < _pageSize;
         if (isLastPage) {
@@ -182,167 +187,187 @@ class _TweetsSearchedState extends State<TweetsSearched>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        shape: UnderlineInputBorder(
-            borderSide: BorderSide(
-          width: 0.4,
-          color: Colors.grey[300]!,
-        )),
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
-        title: TextField(
-          focusNode: _searchFocusNode, // Use the new FocusNode
-          textInputAction: TextInputAction.search,
-          controller: TextEditingController.fromValue(
-            TextEditingValue(text: initText),
-          ),
-          style: const TextStyle(color: Colors.black, fontSize: 17),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Color.fromARGB(255, 218, 228, 231),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: BorderSide.none,
-            ),
-            contentPadding: const EdgeInsets.only(left: 10.0),
-          ),
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.format_list_bulleted_rounded,
-                color: Colors.black,
+    return BlocBuilder<UpdateAllCubit, UpdataAllState>(
+      builder: (context, state) {
+        if (state is LoadingStata) {
+          _pagingController2.dispose();
+          _pagingController2 = PagingController(firstPageKey: 0);
+          _pagingController2.addPageRequestListener((pageKey) {
+            _fetchPage2(pageKey);
+          });
+          _pagingController3.dispose();
+          _pagingController3 = PagingController(firstPageKey: 0);
+          _pagingController3.addPageRequestListener((pageKey) {
+            _fetchPage3(pageKey);
+          });
+          return LoadingScreen(asyncCall: true);
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              shape: UnderlineInputBorder(
+                  borderSide: BorderSide(
+                width: 0.4,
+                color: Colors.grey[300]!,
               )),
-          PopupMenuButton(
-            icon: const Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'Search Setteing',
-                child: Text('Search Setteing'),
-              ),
-              const PopupMenuItem(
-                value: 'Delete Search',
-                child: Text('Delete Search'),
-              ),
-              const PopupMenuItem(
-                value: 'Share',
-                child: Text('Share'),
-              ),
-            ],
-            onSelected: (value) {},
-          ),
-        ],
-        bottom: TabBar(
-          controller: tabController,
-          isScrollable: false,
-          indicatorSize: TabBarIndicatorSize.label,
-          indicatorColor: Colors.blue,
-          indicatorWeight: 4,
-          indicatorPadding: const EdgeInsets.only(bottom: 1.0),
-          tabs: [
-            Tab(
-              child: Text(
-                "Latest",
-                style: TextStyle(
-                  color: tabController.index == 0
-                      ? Colors.black
-                      : const Color(0xffADB5BC),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              elevation: 0,
+              backgroundColor: Colors.white,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
                 ),
               ),
-            ),
-            Tab(
-              child: Text(
-                "People",
-                style: TextStyle(
-                  color: tabController.index == 1
-                      ? Colors.black
-                      : const Color(0xffADB5BC),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              title: TextField(
+                focusNode: _searchFocusNode, // Use the new FocusNode
+                textInputAction: TextInputAction.search,
+                controller: TextEditingController.fromValue(
+                  TextEditingValue(text: initText),
+                ),
+                style: const TextStyle(color: Colors.black, fontSize: 17),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color.fromARGB(255, 218, 228, 231),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide.none,
+                  ),
+                  contentPadding: const EdgeInsets.only(left: 10.0),
                 ),
               ),
-            ),
-          ],
-        ),
-      ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          PagedListView<int, Tweet>(
-            pagingController: _pagingController2,
-            builderDelegate: PagedChildBuilderDelegate(
-              animateTransitions: true,
-              firstPageProgressIndicatorBuilder: (context) {
-                return const Center(
-                  child: SpinKitRing(color: Colors.blueAccent),
-                );
-              },
-              noItemsFoundIndicatorBuilder: (context) {
-                return Center(
-                  child: Text(
-                    'No results for ${queryTweets}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              actions: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.format_list_bulleted_rounded,
+                      color: Colors.black,
+                    )),
+                PopupMenuButton(
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Colors.black,
                   ),
-                );
-              },
-              newPageProgressIndicatorBuilder: (context) => const Center(
-                child: SpinKitRing(color: Colors.blueAccent),
-              ),
-              itemBuilder: (context, item, index) {
-                return CustomTweet(
-                  forProfile: false,
-                  tweet: item,
-                  replyto: [],
-                );
-              },
-            ),
-          ),
-          PagedListView<int, FollowersModel>(
-            pagingController: _pagingController3,
-            builderDelegate: PagedChildBuilderDelegate(
-              animateTransitions: true,
-              firstPageProgressIndicatorBuilder: (context) {
-                return const Center(
-                  child: SpinKitRing(color: Colors.blueAccent),
-                );
-              },
-              noItemsFoundIndicatorBuilder: (context) {
-                return Center(
-                  child: Text(
-                    'No results for ${queryPeople == '' ? queryTweets : queryPeople}',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  itemBuilder: (context) => [
+                    const PopupMenuItem(
+                      value: 'Search Setteing',
+                      child: Text('Search Setteing'),
+                    ),
+                    const PopupMenuItem(
+                      value: 'Delete Search',
+                      child: Text('Delete Search'),
+                    ),
+                    const PopupMenuItem(
+                      value: 'Share',
+                      child: Text('Share'),
+                    ),
+                  ],
+                  onSelected: (value) {},
+                ),
+              ],
+              bottom: TabBar(
+                controller: tabController,
+                isScrollable: false,
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorColor: Colors.blue,
+                indicatorWeight: 4,
+                indicatorPadding: const EdgeInsets.only(bottom: 1.0),
+                tabs: [
+                  Tab(
+                    child: Text(
+                      "Latest",
+                      style: TextStyle(
+                        color: tabController.index == 0
+                            ? Colors.black
+                            : const Color(0xffADB5BC),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                );
-              },
-              newPageProgressIndicatorBuilder: (context) => const Center(
-                child: SpinKitRing(color: Colors.blueAccent),
+                  Tab(
+                    child: Text(
+                      "People",
+                      style: TextStyle(
+                        color: tabController.index == 1
+                            ? Colors.black
+                            : const Color(0xffADB5BC),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              itemBuilder: (context, item, index) {
-                return CustomFollowers(
-                  isFollower: false,
-                  user: item,
-                );
-              },
             ),
-          ),
-        ],
-      ),
+            body: TabBarView(
+              controller: tabController,
+              children: [
+                PagedListView<int, Tweet>(
+                  pagingController: _pagingController2,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    animateTransitions: true,
+                    firstPageProgressIndicatorBuilder: (context) {
+                      return const Center(
+                        child: SpinKitRing(color: Colors.blueAccent),
+                      );
+                    },
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Center(
+                        child: Text(
+                          'No results for ${queryTweets}',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    },
+                    newPageProgressIndicatorBuilder: (context) => const Center(
+                      child: SpinKitRing(color: Colors.blueAccent),
+                    ),
+                    itemBuilder: (context, item, index) {
+                      return CustomTweet(
+                        forProfile: false,
+                        tweet: item,
+                        replyto: [],
+                      );
+                    },
+                  ),
+                ),
+                PagedListView<int, FollowersModel>(
+                  pagingController: _pagingController3,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    animateTransitions: true,
+                    firstPageProgressIndicatorBuilder: (context) {
+                      return const Center(
+                        child: SpinKitRing(color: Colors.blueAccent),
+                      );
+                    },
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return Center(
+                        child: Text(
+                          'No results for ${queryPeople == '' ? queryTweets : queryPeople}',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    },
+                    newPageProgressIndicatorBuilder: (context) => const Center(
+                      child: SpinKitRing(color: Colors.blueAccent),
+                    ),
+                    itemBuilder: (context, item, index) {
+                      return CustomFollowers(
+                        isFollower: false,
+                        user: item,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -364,15 +389,16 @@ class _TweetsSearchedState extends State<TweetsSearched>
 
   void querySearch() {
     if (widget.text[0] == '#') {
+      widget.text.replaceAll('#', "%23");
       queryPeople = '';
       queryTweets = widget.text;
     } else if (widget.text.indexOf('from:@') == 0) {
       if (widget.text.length > 6 + widget.username.length) {
         queryTweets = widget.text.substring(6 + widget.username.length + 1);
-        queryPeople = widget.text.substring(6 + widget.username.length + 1);
+        queryPeople = widget.username;
       } else {
         queryPeople = widget.username;
-        queryTweets = widget.username;
+        queryTweets = "";
       }
     } else {
       queryPeople = widget.text;
