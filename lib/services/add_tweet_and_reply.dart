@@ -6,18 +6,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 
-class AddTweet {
+class AddTweetAndReply {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
-
-  AddTweet(this.dio);
+  AddTweetAndReply(this.dio);
 
   Future addTweet(String text, List<XFile> media) async {
     dynamic response;
     print(text);
     print(media);
     String? token;
-      try {
+    try {
       List<String> s = await loadPrefs();
       token = s[1];
     } catch (e) {
@@ -46,7 +44,7 @@ class AddTweet {
     print(token);
     try {
       response = await Api.post(
-        url: '${baseUrl}tweets/',
+        url: '${baseURL}tweets/',
         token: token,
         body: formData,
       );
@@ -59,7 +57,7 @@ class AddTweet {
       throw Exception('oops something went wrong');
     }
   }
-  
+
   Future addTweetWeb(String text, List<XFile> media) async {
     dynamic response;
     print(text);
@@ -92,7 +90,7 @@ class AddTweet {
     print(token);
     try {
       response = await Api.post(
-        url: '${baseUrl}tweets/',
+        url: '${baseURL}tweets/',
         token: token,
         body: formData,
       );
@@ -102,6 +100,54 @@ class AddTweet {
         log(e.toString());
       } // debug mode only
       throw Exception('Oops, something went wrong');
+    }
+  }
+
+  Future addReply(String text, List<XFile> media, String tweetId) async {
+    dynamic response;
+    print(text);
+    print(media);
+    String? token;
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
+    Map<String, dynamic> data = {};
+    if (text.isNotEmpty) {
+      data['text'] = text;
+    }
+    List<MultipartFile> newMedia = [];
+
+    for (XFile m in media) {
+      final bytes = await (m).readAsBytes();
+      final med = MultipartFile.fromBytes(bytes.toList(),
+          contentType: m.path.contains('mp4')
+              ? MediaType('video', 'mp4')
+              : MediaType('image', 'png'),
+          filename: m.path.split('/').last);
+      newMedia.add(med);
+    }
+    if (newMedia.isNotEmpty) {
+      data['media'] = newMedia;
+    }
+    FormData formData = FormData.fromMap(data);
+
+    print(token);
+    try {
+      response = await Api.post(
+        url: '${baseURL}interactions/$tweetId/replies',
+        token: token,
+        body: formData,
+      );
+
+      return response;
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('oops something went wrong');
     }
   }
 }

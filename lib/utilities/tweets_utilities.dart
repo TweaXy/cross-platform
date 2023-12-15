@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 List<String>? _getImageList(dynamic image) {
   if (image == null) {
@@ -45,7 +47,6 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
 }
 
 String dateFormatter(String date) {
-
   DateTime dt1 = DateTime.parse(date).toLocal();
   DateTime now = DateTime.now().toLocal();
   // print('dt1=' + dt1.toString());
@@ -148,4 +149,15 @@ List<String> months = [
   'Nov',
   'Dec'
 ];
-void addReplyPress() {}
+void addReplyPress(context,
+    {required String tweetId, required String tweetAuthor}) {
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddTweetView(
+                isReply: true,
+                tweetId: tweetId,
+                replyto: tweetAuthor,
+                photoIconPressed: false,
+              )));
+}

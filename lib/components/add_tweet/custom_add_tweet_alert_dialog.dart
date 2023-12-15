@@ -4,13 +4,15 @@ import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 class CustomAddTweetAlertDialog extends StatelessWidget {
   const CustomAddTweetAlertDialog({
     super.key,
+    required this.text,
   });
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('Discard Tweet?'),
-      content: const Text('Are you sure you want to discard this tweet?'),
+      title: Text('Discard $text'),
+      content: Text('Are you sure you want to discard this $text?'),
       actions: [
         TextButton(
           key: const ValueKey(AddTweetKeys.acceptDiscardTweet),

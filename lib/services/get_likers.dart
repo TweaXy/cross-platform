@@ -28,7 +28,7 @@ class Likers {
     List<dynamic> allData = jsondata['data']["users"];
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
-      FollowersModel follower = FollowersModel.fromJson(allData[i]);
+      FollowersModel follower = FollowersModel.fromJsonLikers(allData[i]);
       allFollowers.add(follower);
     }
     return allFollowers;

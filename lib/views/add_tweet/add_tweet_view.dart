@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/components/add_tweet/custom_add_tweet_alert_dialog.dart';
-import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
+import 'package:tweaxy/components/add_tweet/add_reply/custom_add_reply_row.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_appBar.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
@@ -16,15 +16,27 @@ import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
 import 'package:video_player/video_player.dart';
 
 class AddTweetView extends StatefulWidget {
-  const AddTweetView({super.key, required this.photoIconPressed});
+  const AddTweetView(
+      {super.key,
+      required this.photoIconPressed,
+      required this.isReply,
+      this.tweetId,
+      this.text,
+      this.replyto,
+      this.tweetController});
   final bool photoIconPressed;
+  final bool isReply;
+  final String? tweetId;
+  final String? text;
+  final String? replyto;
+  final TextEditingController? tweetController;
 
   @override
   State<AddTweetView> createState() => _AddTweetViewState();
 }
 
 class _AddTweetViewState extends State<AddTweetView> {
-  final TextEditingController _tweetController = TextEditingController();
+  TextEditingController _tweetController = TextEditingController();
   bool isButtonEnabled = false;
   List<XFile> media = [], mediaTemporary = [];
   List videoControllers = [];
@@ -32,6 +44,8 @@ class _AddTweetViewState extends State<AddTweetView> {
   @override
   void initState() {
     super.initState();
+    if (widget.isReply && widget.tweetController != null)
+      _tweetController = widget.tweetController!;
     _tweetController.addListener(_updateButtonState);
 
     if (widget.photoIconPressed) {
@@ -152,39 +166,19 @@ class _AddTweetViewState extends State<AddTweetView> {
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  IconButton(
-                    key: const ValueKey(AddTweetKeys.discardTweet),
-                    icon: const Icon(
-                      Icons.close,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) =>
-                            const CustomAddTweetAlertDialog(),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 5.0),
-                    child: CustomAddTweetButton(
-                      tweetcontent: _tweetController,
-                      xfilePick: media,
-                      isButtonEnabled: isButtonEnabled,
-                      textPadding: const EdgeInsets.symmetric(
-                          vertical: 1.0, horizontal: 2.0),
-                    ),
-                  ),
-                ],
-              ),
+            CusstomAddTweetAppbar(
+              isReply: widget.isReply,
+              tweetId: widget.tweetId,
+              tweetController: _tweetController,
+              media: media,
+              isButtonEnabled: isButtonEnabled,
+            ),
+            CustomAddReplyRow(
+              replyto: widget.isReply && widget.replyto != null
+                  ? [widget.replyto!]
+                  : [],
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -195,7 +189,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top: 8.0, left: 0),
+                    padding: EdgeInsets.only(top: widget.isReply ? 4.0 : 15.0),
                     child: CircleAvatar(
                       radius: 21,
                       backgroundImage: CachedNetworkImageProvider(
@@ -208,10 +202,11 @@ class _AddTweetViewState extends State<AddTweetView> {
                       minHeight: MediaQuery.of(context).size.height * 0.1,
                       maxHeight: MediaQuery.of(context).size.height * 0.5,
                     ),
-                    padding: const EdgeInsets.only(top: 8.0, left: 8),
                     child: CustomAddTweetTextField(
-                        key: const ValueKey(AddTweetKeys.tweetTextField),
-                        tweetController: _tweetController),
+                      key: const ValueKey(AddTweetKeys.tweetTextField),
+                      tweetController: _tweetController,
+                      isReply: widget.isReply,
+                    ),
                   ),
                 ],
               ),
@@ -280,6 +275,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                             () {
                                               media.removeAt(index);
                                               videoControllers.removeAt(index);
+                                              _updateButtonState();
                                             },
                                           );
                                         },
@@ -320,6 +316,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                                         setState(() {
                                           media.removeAt(index);
                                           videoControllers.removeAt(index);
+                                          _updateButtonState();
                                         });
                                       },
                                       icon: Container(
@@ -390,25 +387,10 @@ class _AddTweetViewState extends State<AddTweetView> {
                       color: Color(0xFF1e9aeb),
                     ),
                   ),
-                  Row(
-                    children: [
-                      CusotmCircularProgressIndicator(
-                          tweetController: _tweetController),
-                      const VerticalDivider(
-                        indent: 5,
-                        endIndent: 5,
-                        width: 30,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          //TODO : add another tweet
-                        },
-                        icon: const Icon(
-                          Icons.add_circle,
-                          color: Color(0xFF1e9aeb),
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CusotmCircularProgressIndicator(
+                        tweetController: _tweetController),
                   ),
                 ],
               ),

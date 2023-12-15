@@ -4,10 +4,10 @@ import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import 'package:tweaxy/services/add_tweet.dart';
+import 'package:tweaxy/services/add_tweet_and_reply.dart';
 
 void main() {
-  AddTweet service = AddTweet(Dio());
+  AddTweetAndReply service = AddTweetAndReply(Dio());
   group('Test add tweet Api', () {
     test('Test1: post empty tweet', () async {
       expect(await service.addTweet("", []), "tweet can not be empty");
