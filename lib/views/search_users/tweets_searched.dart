@@ -6,6 +6,8 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/custom_followers.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
@@ -124,9 +126,10 @@ class _TweetsSearchedState extends State<TweetsSearched>
       if ((queryPeople == queryTweets && widget.text.indexOf('from:@') != 0) ||
           (queryPeople == '' && widget.text[0] == '#')) {
         //هبحث عن كل التويت من غير username
+        String temp = queryTweets.replaceAll("#", "%23");
         try {
           final newItems = await SearchTweetTweets().getSearchTweets(
-              query: queryTweets, offset: pageKey, pageSize: _pageSize);
+              query: temp, offset: pageKey, pageSize: _pageSize);
           print(newItems);
           final isLastPage = newItems.length < _pageSize;
           if (isLastPage) {
@@ -305,35 +308,71 @@ class _TweetsSearchedState extends State<TweetsSearched>
             body: TabBarView(
               controller: tabController,
               children: [
-                PagedListView<int, Tweet>(
-                  pagingController: _pagingController2,
-                  builderDelegate: PagedChildBuilderDelegate(
-                    animateTransitions: true,
-                    firstPageProgressIndicatorBuilder: (context) {
-                      return const Center(
+                BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+                    builder: (context, state) {
+                  if (state is TweetHomeRefresh || state is TweetAddedState) {
+                    _pagingController2.refresh();
+                  }
+                  if (state is TweetDeleteState) {
+                    _pagingController2.itemList!
+                        .removeWhere((element) => element.id == state.tweetid);
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                        .initializeTweet();
+                  }
+                  if (state is TweetLikedState) {
+                    _pagingController2.itemList!.map((element) {
+                      if (element.id == state.tweetid) {
+                        element.isUserLiked = !element.isUserLiked;
+                        element.likesCount++;
+                      }
+                      return element;
+                    }).toList();
+
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                        .initializeTweet();
+                  }
+                  if (state is TweetUnLikedState) {
+                    _pagingController2.itemList!.map((element) {
+                      if (element.id == state.tweetid) {
+                        element.isUserLiked = !element.isUserLiked;
+                        element.likesCount--;
+                      }
+                      return element;
+                    }).toList();
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                        .initializeTweet();
+                  }
+                  return PagedListView<int, Tweet>(
+                    pagingController: _pagingController2,
+                    builderDelegate: PagedChildBuilderDelegate(
+                      animateTransitions: true,
+                      firstPageProgressIndicatorBuilder: (context) {
+                        return const Center(
+                          child: SpinKitRing(color: Colors.blueAccent),
+                        );
+                      },
+                      noItemsFoundIndicatorBuilder: (context) {
+                        return Center(
+                          child: Text(
+                            'No results for ${queryTweets}',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        );
+                      },
+                      newPageProgressIndicatorBuilder: (context) =>
+                          const Center(
                         child: SpinKitRing(color: Colors.blueAccent),
-                      );
-                    },
-                    noItemsFoundIndicatorBuilder: (context) {
-                      return Center(
-                        child: Text(
-                          'No results for ${queryTweets}',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      );
-                    },
-                    newPageProgressIndicatorBuilder: (context) => const Center(
-                      child: SpinKitRing(color: Colors.blueAccent),
+                      ),
+                      itemBuilder: (context, item, index) {
+                        return CustomTweet(
+                          tweet: item,
+                          replyto: [],
+                        );
+                      },
                     ),
-                    itemBuilder: (context, item, index) {
-                      return CustomTweet(
-                        tweet: item,
-                        replyto: [],
-                      );
-                    },
-                  ),
-                ),
+                  );
+                }),
                 PagedListView<int, FollowersModel>(
                   pagingController: _pagingController3,
                   builderDelegate: PagedChildBuilderDelegate(
@@ -389,7 +428,6 @@ class _TweetsSearchedState extends State<TweetsSearched>
 
   void querySearch() {
     if (widget.text[0] == '#') {
-      widget.text.replaceAll('#', "%23");
       queryPeople = '';
       queryTweets = widget.text;
     } else if (widget.text.indexOf('from:@') == 0) {

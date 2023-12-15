@@ -53,7 +53,8 @@ class _MyPageState extends State<SearchScreen> {
 
   List<String> items = [];
   void _fetchseuggestPage(pagekey) async {
-    items = await SuggestionsSearch(Dio()).getSuggesstion(query, 0);
+    String newq=query.replaceAll("#", "%23");
+    items = await SuggestionsSearch(Dio()).getSuggesstion(newq, 0);
     setState(() {});
     //call api and get top 3 items
   }
