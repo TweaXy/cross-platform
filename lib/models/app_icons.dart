@@ -5,6 +5,7 @@ class AppIcon {
 
   static const _kFontFam = 'TwitterIcon';
   static const IconData fabTweet = IconData(0xf029, fontFamily: _kFontFam);
+  static const IconData enlarge = IconData(0xf308, fontFamily: _kFontFam);
   static const IconData lock = IconData(0xf096, fontFamily: _kFontFam);
   static const IconData messageEmpty = IconData(0xf187, fontFamily: _kFontFam);
   static const IconData messageFill = IconData(0xf554, fontFamily: _kFontFam);

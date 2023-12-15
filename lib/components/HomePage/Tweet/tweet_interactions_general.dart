@@ -18,7 +18,8 @@ class TweetInteractions extends StatefulWidget {
       required this.commentsCount,
       required this.isUserLiked,
       required this.isUserCommented,
-      required this.isUserRetweeted});
+      required this.isUserRetweeted,
+      required this.replyto});
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
@@ -26,6 +27,7 @@ class TweetInteractions extends StatefulWidget {
   final bool isUserLiked;
   final bool isUserCommented;
   final bool isUserRetweeted;
+  final String replyto;
 
   final String id;
 
@@ -58,7 +60,8 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 padding: EdgeInsets.zero,
                 icon: const Icon(FontAwesomeIcons.comment),
                 onPressed: () {
-                  addReplyPress();
+                  addReplyPress(context,
+                      tweetId: widget.id, tweetAuthor: widget.replyto);
                 },
               ), // Replace with your desired icon
               SizedBox(
