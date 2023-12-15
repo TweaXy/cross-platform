@@ -128,6 +128,7 @@ class CustomTweet extends StatelessWidget {
                           child: TweetMedia(pickedfiles: tweet.image!),
                         ),
                       TweetInteractions(
+                        replyto: tweet.userHandle,
                         id: tweet.id,
                         likesCount: tweet.likesCount,
                         viewsCount: tweet.viewsCount,
