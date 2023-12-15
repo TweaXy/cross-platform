@@ -119,6 +119,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
           final nextPageKey = pageKey + newItems.length;
           _pagingController2.appendPage(newItems.cast<Tweet>(), nextPageKey);
         }
+        queryTweets=widget.text;
       } catch (error) {
         _pagingController2.error = error;
       }
