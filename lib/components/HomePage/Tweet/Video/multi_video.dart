@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:multi_video_player/multi_video_player.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/network_video_player.dart';
 
@@ -7,8 +8,8 @@ class MultiVideo extends StatelessWidget {
   List<dynamic> videos = [
     'https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
     'https://storage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4',
-    'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
-    'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
+    // 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4',
+    // 'https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4',
   ];
   @override
   Widget build(BuildContext context) {
@@ -23,14 +24,24 @@ class MultiVideo extends StatelessWidget {
     //     ],
     //   ),
     // );
-    return MultiVideoPlayer.network(
-      height: 400,
-      width: MediaQuery.of(context).size.width,
-      videoSourceList: videos,
-      scrollDirection: Axis.horizontal,
-      preloadPagesCount: 2,
-      onPageChanged: (videoPlayerController, index) {},
-      getCurrentVideoController: (videoPlayerController) {},
+  return StaggeredGrid.count(
+      crossAxisCount: 4,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      children: videos.map((video) {
+        return StaggeredGridTile.count(
+          crossAxisCellCount: 2,
+          mainAxisCellCount: 2,
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return AspectRatio(
+                aspectRatio: constraints.maxWidth / constraints.maxHeight,
+                child: NetworkVideoPlayer(video: video),
+              );
+            },
+          ),
+        );
+      }).toList(),
     );
   }
 }

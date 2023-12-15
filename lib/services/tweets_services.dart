@@ -121,6 +121,7 @@ class TweetsServices {
     dynamic result = await Api.getwithToken(
         token: TempUser.token,
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
+        print(result);
     if (result is String) {
       return [];
     } else if (result is Response) {

@@ -73,6 +73,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
                   if (t == "success")
                     BlocProvider.of<TweetsUpdateCubit>(context)
                         .deleteTweet(tweetid: widget.tweetId);
+                        
                 },
                 child: const Text('Delete',
                     style: TextStyle(color: Colors.white, fontSize: 16)),

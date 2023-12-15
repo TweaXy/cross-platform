@@ -48,11 +48,11 @@ class _TweetMediaState extends State<TweetMedia> {
 
   Widget buildImageElement(String image) {
     Future<List<int>> s =
-        getImageInfo('https://tweaxybackend.mywire.org/uploads/tweetsMedia/$image');
+        getImageInfo('https://tweaxybackend.mywire.org/api/v1/images/$image');
     return AspectRatio(
       aspectRatio: 16 / 16,
       child: Image.network(
-        'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$image',
+        'https://tweaxybackend.mywire.org/api/v1/images/$image',
         fit: BoxFit.fill,
         // width: double.infinity,
         height: double.infinity,
@@ -63,7 +63,7 @@ class _TweetMediaState extends State<TweetMedia> {
   Widget buildVideoElement(String video) {
     final VideoPlayerController videoController =
         VideoPlayerController.networkUrl(
-      Uri.parse('https://tweaxybackend.mywire.org/uploads/tweetsMedia/$video'),
+      Uri.parse('https://tweaxybackend.mywire.org/api/v1/images/$video'),
       videoPlayerOptions: VideoPlayerOptions(mixWithOthers: true),
     )
           ..setLooping(true)

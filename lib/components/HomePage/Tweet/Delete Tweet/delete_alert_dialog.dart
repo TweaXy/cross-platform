@@ -52,6 +52,7 @@ class DeleteAlertDialog extends StatelessWidget {
             if (t == "success")
               BlocProvider.of<TweetsUpdateCubit>(context)
                   .deleteTweet(tweetid: tweetid);
+                  
           },
           child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),

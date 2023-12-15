@@ -23,3 +23,8 @@ class TweetDeleteState extends TweetUpdateState {
 
   TweetDeleteState({required this.tweetid});
 }
+class TweetDeleteInReplyState extends TweetUpdateState {
+  final String tweetid;
+
+  TweetDeleteInReplyState({required this.tweetid});
+}

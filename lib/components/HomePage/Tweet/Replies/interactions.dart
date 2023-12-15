@@ -43,26 +43,31 @@ class InteractionReplyScreen extends StatelessWidget {
           ],
         ),
         LikeButton(
-          onTap: (isLiked) async {
-            String token = '';
-            await Future(() async {
-              final SharedPreferences prefs =
-                  await SharedPreferences.getInstance();
-              token = await prefs.getString('token')!;
-            });
-            print(" the like value $isLiked");
-            if (isLiked) {
-              var res = await LikeTweet.unLikeTweet(tweet.id, token);
-              BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet(tweet.id);
-              return (res);
-            } else {
-              var res = await LikeTweet.likeTweet(tweet.id, token);
-              BlocProvider.of<TweetsUpdateCubit>(context).likeTweet(tweet.id);
-              return res;
-            }
-          },
-          size: 23,
           isLiked: tweet.isUserLiked,
+              onTap: (isLiked) async {
+                String token = '';
+                await Future(() async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  token = await prefs.getString('token')!;
+                });
+                print(" the like value $isLiked");
+                if (isLiked) {
+                  var res = await LikeTweet.unLikeTweet(tweet.id, token);
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .unLikeTweet(tweet.id);
+                  return res;
+                } else {
+                  var res = await LikeTweet.likeTweet(tweet.id, token);
+
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .likeTweet(tweet.id);
+                  return res;
+                }
+              },
+              likeCount: tweet.likesCount,
+              size: 23,
+              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.009)
         ),
 
         // Replace with your desired icon

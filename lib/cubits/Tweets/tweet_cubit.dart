@@ -25,4 +25,7 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   void refresh() {
     emit(TweetHomeRefresh());
   }
+  void deletewithpopforreply(String id) {
+    emit(TweetDeleteInReplyState(tweetid: id));
+  }
 }
