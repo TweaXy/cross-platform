@@ -808,6 +808,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.4.0"
+  multi_image_layout:
+    dependency: "direct main"
+    description:
+      name: multi_image_layout
+      sha256: "41a529a388f0a12c257f24a3b750a954255ebf7411102efe4a20b07e63e2f79e"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.2"
   multi_video_player:
     dependency: "direct main"
     description:
@@ -960,6 +968,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "6.0.2"
+  photo_view:
+    dependency: transitive
+    description:
+      name: photo_view
+      sha256: "26cb153080a2673bebccaf72d3283e82f8f41a47fe5f9bc5ba8634d2e8a9fc8e"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.13.0"
   platform:
     dependency: transitive
     description:
