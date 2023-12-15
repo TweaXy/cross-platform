@@ -20,17 +20,23 @@ class AddTweetView extends StatefulWidget {
       {super.key,
       required this.photoIconPressed,
       required this.isReply,
-      this.tweetId});
+      this.tweetId,
+      this.text,
+      this.replyto,
+      this.tweetController});
   final bool photoIconPressed;
   final bool isReply;
   final String? tweetId;
+  final String? text;
+  final String? replyto;
+  final TextEditingController? tweetController;
 
   @override
   State<AddTweetView> createState() => _AddTweetViewState();
 }
 
 class _AddTweetViewState extends State<AddTweetView> {
-  final TextEditingController _tweetController = TextEditingController();
+  TextEditingController _tweetController = TextEditingController();
   bool isButtonEnabled = false;
   List<XFile> media = [], mediaTemporary = [];
   List videoControllers = [];
@@ -38,6 +44,8 @@ class _AddTweetViewState extends State<AddTweetView> {
   @override
   void initState() {
     super.initState();
+    if (widget.isReply && widget.tweetController != null)
+      _tweetController = widget.tweetController!;
     _tweetController.addListener(_updateButtonState);
 
     if (widget.photoIconPressed) {
@@ -168,7 +176,9 @@ class _AddTweetViewState extends State<AddTweetView> {
               isButtonEnabled: isButtonEnabled,
             ),
             CustomAddReplyRow(
-              replyto: widget.isReply ? [TempUser.username] : [],
+              replyto: widget.isReply && widget.replyto != null
+                  ? [widget.replyto!]
+                  : [],
             ),
             Padding(
               padding: EdgeInsets.only(

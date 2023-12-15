@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/main_tweet_for_replies.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_list.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
@@ -98,7 +99,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     onPressed: () {},
                     icon: Transform.rotate(
                       angle: 4.7,
-                      child: Icon(
+                      child: const Icon(
                         AppIcon.enlarge,
                         color: Color(0xFF1e9aeb),
                         size: 20,
@@ -106,10 +107,10 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     ),
                   ),
                   hintText: 'Post your reply',
-                  hintStyle: TextStyle(
+                  hintStyle: const TextStyle(
                     fontSize: 15,
                   ),
-                  border: UnderlineInputBorder(
+                  border: const UnderlineInputBorder(
                     borderSide: BorderSide(
                       width: 1.0,
                     ),
@@ -123,17 +124,18 @@ class _RepliesScreenState extends State<RepliesScreen> {
               children: [
                 IconButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AddTweetView(
-                          //TODO : sent text & reply to
-                          isReply: true,
-                          tweetId: widget.tweet.id,
-                          photoIconPressed: true,
-                        ),
-                      ),
-                    );
+                    // Navigator.pushReplacement(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => AddTweetView(
+                    //       text: tweetController.text,
+                    //       replyto: widget.tweet.userHandle,
+                    //       isReply: true,
+                    //       tweetId: widget.tweet.id,
+                    //       photoIconPressed: true,
+                    //     ),
+                    //   ),
+                    // );
                   },
                   icon: const Icon(
                     AppIcon.image,
@@ -145,7 +147,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.08,
                       height: MediaQuery.of(context).size.height * 0.04,
                       child: CusotmCircularProgressIndicator(
                           tweetController: tweetController),

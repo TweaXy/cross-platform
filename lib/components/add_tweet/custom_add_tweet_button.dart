@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
@@ -23,7 +24,7 @@ class CustomAddTweetButton extends StatelessWidget {
   final bool isButtonEnabled;
   final EdgeInsetsGeometry textPadding;
   final dynamic tweetcontent;
-  final dynamic xfilePick;
+  final List<XFile> xfilePick;
 
   final bool isReply;
   final String? tweetId;
