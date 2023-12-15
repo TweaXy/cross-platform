@@ -10,12 +10,12 @@ class NetworkVideoPlayer extends StatefulWidget {
 }
 
 class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
-  VideoPlayerController controller = VideoPlayerController.networkUrl(Uri.parse(
-      'https://www.shutterstock.com/shutterstock/videos/1089393687/preview/stock-footage--seconds-countdown-timer-animation-neon-glowing-countdown-number.webm'));
+  late VideoPlayerController controller;
   @override
   void initState() {
     super.initState();
-
+controller = VideoPlayerController.networkUrl(Uri.parse(widget.video
+     ));
     // controller = VideoPlayerController.asset('/assets/video (2160p).mp4')
     //   ..addListener(() => setState(() {}))
     //   ..setLooping(true)
@@ -51,57 +51,49 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        width: 100,
-        height: 50,
-        child: Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 9 / 16,
-        
-              // aspectRatio: controller.value.aspectRatio,
-              child: Stack(
-                alignment: Alignment.topRight,
-                children: [
-                  VideoPlayer(controller),
-                  Center(
-                    child: IconButton(
-                      onPressed: () {
-                        setState(
-                          () {
-                            controller.value.isPlaying
-                                ? controller.pause()
-                                : controller.play();
-                          },
-                        );
-                      },
-                      icon: Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Icon(
-                          controller.value.isPlaying
-                              ? Icons.pause_circle
-                              : Icons.play_circle,
-                          color: const Color(0xFF1e9aeb),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          backgroundColor: Colors.black54,
-                        ),
-                      )),
-                ],
+  Widget build(BuildContext context) => AspectRatio(
+    aspectRatio: 9 / 16,
+    
+    // aspectRatio: controller.value.aspectRatio,
+    child: Stack(
+      alignment: Alignment.topRight,
+      children: [
+        VideoPlayer(controller),
+        Center(
+          child: IconButton(
+            onPressed: () {
+              setState(
+                () {
+                  controller.value.isPlaying
+                      ? controller.pause()
+                      : controller.play();
+                },
+              );
+            },
+            icon: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
               ),
-            )
-          ],
+              child: Icon(
+                controller.value.isPlaying
+                    ? Icons.pause_circle
+                    : Icons.play_circle,
+                color: const Color(0xFF1e9aeb),
+              ),
+            ),
+          ),
         ),
-      );
+        Align(
+            alignment: Alignment.bottomLeft,
+            child: Text(
+              ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
+              style: const TextStyle(
+                color: Colors.white,
+                backgroundColor: Colors.black54,
+              ),
+            )),
+      ],
+    ),
+  );
 }

@@ -15,7 +15,7 @@ List<String>? _getImageList(dynamic image) {
     // If 'image' is already a List, convert each item to String
     return tmp
         .map((item) =>
-            'https://tweaxybackend.mywire.org/uploads/tweetsMedia/$item')
+            'https://tweaxybackend.mywire.org/api/v1/images/$item')
         .toList();
   } else {
     return null;

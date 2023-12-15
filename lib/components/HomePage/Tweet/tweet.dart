@@ -122,11 +122,13 @@ class CustomTweet extends StatelessWidget {
                       //   video: '',
                       // ),
                       // MultiVideo(),
-                      if (t != null)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: TweetMedia(pickedfiles: tweet.image!),
-                        ),
+                     if (t != null)
+                  MultiVideo(videos: tweet.image!.where((element) => element.endsWith('.mp4')).toList(),),
+                  if (t != null)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 5),
+                      child: TweetMedia(pickedfiles: tweet.image!.where((element) => !element.endsWith('.mp4')).toList()),
+                    ),
                       TweetInteractions(
                         replyto: tweet.userHandle,
                         id: tweet.id,
