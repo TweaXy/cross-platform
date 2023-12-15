@@ -34,7 +34,6 @@ class CustomTweet extends StatelessWidget {
     String? k = null;
     if (t != null) k = t[0]!;
     // if (t != null && t.length > 1) k = t[1].trim()!;
-
     return GestureDetector(
       onTap: () {
         print('tapped');
@@ -94,7 +93,7 @@ class CustomTweet extends StatelessWidget {
                         );
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5),
+                        padding: const EdgeInsets.symmetric(vertical: 5),
                         margin:
                             const EdgeInsets.only(left: 2, right: 2, bottom: 5),
                         child: Text(
@@ -109,11 +108,12 @@ class CustomTweet extends StatelessWidget {
                   // const NetworkVideoPlayer(
                   //   video: '',
                   // ),
-                  // MultiVideo(),
+                  if (t != null)
+                  MultiVideo(videos: tweet.image!.where((element) => element.endsWith('.mp4')).toList(),),
                   if (t != null)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 5),
-                      child: TweetMedia(pickedfiles: tweet.image!),
+                      child: TweetMedia(pickedfiles: tweet.image!.where((element) => !element.endsWith('.mp4')).toList()),
                     ),
                   TweetInteractions(
                     id: tweet.id,
