@@ -32,7 +32,7 @@ const kLikersInTweets = 'bothFollowingsAndFollowers';
 const kGreyHoveredColor = Color.fromARGB(50, 158, 158, 158);
 const baseURL = 'https://tweaxybackend.mywire.org/api/v1/';
 // const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
-const basePhotosURL = 'https://tweaxybackend.mywire.org/';
+const basePhotosURL = 'https://tweaxybackend.mywire.org/api/v1/images/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
 const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
 const kLikersInProfile = "likers screen";
