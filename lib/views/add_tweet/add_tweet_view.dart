@@ -44,8 +44,9 @@ class _AddTweetViewState extends State<AddTweetView> {
   @override
   void initState() {
     super.initState();
-    if (widget.isReply && widget.tweetController != null)
+    if (widget.isReply && widget.tweetController != null) {
       _tweetController = widget.tweetController!;
+    }
     _tweetController.addListener(_updateButtonState);
 
     if (widget.photoIconPressed) {
@@ -193,7 +194,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                     child: CircleAvatar(
                       radius: 21,
                       backgroundImage: CachedNetworkImageProvider(
-                          'https://tweaxybackend.mywire.org/${TempUser.image}'),
+                          'https://tweaxybackend.mywire.org/api/v1/images/${TempUser.image}'),
                     ),
                   ),
                   Container(

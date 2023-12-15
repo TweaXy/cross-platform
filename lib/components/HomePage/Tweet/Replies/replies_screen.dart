@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/main_tweet_for_replies.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_list.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';

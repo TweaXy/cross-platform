@@ -12,8 +12,6 @@ class AddTweetAndReply {
 
   Future addTweet(String text, List<XFile> media) async {
     dynamic response;
-    print(text);
-    print(media);
     String? token;
     try {
       List<String> s = await loadPrefs();
@@ -41,7 +39,6 @@ class AddTweetAndReply {
     }
     FormData formData = FormData.fromMap(data);
 
-    print(token);
     try {
       response = await Api.post(
         url: '${baseURL}tweets/',
@@ -60,8 +57,6 @@ class AddTweetAndReply {
 
   Future addTweetWeb(String text, List<XFile> media) async {
     dynamic response;
-    print(text);
-    print(media);
     String? token;
     try {
       List<String> s = await loadPrefs();
