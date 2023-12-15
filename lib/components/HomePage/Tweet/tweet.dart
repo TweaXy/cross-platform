@@ -124,7 +124,7 @@ class CustomTweet extends StatelessWidget {
                     isUserLiked: tweet.isUserLiked,
                     isUserCommented: tweet.isUserCommented,
                     isUserRetweeted: tweet.isUserCommented,
-                    replyto: replyto.isNotEmpty ? replyto[0] : '',
+                    replyto: tweet.userHandle,
                   ),
                 ],
               ),

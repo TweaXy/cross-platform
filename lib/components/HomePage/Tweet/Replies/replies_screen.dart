@@ -124,18 +124,18 @@ class _RepliesScreenState extends State<RepliesScreen> {
               children: [
                 IconButton(
                   onPressed: () {
-                    // Navigator.pushReplacement(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => AddTweetView(
-                    //       text: tweetController.text,
-                    //       replyto: widget.tweet.userHandle,
-                    //       isReply: true,
-                    //       tweetId: widget.tweet.id,
-                    //       photoIconPressed: true,
-                    //     ),
-                    //   ),
-                    // );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddTweetView(
+                          text: tweetController.text,
+                          replyto: widget.tweet.userHandle,
+                          isReply: true,
+                          tweetId: widget.tweet.id,
+                          photoIconPressed: true,
+                        ),
+                      ),
+                    );
                   },
                   icon: const Icon(
                     AppIcon.image,
