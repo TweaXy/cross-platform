@@ -138,8 +138,19 @@ class MainTweetReplies extends StatelessWidget {
                         count: tweet.retweetsCount.toString(), text: 'Reposts'),
                   ),
                 if (tweet.likesCount > 0)
-                  TextReplyInfo(
-                      count: tweet.likesCount.toString(), text: 'Likes'),
+                  GestureDetector(
+                    onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    LikersInTweet(id: tweet.id),
+                              ),
+                            );
+                          },
+                    child: TextReplyInfo(
+                        count: tweet.likesCount.toString(), text: 'Likes'),
+                  ),
               ],
             ),
           ),

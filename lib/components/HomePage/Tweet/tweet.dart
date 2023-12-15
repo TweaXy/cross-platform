@@ -95,26 +95,15 @@ class CustomTweet extends StatelessWidget {
                               replyto: replyto,
                             ),
                       if (tweet.tweetText != null)
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    LikersInTweet(id: tweet.id),
-                              ),
-                            );
-                          },
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            margin: const EdgeInsets.only(
-                                left: 2, right: 2, bottom: 5),
-                            child: Text(
-                              tweet.tweetText!,
-                              style: const TextStyle(
-                                fontFamily: 'Roboto',
-                                fontSize: 18,
-                              ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 5),
+                          margin: const EdgeInsets.only(
+                              left: 2, right: 2, bottom: 5),
+                          child: Text(
+                            tweet.tweetText!,
+                            style: const TextStyle(
+                              fontFamily: 'Roboto',
+                              fontSize: 18,
                             ),
                           ),
                         ),
