@@ -78,7 +78,9 @@ class CustomTweet extends StatelessWidget {
                               BoxConstraints(maxWidth: screenWidth * 0.5),
                           child: Text(
                             maxLines: 1,
-                            '  ${tweet.userName}',
+                            TempUser.id == tweet.userId
+                                ? '  You'
+                                : '  ${tweet.userName}',
                             style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 17,
@@ -88,7 +90,7 @@ class CustomTweet extends StatelessWidget {
                         ),
                         const Text(
                           maxLines: 1,
-                          '  reposted',
+                          ' reposted',
                           style: TextStyle(
                               overflow: TextOverflow.ellipsis,
                               fontSize: 17,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/interactions.dart';
@@ -20,8 +21,9 @@ class MainTweetReplies extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+
     List<String>? t = tweet.image;
-    print('datee' + tweet.createdDate.toString());
 
     return Container(
       decoration: BoxDecoration(
@@ -29,6 +31,39 @@ class MainTweetReplies extends StatelessWidget {
       ),
       child: Column(
         children: [
+          if (tweet.isretweet)
+          Padding(
+            padding: EdgeInsets.only(top: 3.0, bottom: 4, left: 30),
+            child: Row(
+              children: [
+                const Icon(FontAwesomeIcons.retweet,
+                    size: 20, color: Color.fromARGB(255, 95, 94, 94)),
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxWidth: screenWidth * 0.5),
+                  child: Text(
+                    maxLines: 1,
+                    TempUser.id == tweet.userId
+                        ? '  You'
+                        : '  ${tweet.userName}',
+                    style: const TextStyle(
+                        overflow: TextOverflow.ellipsis,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromARGB(255, 95, 94, 94)),
+                  ),
+                ),
+                const Text(
+                  maxLines: 1,
+                  ' reposted',
+                  style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 95, 94, 94)),
+                ),
+              ],
+            ),
+          ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -134,32 +169,31 @@ class MainTweetReplies extends StatelessWidget {
               children: [
                 if (tweet.retweetsCount > 0)
                   GestureDetector(
-                       onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    RetweetersInTweet(id: tweet.id),
-                              ),
-                            );
-                          },
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RetweetersInTweet(id: tweet.id),
+                        ),
+                      );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.only(right: 8.0),
                       child: TextReplyInfo(
-                          count: tweet.retweetsCount.toString(), text: 'Reposts'),
+                          count: tweet.retweetsCount.toString(),
+                          text: 'Reposts'),
                     ),
                   ),
                 if (tweet.likesCount > 0)
                   GestureDetector(
                     onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    LikersInTweet(id: tweet.id),
-                              ),
-                            );
-                          },
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => LikersInTweet(id: tweet.id),
+                        ),
+                      );
+                    },
                     child: TextReplyInfo(
                         count: tweet.likesCount.toString(), text: 'Likes'),
                   ),
