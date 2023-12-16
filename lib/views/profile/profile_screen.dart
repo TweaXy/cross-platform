@@ -342,10 +342,10 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             ],
                             onSelected: (value) {
                               if(value ==0 ){
-                                //Todo Implement Block Logic
+                                //Todo Implement Mute Logic
                               }
                               else{
-                                //Todo implement Mute Logic
+                                //Todo implement Block Logic
                               }
                             },
                           )
