@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/blocking_user_service.dart';
+import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/services/get_blocked_users.dart';
+import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
@@ -11,6 +18,39 @@ class BlockedUserScreen extends StatefulWidget {
 }
 
 class _BlockedUserScreenState extends State<BlockedUserScreen> {
+  final _pageSize = 20;
+  final PagingController<int, User> _pagingController =
+      PagingController(firstPageKey: 0);
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final newItems =
+          await GetBlockedUsers.getUsers(limit: _pageSize, offset: pageKey);
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+  }
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +71,54 @@ class _BlockedUserScreenState extends State<BlockedUserScreen> {
         ),
         elevation: 1,
       ),
-      body: ListView.separated(
-          itemBuilder: (context, index) {
-            return BlockedUserListTile(status: 'Blocked');
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.grey[300],
-            );
-          },
-          itemCount: 20),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          return _pagingController.refresh();
+        },
+        child: PagedListView<int, User>(
+          pagingController: _pagingController,
+          builderDelegate: PagedChildBuilderDelegate<User>(
+            noItemsFoundIndicatorBuilder: (context) {
+              return Center(
+                child: SizedBox(
+                  width: 330,
+                  child: RichText(
+                    text: TextSpan(children: [
+                      const TextSpan(
+                        text: 'Block unwanted accounts\n',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 32,
+                          color: Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            '\nWhen you block someone, they won\'t be able to follow or message you, and you won\'t see notifications from them.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15,
+                          color: Colors.blueGrey[600],
+                        ),
+                      ),
+                    ]),
+                  ),
+                ),
+              );
+            },
+            itemBuilder: (context, item, index) {
+              return Column(
+                children: [
+                  BlockedUserListTile(status: 'Blocked', user: item),
+                  Divider(
+                    color: Colors.grey[300],
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
     );
   }
 }
@@ -49,8 +127,10 @@ class BlockedUserListTile extends StatefulWidget {
   const BlockedUserListTile({
     super.key,
     required this.status,
+    required this.user,
   });
   final String status;
+  final User user;
   @override
   State<BlockedUserListTile> createState() => _BlockedUserListTileState();
 }
@@ -68,20 +148,18 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        //Todo implement the list tile on press
         Navigator.push(
             context,
             CustomPageRoute(
                 direction: AxisDirection.left,
                 child: ProfileScreen(
                   id: '',
-                  text: 'Blocked',
+                  text: _status,
                 )));
       },
       leading: Padding(
         padding: const EdgeInsets.only(top: 3),
-        child: CircleAvatarNotification(
-            avatarURL: 'd1deecebfe9e00c91dec2de8bc0d68bb'),
+        child: CircleAvatarNotification(avatarURL: widget.user.avatar!),
       ),
       title: Row(
         children: [
@@ -92,9 +170,9 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Ahmed Samy as dasadas das d asdas',
+                  widget.user.name!,
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                     fontSize: 16,
@@ -102,9 +180,9 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
                   ),
                 ),
                 Text(
-                  '@ahmedsamy',
+                  '@${widget.user.userName}',
                   maxLines: 1,
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Colors.blueGrey,
                     fontWeight: FontWeight.w500,
                     fontSize: 15,
@@ -120,24 +198,37 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
               child: ElevatedButton(
                 onPressed: () async {
                   if (_status == 'Follow') {
-                    //TODO :- Implement the follow logic
+                    await FollowUser.instance.followUser(widget.user.userName!);
                     setState(() {
                       _status = 'Following';
                     });
                   } else if (_status == 'Following') {
-                    //TODO :- Implement the unfollow logic
+                    await FollowUser.instance.deleteUser(widget.user.userName!);
                     setState(() {
                       _status = 'Follow';
                     });
                   } else {
-                    //TODO :- Implement the unblock logic
-                    setState(() {
-                      _status = 'Follow';
-                    });
+                    bool status = await BlockingUserService.unBlockUser(
+                      username: widget.user.userName!,
+                    );
+                    if (status) {
+                      Fluttertoast.showToast(
+                        msg: 'You unblocked @${widget.user.userName}',
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                      setState(() {
+                        _status = 'Follow';
+                      });
+                    } else {
+                      Fluttertoast.showToast(
+                        msg: 'Oops there\'s an error',
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
+                    }
                   }
                 },
                 style: ButtonStyle(
-                  padding: MaterialStatePropertyAll(
+                  padding: const MaterialStatePropertyAll(
                       EdgeInsets.fromLTRB(12, 8, 12, 8)),
                   elevation: const MaterialStatePropertyAll(3),
                   shape: MaterialStatePropertyAll(RoundedRectangleBorder(
@@ -168,8 +259,8 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
       ),
       titleAlignment: ListTileTitleAlignment.top,
       subtitle: Text(
-        'akfnaofknsoaifnsainf asjif s asf a sf asf asfaifj asijf sah fajshf uash fuhas fuhas fuh as asinfoiasfn ia sf i',
-        style: TextStyle(
+        widget.user.bio!,
+        style: const TextStyle(
           color: Colors.black54,
           overflow: TextOverflow.clip,
         ),
