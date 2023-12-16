@@ -14,20 +14,19 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
   @override
   void initState() {
     super.initState();
-controller = VideoPlayerController.networkUrl(Uri.parse(widget.video
-     ));
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.video));
     // controller = VideoPlayerController.asset('/assets/video (2160p).mp4')
     //   ..addListener(() => setState(() {}))
     //   ..setLooping(true)
     //   ..initialize().then((_) => controller.play());
-    controller..setLooping(false);
+    controller.setLooping(false);
 
     controller.initialize().then((_) {
       // Adding the initialized controller to the list
-
+      setState(() {});
       // Add a listener to the VideoPlayerController
       controller.addListener(() {
-        if (controller.value.isPlaying &&
+        if (!controller.value.isPlaying &&
             controller.value.isInitialized &&
             (controller.value.duration == controller.value.position)) {
           // Triggered when the video reaches the end
@@ -51,49 +50,52 @@ controller = VideoPlayerController.networkUrl(Uri.parse(widget.video
   }
 
   @override
-  Widget build(BuildContext context) => AspectRatio(
-    aspectRatio: 9 / 16,
-    
-    // aspectRatio: controller.value.aspectRatio,
-    child: Stack(
-      alignment: Alignment.topRight,
-      children: [
-        VideoPlayer(controller),
-        Center(
-          child: IconButton(
-            onPressed: () {
-              setState(
-                () {
-                  controller.value.isPlaying
-                      ? controller.pause()
-                      : controller.play();
-                },
-              );
-            },
-            icon: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
+  Widget build(BuildContext context) => controller.value.isInitialized
+      ? AspectRatio(
+          aspectRatio: controller.value.aspectRatio,
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              VideoPlayer(controller),
+              Center(
+                child: IconButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        controller.value.isPlaying
+                            ? controller.pause()
+                            : controller.play();
+                      },
+                    );
+                  },
+                  icon: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      controller.value.isPlaying
+                          ? Icons.pause_circle
+                          : Icons.play_circle,
+                      color: const Color(0xFF1e9aeb),
+                    ),
+                  ),
+                ),
               ),
-              child: Icon(
-                controller.value.isPlaying
-                    ? Icons.pause_circle
-                    : Icons.play_circle,
-                color: const Color(0xFF1e9aeb),
-              ),
-            ),
+              Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      backgroundColor: Colors.black54,
+                    ),
+                  )),
+            ],
           ),
-        ),
-        Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
-              style: const TextStyle(
-                color: Colors.white,
-                backgroundColor: Colors.black54,
-              ),
-            )),
-      ],
-    ),
-  );
+        )
+      : const SizedBox(
+          height: 0,
+          width: 0,
+        );
 }
