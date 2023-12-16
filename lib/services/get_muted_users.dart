@@ -7,7 +7,7 @@ class GetMutedUsers {
   GetMutedUsers._();
   static const _endpoint = 'users/mute/list';
   static Future<List<User>> getUsers(
-      {required String username,
+      {
       required int limit,
       required int offset}) async {
     var response = await Api.getwithToken(

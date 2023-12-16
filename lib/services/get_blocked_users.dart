@@ -7,7 +7,7 @@ class GetBlockedUsers {
   GetBlockedUsers._();
   static const _endpoint = 'users/block/list';
   static Future<List<User>> getUsers(
-      {required String username,
+      {
       required int limit,
       required int offset}) async {
     var response = await Api.getwithToken(
@@ -15,7 +15,7 @@ class GetBlockedUsers {
       token: TempUser.token,
     );
     List<User> users = [];
-    for (Map<String, dynamic> element in response.data['data']['mutes']) {
+    for (Map<String, dynamic> element in response.data['data']['blocks']) {
       users.add(
         User(
           id: element['id'],
