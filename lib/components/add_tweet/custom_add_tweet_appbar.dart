@@ -56,7 +56,7 @@ class CusstomAddTweetAppbar extends StatelessWidget {
                   xfilePick: media,
                   isButtonEnabled: isButtonEnabled,
                   textPadding: const EdgeInsets.symmetric(
-                      vertical: 1.0, horizontal: 2.0),
+                      vertical: 1.0, horizontal: 2.0), forReplyScreen: false,
                 ),
               ),
             ],

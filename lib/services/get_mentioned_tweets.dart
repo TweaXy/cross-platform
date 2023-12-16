@@ -38,7 +38,7 @@ class GetMentionedTweets {
               'createdDate':
                   calculateTime(item['mainInteraction']['createdDate']),
                   'isretweet':
-                  item['mainInteraction']['type'] == "TWEET" ? false : true
+                  item['mainInteraction']['type'] != "RETWEET" ? false : true
             })
         .toList();
     List<Tweet> tweets = initializeTweets(m);

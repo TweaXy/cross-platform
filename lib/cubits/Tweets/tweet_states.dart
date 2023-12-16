@@ -1,8 +1,15 @@
+import 'package:tweaxy/models/tweet.dart';
+
 class TweetUpdateState {}
 
 class TweetInitialState extends TweetUpdateState {}
 
 class TweetAddedState extends TweetUpdateState {}
+class TweetReplyAddedState extends TweetUpdateState {
+
+
+}
+
 
 class TweetUnLikedState extends TweetUpdateState {
 final  String tweetid;

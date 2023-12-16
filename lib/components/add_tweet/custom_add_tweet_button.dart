@@ -14,6 +14,7 @@ class CustomAddTweetButton extends StatelessWidget {
   const CustomAddTweetButton({
     super.key,
     required this.isButtonEnabled,
+    required this.forReplyScreen,
     required this.textPadding,
     required this.tweetcontent,
     required this.xfilePick,
@@ -28,7 +29,7 @@ class CustomAddTweetButton extends StatelessWidget {
 
   final bool isReply;
   final String? tweetId;
-
+  final bool forReplyScreen;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -48,7 +49,11 @@ class CustomAddTweetButton extends StatelessWidget {
           } else {
             showToastWidget(CustomToast(message: "the $type has been posted"));
           }
-          BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
+          if (type == 'post')
+            BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
+          if (type == 'reply')
+            BlocProvider.of<TweetsUpdateCubit>(context).addReply();
+if (!forReplyScreen)
           Navigator.pop(context);
         } else {
           showToastWidget(CustomToast(message: "the $type cant be empty"));

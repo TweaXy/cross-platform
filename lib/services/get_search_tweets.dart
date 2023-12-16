@@ -65,7 +65,7 @@ class SearchTweetTweets {
               'createdDate':
                   calculateTime(item['mainInteraction']['createdDate'])
                   ,'isretweet':
-                  item['mainInteraction']['type'] == "TWEET" ? false : true
+                  item['mainInteraction']['type'] != "RETWEET" ? false : true
             })
         .toList();
     print('ressss' + m.toString());

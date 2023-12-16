@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class InteractionReplyScreen extends StatelessWidget {
@@ -22,6 +23,7 @@ class InteractionReplyScreen extends StatelessWidget {
         Row(
           children: [
             IconButton(
+              key: const ValueKey(TweetKeys.replyInteractionRepliesScreen),
               icon: const Icon(FontAwesomeIcons.comment),
               onPressed: () {
                 addReplyPress(context,
@@ -33,45 +35,65 @@ class InteractionReplyScreen extends StatelessWidget {
                     0.009), // Adjust the width as per your preference
           ],
         ),
-        Row(
-            children: [
-              IconButton(
-                constraints: BoxConstraints(),
-                padding: EdgeInsets.zero,
-                icon:  Icon(FontAwesomeIcons.retweet,color: tweet.isUserRetweeted ? Colors.green :Colors.black ,),
-                onPressed: () {
-                  retweetPress(tweet.isUserRetweeted, tweet.id, context);
-                },
-              ), // Replace with your desired icon
-             
-            ],
-          ),
         LikeButton(
-          isLiked: tweet.isUserLiked,
-              onTap: (isLiked) async {
-                String token = '';
-                await Future(() async {
-                  final SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  token = await prefs.getString('token')!;
-                });
-                print(" the like value $isLiked");
-                if (isLiked) {
-                  var res = await LikeTweet.unLikeTweet(tweet.id, token);
-                  BlocProvider.of<TweetsUpdateCubit>(context)
-                      .unLikeTweet(tweet.id);
-                  return res;
-                } else {
-                  var res = await LikeTweet.likeTweet(tweet.id, token);
+          key: const ValueKey(TweetKeys.repostInteraction),
+          isLiked: tweet.isUserRetweeted,
+          bubblesSize: 0,
+          bubblesColor: BubblesColor(
+            dotPrimaryColor: Colors.transparent,
+            dotSecondaryColor: Colors.transparent,
+          ),
+          likeBuilder: (isLiked) {
+            return Icon(
+              FontAwesomeIcons.retweet,
+              color: isLiked ? Colors.green : null,
+            );
+          },
+          onTap: (isLiked) async {
+            String token = '';
+            await Future(() async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              token = await prefs.getString('token')!;
+            });
+            print(" the like value $isLiked");
+            if (isLiked) {
+              // var res = await LikeTweet.unLikeTweet(widget.id, token);
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .deleteretweet(tweet.id);
+              return false;
+            } else {
+              // var res = await LikeTweet.likeTweet(widget.id, token);
 
-                  BlocProvider.of<TweetsUpdateCubit>(context)
-                      .likeTweet(tweet.id);
-                  return res;
-                }
-              },
-              likeCount: tweet.likesCount,
-              size: 23,
-              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.009)
+              BlocProvider.of<TweetsUpdateCubit>(context).retweet(tweet.id);
+              return true;
+            }
+          },
+          size: 20,
+        ),
+        LikeButton(
+          key: const ValueKey(TweetKeys.likeInteractionRepliesScreen),
+          isLiked: tweet.isUserLiked,
+          onTap: (isLiked) async {
+            String token = '';
+            await Future(() async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              token = await prefs.getString('token')!;
+            });
+            print(" the like value $isLiked");
+            if (isLiked) {
+              var res = await LikeTweet.unLikeTweet(tweet.id, token);
+              BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet(tweet.id);
+              return res;
+            } else {
+              var res = await LikeTweet.likeTweet(tweet.id, token);
+
+              BlocProvider.of<TweetsUpdateCubit>(context).likeTweet(tweet.id);
+              return res;
+            }
+          },
+          size: 25,
         ),
 
         // Replace with your desired icon

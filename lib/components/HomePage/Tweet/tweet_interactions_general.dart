@@ -9,6 +9,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/services/like_tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetInteractions extends StatefulWidget {
@@ -59,6 +60,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
           Row(
             children: [
               IconButton(
+                key: const ValueKey(TweetKeys.replyInteraction),
                 constraints: BoxConstraints(),
                 padding: EdgeInsets.zero,
                 icon: const Icon(FontAwesomeIcons.comment),
@@ -69,14 +71,19 @@ class _TweetInteractionsState extends State<TweetInteractions> {
               ), // Replace with your desired icon
               SizedBox(
                   width: screenWidth *
-                      0.03), // Adjust the width as per your preference
+                      0.01), // Adjust the width as per your preference
               Text(widget.commentsCount
                   .toString()), // Replace with your desired label
             ],
           ),
           LikeButton(
+              key: const ValueKey(TweetKeys.repostInteraction),
               isLiked: widget.isUserRetweeted,
               bubblesSize: 0,
+              bubblesColor: BubblesColor(
+                dotPrimaryColor: Colors.transparent,
+                dotSecondaryColor: Colors.transparent,
+              ),
               likeBuilder: (isLiked) {
                 return Icon(
                   FontAwesomeIcons.retweet,
@@ -106,7 +113,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
               },
               likeCount: widget.retweetsCount,
               size: 20,
-              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.02)),
+              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.03)),
 
           LikeButton(
               isLiked: widget.isUserLiked,

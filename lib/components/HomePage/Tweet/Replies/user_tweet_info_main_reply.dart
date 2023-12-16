@@ -11,6 +11,7 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
 class UserTweetInfoReply extends StatefulWidget {
@@ -123,6 +124,8 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                           initialEnabled: true,
                         ),
                       IconButton(
+              key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
+
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
                         icon: const Icon(FontAwesomeIcons.ellipsisVertical),

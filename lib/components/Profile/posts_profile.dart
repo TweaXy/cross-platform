@@ -66,7 +66,8 @@ class _MyPageState extends State<ProfilePosts> {
       builder: (context, updateallstate) {
         return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
           builder: (context, state) {
-           updateStatesforTweet(state, context, _pagingController);
+            updateStatesforTweet(state, context, _pagingController);
+
             return PagedSliverList<int, Tweet>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate(
