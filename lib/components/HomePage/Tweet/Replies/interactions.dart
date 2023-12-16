@@ -34,15 +34,18 @@ class InteractionReplyScreen extends StatelessWidget {
           ],
         ),
         Row(
-          children: [
-            const Icon(
-                FontAwesomeIcons.retweet), // Replace with your desired icon
-            SizedBox(
-                width: screenWidth *
-                    0.009), // Adjust the width as per your preference
-            // Replace with your desired label
-          ],
-        ),
+            children: [
+              IconButton(
+                constraints: BoxConstraints(),
+                padding: EdgeInsets.zero,
+                icon:  Icon(FontAwesomeIcons.retweet,color: tweet.isUserRetweeted ? Colors.green :Colors.black ,),
+                onPressed: () {
+                  retweetPress(tweet.isUserRetweeted, tweet.id, context);
+                },
+              ), // Replace with your desired icon
+             
+            ],
+          ),
         LikeButton(
           isLiked: tweet.isUserLiked,
               onTap: (isLiked) async {

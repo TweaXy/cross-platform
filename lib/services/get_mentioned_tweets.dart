@@ -36,7 +36,9 @@ class GetMentionedTweets {
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
               'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate'])
+                  calculateTime(item['mainInteraction']['createdDate']),
+                  'isretweet':
+                  item['mainInteraction']['type'] == "TWEET" ? false : true
             })
         .toList();
     List<Tweet> tweets = initializeTweets(m);

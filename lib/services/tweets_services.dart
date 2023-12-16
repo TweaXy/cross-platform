@@ -24,7 +24,7 @@ class TweetsServices {
       // throw Future.error(res);
       return [];
     }
-
+    
     List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],
@@ -48,10 +48,13 @@ class TweetsServices {
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
               'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate'])
+                  calculateTime(item['mainInteraction']['createdDate']),
+              'isretweet':
+                  item['mainInteraction']['type'] == "TWEET" ? false : true
             })
         .toList();
     List<Tweet> t = initializeTweets(m);
+    print('tt'+t.toString());
     // print('hh' + m.whereType().toString());
     return t;
   }
@@ -67,6 +70,17 @@ class TweetsServices {
       return res;
     else
       return "success";
+  }
+
+  static Future<bool> deleteReTweet({required String tweetid}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? s = prefs.getString('token');
+    dynamic res =
+        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
+    if (res is String)
+      return false;
+    else
+      return true;
   }
 
   static Future<List<Tweet>> getProfilePosts(
@@ -106,7 +120,9 @@ class TweetsServices {
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
               'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate'])
+                  calculateTime(item['mainInteraction']['createdDate']),
+                  'isretweet':
+                  item['mainInteraction']['type'] == "TWEET" ? false : true
             })
         .toList();
     print('ressss' + m.toString());
@@ -121,7 +137,7 @@ class TweetsServices {
     dynamic result = await Api.getwithToken(
         token: TempUser.token,
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
-        print(result);
+    print(result);
     if (result is String) {
       return [];
     } else if (result is Response) {
@@ -136,6 +152,7 @@ class TweetsServices {
     }
     return [];
   }
+
   static Future<List<Tweet>> getTweetsTrend(
       {required int offset, required String trendname}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -173,7 +190,9 @@ class TweetsServices {
               'isUserCommented': intToBool(
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
               'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate'])
+                  calculateTime(item['mainInteraction']['createdDate']),
+                  'isretweet':
+                  item['mainInteraction']['type'] == "TWEET" ? false : true
             })
         .toList();
     print('ressss' + m.toString());

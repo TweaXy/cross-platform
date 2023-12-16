@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
@@ -20,13 +21,8 @@ import 'package:tweaxy/shared/keys/home_page_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({
-    super.key,
-    required this.tweet,
-    required this.replyto,
-  });
+  const CustomTweet({super.key, required this.tweet, required this.replyto});
   final List<String> replyto;
-
   final Tweet tweet;
   @override
   Widget build(BuildContext context) {
@@ -41,12 +37,11 @@ class CustomTweet extends StatelessWidget {
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
 //         if (state is TweetDeleteState )
-//              if (state.tweetid ==tweet.id) 
+//              if (state.tweetid ==tweet.id)
 //             {Navigator.pop(context);
 // setState(){}
 //             }
         return GestureDetector(
-          
           onTap: () {
             print('tapped');
             Navigator.push(
@@ -69,68 +64,112 @@ class CustomTweet extends StatelessWidget {
                           ? const Color.fromARGB(255, 135, 135, 135)
                           : const Color.fromARGB(255, 233, 233, 233))),
             ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
               children: [
-                Container(
-                  key: new ValueKey(HomePageKeys.userImageInTweetClick),
-                  margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
-                  child: UserImageForTweet(
-                    userid: tweet.userId,
-                    image: tweet.userImage!,
-                    text: tweet.userId == TempUser.id ? '' : 'Following',
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      kIsWeb
-                          ? User_TweetInfoWeb(
-                              tweet: tweet,
-                            )
-                          : User_TweetInfo(
-                              tweet: tweet,
-                              replyto: replyto,
-                            ),
-                      if (tweet.tweetText != null)
-                        Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          margin: const EdgeInsets.only(
-                              left: 2, right: 2, bottom: 5),
+                if (tweet.isretweet)
+                  Padding(
+                    padding: EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
+                    child: Row(
+                      children: [
+                        const Icon(FontAwesomeIcons.retweet,
+                            size: 20, color: Color.fromARGB(255, 95, 94, 94)),
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints(maxWidth: screenWidth * 0.5),
                           child: Text(
-                            tweet.tweetText!,
+                            maxLines: 1,
+                            '  ${tweet.userName}',
                             style: const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 18,
-                            ),
+                                overflow: TextOverflow.ellipsis,
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromARGB(255, 95, 94, 94)),
                           ),
                         ),
-                      // const NetworkVideoPlayer(
-                      //   video: '',
-                      // ),
-                      // MultiVideo(),
-                     if (t != null)
-                  MultiVideo(videos: tweet.image!.where((element) => element.endsWith('.mp4')).toList(),),
-                  if (t != null)
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5),
-                      child: TweetMedia(pickedfiles: tweet.image!.where((element) => !element.endsWith('.mp4')).toList()),
+                        const Text(
+                          maxLines: 1,
+                          '  reposted',
+                          style: TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 95, 94, 94)),
+                        ),
+                      ],
                     ),
-                      TweetInteractions(
-                        replyto: tweet.userHandle,
-                        id: tweet.id,
-                        likesCount: tweet.likesCount,
-                        viewsCount: tweet.viewsCount,
-                        retweetsCount: tweet.retweetsCount,
-                        commentsCount: tweet.commentsCount,
-                        isUserLiked: tweet.isUserLiked,
-                        isUserCommented: tweet.isUserCommented,
-                        isUserRetweeted: tweet.isUserCommented,
-                      ),
-                    ],
                   ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      key: new ValueKey(HomePageKeys.userImageInTweetClick),
+                      margin: const EdgeInsets.only(left: 2, right: 7, top: 7),
+                      child: UserImageForTweet(
+                        userid: tweet.userId,
+                        image: tweet.userImage!,
+                        text: tweet.userId == TempUser.id ? '' : 'Following',
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kIsWeb
+                              ? User_TweetInfoWeb(
+                                  tweet: tweet,
+                                )
+                              : User_TweetInfo(
+                                  tweet: tweet,
+                                  replyto: replyto,
+                                ),
+                          if (tweet.tweetText != null)
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 5),
+                              margin: const EdgeInsets.only(
+                                  left: 2, right: 2, bottom: 5),
+                              child: Text(
+                                tweet.tweetText!,
+                                style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          // const NetworkVideoPlayer(
+                          //   video: '',
+                          // ),
+                          // MultiVideo(),
+                          if (t != null)
+                            MultiVideo(
+                              videos: tweet.image!
+                                  .where((element) => element.endsWith('.mp4'))
+                                  .toList(),
+                            ),
+                          if (t != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child: TweetMedia(
+                                  pickedfiles: tweet.image!
+                                      .where((element) =>
+                                          !element.endsWith('.mp4'))
+                                      .toList()),
+                            ),
+                          TweetInteractions(
+                            replyto: tweet.userHandle,
+                            id: tweet.id,
+                            likesCount: tweet.likesCount,
+                            viewsCount: tweet.viewsCount,
+                            retweetsCount: tweet.retweetsCount,
+                            commentsCount: tweet.commentsCount,
+                            isUserLiked: tweet.isUserLiked,
+                            isUserCommented: tweet.isUserCommented,
+                            isUserRetweeted: tweet.isUserCommented,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),

@@ -107,7 +107,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                   .user.avatar ==
                               null
                           ? "https://www.gstatic.com/webp/gallery2/4.png"
-                          : 'https://tweaxybackend.mywire.org/${widget.user.avatar}'),
+                          : 'https://tweaxybackend.mywire.org/api/v1/images/${widget.user.avatar}'),
                     ),
                   ),
                   Padding(

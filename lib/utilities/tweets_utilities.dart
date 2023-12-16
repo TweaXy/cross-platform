@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
@@ -42,7 +46,7 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isUserLiked: e['isUserLiked'],
           isUserRetweeted: e['isUserRetweeted'],
           isUserCommented: e['isUserCommented'],
-          createdDate: e['createdDate']))
+          createdDate: e['createdDate'], isretweet: e['isretweet']))
       .toList();
 }
 
@@ -160,4 +164,77 @@ void addReplyPress(context,
                 replyto: tweetAuthor,
                 photoIconPressed: false,
               )));
+}
+void updateStatesforTweet(state,context,PagingController pagingController)
+{
+ if (
+                state is TweetHomeRefresh ||
+                state is TweetAddedState) {
+              pagingController.refresh();
+            }
+            if (state is TweetDeleteState) {
+              pagingController.itemList!
+                  .removeWhere((element) => element.id == state.tweetid);
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            if (state is TweetLikedState) {
+              pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserLiked;
+                  element.likesCount++;
+                }
+                return element;
+              }).toList();
+
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            if (state is TweetUnLikedState) {
+              pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserLiked;
+                  element.likesCount--;
+                }
+                return element;
+              }).toList();
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+
+            if (state is TweetRetweetState)
+            {
+               pagingController.itemList!.map((element) {
+                print(element.isUserRetweeted);
+                print(state.tweetid);
+                if (element.id == state.tweetid) {
+                  element.isUserRetweeted =true;
+                  element.retweetsCount++;
+                }
+                return element;
+              }).toList();
+                print(pagingController.itemList.toString());
+
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+
+            }
+            if (state is TweetDeleteRetweetState)
+            {
+               pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserRetweeted =!element.isUserRetweeted;
+                  element.retweetsCount--;
+                }
+                return element;
+              }).toList();
+            }
+}
+bool retweetPress(bool isUserRetweeted,String tweetid,context)
+{
+  print('sss'+isUserRetweeted.toString());
+ if (!isUserRetweeted) {
+  print('hhhhhhhhhhhhhhhhh');
+                    BlocProvider.of<TweetsUpdateCubit>(context)
+                      .retweet(tweetid);
+                  } else{ BlocProvider.of<TweetsUpdateCubit>(context)
+                      .deleteretweet(tweetid);
+                  }
+return !isUserRetweeted;
 }

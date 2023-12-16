@@ -9,15 +9,17 @@ class Tweet {
   final String userId;
    int likesCount;
   final int viewsCount;
-  final int retweetsCount;
+   int retweetsCount;
   final int commentsCount;
   bool isUserLiked;
-  final bool isUserRetweeted;
+   bool isUserRetweeted;
   final bool isUserCommented;
   final List<String> createdDate;
+  final bool isretweet;
 
   //+++++++++video
-  Tweet({
+  Tweet( {
+    required this.isretweet,
     required this.createdDate,
     required this.isUserLiked,
     required this.isUserRetweeted,
@@ -53,6 +55,9 @@ class Tweet {
         'viewsCount: $viewsCount, '
         'retweetsCount: $retweetsCount, '
         'commentsCount: $commentsCount'
+        'isUserLiked: $isUserLiked, '
+        'isUserRetweeted: $isUserRetweeted, '
+        'isUserCommented: $isUserCommented, '
         '}';
   }
 

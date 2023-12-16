@@ -11,6 +11,7 @@ import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class HomePageBody extends StatefulWidget {
   const HomePageBody({super.key});
@@ -43,7 +44,6 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItems =
           await TweetsServices.getTweetsHome(offset: pageKey);
-      // print('neew' + newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       // print('tttt');
       // print(newItems.length);
@@ -66,7 +66,7 @@ class _MyPageState extends State<HomePageBody> {
       builder: (context, updateallstate) {
         return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
           builder: (context, state) {
-            if (updateallstate is LoadingStata ||
+          if (
                 state is TweetHomeRefresh ||
                 state is TweetAddedState) {
               _pagingController.refresh();
@@ -97,6 +97,28 @@ class _MyPageState extends State<HomePageBody> {
               }).toList();
               BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
             }
+
+             if (state is TweetRetweetState) {
+              _pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserRetweeted;
+                  element.retweetsCount++;
+                }
+                return element;
+              }).toList();
+
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
+            if (state is TweetDeleteRetweetState) {
+              _pagingController.itemList!.map((element) {
+                if (element.id == state.tweetid) {
+                  element.isUserLiked = !element.isUserRetweeted;
+                  element.retweetsCount--;
+                }
+                return element;
+              }).toList();
+              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+            }
             return PagedSliverList<int, Tweet>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate(
@@ -109,7 +131,7 @@ class _MyPageState extends State<HomePageBody> {
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
                     tweet: item,
-                    replyto: const [],
+                    replyto: const []
                   );
                 },
               ),

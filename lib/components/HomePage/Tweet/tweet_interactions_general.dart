@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/modal_bottom_repost.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetInteractions extends StatefulWidget {
-  const TweetInteractions(
-      {super.key,
+  TweetInteractions(
+      {interactionskey,
       required this.id,
       required this.likesCount,
       required this.viewsCount,
@@ -26,7 +29,7 @@ class TweetInteractions extends StatefulWidget {
   final int commentsCount;
   final bool isUserLiked;
   final bool isUserCommented;
-  final bool isUserRetweeted;
+  bool isUserRetweeted;
   final String replyto;
 
   final String id;
@@ -36,12 +39,12 @@ class TweetInteractions extends StatefulWidget {
 }
 
 class _TweetInteractionsState extends State<TweetInteractions> {
-  bool postLiked = false;
+  bool postRetweet = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    postLiked = widget.isUserLiked;
+    postRetweet = widget.isUserRetweeted;
   }
 
   @override
@@ -71,20 +74,43 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   .toString()), // Replace with your desired label
             ],
           ),
-          Row(
-            children: [
-              const Icon(
-                  FontAwesomeIcons.retweet), // Replace with your desired icon
-              SizedBox(
-                  width: screenWidth *
-                      0.03), // Adjust the width as per your preference
-              Text(widget.retweetsCount
-                  .toString()), // Replace with your desired label
-            ],
-          ),
+          LikeButton(
+              isLiked: widget.isUserRetweeted,
+              bubblesSize: 0,
+              likeBuilder: (isLiked) {
+                return Icon(
+                  FontAwesomeIcons.retweet,
+                  color: isLiked ? Colors.green : null,
+                );
+              },
+              onTap: (isLiked) async {
+                String token = '';
+                await Future(() async {
+                  final SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  token = await prefs.getString('token')!;
+                });
+                print(" the like value $isLiked");
+                if (isLiked) {
+                  // var res = await LikeTweet.unLikeTweet(widget.id, token);
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .deleteretweet(widget.id);
+                  return false;
+                } else {
+                  // var res = await LikeTweet.likeTweet(widget.id, token);
+
+                  BlocProvider.of<TweetsUpdateCubit>(context)
+                      .retweet(widget.id);
+                  return true;
+                }
+              },
+              likeCount: widget.retweetsCount,
+              size: 20,
+              likeCountPadding: EdgeInsets.only(left: screenWidth * 0.02)),
+
           LikeButton(
               isLiked: widget.isUserLiked,
-              key: new ValueKey(HomePageKeys.tweetLikesCount),
+              key: const ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
                 await Future(() async {

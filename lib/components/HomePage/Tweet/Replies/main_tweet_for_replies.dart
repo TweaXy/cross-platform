@@ -10,6 +10,7 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
+import 'package:tweaxy/views/followersAndFollowing/retweeters_in_tweet.dart';
 
 class MainTweetReplies extends StatelessWidget {
   const MainTweetReplies(
@@ -132,10 +133,21 @@ class MainTweetReplies extends StatelessWidget {
             child: Row(
               children: [
                 if (tweet.retweetsCount > 0)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: TextReplyInfo(
-                        count: tweet.retweetsCount.toString(), text: 'Reposts'),
+                  GestureDetector(
+                       onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    RetweetersInTweet(id: tweet.id),
+                              ),
+                            );
+                          },
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: TextReplyInfo(
+                          count: tweet.retweetsCount.toString(), text: 'Reposts'),
+                    ),
                   ),
                 if (tweet.likesCount > 0)
                   GestureDetector(
