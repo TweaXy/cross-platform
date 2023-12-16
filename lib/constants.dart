@@ -24,6 +24,9 @@ const kHomeScreen = 'home_page';
 const kAddTweetScreen = 'add_tweet_screen';
 const kFollowers = 'followers';
 const kFollowing = 'following';
+const kPrivacySafetySettings = 'privacy_safety_settings';
+const kMutesBlocksScreen = 'mutes_and_blocks_screen';
+const kMutedUsersScreen = 'muted_users_screen';
 const kSettingsAndPrivacy = 'settings';
 const kUpdatePassword = 'update_password';
 const kNotificationScreen = 'notification_screen';
@@ -34,7 +37,7 @@ const baseURL = 'https://tweaxybackend.mywire.org/api/v1/';
 // const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
 const basePhotosURL = 'https://tweaxybackend.mywire.org/api/v1/images/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
-const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
+const kDefaultAvatarPhoto = '${basePhotosURL}d1deecebfe9e00c91dec2de8bc0d68bb';
 const kLikersInProfile = "likers screen";
 const kSearchTweets = "search tweets screen";
 Future<List<String>> loadPrefs() async {

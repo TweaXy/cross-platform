@@ -6,11 +6,10 @@ import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
-import 'package:tweaxy/helpers/firebase_api.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
-import 'package:tweaxy/services/suggestions_search.dart';
-import 'package:tweaxy/views/profile/profile_likes.dart';
-import 'package:tweaxy/views/search_users/search_tweets.dart';
+import 'package:tweaxy/views/settings/mutes_and_blocks/mute_and_blocks_screen.dart';
+import 'package:tweaxy/views/settings/mutes_and_blocks/muted_users_screen.dart';
+import 'package:tweaxy/views/settings/mutes_and_blocks/settings_privacy_safety_screen.dart';
 import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 import 'package:tweaxy/views/settings/update_password_view.dart';
@@ -104,6 +103,10 @@ class TweaXy extends StatelessWidget {
                 kSettingsAndPrivacy: (context) =>
                     const SettingsAndPrivacyView(),
                 kSettings: (context) => const SettingsView(),
+                kPrivacySafetySettings: (context) =>
+                    const SettingsPrivacySafetyScreen(),
+                kMutesBlocksScreen: (context) => const MuteAndBlockScreen(),
+                kMutedUsersScreen: (context) => const MutedUsersScreen(),
                 // kLikersInProfile: (context) => const ProfileLikes(),
                 kUpdatePassword: (context) => const UpdatePasswordView(),
                 // kSearchTweets: (context) => SearchTweets(
