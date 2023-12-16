@@ -188,10 +188,9 @@ class _ProfileScreenState extends State<ProfileScreen>
                           ];
                         },
                         body: ProfileScreenBody(
-
-                          tabController: _tabController, id: id,
-                        )
-                        );
+                          tabController: _tabController,
+                          id: id,
+                        ));
                   }
                 },
               );
@@ -315,13 +314,48 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                         },
                       ),
                     ),
-                    ProfileIconButton(
-                      borderWidth: 2,
-                      icon: Icons.more_vert,
-                      onPressed: () {},
-                      iconColor: Colors.white,
-                      color: Colors.black,
-                    ),
+                    text == 'Edit Profile'
+                        ? const SizedBox()
+                        : PopupMenuButton(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.black.withOpacity(0.5),
+                                border:
+                                    Border.all(color: Colors.black26, width: 1),
+                              ),
+                              padding: const EdgeInsets.all(4),
+                              child: const Icon(
+                                Icons.more_vert,
+                                color: Colors.white,
+                              ),
+                            ),
+                            itemBuilder: (context) => [
+                              const PopupMenuItem(
+                                value: 0,
+                                child: Text('Mute'),
+                              ),
+                              const PopupMenuItem(
+                                value: 1,
+                                child: Text('Block'),
+                              ),
+                            ],
+                            onSelected: (value) {
+                              if(value ==0 ){
+                                //Todo Implement Block Logic
+                              }
+                              else{
+                                //Todo implement Mute Logic
+                              }
+                            },
+                          )
+                    // ProfileIconButton(
+                    //   borderWidth: 2,
+                    //   icon: Icons.more_vert,
+                    //   onPressed: () {},
+                    //   iconColor: Colors.white,
+                    //   color: Colors.black,
+                    // ),
                   ],
                 ),
               ],
