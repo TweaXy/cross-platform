@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/update_email/password_varification_view.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
@@ -49,7 +50,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   subtitle: TempUser.email,
                 ),
                 CustomdataDisplay(
-                  key: const ValueKey("logout_update_button"),
+                  key: const ValueKey(SettingsKeys.logOut),
                   title: "Log out",
                   subtitle: "",
                   onpress: () async {

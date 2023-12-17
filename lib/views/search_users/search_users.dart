@@ -12,6 +12,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/services/suggestions_search.dart';
+import 'package:tweaxy/shared/keys/search_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/views/search_users/tweets_searched.dart';
 import 'package:tweaxy/views/splash_screen.dart';
@@ -53,7 +54,7 @@ class _MyPageState extends State<SearchScreen> {
 
   List<String> items = [];
   void _fetchseuggestPage(pagekey) async {
-    String newq=query.replaceAll("#", "%23");
+    String newq = query.replaceAll("#", "%23");
     items = await SuggestionsSearch(Dio()).getSuggesstion(newq, 0);
     setState(() {});
     //call api and get top 3 items
@@ -176,6 +177,7 @@ class _MyPageState extends State<SearchScreen> {
             ),
           ),
           title: TextField(
+            key: const ValueKey(SearchKeys.searchField),
             focusNode: _searchFocus,
             controller: _searchController,
             maxLines: 1,

@@ -10,5 +10,5 @@ class HomePageKeys {
   static const String userImageInTweetClick = "user_image_tweet_click";
   static const String userInfoInDrawerClick = "user_info_drawer_click";
   static const String profileNavigatorInDrawer = "profile_navigator_drawer";
-
+  static const String settingsAndPrivacy = "settings_and_privacy";
 }

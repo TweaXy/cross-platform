@@ -96,6 +96,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           const Divider(height: 7),
           CustomDrawerListTile(
+            key: const ValueKey(HomePageKeys.settingsAndPrivacy),
             icon: AppIcon.settings,
             title: 'Settings and privacy',
             onTap: () {

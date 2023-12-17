@@ -9,6 +9,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/trend.dart';
 import 'package:tweaxy/services/get_trends.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/search_keys.dart';
 import 'package:tweaxy/views/trends/view_trend_tweets.dart';
 
 class TrendingScreen extends StatefulWidget {
@@ -96,6 +97,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(30))),
               child: Align(
+                  key: const ValueKey(SearchKeys.searchBar),
                   alignment: Alignment.centerLeft,
                   child: Text('      Search TweaXy',
                       style: TextStyle(color: Colors.grey[500], fontSize: 15))),

@@ -4,4 +4,5 @@ class SettingsKeys {
   static const String notifications = 'notificationsListTile';
   static const String accountInfo = 'accountInfoListTile';
   static const String changePassword = 'changePasswordListTile';
+  static const String logOut = "logout_update_button";
 }
