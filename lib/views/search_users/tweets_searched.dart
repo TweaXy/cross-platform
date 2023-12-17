@@ -18,6 +18,7 @@ import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_search_tweets.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/services/tweets_services.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
@@ -119,7 +120,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
           final nextPageKey = pageKey + newItems.length;
           _pagingController2.appendPage(newItems.cast<Tweet>(), nextPageKey);
         }
-        queryTweets=widget.text;
+        queryTweets = widget.text;
       } catch (error) {
         _pagingController2.error = error;
       }
@@ -311,38 +312,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
               children: [
                 BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
                     builder: (context, state) {
-                  if (state is TweetHomeRefresh || state is TweetAddedState) {
-                    _pagingController2.refresh();
-                  }
-                  if (state is TweetDeleteState) {
-                    _pagingController2.itemList!
-                        .removeWhere((element) => element.id == state.tweetid);
-                    BlocProvider.of<TweetsUpdateCubit>(context)
-                        .initializeTweet();
-                  }
-                  if (state is TweetLikedState) {
-                    _pagingController2.itemList!.map((element) {
-                      if (element.id == state.tweetid) {
-                        element.isUserLiked = !element.isUserLiked;
-                        element.likesCount++;
-                      }
-                      return element;
-                    }).toList();
-
-                    BlocProvider.of<TweetsUpdateCubit>(context)
-                        .initializeTweet();
-                  }
-                  if (state is TweetUnLikedState) {
-                    _pagingController2.itemList!.map((element) {
-                      if (element.id == state.tweetid) {
-                        element.isUserLiked = !element.isUserLiked;
-                        element.likesCount--;
-                      }
-                      return element;
-                    }).toList();
-                    BlocProvider.of<TweetsUpdateCubit>(context)
-                        .initializeTweet();
-                  }
+                  updateStatesforTweet(state, context, _pagingController2);
                   return PagedListView<int, Tweet>(
                     pagingController: _pagingController2,
                     builderDelegate: PagedChildBuilderDelegate(
