@@ -7,6 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
 import 'package:tweaxy/helpers/firebase_api.dart';
+import 'package:tweaxy/views/chat/diect_message_web.dart';
+import 'package:tweaxy/views/chat/direct_message.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/services/suggestions_search.dart';
 import 'package:tweaxy/views/profile/profile_likes.dart';
@@ -92,7 +94,7 @@ class TweaXy extends StatelessWidget {
                       id: '',
                       text: '',
                     ),
-                kSearchScreen: (context) =>  SearchScreen(),
+                kSearchScreen: (context) => SearchScreen(),
                 kFollowers: (context) => FollowersPage(username: ''),
                 kwebboth: (context) => WebFollowersAndFollowings(
                     username: 'karim.elsayed401_67616122'),
@@ -106,11 +108,13 @@ class TweaXy extends StatelessWidget {
                 kSettings: (context) => const SettingsView(),
                 // kLikersInProfile: (context) => const ProfileLikes(),
                 kUpdatePassword: (context) => const UpdatePasswordView(),
+                kDirectMessage: (context) => const DirectMesssage(),
+                kDirectMessageWeb: (context) => const DirectMesssageWeb(),
                 // kSearchTweets: (context) => SearchTweets(
                 //       username: "Angel_Herzog",
                 //     ),
               },
-              initialRoute: kSplashScreen,
+              initialRoute: kDirectMessageWeb,
             ),
           ),
         ),

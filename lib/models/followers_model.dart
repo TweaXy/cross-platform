@@ -31,7 +31,7 @@ class FollowersModel {
     );
   }
   factory FollowersModel.fromJsonLikers(dynamic data) {
-    var jsonData = data['user'];
+    var jsonData = data;
     return FollowersModel(
       id: jsonData['id'],
       username: jsonData['username'],
