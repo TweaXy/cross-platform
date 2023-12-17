@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cherry_toast/cherry_toast.dart';
+import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/services/mute_user_service.dart';
 import 'package:tweaxy/views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
@@ -38,35 +43,13 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-List<String> listitems = [
-  'item1',
-  'item2',
-  'item3',
-  'item4',
-  'item5',
-  'item6',
-  'item7',
-  'item8',
-  'item9',
-  'item10',
-  'item11',
-  'item12',
-  'item13',
-  'item14',
-  'item15',
-  'item16',
-  'item17',
-  'item18',
-  'item19',
-  'item20',
-];
-
 class _ProfileScreenState extends State<ProfileScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late ScrollController controller;
 
   String id = '';
+  bool initialized = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -80,10 +63,11 @@ class _ProfileScreenState extends State<ProfileScreen>
         setState(() {});
       });
     }
-    if (widget.text == '')
+    if (widget.text == '') {
       text = 'Edit Profile';
-    else
+    } else {
       text = widget.text;
+    }
     controller = ScrollController();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection);
@@ -128,9 +112,12 @@ class _ProfileScreenState extends State<ProfileScreen>
                     );
                   } else {
                     User user = snapshot.data!;
-                    // TempUser.email = user.email!;
-                    // TempUser.name = user.name!;
-                    // TempUser.image = user.avatar!;
+                    if (!initialized) {
+                      initialized = true;
+                      if (text != '') {
+                        text = user.followedByMe! ? 'Following' : 'Follow';
+                      }
+                    }
                     return NestedScrollView(
                         controller: controller,
                         physics: const BouncingScrollPhysics(),
@@ -205,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 }
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
-  const ProfileScreenAppBar({
+  ProfileScreenAppBar({
     required this.user,
     required this.postsNumber,
     required this.avatarURL,
@@ -219,8 +206,16 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   final int postsNumber;
   final bottomHeight = 60;
   final extraRadius = 5;
+  bool _isMuted = false;
+  bool _isBlocked = false;
+  bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
+    if (!initialized) {
+      initialized = true;
+      _isMuted = user.muted!;
+      _isBlocked = user.blockedByMe!;
+    }
     final imageTop =
         -shrinkOffset.clamp(0.0, maxExtent - minExtent - bottomHeight);
 
@@ -331,24 +326,89 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                               ),
                             ),
                             itemBuilder: (context) => [
-                              const PopupMenuItem(
+                              PopupMenuItem(
                                 value: 0,
-                                child: Text('Mute'),
+                                child: Text(_isMuted ? 'Unmute' : 'Mute'),
                               ),
-                              const PopupMenuItem(
+                              PopupMenuItem(
                                 value: 1,
-                                child: Text('Block'),
+                                child: Text(_isBlocked ? 'Unblock' : 'Block'),
                               ),
                             ],
-                            onSelected: (value) {
-                              if(value ==0 ){
-                                //Todo Implement Mute Logic
-                              }
-                              else{
+                            onSelected: (value) async {
+                              if (value == 0) {
+                                if (!_isMuted) {
+                                  var flag = await MuteUserService.mute(
+                                      username: user.userName!);
+                                  if (flag) {
+                                    CherryToast.info(
+                                      title: Text(
+                                        'You muted @${user.userName}',
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      iconWidget: const Icon(
+                                        Icons.volume_off_outlined,
+                                        color: Colors.blueAccent,
+                                      ),
+                                      animationType: AnimationType.fromTop,
+                                      displayCloseButton: false,
+                                    ).show(context);
+                                    _isMuted = true;
+                                  } else {
+                                    CherryToast.info(
+                                      title: Text(
+                                        'Failed to mute @${user.userName}',
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      iconWidget: const Icon(
+                                        Icons.close,
+                                        color: Colors.redAccent,
+                                      ),
+                                      animationType: AnimationType.fromTop,
+                                      displayCloseButton: false,
+                                    ).show(context);
+                                  }
+                                } else {
+                                  var flag = await MuteUserService.unMuteUser(
+                                      username: user.userName!);
+                                  if (flag) {
+                                    CherryToast.info(
+                                      title: Text(
+                                        'You unmuted @${user.userName}',
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      iconWidget: const Icon(
+                                        Icons.volume_mute_outlined,
+                                        color: Colors.blueAccent,
+                                      ),
+                                      animationType: AnimationType.fromTop,
+                                      displayCloseButton: false,
+                                    ).show(context);
+                                    _isMuted = false;
+                                  } else {
+                                    CherryToast.info(
+                                      title: Text(
+                                        'Failed to unmute @${user.userName}',
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                      ),
+                                      iconWidget: const Icon(
+                                        Icons.close,
+                                        color: Colors.redAccent,
+                                      ),
+                                      animationType: AnimationType.fromTop,
+                                      displayCloseButton: false,
+                                    ).show(context);
+                                  }
+                                }
+                              } else {
                                 //Todo implement Block Logic
                               }
                             },
-                          )
+                          ),
                     // ProfileIconButton(
                     //   borderWidth: 2,
                     //   icon: Icons.more_vert,
@@ -663,14 +723,14 @@ class _Avatar extends StatelessWidget {
   }
 }
 
-void _save() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.setString('id', 'clpj7l5wq00033h9kml3a9vkp');
-  await prefs.setString('token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
-}
+// void _save() async {
+//   final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   await prefs.setString('id', 'clpj7l5wq00033h9kml3a9vkp');
+//   await prefs.setString('token',
+//       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiY2xwajdsNXdxMDAwMzNoOWttbDNhOXZrcFwiIiwiaWF0IjoxNzAxMjI4NjA2LCJleHAiOjE3MDM4MjA2MDZ9.qrToCvvaZTBWK1yn-fFlYE9zkU2ZsYwA3PiW1uVFvCo');
+// }
 
-void _clear() async {
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.clear();
-}
+// void _clear() async {
+//   final SharedPreferences prefs = await SharedPreferences.getInstance();
+//   await prefs.clear();
+// }
