@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/main_tweet_for_replies.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_list.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
@@ -34,7 +32,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
 
   void _updateState() {
     setState(() {
-      isNotEmpty = tweetController.text.isNotEmpty || isTapped;
+      isNotEmpty = tweetController.text.trim().isNotEmpty || isTapped;
     });
   }
 
@@ -99,7 +97,10 @@ class _RepliesScreenState extends State<RepliesScreen> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8.0, vertical: 5),
                         child: CustomReplytoRow(
-                            replyto: [widget.tweet.userHandle]),
+                          replyto: [
+                            widget.tweet.userHandle,
+                          ],
+                        ),
                       )
                     : Container(),
                 Padding(
@@ -107,6 +108,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     horizontal: 8.0,
                   ),
                   child: TextFormField(
+                    key: const ValueKey('replytextfield'),
                     autofocus: true,
                     onTap: () {
                       setState(() {
@@ -179,11 +181,13 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           padding:
                               const EdgeInsets.only(left: 15.0, right: 8.0),
                           child: CustomAddTweetButton(
+                            key: const ValueKey('replybutton'),
                             isReply: true,
                             tweetId: widget.tweet.id,
                             tweetcontent: tweetController,
                             xfilePick: const [],
-                            isButtonEnabled: tweetController.text.isNotEmpty,
+                            isButtonEnabled:
+                                tweetController.text.trim().isNotEmpty,
                             textPadding: const EdgeInsets.symmetric(
                                 vertical: 1.0, horizontal: 2.0),
                             forReplyScreen: true,
