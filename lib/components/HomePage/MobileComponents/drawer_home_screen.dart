@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_tile.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
@@ -70,13 +73,17 @@ class CustomDrawer extends StatelessWidget {
                           fontSize: 20),
                     ),
                   ),
-                  Text(
-                    maxLines: 1,
-                    '@${TempUser.username}',
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 16,
-                        color: Colors.grey.shade600),
+                  BlocBuilder<UpdateUsernameCubit, UpdateUsernameStates>(
+                    builder: (context, state) {
+                      return Text(
+                        maxLines: 1,
+                        '@${TempUser.username}',
+                        style: TextStyle(
+                            overflow: TextOverflow.ellipsis,
+                            fontSize: 16,
+                            color: Colors.grey.shade600),
+                      );
+                    },
                   )
                 ],
               ),

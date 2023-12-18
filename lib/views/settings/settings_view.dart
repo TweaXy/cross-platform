@@ -73,7 +73,6 @@ class _SettingsViewState extends State<SettingsView> {
               },
               lead: const Icon(Icons.lock_outline),
             ),
-            
           ]),
     );
   }

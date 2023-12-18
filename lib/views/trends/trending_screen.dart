@@ -104,30 +104,31 @@ class _TrendingScreenState extends State<TrendingScreen> {
             ),
           ),
         ),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: MediaQuery.of(context).size.width * 0.03,
-                  vertical: MediaQuery.of(context).size.height * 0.01),
-              child: const Text(
-                "Trends",
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    letterSpacing: 0.5),
+        body: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.03,
+                    vertical: MediaQuery.of(context).size.height * 0.01),
+                child: const Text(
+                  "Trends",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      letterSpacing: 0.5),
+                ),
               ),
-            ),
-            SingleChildScrollView(
-              child: SizedBox(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.74,
                 child: CustomScrollView(
                   shrinkWrap: true,
                   slivers: [
                     PagedSliverList<int, Trend>(
+                      shrinkWrapFirstPageIndicators: true,
                       pagingController: _pagingController,
                       builderDelegate: PagedChildBuilderDelegate(
                         animateTransitions: true,
@@ -204,8 +205,8 @@ class _TrendingScreenState extends State<TrendingScreen> {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

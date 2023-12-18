@@ -7,6 +7,7 @@ import 'package:tweaxy/components/settings/update_email_components/custom_data_d
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/settings/update_username_view.dart';
 
 class AccountIfoView extends StatefulWidget {
   const AccountIfoView({super.key});
@@ -33,7 +34,13 @@ class _AccountIfoViewState extends State<AccountIfoView> {
               children: [
                 CustomdataDisplay(
                   key: const ValueKey("username_update_button"),
-                  onpress: () {},
+                  onpress: () {
+                    Navigator.push(
+                        context,
+                        CustomPageRoute(
+                            direction: AxisDirection.left,
+                            child: UpdateUsernameView()));
+                  },
                   title: "Username",
                   subtitle: TempUser.username,
                 ),

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
@@ -169,7 +170,7 @@ void addReplyPress(context,
 void updateStatesforTweet(state, context, PagingController pagingController) {
   if (state is TweetHomeRefresh ||
       state is TweetAddedState ||
-      state is TweetReplyAddedState) {
+      state is TweetReplyAddedState || state is UpdateUsernameDoneState) {
     pagingController.refresh();
   }
   if (state is TweetDeleteState) {
