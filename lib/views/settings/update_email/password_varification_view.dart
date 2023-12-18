@@ -112,7 +112,8 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
                         .checkPasswordCorrectness(passwordController.text);
                     if (response is String) {
                       showToastWidget(
-                        CustomToast(message:"Wrong Password!", screenWidth: width),
+                        CustomToast(
+                            message: "Wrong Password!", screenWidth: width),
                         position: ToastPosition.bottom,
                         duration: const Duration(seconds: 2),
                       );

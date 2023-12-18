@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/update_email/password_varification_view.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/settings/update_username_view.dart';
 
 class AccountIfoView extends StatefulWidget {
   const AccountIfoView({super.key});
@@ -32,7 +34,13 @@ class _AccountIfoViewState extends State<AccountIfoView> {
               children: [
                 CustomdataDisplay(
                   key: const ValueKey("username_update_button"),
-                  onpress: () {},
+                  onpress: () {
+                    Navigator.push(
+                        context,
+                        CustomPageRoute(
+                            direction: AxisDirection.left,
+                            child: UpdateUsernameView()));
+                  },
                   title: "Username",
                   subtitle: TempUser.username,
                 ),
@@ -49,7 +57,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   subtitle: TempUser.email,
                 ),
                 CustomdataDisplay(
-                  key: const ValueKey("logout_update_button"),
+                  key: const ValueKey(SettingsKeys.logOut),
                   title: "Log out",
                   subtitle: "",
                   onpress: () async {

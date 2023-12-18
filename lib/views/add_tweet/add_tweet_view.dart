@@ -6,7 +6,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/add_tweet/add_reply/custom_add_reply_row.dart';
-import 'package:tweaxy/components/add_tweet/custom_add_tweet_appBar.dart';
+import 'package:tweaxy/components/add_tweet/custom_add_tweet_appbar.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';

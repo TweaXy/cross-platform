@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/HomePage/homepage_body.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/views/trends/tweets_trend_list.dart';
 
@@ -58,6 +57,10 @@ class _ViewTrendTweetsState extends State<ViewTrendTweets> {
             ),
           ),
         ),
-        body: CustomScrollView(slivers: [TweetsListTrend(trendName:widget.trendName,)]));
+        body: CustomScrollView(slivers: [
+          TweetsListTrend(
+            trendName: widget.trendName,
+          )
+        ]));
   }
 }

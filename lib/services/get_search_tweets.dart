@@ -39,6 +39,9 @@ class SearchTweetTweets {
         token: token,
       );
     }
+    if(response is String){
+      return [];
+    }
     List<Map<String, dynamic>> m = (response.data['data']['items']
             as List<dynamic>)
         .map((item) => {

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/signup_service.dart';
+import 'package:tweaxy/shared/errors/update_username_errors.dart';
 import 'package:tweaxy/shared/errors/validation_errors.dart';
 
 Future<String?> emailValidation({required String? inputValue}) async {
@@ -92,11 +93,33 @@ Future<String?> usernameValidation({required String? inputValue}) async {
   if (inputValue == null || inputValue.trim().isEmpty) {
     return ValidationErrors.emptyUsernameError;
   }
-  if (inputValue.length < 4) {
+  if (inputValue.length < 5) {
     return ValidationErrors.usernameLengthError;
   }
   if (inputValue.contains(' ')) {
     return ValidationErrors.usernameSpaceError;
+  }
+  try {
+    dynamic response =
+        await SignupService(Dio()).usernameUniqueness(inputValue);
+    if (response is String) {
+      return response;
+    }
+    return null;
+  } catch (e) {
+    log(e.toString());
+    return "Username Uniqueness Api error ";
+  }
+}
+
+Future<String?> updateUsernameValidation({required String? inputValue}) async {
+  if (inputValue == null || inputValue.trim().length < 5) {
+    return UpdateUsernameErrors.usernameMinLengthError;
+  }
+
+  if (inputValue.contains(' ') ||
+      inputValue.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
+    return UpdateUsernameErrors.spaceError;
   }
   try {
     dynamic response =

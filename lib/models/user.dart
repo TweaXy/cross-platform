@@ -14,6 +14,10 @@ class User {
   String? bio;
   String? website;
   String? location;
+  bool? blockedByMe;
+  bool? blockedMe;
+  bool? followedByMe;
+  bool? muted;
   int? followers;
   int? following;
   User({
@@ -31,6 +35,10 @@ class User {
     this.location,
     this.followers,
     this.following,
+    this.blockedByMe,
+    this.blockedMe,
+    this.muted,
+    this.followedByMe,
   });
   @override
   bool operator ==(Object other) => other is User && other.name == name;
@@ -78,6 +86,10 @@ class User {
       following: map['_count']['following'] != null
           ? map['_count']['following'] as int
           : null,
+      blockedByMe: map['blockedByMe'],
+      blockedMe: map['blocksMe'],
+      muted: map['mutedByMe'],
+      followedByMe: map['followedByMe'],
     );
   }
 
