@@ -41,7 +41,7 @@ class UserImageForTweet extends StatelessWidget {
             width: 45,
             image: CachedNetworkImageProvider(
               image == null
-                  ? "https://tweaxybackend.mywire.org/api/v1/images/d1deecebfe9e00c91dec2de8bc0d68bb"
+                  ? "https://tweaxybackend.mywire.org/api/v1/images/b631858bdaafa77258b9ed2f7c689bdb.png"
                   : 'https://tweaxybackend.mywire.org/api/v1/images/$image',
             ),
           )),

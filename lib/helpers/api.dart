@@ -62,7 +62,7 @@ class Api {
       log(response.toString());
       //  print("code=" + response.statusCode.toString());
     } on DioException catch (e) {
-      log(response.toString());
+      log('Here'+response.toString());
       return (e.response!.data['message']);
       // throw Exception(e.response!.statusMessage);
     }

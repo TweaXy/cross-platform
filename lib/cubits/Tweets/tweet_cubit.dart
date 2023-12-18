@@ -29,8 +29,8 @@ void addReply() {
   void refresh() {
     emit(TweetHomeRefresh());
   }
-  void deletewithpopforreply(String id) {
-    emit(TweetDeleteInReplyState(tweetid: id));
+  void deletewithpopforreply() {
+    emit(TweetDeleteInReplyState());
   }
   void retweet(String id) {
     emit(TweetRetweetState(tweetid: id));

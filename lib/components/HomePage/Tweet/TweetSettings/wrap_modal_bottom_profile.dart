@@ -5,10 +5,15 @@ import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/modal_bottom_opti
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class WrapModalBottomProfile extends StatelessWidget {
-  const WrapModalBottomProfile({super.key, required this.tweetid});
+  const WrapModalBottomProfile({super.key, required this.tweetid, required this.forreply});
   final String tweetid;
+  final bool forreply;
+
   @override
   Widget build(BuildContext context) {
-    return ModalBottomProfilePosts(tweetid: tweetid);
+    return ModalBottomProfilePosts(
+      tweetid: tweetid,
+      forreply: forreply,
+    );
   }
 }

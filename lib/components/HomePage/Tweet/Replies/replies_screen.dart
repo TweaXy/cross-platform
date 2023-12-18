@@ -51,7 +51,6 @@ class _RepliesScreenState extends State<RepliesScreen> {
         // if (state is TweetDeleteState && state.tweetid == widget.tweet.id)
         // // add your code here.
         // {
-        //   tweetController.dispose();
 
         //   Navigator.pop(context);
         // }

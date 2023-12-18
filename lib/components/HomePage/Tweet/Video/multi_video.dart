@@ -8,33 +8,22 @@ class MultiVideo extends StatelessWidget {
   final List<String>videos;
   @override
   Widget build(BuildContext context) {
-    // return SizedBox(
-    //   width: 50,
-    //   height: 50,
-    //   child: Row(
-    //     mainAxisSize: MainAxisSize.max,
-    //     children: [
-    //       NetworkVideoPlayer(video: ''),
-    //       NetworkVideoPlayer(video: '')
-    //     ],
-    //   ),
-    // );
+    int i = 0;
   return Padding(
       padding: const EdgeInsets.only(bottom:8.0),
       child: StaggeredGrid.count(
-        crossAxisCount: 4,
+        crossAxisCount: 2,
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: videos.map((video) {
+            i++;
+
           return StaggeredGridTile.count(
-            crossAxisCellCount: 2,
-            mainAxisCellCount: 2,
+            crossAxisCellCount: videos.length == 1 ? 2 : 1,
+            mainAxisCellCount: videos.length == 3 && i == 1 || videos.length == 1 ? 2 : 1,
             child: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                return AspectRatio(
-                  aspectRatio: constraints.maxWidth / constraints.maxHeight,
-                  child: NetworkVideoPlayer(video: video),
-                );
+                return NetworkVideoPlayer(video: video);
               },
             ),
           );

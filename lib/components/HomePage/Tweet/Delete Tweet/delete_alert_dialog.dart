@@ -7,9 +7,10 @@ import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class DeleteAlertDialog extends StatelessWidget {
-  const DeleteAlertDialog({super.key, required this.tweetid});
+  const DeleteAlertDialog(
+      {super.key, required this.tweetid, required this.forreply});
   final String tweetid;
-
+  final bool forreply;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.height * 0.9;
@@ -49,10 +50,11 @@ class DeleteAlertDialog extends StatelessWidget {
                 ),
                 position: ToastPosition.bottom,
                 duration: const Duration(seconds: 2));
-            if (t == "success")
+            if (t == "success") {
               BlocProvider.of<TweetsUpdateCubit>(context)
                   .deleteTweet(tweetid: tweetid);
-                  
+              if (forreply) Navigator.pop(context);
+            }
           },
           child: const Text('Delete',
               style: TextStyle(color: Colors.black, fontSize: 19)),

@@ -33,6 +33,7 @@ class CustomTweet extends StatelessWidget {
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0]!;
+    print('kkkk'+k.toString());
     // if (t != null && t.length > 1) k = t[1].trim()!;
 
     return GestureDetector(
