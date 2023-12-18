@@ -54,7 +54,7 @@ class TempUser {
     if (result is String) {
     } else if (result is Response) {
       // int notifica =
-          // await GetUnseenNotificationCount.getUnseenNotificationCount(token);
+      // await GetUnseenNotificationCount.getUnseenNotificationCount(token);
       Response res = result;
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);

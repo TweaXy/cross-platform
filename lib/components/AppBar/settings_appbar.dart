@@ -5,8 +5,10 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SettingsAppBar({
     super.key,
     required this.title,
+    this.showUsername,
   });
   final String title;
+  final bool? showUsername;
 
   @override
   Widget build(BuildContext context) {
@@ -22,15 +24,16 @@ class SettingsAppBar extends StatelessWidget implements PreferredSizeWidget {
               letterSpacing: 0.4,
             ),
           ),
-          Text(
-            '@${TempUser.username}',
-            style: TextStyle(
-              color: Colors.grey.shade700,
-              fontSize: 15,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.4,
+          if (showUsername == null || showUsername == true)
+            Text(
+              '@${TempUser.username}',
+              style: TextStyle(
+                color: Colors.grey.shade700,
+                fontSize: 15,
+                fontWeight: FontWeight.w400,
+                letterSpacing: 0.4,
+              ),
             ),
-          ),
         ],
       ),
       elevation: 0.5,
