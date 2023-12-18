@@ -7,11 +7,14 @@ import 'package:cherry_toast/cherry_toast.dart';
 import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/cubits/block_user_cubit/block_user_cubit.dart';
+import 'package:tweaxy/cubits/block_user_cubit/block_user_states.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
 import 'package:tweaxy/views/profile/likers_profile_view.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
@@ -97,96 +100,142 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: BlocBuilder<EditProfileCubit, EditProfileState>(
-          builder: (context, state) {
-            if (state is ProfilePageLoadingState) {
-              return const LoadingScreen(asyncCall: true);
-            } else if (state is ProfilePageInitialState ||
-                state is ProfilePageCompletedState) {
-              return FutureBuilder(
-                future: GetUserById.instance.getUserById(id),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
-                    return const LoadingScreen(
-                      asyncCall: true,
-                    );
-                  } else {
-                    User user = snapshot.data!;
-                    if (!initialized) {
-                      initialized = true;
-                      if (text != '') {
-                        text = user.followedByMe! ? 'Following' : 'Follow';
+        child: BlocProvider(
+          create: (context) => BlockUserCubit(),
+          child: BlocBuilder<EditProfileCubit, EditProfileState>(
+            builder: (context, state) {
+              if (state is ProfilePageLoadingState) {
+                return const LoadingScreen(asyncCall: true);
+              } else if (state is ProfilePageInitialState ||
+                  state is ProfilePageCompletedState) {
+                return FutureBuilder(
+                  future: GetUserById.instance.getUserById(id),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const LoadingScreen(
+                        asyncCall: true,
+                      );
+                    } else {
+                      User user = snapshot.data!;
+                      if (!initialized) {
+                        initialized = true;
+                        if (text != '') {
+                          text = user.followedByMe! ? 'Following' : 'Follow';
+                        }
                       }
+                      return NestedScrollView(
+                          controller: controller,
+                          physics: const BouncingScrollPhysics(),
+                          headerSliverBuilder:
+                              (BuildContext context, bool innerBoxIsScrolled) {
+                            return <Widget>[
+                              SliverPersistentHeader(
+                                pinned: true,
+                                delegate: ProfileScreenAppBar(
+                                  text: text,
+                                  user: user,
+                                  postsNumber: 216820,
+                                  avatarURL: user.avatar ?? '',
+                                  coverURL: user.cover ?? '',
+                                ),
+                              ),
+                              SliverToBoxAdapter(
+                                child: AccountInformation(
+                                  website: user.website ?? '',
+                                  birthDate: user.birthdayDate ?? '',
+                                  bio: user.bio ?? '',
+                                  followers: user.followers ?? 0,
+                                  following: user.following ?? 0,
+                                  joinedDate: user.joinedDate ?? '',
+                                  location: user.location ?? '',
+                                  profileName: user.name ?? '',
+                                  userName: user.userName ?? '',
+                                ),
+                              ),
+                              BlocBuilder<BlockUserCubit, BlockUserState>(
+                                builder: (context, state) {
+                                  if (state is BlockUserLoadingState) {
+                                    return const Center(
+                                      child: SpinKitCircle(
+                                          color: Colors.blueAccent),
+                                    );
+                                  } else if ((state is BlockUserInitialState &&
+                                          user.blockedByMe!) ||
+                                      state is BlockUserSucessState) {
+                                    return ProfileBlockedScreen(user: user);
+                                  }
+                                  return SliverTabBar(
+                                    expandedHeight: 0,
+                                    backgroundColor: Colors.white,
+                                    tabBar: TabBar(
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.blue,
+                                      indicatorSize: TabBarIndicatorSize.label,
+                                      controller: _tabController,
+                                      labelColor: Colors.black,
+                                      onTap: (value) => setState(() {
+                                        _selectedTabIndex = value;
+                                      }),
+                                      tabs: const [
+                                        Tab(
+                                          text: 'Posts',
+                                        ),
+                                        Tab(
+                                          text: 'Replies',
+                                        ),
+                                        Tab(
+                                          text: 'Likes',
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ];
+                          },
+                          body: ProfileScreenBody(
+                            tabController: _tabController,
+                            id: id,
+                          ));
                     }
-                    return NestedScrollView(
-                        controller: controller,
-                        physics: const BouncingScrollPhysics(),
-                        headerSliverBuilder:
-                            (BuildContext context, bool innerBoxIsScrolled) {
-                          return <Widget>[
-                            SliverPersistentHeader(
-                              pinned: true,
-                              delegate: ProfileScreenAppBar(
-                                text: text,
-                                user: user,
-                                postsNumber: 216820,
-                                avatarURL: user.avatar ?? '',
-                                coverURL: user.cover ?? '',
-                              ),
-                            ),
-                            SliverToBoxAdapter(
-                              child: AccountInformation(
-                                website: user.website ?? '',
-                                birthDate: user.birthdayDate ?? '',
-                                bio: user.bio ?? '',
-                                followers: user.followers ?? 0,
-                                following: user.following ?? 0,
-                                joinedDate: user.joinedDate ?? '',
-                                location: user.location ?? '',
-                                profileName: user.name ?? '',
-                                userName: user.userName ?? '',
-                              ),
-                            ),
-                            SliverTabBar(
-                              expandedHeight: 0,
-                              backgroundColor: Colors.white,
-                              tabBar: TabBar(
-                                indicatorWeight: 3,
-                                indicatorColor: Colors.blue,
-                                indicatorSize: TabBarIndicatorSize.label,
-                                controller: _tabController,
-                                labelColor: Colors.black,
-                                onTap: (value) => setState(() {
-                                  _selectedTabIndex = value;
-                                }),
-                                tabs: const [
-                                  Tab(
-                                    text: 'Posts',
-                                  ),
-                                  Tab(
-                                    text: 'Replies',
-                                  ),
-                                  Tab(
-                                    text: 'Likes',
-                                  )
-                                ],
-                              ),
-                            ),
-                          ];
-                        },
-                        body: ProfileScreenBody(
-                          tabController: _tabController,
-                          id: id,
-                        ));
-                  }
-                },
-              );
-            }
-            return const Placeholder();
-          },
+                  },
+                );
+              }
+              return const Placeholder();
+            },
+          ),
         ),
       ),
       // ),
+    );
+  }
+}
+
+class ProfileBlockedScreen extends StatelessWidget {
+  const ProfileBlockedScreen({
+    super.key,
+    required this.user,
+  });
+
+  final User user;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        children: [
+          const Text(
+            'You blocked the user',
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+          ElevatedButton(
+              onPressed: () {
+                BlocProvider.of<BlockUserCubit>(context)
+                    .unblockUser(user.userName!);
+              },
+              child: const Text('Unblock'))
+        ],
+      ),
     );
   }
 }
