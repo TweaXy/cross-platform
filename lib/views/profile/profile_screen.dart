@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cherry_toast/cherry_toast.dart';
@@ -22,19 +23,13 @@ import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
-import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
-import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
-import 'package:tweaxy/services/temp_user.dart';
-import 'package:tweaxy/services/unfollow_user.dart';
-import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/components/Profile/profile_likes.dart';
 import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
 
@@ -150,6 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                   location: user.location ?? '',
                                   profileName: user.name ?? '',
                                   userName: user.userName ?? '',
+                                  blockedMe: user.blockedMe ?? true,
                                 ),
                               ),
                               BlocBuilder<BlockUserCubit, BlockUserState>(
@@ -163,40 +159,56 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           user.blockedByMe!) ||
                                       state is BlockUserSucessState) {
                                     return ProfileBlockedScreen(user: user);
+                                  } else {
+                                    return user.blockedMe == true
+                                        ? SliverToBoxAdapter(
+                                            child: Padding(
+                                              padding:
+                                                  const EdgeInsets.all(16.0),
+                                              child: Text(
+                                                'You are blocked from following @${user.userName} and viewing @${user.userName} posts',
+                                                style: const TextStyle(
+                                                    color: Colors.black54),
+                                              ),
+                                            ),
+                                          )
+                                        : SliverTabBar(
+                                            expandedHeight: 0,
+                                            backgroundColor: Colors.white,
+                                            tabBar: TabBar(
+                                              indicatorWeight: 3,
+                                              indicatorColor: Colors.blue,
+                                              indicatorSize:
+                                                  TabBarIndicatorSize.label,
+                                              controller: _tabController,
+                                              labelColor: Colors.black,
+                                              onTap: (value) => setState(() {
+                                                _selectedTabIndex = value;
+                                              }),
+                                              tabs: const [
+                                                Tab(
+                                                  text: 'Posts',
+                                                ),
+                                                Tab(
+                                                  text: 'Replies',
+                                                ),
+                                                Tab(
+                                                  text: 'Likes',
+                                                )
+                                              ],
+                                            ),
+                                          );
                                   }
-                                  return SliverTabBar(
-                                    expandedHeight: 0,
-                                    backgroundColor: Colors.white,
-                                    tabBar: TabBar(
-                                      indicatorWeight: 3,
-                                      indicatorColor: Colors.blue,
-                                      indicatorSize: TabBarIndicatorSize.label,
-                                      controller: _tabController,
-                                      labelColor: Colors.black,
-                                      onTap: (value) => setState(() {
-                                        _selectedTabIndex = value;
-                                      }),
-                                      tabs: const [
-                                        Tab(
-                                          text: 'Posts',
-                                        ),
-                                        Tab(
-                                          text: 'Replies',
-                                        ),
-                                        Tab(
-                                          text: 'Likes',
-                                        )
-                                      ],
-                                    ),
-                                  );
                                 },
                               ),
                             ];
                           },
-                          body: ProfileScreenBody(
-                            tabController: _tabController,
-                            id: id,
-                          ));
+                          body: user.blockedMe!
+                              ? const SizedBox()
+                              : ProfileScreenBody(
+                                  tabController: _tabController,
+                                  id: id,
+                                ));
                     }
                   },
                 );
@@ -233,7 +245,7 @@ class ProfileBlockedScreen extends StatelessWidget {
                 BlocProvider.of<BlockUserCubit>(context)
                     .unblockUser(user.userName!);
               },
-              child: const Text('Unblock'))
+              child: const Text('View Posts'))
         ],
       ),
     );
@@ -292,11 +304,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(
-                text: text,
-                user: user,
-                key: const ValueKey('followEditButton'),
-              ),
+              user.blockedMe!
+                  ? const SizedBox()
+                  : FollowEditButton(
+                      text: text,
+                      user: user,
+                      key: const ValueKey('followEditButton'),
+                    ),
             ],
           ),
         ),
@@ -341,23 +355,26 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 const Spacer(),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: ProfileIconButton(
-                        borderWidth: 2,
-                        icon: Icons.search,
-                        iconColor: Colors.white,
-                        color: Colors.black,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchTweets(
-                                    username: user.userName!, id: user.id!)),
-                          );
-                        },
-                      ),
-                    ),
+                    user.blockedMe!
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: ProfileIconButton(
+                              borderWidth: 2,
+                              icon: Icons.search,
+                              iconColor: Colors.white,
+                              color: Colors.black,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SearchTweets(
+                                          username: user.userName!,
+                                          id: user.id!)),
+                                );
+                              },
+                            ),
+                          ),
                     text == 'Edit Profile'
                         ? const SizedBox()
                         : PopupMenuButton(
@@ -390,67 +407,35 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                   var flag = await MuteUserService.mute(
                                       username: user.userName!);
                                   if (flag) {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'You muted @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.volume_off_outlined,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
+                                    muteAnimatedSnackBar(
+                                      failure: false,
+                                      icon: Icons.volume_off_outlined,
+                                      muteFlag: true,
+                                      mainContext: context,
+                                      userName: user.userName!,
                                     ).show(context);
                                     _isMuted = true;
                                   } else {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'Failed to mute @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.close,
-                                        color: Colors.redAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
-                                    ).show(context);
+                                    muteAnimatedSnackBar(
+                                            failure: true, muteFlag: false)
+                                        .show(context);
                                   }
                                 } else {
                                   var flag = await MuteUserService.unMuteUser(
                                       username: user.userName!);
                                   if (flag) {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'You unmuted @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.volume_mute_outlined,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
+                                    muteAnimatedSnackBar(
+                                      failure: false,
+                                      icon: Icons.volume_mute_outlined,
+                                      muteFlag: false,
+                                      mainContext: context,
+                                      userName: user.userName!,
                                     ).show(context);
                                     _isMuted = false;
                                   } else {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'Failed to unmute @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.close,
-                                        color: Colors.redAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
-                                    ).show(context);
+                                    muteAnimatedSnackBar(
+                                            failure: true, muteFlag: false)
+                                        .show(context);
                                   }
                                 }
                               } else {
@@ -470,6 +455,65 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
               ],
             )),
       ],
+    );
+  }
+
+  AnimatedSnackBar muteAnimatedSnackBar(
+      {IconData? icon,
+      bool muteFlag = true,
+      BuildContext? mainContext,
+      bool failure = false,
+      String userName = ''}) {
+    String titleText = '';
+    Color iconColor = Colors.blue[700]!;
+    if (muteFlag) {
+      titleText = 'You muted @$userName';
+    } else {
+      titleText = 'You unmuted @$userName';
+    }
+    return AnimatedSnackBar(
+      mobileSnackBarPosition: MobileSnackBarPosition.top,
+      mobilePositionSettings: const MobilePositionSettings(
+        left: 5,
+        right: 5,
+      ),
+      duration: const Duration(seconds: 3),
+      builder: ((context) {
+        return Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: failure ? Colors.red[100] : Colors.blue[100],
+              border: Border.all(
+                color: Colors.blue[700]!,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          width: double.infinity,
+          child: ListTile(
+            title: Text(
+              failure ? 'Oops There\'s an error' : titleText,
+              style: const TextStyle(color: Colors.black, fontSize: 18),
+            ),
+            leading: Icon(
+              failure ? Icons.close : icon,
+              color: failure ? Colors.red : Colors.blue[700],
+            ),
+            subtitle: muteFlag
+                ? ElevatedButton(
+                    onPressed: () {
+                      muteAnimatedSnackBar(
+                        failure: false,
+                        icon: Icons.volume_off_outlined,
+                        muteFlag: false,
+                        mainContext: context,
+                        userName: user.userName!,
+                      ).show(context);
+                      _isMuted = false;
+                    },
+                    child: const Text('Undo'))
+                : null,
+          ),
+        );
+      }),
     );
   }
 
