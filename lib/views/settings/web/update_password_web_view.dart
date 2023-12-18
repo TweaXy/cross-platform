@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/components/settings/save_settings_button.dart';
 import 'package:tweaxy/components/settings/update_password_web_components/custom_text_field.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/cubits/setting-web-cubit/settings_web_cubit.dart';
@@ -100,8 +101,9 @@ class _UpdatePasswordWebViewState extends State<UpdatePasswordWebView> {
             const Divider(height: 20),
             Align(
               alignment: Alignment.bottomRight,
-              child: ElevatedButton(
+              child: SaveSettingsButton(
                 key: const ValueKey(UpdatePasswordKeys.updatePasswordButton),
+                isButtonEnabled: isButtonEnabled,
                 onPressed: () async {
                   try {
                     dynamic response = await service.updatePassword(
@@ -130,22 +132,6 @@ class _UpdatePasswordWebViewState extends State<UpdatePasswordWebView> {
                     log(e.toString());
                   }
                 },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonEnabled
-                      ? const Color(0xFF1e9aeb)
-                      : const Color.fromARGB(255, 156, 203, 250),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(17),
-                  ),
-                ),
-                child: Text(
-                  "Save",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 19),
-                ),
               ),
             ),
           ],

@@ -15,7 +15,13 @@ class SettingsWebCubit extends Cubit<SettingsWeb> {
         emit(SettingsWebVerifyPassword());
         break;
       case 3:
+        emit(SettingsWebChangeChoose());
+        break;
+      case 4:
         emit(SettingsWebChangeEmail());
+        break;
+         case 5:
+        emit(SettingsWebChangeUsername());
         break;
       default:
         emit(SettingsWebAccountInfo());

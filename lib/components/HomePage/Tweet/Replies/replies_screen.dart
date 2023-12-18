@@ -8,6 +8,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/shared/keys/add_reply_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 class RepliesScreen extends StatefulWidget {
@@ -108,7 +109,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     horizontal: 8.0,
                   ),
                   child: TextFormField(
-                    key: const ValueKey('replytextfield'),
+                    key: const ValueKey(AddReplysKeys.addReplyTextfield),
                     autofocus: true,
                     onTap: () {
                       setState(() {
@@ -121,7 +122,21 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     maxLength: 280,
                     decoration: InputDecoration(
                       suffixIcon: IconButton(
-                        onPressed: () {},
+                        key: const ValueKey(AddReplysKeys.addReplyEnlarge),
+                        onPressed: () {
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddTweetView(
+                                text: tweetController.text,
+                                replyto: widget.tweet.userHandle,
+                                isReply: true,
+                                tweetId: widget.tweet.id,
+                                photoIconPressed: false,
+                              ),
+                            ),
+                          );
+                        },
                         icon: Transform.rotate(
                           angle: 4.7,
                           child: const Icon(
@@ -148,6 +163,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
+                      key: const ValueKey(AddReplysKeys.addReplyWithImage),
                       onPressed: () {
                         Navigator.pushReplacement(
                           context,
@@ -181,7 +197,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           padding:
                               const EdgeInsets.only(left: 15.0, right: 8.0),
                           child: CustomAddTweetButton(
-                            key: const ValueKey('replybutton'),
+                            key: const ValueKey(AddReplysKeys.addReplyButton),
                             isReply: true,
                             tweetId: widget.tweet.id,
                             tweetcontent: tweetController,

@@ -7,7 +7,6 @@ import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
-import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/update_username_service.dart';
 
 class UpdateUsernameButton extends StatelessWidget {
@@ -45,6 +44,7 @@ class UpdateUsernameButton extends StatelessWidget {
                     position: ToastPosition.bottom,
                     duration: const Duration(seconds: 2),
                   );
+                  
                   BlocProvider.of<UpdateUsernameCubit>(context)
                       .updateUsername(username);
                   Navigator.pop(context);
