@@ -3,7 +3,7 @@ import 'package:tweaxy/helpers/api.dart';
 
 class GetUnseenNotificationCount {
   GetUnseenNotificationCount._();
-  static const String _endpoint = 'notifications/unseenNotification';
+  static const String _endpoint = 'notification/unseenNotification';
   static final instance = GetUnseenNotificationCount._();
   static Future<int> getUnseenNotificationCount(
     String token,

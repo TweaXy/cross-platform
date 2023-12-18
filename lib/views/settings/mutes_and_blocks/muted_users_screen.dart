@@ -106,7 +106,9 @@ class _MutedUsersScreenState extends State<MutedUsersScreen> {
             itemBuilder: (context, item, index) {
               return Column(
                 children: [
-                  MutedUserListTile(followStatus: 'Follow', user: item),
+                  MutedUserListTile(
+                      followStatus: item.followedByMe! ? 'Following' : 'Follow',
+                      user: item),
                   Divider(
                     color: Colors.grey[300],
                   ),
@@ -153,7 +155,7 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
             CustomPageRoute(
                 direction: AxisDirection.left,
                 child: ProfileScreen(
-                  id: '',
+                  id: widget.user.id!,
                   text: _followStatus,
                 )));
       },
@@ -162,9 +164,10 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
         child: CircleAvatarNotification(avatarURL: widget.user.avatar!),
       ),
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            flex: 3,
+          SizedBox(
+            width: MediaQuery.of(context).size.width / 2.3,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,88 +195,83 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
               ],
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Row(
-              children: [
-                isMuted
-                    ? const SizedBox()
-                    : IconButton(
-                        onPressed: () async {
-                          //Todo : Implement the unmute logic here
-                          isMuted = await MuteUserService.unMuteUser(
-                              username: widget.user.userName!);
-                          if (!isMuted) {
-                            Fluttertoast.showToast(
-                              msg: 'Oops there\'s an error',
-                              toastLength: Toast.LENGTH_SHORT,
-                            );
-                          }
-                        },
-                        icon: const Icon(
-                          Icons.volume_off_outlined,
-                          color: Colors.redAccent,
-                        ),
+          Row(
+            children: [
+              !isMuted
+                  ? const SizedBox()
+                  : IconButton(
+                      onPressed: () async {
+                        //Todo : Implement the unmute logic here
+                        isMuted = await MuteUserService.unMuteUser(
+                            username: widget.user.userName!);
+                        if (!isMuted) {
+                          Fluttertoast.showToast(
+                            msg: 'Oops there\'s an error',
+                            toastLength: Toast.LENGTH_SHORT,
+                          );
+                        } else {
+                          isMuted = false;
+                          setState(() {});
+                        }
+                      },
+                      icon: const Icon(
+                        Icons.volume_off_outlined,
+                        color: Colors.redAccent,
                       ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_followStatus == 'Follow') {
-                      await FollowUser.instance
-                          .followUser(widget.user.userName!);
-                      setState(() {
-                        _followStatus = 'Following';
-                      });
-                    } else if (_followStatus == 'Following') {
-                      await FollowUser.instance
-                          .deleteUser(widget.user.userName!);
+                    ),
+              ElevatedButton(
+                onPressed: () async {
+                  if (_followStatus == 'Follow') {
+                    await FollowUser.instance.followUser(widget.user.userName!);
+                    setState(() {
+                      _followStatus = 'Following';
+                    });
+                  } else if (_followStatus == 'Following') {
+                    await FollowUser.instance.deleteUser(widget.user.userName!);
+                    setState(() {
+                      _followStatus = 'Follow';
+                    });
+                  } else {
+                    bool status = await BlockingUserService.unBlockUser(
+                      username: widget.user.userName!,
+                    );
+                    if (status) {
+                      Fluttertoast.showToast(
+                        msg: 'You unblocked @${widget.user.userName}',
+                        toastLength: Toast.LENGTH_SHORT,
+                      );
                       setState(() {
                         _followStatus = 'Follow';
                       });
                     } else {
-                      bool status = await BlockingUserService.unBlockUser(
-                        username: widget.user.userName!,
+                      Fluttertoast.showToast(
+                        msg: 'Oops there\'s an error',
+                        toastLength: Toast.LENGTH_SHORT,
                       );
-                      if (status) {
-                        Fluttertoast.showToast(
-                          msg: 'You unblocked @${widget.user.userName}',
-                          toastLength: Toast.LENGTH_SHORT,
-                        );
-                        setState(() {
-                          _followStatus = 'Follow';
-                        });
-                      } else {
-                        Fluttertoast.showToast(
-                          msg: 'Oops there\'s an error',
-                          toastLength: Toast.LENGTH_SHORT,
-                        );
-                      }
                     }
-                  },
-                  style: ButtonStyle(
-                    elevation: const MaterialStatePropertyAll(3),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: _followStatus == 'Follow'
-                              ? Colors.transparent
-                              : Colors.black26,
-                        ),
-                        borderRadius: BorderRadius.circular(80))),
-                    backgroundColor: MaterialStatePropertyAll(
-                        _followStatus == 'Follow'
-                            ? Colors.black
-                            : Colors.white),
+                  }
+                },
+                style: ButtonStyle(
+                  elevation: const MaterialStatePropertyAll(3),
+                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: _followStatus == 'Follow'
+                            ? Colors.transparent
+                            : Colors.black26,
+                      ),
+                      borderRadius: BorderRadius.circular(80))),
+                  backgroundColor: MaterialStatePropertyAll(
+                      _followStatus == 'Follow' ? Colors.black : Colors.white),
+                ),
+                child: Text(
+                  _followStatus,
+                  style: TextStyle(
+                    color:
+                        _followStatus == 'Follow' ? Colors.white : Colors.black,
                   ),
-                  child: Text(
-                    _followStatus,
-                    style: TextStyle(
-                      color: _followStatus == 'Follow'
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/temp_user.dart';
@@ -8,6 +10,7 @@ class MuteUserService {
   static Future<bool> mute({required String username}) async {
     var response = await Api.post(
         url: '$baseURL$_endpoint$username', body: {}, token: TempUser.token);
+    log(response.toString());
     if (response is String) {
       return false;
     }
