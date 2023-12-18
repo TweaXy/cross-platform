@@ -24,6 +24,8 @@ class TweetsServices {
       // throw Future.error(res);
       return [];
     }
+    print('resss'+res.toString());
+
     List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
         .map((item) => {
               'likesCount': item['mainInteraction']['likesCount'],

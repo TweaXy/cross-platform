@@ -34,7 +34,8 @@ const baseURL = 'https://tweaxybackend.mywire.org/api/v1/';
 // const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
 const basePhotosURL = 'https://tweaxybackend.mywire.org/api/v1/images/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
-const kDefaultAvatarPhoto = '${basePhotosURL}uploads/default.png';
+const kDefaultAvatarPhoto =
+    'https://tweaxybackend.mywire.org/api/v1/images/b631858bdaafa77258b9ed2f7c689bdb';
 const kLikersInProfile = "likers screen";
 const kSearchTweets = "search tweets screen";
 Future<List<String>> loadPrefs() async {

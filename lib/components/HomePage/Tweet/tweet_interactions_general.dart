@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/modal_bottom_repost.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/like_tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
@@ -63,7 +64,14 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 key: const ValueKey(TweetKeys.replyInteraction),
                 constraints: BoxConstraints(),
                 padding: EdgeInsets.zero,
-                icon: const Icon(FontAwesomeIcons.comment),
+                icon: const Padding(
+                  padding: EdgeInsets.only(bottom: 15.0),
+                  child: Icon(
+                    AppIcon.reply,
+                    size: 20,
+                    color: Color.fromARGB(255, 116, 115, 115),
+                  ),
+                ),
                 onPressed: () {
                   addReplyPress(context,
                       tweetId: widget.id, tweetAuthor: widget.replyto);
@@ -80,7 +88,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
               key: const ValueKey(TweetKeys.repostInteraction),
               isLiked: widget.isUserRetweeted,
               bubblesSize: 0,
-              bubblesColor: BubblesColor(
+              bubblesColor: const BubblesColor(
                 dotPrimaryColor: Colors.transparent,
                 dotSecondaryColor: Colors.transparent,
               ),

@@ -108,7 +108,7 @@ class User_TweetInfo extends StatelessWidget {
                         ),
                         builder: (context) {
                           return WrapModalBottomProfile(
-                            tweetid: tweet.id,
+                            tweetid: tweet.id, forreply: false,
                           );
                         },
                       );

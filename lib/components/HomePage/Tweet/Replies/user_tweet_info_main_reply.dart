@@ -145,7 +145,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               ),
                               builder: (context) {
                                 return WrapModalBottomProfile(
-                                  tweetid: widget.tweet.id,
+                                  tweetid: widget.tweet.id, forreply:true ,
                                 );
                               },
                             );
