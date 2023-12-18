@@ -118,7 +118,7 @@ Future<String?> updateUsernameValidation({required String? inputValue}) async {
   }
 
   if (inputValue.contains(' ') ||
-      inputValue.contains(RegExp(r'[!@#$%^&*(),.?_":{}|<>]'))) {
+      inputValue.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
     return UpdateUsernameErrors.spaceError;
   }
   try {

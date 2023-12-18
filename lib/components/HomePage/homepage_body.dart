@@ -9,6 +9,8 @@ import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
@@ -62,24 +64,29 @@ class _MyPageState extends State<HomePageBody> {
   String query = '';
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UpdateAllCubit, UpdataAllState>(
-      builder: (context, updateallstate) {
-        return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
-          builder: (context, state) {
-           updateStatesforTweet(state,context,_pagingController);
-            return PagedSliverList<int, Tweet>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate(
-                // noItemsFoundIndicatorBuilder: (context) {
-                //   return const Center(
-                //     child: Text("No tweets yet"),
-                //   );
-                // },
-                animateTransitions: true,
-                itemBuilder: (context, item, index) {
-                  return CustomTweet(tweet: item, replyto: const []);
-                },
-              ),
+    return BlocBuilder<UpdateUsernameCubit, UpdateUsernameStates>(
+      builder: (context, state) {
+      updateStatesforTweet(state, context, _pagingController);
+        return BlocBuilder<UpdateAllCubit, UpdataAllState>(
+          builder: (context, updateallstate) {
+            return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+              builder: (context, state) {
+                updateStatesforTweet(state, context, _pagingController);
+                return PagedSliverList<int, Tweet>(
+                  pagingController: _pagingController,
+                  builderDelegate: PagedChildBuilderDelegate(
+                    // noItemsFoundIndicatorBuilder: (context) {
+                    //   return const Center(
+                    //     child: Text("No tweets yet"),
+                    //   );
+                    // },
+                    animateTransitions: true,
+                    itemBuilder: (context, item, index) {
+                      return CustomTweet(tweet: item, replyto: const []);
+                    },
+                  ),
+                );
+              },
             );
           },
         );

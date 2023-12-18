@@ -26,9 +26,7 @@ class _UpdateUsernameViewState extends State<UpdateUsernameView> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = controller.text.isNotEmpty &&
-          _formKey.currentState != null &&
-          _formKey.currentState!.validate();
+      isButtonEnabled = controller.text.trim().length > 5;
     });
   }
 
@@ -75,6 +73,7 @@ class _UpdateUsernameViewState extends State<UpdateUsernameView> {
                 child: UpdateUsernameButton(
                   isButtonEnabled: isButtonEnabled,
                   username: controller.text,
+                  formKey: _formKey,
                 ),
               ),
             ),
