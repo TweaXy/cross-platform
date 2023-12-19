@@ -71,6 +71,9 @@ class TweaXy extends StatelessWidget {
           BlocProvider(
             create: (context) => EditProfileCubit(),
           ),
+           BlocProvider(
+            create: (context) => UpdateUsernameCubit(),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,
