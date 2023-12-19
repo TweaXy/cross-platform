@@ -30,7 +30,7 @@ List<String>? _getImageList(dynamic image) {
 
 List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
   // print('hhh' + temp.toString());
-  return temp
+  List<Tweet> t = temp
       .map((e) => Tweet(
           id: e['id']!,
           image: _getImageList(e['image']),
@@ -52,6 +52,7 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           reposterid: e['reposterid'],
           reposteruserName: e['reposteruserName']))
       .toList();
+  return t;
 }
 
 String dateFormatter(String date) {
@@ -132,7 +133,9 @@ List<Map<String, dynamic>> mapToList(Response res) {
       'commentsCount': item['mainInteraction']['commentsCount'],
       'id': item['mainInteraction']['id'],
       'userid': item[x]['user']['id'],
-      'userImage': item[x]['user']['avatar'],
+      'userImage': item[x]['user']['avatar'] != null
+          ? item[x]['user']['avatar']
+          : 'b631858bdaafa77258b9ed2f7c689bdb.png',
       'image': item[x]['media'] != null ? item[x]['media'].toList() : null,
       'userName': item[x]['user']['name'],
       'userHandle': item[x]['user']['username'],

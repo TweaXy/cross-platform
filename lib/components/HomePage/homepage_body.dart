@@ -67,6 +67,7 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItemstmp =
           await TweetsServices.getTweetsHome(offset: pageKey);
+          print('lllll'+newItemstmp.toString());
       // final List<Tweet>newItems=newItemstmp.map((e) {if(!_pagingController.itemList.contains(e))
       //  return e;}).toList();
       final List<Tweet> newItems = [];

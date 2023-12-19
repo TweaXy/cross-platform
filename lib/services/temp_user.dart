@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,10 +62,11 @@ class TempUser {
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
-      setImage(image: res.data['data']['user']['avatar']);
+      setImage(
+          image: res.data['data']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png');
+
       TempUser.notificationCount = notifica;
-       BlocProvider.of<TweetsUpdateCubit>(context)
-                      .refresh();
+      BlocProvider.of<TweetsUpdateCubit>(context).refresh();
     }
   }
 }
