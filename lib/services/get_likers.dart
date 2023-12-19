@@ -25,7 +25,7 @@ class Likers {
     );
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
-    List<dynamic> allData = jsondata['data']["users"];
+    List<dynamic> allData = jsondata['data']["likers"];
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
       FollowersModel follower = FollowersModel.fromJsonLikers(allData[i]);

@@ -40,6 +40,8 @@ const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
 const kDefaultAvatarPhoto = '${basePhotosURL}d1deecebfe9e00c91dec2de8bc0d68bb';
 const kLikersInProfile = "likers screen";
 const kSearchTweets = "search tweets screen";
+const kDirectMessage = "direct_message";
+const kDirectMessageWeb = "direct_message_web";
 Future<List<String>> loadPrefs() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   var id = prefs.getString('id');
