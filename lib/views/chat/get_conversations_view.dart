@@ -13,33 +13,38 @@ class GetConversationsView extends StatelessWidget {
 
   final conversationList = [
     ConversationModel(
+        id: "1",
         photo: TempUser.image,
-        username: "Hambola_22",
-        name: "Hambola",
+        username: "Yoooyyyoooo_22",
+        name: "Yoooyyyoooo",
         lastmessage: "chesseeeeeeburgeerr",
         time: "1d"),
     ConversationModel(
+        id: "2",
         photo: TempUser.image,
-        username: "Hambola_22",
-        name: "Hambola",
+        username: "Yoooyyyoooo_22",
+        name: "Yoooyyyoooo",
         lastmessage: "chesseeeeeeburgeerr",
         time: "1d"),
     ConversationModel(
+        id: "3",
         photo: TempUser.image,
-        username: "Hambola_22",
-        name: "Hambola",
+        username: "Yoooyyyoooo_22",
+        name: "Yoooyyyoooo",
         lastmessage: "chesseeeeeeburgeerr",
         time: "1d"),
     ConversationModel(
+        id: "4",
         photo: TempUser.image,
-        username: "Hambola_22",
-        name: "Hambola",
+        username: "Yoooyyyoooo_22",
+        name: "Yoooyyyoooo",
         lastmessage: "chesseeeeeeburgeerr",
         time: "1d"),
     ConversationModel(
+        id: "5",
         photo: TempUser.image,
-        username: "Hambola_22",
-        name: "Hambola",
+        username: "Yoooyyyoooo_22",
+        name: "Yoooyyyoooo",
         lastmessage: "chesseeeeeeburgeerr",
         time: "1d"),
   ];
@@ -64,15 +69,10 @@ class GetConversationsView extends StatelessWidget {
         backgroundColor: Colors.white,
         leading: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.pushNamed(context, kProfileScreen);
-            },
-            child: CircleAvatar(
-              backgroundColor: Colors.transparent,
-              backgroundImage:
-                  CachedNetworkImageProvider(basePhotosURL + TempUser.image),
-            ),
+          child: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            backgroundImage:
+                CachedNetworkImageProvider(basePhotosURL + TempUser.image),
           ),
         ),
         titleSpacing: 10,

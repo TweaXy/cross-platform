@@ -10,27 +10,26 @@ class Conversation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onTap: () {
+        
+      },
       leading: CircleAvatar(
+        radius: 25,
         backgroundColor: Colors.transparent,
         backgroundImage:
             CachedNetworkImageProvider(basePhotosURL + conversation.photo),
       ),
-      title: Column(
+      title: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                conversation.name,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(" @${conversation.username} . ${conversation.time}"),
-            ],
+          Text(
+            conversation.name,
+            style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(conversation.lastmessage),
+          Text(" @${conversation.username} . ${conversation.time}"),
         ],
       ),
+      subtitle: Text(conversation.lastmessage),
     );
   }
 }
