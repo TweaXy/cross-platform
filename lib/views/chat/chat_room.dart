@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -31,31 +29,32 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  late List<Message> oldMessages;
-
   final currentUser = ChatUser(
     id: TempUser.id,
     name: TempUser.username,
     //  profilePhoto: Data.profileImage,
   );
   late ChatController _chatController;
+  List<Message> oldMessages = [];
+  int pageOffset = 20;
+  void loadMessages() async {
+    oldMessages =
+        await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // if ()
+    loadMessages();
+    pageOffset = oldMessages.length;
+    IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
+  }
+
   @override
   Widget build(BuildContext context) {
-    int pageOffset = 20;
-
-    @override
-    Future<void> initState() async {
-      super.initState();
-      // if ()
-
-      oldMessages =
-          await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
-      pageOffset = oldMessages.length;
-      IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
-    }
-
     _chatController = ChatController(
-      initialMessageList: oldMessages,
+      initialMessageList: [],
       scrollController: ScrollController(),
       chatUsers: [
         ChatUser(
@@ -90,15 +89,27 @@ class _ChatRoomState extends State<ChatRoom> {
           onReloadButtonTap: () {},
         ),
         appBar: ChatViewAppBar(
-          leading: CircleAvatar(
-            radius: kIsWeb ? 20 : 28,
-            backgroundColor: Colors.blueGrey[300],
-            backgroundImage:
-                CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+          leading: Row(
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.arrow_back_sharp)),
+              Container(
+                margin: EdgeInsets.all(2),
+                // padding: EdgeInsets.symmetric(
+                //     vertical: MediaQuery.of(context).size.height * 0.001),
+                child: CircleAvatar(
+                  radius: kIsWeb ? 20 : 28,
+                  backgroundColor: Colors.blueGrey[300],
+                  backgroundImage: CachedNetworkImageProvider(
+                      basePhotosURL + widget.avatar!),
+                ),
+              ),
+            ],
           ),
-          onBackPress: () {
-            Navigator.pop(context);
-          },
+          onBackPress: () {},
           chatTitle: widget.name,
           chatTitleTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
