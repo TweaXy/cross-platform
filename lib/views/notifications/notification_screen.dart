@@ -35,6 +35,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
+    TempUser.notificationCount = 0;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
