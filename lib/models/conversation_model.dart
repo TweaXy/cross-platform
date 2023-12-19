@@ -1,16 +1,18 @@
+import 'package:tweaxy/models/last_message_model.dart';
+
 class ConversationModel {
-  String id;
-  String photo;
+  String conversationID;
+  String userID;
+  String? userAvatar;
   String username;
   String name;
-  String lastmessage;
-  String time;
+  LastMessage? lastMessage;
   ConversationModel({
-    required this.id,
-    required this.photo,
+    required this.conversationID,
+    required this.userID,
+    required this.userAvatar,
     required this.username,
     required this.name,
-    required this.lastmessage,
-    required this.time,
+    required this.lastMessage,
   });
 }

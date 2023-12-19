@@ -1,61 +1,68 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/chat/conversation.dart';
+import 'package:tweaxy/components/custom_head_text.dart';
+import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/conversation_model.dart';
+import 'package:tweaxy/services/get_conversation_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/chat/direct_message.dart';
 
-class GetConversationsView extends StatelessWidget {
+class GetConversationsView extends StatefulWidget {
   GetConversationsView({super.key});
+
+  @override
+  State<GetConversationsView> createState() => _GetConversationsViewState();
+}
+
+class _GetConversationsViewState extends State<GetConversationsView> {
+  GetConversationsService service = GetConversationsService(Dio());
   final PagingController<int, ConversationModel> _pagingController =
       PagingController(firstPageKey: 0);
 
-  final conversationList = [
-    ConversationModel(
-        id: "1",
-        photo: TempUser.image,
-        username: "Yoooyyyoooo_22",
-        name: "Yoooyyyoooo",
-        lastmessage: "chesseeeeeeburgeerr",
-        time: "1d"),
-    ConversationModel(
-        id: "2",
-        photo: TempUser.image,
-        username: "Yoooyyyoooo_22",
-        name: "Yoooyyyoooo",
-        lastmessage: "chesseeeeeeburgeerr",
-        time: "1d"),
-    ConversationModel(
-        id: "3",
-        photo: TempUser.image,
-        username: "Yoooyyyoooo_22",
-        name: "Yoooyyyoooo",
-        lastmessage: "chesseeeeeeburgeerr",
-        time: "1d"),
-    ConversationModel(
-        id: "4",
-        photo: TempUser.image,
-        username: "Yoooyyyoooo_22",
-        name: "Yoooyyyoooo",
-        lastmessage: "chesseeeeeeburgeerr",
-        time: "1d"),
-    ConversationModel(
-        id: "5",
-        photo: TempUser.image,
-        username: "Yoooyyyoooo_22",
-        name: "Yoooyyyoooo",
-        lastmessage: "chesseeeeeeburgeerr",
-        time: "1d"),
-  ];
+  final int _pageSize = 7;
 
-  _fetchPage() {
-    _pagingController.appendPage(conversationList, 5);
+  @override
+  void initState() {
+    super.initState();
+    _pagingController.addPageRequestListener((pageKey) {
+      _fetchPage(pageKey);
+    });
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    try {
+      final List<ConversationModel> newItems =
+          await service.getConversations(null, limit: 7, pageNumber: pageKey);
+      newItems.removeWhere((element) => element.lastMessage == null);
+      log(newItems.toString());
+      final isLastPage = newItems.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(newItems);
+      } else {
+        final nextPageKey = pageKey + newItems.length;
+        _pagingController.appendPage(newItems, nextPageKey);
+      }
+    } catch (error) {
+      _pagingController.error = error;
+    }
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    _pagingController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    _fetchPage();
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -93,13 +100,65 @@ class GetConversationsView extends StatelessWidget {
                   ),
                 );
               },
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                heightFactor: 3,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomHeadText(
+                        textValue: 'Welcome to your\ninbox!',
+                        textAlign: TextAlign.left,
+                        letterSpacing: 1.1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 17),
+                        child: CustomParagraphText(
+                          textValue:
+                              'Drop a line, send photos and more with private conversations between you and others on TweaXy.',
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const DirectMesssage()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17),
+                          ),
+                        ),
+                        child: const Text(
+                          "Write a message",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 19),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               newPageProgressIndicatorBuilder: (context) => const Center(
                 child: CircularProgressIndicator(
                   color: Colors.blue,
                 ),
               ),
               itemBuilder: (context, item, index) {
-                return Conversation(conversation: item);
+                return Padding(
+                  padding:
+                      EdgeInsets.only(bottom: 8.0, top: index == 0 ? 5.0 : 0),
+                  child: Conversation(conversation: item),
+                );
               },
             ),
           ),

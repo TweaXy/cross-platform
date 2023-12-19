@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/conversation_model.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class Conversation extends StatelessWidget {
   const Conversation({super.key, required this.conversation});
@@ -9,16 +10,19 @@ class Conversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (conversation.lastMessage != null) {
+      conversation.lastMessage!.createdDate =
+          dateFormatter(conversation.lastMessage!.createdDate);
+    }
+    conversation.userAvatar ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
+
     return ListTile(
-      onTap: () {
-        
-        
-      },
+      onTap: () {},
       leading: CircleAvatar(
         radius: 25,
         backgroundColor: Colors.transparent,
-        backgroundImage:
-            CachedNetworkImageProvider(basePhotosURL + conversation.photo),
+        backgroundImage: CachedNetworkImageProvider(
+            basePhotosURL + conversation.userAvatar!),
       ),
       title: Row(
         mainAxisSize: MainAxisSize.min,
@@ -27,10 +31,20 @@ class Conversation extends StatelessWidget {
             conversation.name,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(" @${conversation.username} . ${conversation.time}"),
+          Flexible(
+            child: Text(
+              " @${conversation.username} ",
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(". ${conversation.lastMessage?.createdDate}"),
         ],
       ),
-      subtitle: Text(conversation.lastmessage),
+      subtitle: conversation.lastMessage == null
+          ? const Text("")
+          : conversation.lastMessage!.text == null
+              ? Text("${conversation.name} sent a photo")
+              : Text(conversation.lastMessage!.text!),
     );
   }
 }
