@@ -111,7 +111,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                     if (!initialized) {
                       initialized = true;
                       _isUserBlocked = user.blockedByMe!;
-                      if (text != '') {
+
+                      if (text != 'Edit Profile') {
                         text = user.followedByMe! ? 'Following' : 'Follow';
                       }
                     }
@@ -221,6 +222,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
+    print(text);
     if (!initialized) {
       initialized = true;
       _isMuted = user.muted!;
@@ -391,7 +393,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                 if (_isUserBlocked) {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => BlockUserDialog(
+                                    builder: (context) => UnblockUserDialog(
                                         username: user.userName!),
                                   );
                                 } else {
@@ -666,12 +668,17 @@ class _UnblockUserDialogState extends State<UnblockUserDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
         ),
         _isLoading
-            ? const SpinKitCircle(
-                color: Colors.blueAccent,
-              )
+            ? const ProfileDialogLoading()
             : TextButton(
                 onPressed: () async {
                   BlocProvider.of<EditProfileCubit>(context)
@@ -703,9 +710,38 @@ class _UnblockUserDialogState extends State<UnblockUserDialog> {
                       .emit(ProfilePageCompletedState());
                   Navigator.pop(context);
                 },
-                child: const Text('Unblock'),
+                child: const Text(
+                  'Unblock',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
               ),
       ],
+    );
+  }
+}
+
+class ProfileDialogLoading extends StatelessWidget {
+  const ProfileDialogLoading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: SpinKitRing(
+          color: Colors.blueAccent,
+          size: 40,
+          lineWidth: 5,
+        ),
+      ),
     );
   }
 }
@@ -744,9 +780,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
           ),
         ),
         _isLoading
-            ? const SpinKitCircle(
-                color: Colors.blueAccent,
-              )
+            ? const ProfileDialogLoading()
             : TextButton(
                 onPressed: () async {
                   BlocProvider.of<EditProfileCubit>(context)
@@ -754,7 +788,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
                   setState(() {
                     _isLoading = true;
                   });
-                  
+
                   bool flag = await BlockingUserService.blockUser(
                       username: widget.username);
                   setState(() {
