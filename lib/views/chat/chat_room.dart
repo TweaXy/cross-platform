@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
@@ -18,7 +18,8 @@ class ChatRoom extends StatefulWidget {
       required this.avatar,
       required this.username,
       required this.isFirstMsg,
-      required this.name, required this.conversationID});
+      required this.name,
+      required this.conversationID});
   final String id;
   final String conversationID;
   String? avatar = "";
@@ -30,12 +31,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
-  @override
-  void initState() {
-    super.initState();
-    // if ()
-    IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
-  }
+  late List<Message> oldMessages;
 
   final currentUser = ChatUser(
     id: TempUser.id,
@@ -45,20 +41,44 @@ class _ChatRoomState extends State<ChatRoom> {
   late ChatController _chatController;
   @override
   Widget build(BuildContext context) {
+    int pageOffset = 20;
+
+    @override
+    Future<void> initState() async {
+      super.initState();
+      // if ()
+
+      oldMessages =
+          await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+      pageOffset = oldMessages.length;
+      IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
+    }
+
     _chatController = ChatController(
-      initialMessageList: [],
+      initialMessageList: oldMessages,
       scrollController: ScrollController(),
       chatUsers: [
         ChatUser(
             id: widget.id, name: widget.username, profilePhoto: widget.avatar),
       ],
     );
+    const int pageSize = 20;
     return Scaffold(
       body: ChatView(
+        loadingWidget: const CircularProgressIndicator(
+          color: Colors.blue,
+        ),
+        isLastPage: pageOffset < pageSize ? true : false,
+        loadMoreData: () async {
+          var newMessages = await ChatRoomService(Dio())
+              .getMessages(widget.conversationID, pageOffset);
+          _chatController.loadMoreData(newMessages);
+        },
         currentUser: currentUser,
         chatController: _chatController,
         onSendTap: _onSendTap,
         featureActiveConfig: const FeatureActiveConfig(
+          enablePagination: true,
           enableOtherUserProfileAvatar: false,
           lastSeenAgoBuilderVisibility: true,
           receiptsBuilderVisibility: true,
@@ -70,6 +90,12 @@ class _ChatRoomState extends State<ChatRoom> {
           onReloadButtonTap: () {},
         ),
         appBar: ChatViewAppBar(
+          leading: CircleAvatar(
+            radius: kIsWeb ? 20 : 28,
+            backgroundColor: Colors.blueGrey[300],
+            backgroundImage:
+                CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+          ),
           onBackPress: () {
             Navigator.pop(context);
           },
