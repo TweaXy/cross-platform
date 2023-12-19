@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/helpers/api.dart';
 
 class LikeTweet {
   static final String _endpoint = 'interactions/';

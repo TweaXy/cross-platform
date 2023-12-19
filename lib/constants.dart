@@ -52,3 +52,4 @@ Future<List<String>> loadPrefs() async {
 final navigatorKey = GlobalKey<NavigatorState>();
 const kSettings = 'settings_view';
 const kAccountinfo = "account_info_view";
+const kChatRoom="chat_room";

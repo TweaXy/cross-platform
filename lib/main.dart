@@ -8,6 +8,8 @@ import 'package:tweaxy/cubits/block_user_cubit/block_user_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
+import 'package:tweaxy/views/chat/chat_room.dart';
+import 'package:tweaxy/views/chat/chat_room_web.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/mute_and_blocks_screen.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/muted_users_screen.dart';
@@ -71,7 +73,7 @@ class TweaXy extends StatelessWidget {
           BlocProvider(
             create: (context) => EditProfileCubit(),
           ),
-           BlocProvider(
+          BlocProvider(
             create: (context) => UpdateUsernameCubit(),
           ),
         ],
@@ -123,8 +125,9 @@ class TweaXy extends StatelessWidget {
             // kSearchTweets: (context) => SearchTweets(
             //       username: "Angel_Herzog",
             //     ),
+            kChatRoom: (context) => const ChatRoom(),
           },
-          initialRoute: kSplashScreen,
+          initialRoute: kChatRoom,
         ),
       ),
     );
