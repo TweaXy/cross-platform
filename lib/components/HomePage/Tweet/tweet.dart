@@ -23,7 +23,11 @@ import 'package:tweaxy/shared/keys/home_page_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet, required this.replyto, required this.isMuted});
+  const CustomTweet(
+      {super.key,
+      required this.tweet,
+      required this.replyto,
+      required this.isMuted});
   final List<String> replyto;
   final Tweet tweet;
   final bool isMuted;
@@ -70,15 +74,15 @@ class CustomTweet extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProfileScreen(
-                          id: tweet.reposterid,
+                          id: tweet.reposteruserid,
                           text: TempUser.id == tweet.userId ? '' : 'no',
                         ),
                       ),
                     );
                   } else {
                     BlocProvider.of<SidebarCubit>(context).openProfile(
-                        tweet.reposterid,
-                        tweet.reposterid == TempUser.id ? '' : 'Following');
+                        tweet.reposteruserid,
+                        tweet.reposteruserid == TempUser.id ? '' : 'Following');
                   }
                 },
                 child: Padding(
@@ -92,7 +96,7 @@ class CustomTweet extends StatelessWidget {
                             BoxConstraints(maxWidth: screenWidth * 0.5),
                         child: Text(
                           maxLines: 1,
-                          TempUser.id == tweet.reposterid
+                          TempUser.id == tweet.reposteruserid
                               ? '  You'
                               : '  ${tweet.reposteruserName}',
                           style: const TextStyle(
@@ -138,7 +142,8 @@ class CustomTweet extends StatelessWidget {
                             )
                           : User_TweetInfo(
                               tweet: tweet,
-                              replyto: replyto, isMuted: isMuted,
+                              replyto: replyto,
+                              isMuted: isMuted,
                             ),
                       if (tweet.tweetText != null)
                         Container(

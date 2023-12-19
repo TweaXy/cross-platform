@@ -49,8 +49,9 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isUserCommented: e['isUserCommented'],
           createdDate: e['createdDate'],
           isretweet: e['isretweet'],
-          reposterid: e['reposterid'],
-          reposteruserName: e['reposteruserName']))
+          reposteruserid: e['reposteruserid'],
+          reposteruserName: e['reposteruserName'],
+          reposttweetid: e['reposttweetid']))
       .toList();
   return t;
 }
@@ -117,21 +118,23 @@ List<String> calculateTime(String fulldate) {
 List<Map<String, dynamic>> mapToList(Response res) {
   return (res.data['data']['items'] as List<dynamic>).map((item) {
     String x = 'mainInteraction';
-    String reposterid = '';
+    String reposteruserid = '';
     String reposteruserName = '';
+    String reposttweetid = '';
     if (item['mainInteraction']['type'] == "RETWEET") {
       print(TempUser.id);
       x = 'parentInteraction';
-      reposterid = item['mainInteraction']['user']['id'];
+      reposteruserid = item['mainInteraction']['user']['id'];
       reposteruserName = item['mainInteraction']['user']['name'];
-      print(reposterid);
+      reposttweetid = item['mainInteraction']['id'];
+      print(reposteruserid);
     }
     return {
-      'likesCount': item['mainInteraction']['likesCount'],
-      'viewsCount': item['mainInteraction']['viewsCount'],
-      'retweetsCount': item['mainInteraction']['retweetsCount'],
-      'commentsCount': item['mainInteraction']['commentsCount'],
-      'id': item['mainInteraction']['id'],
+      'likesCount': item[x]['likesCount'],
+      'viewsCount': item[x]['viewsCount'],
+      'retweetsCount': item[x]['retweetsCount'],
+      'commentsCount': item[x]['commentsCount'],
+      'id': item[x]['id'],
       'userid': item[x]['user']['id'],
       'userImage': item[x]['user']['avatar'] != null
           ? item[x]['user']['avatar']
@@ -142,15 +145,16 @@ List<Map<String, dynamic>> mapToList(Response res) {
       'time': dateFormatter(item[x]['createdDate']),
       'tweetText': item[x]['text'],
       'isUserLiked':
-          intToBool(item['mainInteraction']['isUserInteract']['isUserLiked']),
+          intToBool(item[x]['isUserInteract']['isUserLiked']),
       'isUserRetweeted': intToBool(
-          item['mainInteraction']['isUserInteract']['isUserRetweeted']),
+          item[x]['isUserInteract']['isUserRetweeted']),
       'isUserCommented': intToBool(
-          item['mainInteraction']['isUserInteract']['isUserCommented']),
+          item[x]['isUserInteract']['isUserCommented']),
       'createdDate': calculateTime(item[x]['createdDate']),
       'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
-      'reposterid': reposterid,
-      'reposteruserName': reposteruserName
+      'reposteruserid': reposteruserid,
+      'reposteruserName': reposteruserName,
+      'reposttweetid': reposttweetid
     };
   }).toList();
 }

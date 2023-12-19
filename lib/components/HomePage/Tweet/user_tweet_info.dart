@@ -122,7 +122,9 @@ class User_TweetInfo extends StatelessWidget {
                         ),
                         builder: (context) {
                           return WrapModalBottomProfile(
-                            tweetid: tweet.id,
+                            tweetid: tweet.reposttweetid == ''
+                                ? tweet.id
+                                : tweet.reposttweetid,
                             forreply: false,
                           );
                         },
