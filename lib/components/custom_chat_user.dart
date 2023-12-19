@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_button.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/user_chat.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/views/chat/chat_room.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/constants.dart';
 
@@ -39,7 +41,12 @@ class _CustomFollowersState extends State<CustomUserChat> {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+            context,
+            CustomPageRoute(
+                direction: AxisDirection.left, child:  ChatRoom(id:widget.user.id,avatar:widget.user.avatar,username: widget.user.username,)));
+      },
       child: SizedBox(
         width: double.infinity,
         child: Column(

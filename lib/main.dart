@@ -128,9 +128,9 @@ class TweaXy extends StatelessWidget {
             // kSearchTweets: (context) => SearchTweets(
             //       username: "Angel_Herzog",
             //     ),
-            kChatRoom: (context) => const ChatRoom(),
+            // kChatRoom: (context) =>  (),
           },
-          initialRoute: kChatRoom,
+          initialRoute: kSplashScreen,
         ),
       ),
     );

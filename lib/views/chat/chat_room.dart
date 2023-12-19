@@ -2,38 +2,38 @@ import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class ChatRoom extends StatefulWidget {
-  const ChatRoom({super.key});
-
+  ChatRoom(
+      {super.key,
+      required this.id,
+      required this.avatar,
+      required this.username});
+  final String id;
+  String? avatar = "";
+  final String username;
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> {
   final currentUser = ChatUser(
-    id: '1',
-    name: 'nancy',
+    id: TempUser.id,
+    name: TempUser.username,
     //  profilePhoto: Data.profileImage,
   );
-  final _chatController = ChatController(
-    initialMessageList: [
-      Message(
-        message: "message",
-        createdAt: DateTime(10, 10, 2000),
-        sendBy: "2",
-      ),
-    ],
-    scrollController: ScrollController(),
-    chatUsers: [
-      ChatUser(
-        id: '2',
-        name: 'yara',
-      ),
-    ],
-  );
+  late ChatController _chatController;
   @override
   Widget build(BuildContext context) {
+    _chatController = ChatController(
+      initialMessageList: [],
+      scrollController: ScrollController(),
+      chatUsers: [
+        ChatUser(
+            id: widget.id, name: widget.username, profilePhoto: widget.avatar),
+      ],
+    );
     return Scaffold(
       body: ChatView(
         currentUser: currentUser,
