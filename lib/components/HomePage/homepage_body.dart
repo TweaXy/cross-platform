@@ -28,22 +28,7 @@ class HomePageBody extends StatefulWidget {
 class _MyPageState extends State<HomePageBody> {
   PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
-  Future checkNotificationTokenSent() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Save user information
-    var notificationToken = prefs.getString('notificationTokenSent');
-    if (notificationToken == null) {
-      var notificationToken = await FirebaseApi.initNotifications();
-      SendDeviceToken.getAllNotifications(
-        TempUser.token,
-        notificationToken,
-      );
-      prefs.setString(
-        'notificationTokenSent',
-        notificationToken!,
-      );
-    }
-  }
+  
 
   @override
   void initState() {
@@ -53,7 +38,6 @@ class _MyPageState extends State<HomePageBody> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    checkNotificationTokenSent();
   }
 
   void dispose() {
