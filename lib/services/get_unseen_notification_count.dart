@@ -10,7 +10,7 @@ class GetUnseenNotificationCount {
   ) async {
     var response =
         await Api.getwithToken(url: '$baseURL$_endpoint', token: token);
-    int data = response.data['data']['count'];
+    int data = response.data['data']['notificationCount'];
     print('Count = $data');
     return data;
   }

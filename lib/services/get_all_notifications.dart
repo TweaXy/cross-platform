@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/user_notification.dart';
@@ -11,10 +13,13 @@ class GetAllNotifications {
     int offset,
     String token,
   ) async {
+    log('PageSize = $pageSize');
+    log('Offset = $offset');
+    log('Token = $token');
     var response = await Api.getwithToken(
         url: '$baseURL$_endpoint?limit=$pageSize&offset=$offset', token: token);
     var data = response.data['data']['notifications'];
-    print('Notify = $data');
+    log('Notify = $data');
     List<UserNotification> notifications = [];
     for (var element in data) {
       notifications.add(UserNotification.fromJson(element));

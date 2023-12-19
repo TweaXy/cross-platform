@@ -27,7 +27,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  static const _pageSize = 20;
+  static const _pageSize = 10;
   final PagingController<int, Tweet> _mentionsPagingController =
       PagingController(firstPageKey: 0);
   final PagingController<int, UserNotification> _pagingController =
@@ -76,13 +76,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         _mentionsPagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _mentionsPagingController.error = error;
     }
   }
 
   @override
   void dispose() {
     _pagingController.dispose();
+    _mentionsPagingController.dispose();
     super.dispose();
   }
 
@@ -239,7 +240,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   animateTransitions: true,
                   itemBuilder: (context, item, index) {
                     return CustomTweet(
-                        tweet: item, replyto: const [], isMuted: false,);
+                      tweet: item,
+                      replyto: const [],
+                      isMuted: false,
+                    );
                   },
                 ),
               ),
