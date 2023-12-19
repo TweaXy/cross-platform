@@ -8,11 +8,11 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
-class ChatRoom {
+class ChatRoomService {
   final Dio dio;
   final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
   late String id;
-  ChatRoom(this.dio);
+  ChatRoomService(this.dio);
   Future<List<Message>> getMessages(String id, int pageOffset) async {
     Response response;
     String? token;
@@ -61,5 +61,29 @@ class ChatRoom {
           sendBy: sendByid));
     }
     return messages;
+  }
+
+  Future firstConversation(String username) async {
+    Response response;
+    String? token;
+    try {
+      List<String> s = await loadPrefs();
+      token = s[1];
+    } catch (e) {
+      log(e.toString());
+    }
+    try {
+      response = await Api.post(
+          body: {"UUID": username},
+          url: '${baseURL}conversations',
+          token: token);
+
+      return response.data["data"]["conversationID"];
+    } catch (e) {
+      if (kDebugMode) {
+        log(e.toString());
+      } //debug mode only
+      throw Exception('varification code error ');
+    }
   }
 }

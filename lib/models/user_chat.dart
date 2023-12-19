@@ -16,6 +16,8 @@ class UserChat {
       id: jsonData['id'],
       username: jsonData['username'],
       email: jsonData['email'],
+      avatar: jsonData['avatar'],
+      name: jsonData['name'],
     );
   }
   factory UserChat.fromJsonSearch(dynamic data, int i) {
@@ -23,6 +25,8 @@ class UserChat {
     return UserChat(
       id: jsonData['id'],
       username: jsonData['username'],
+      email: jsonData['email'],
+      avatar: jsonData['avatar'],
       name: jsonData['name'],
     );
   }

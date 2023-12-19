@@ -53,15 +53,15 @@ class TempUser {
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
     if (result is String) {
     } else if (result is Response) {
-      int notifica =
-          await GetUnseenNotificationCount.getUnseenNotificationCount(token);
+      // int notifica =
+      //     await GetUnseenNotificationCount.getUnseenNotificationCount(token);
       Response res = result;
       setId(id: userid!);
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
       setImage(image: res.data['data']['user']['avatar']);
-      TempUser.notificationCount = notifica;
+      TempUser.notificationCount = 10;
     }
   }
 }

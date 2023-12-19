@@ -8,6 +8,7 @@ import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_chat.dart';
 import 'package:tweaxy/services/search_for_users.dart';
+import 'package:tweaxy/services/temp_user.dart';
 
 class DirectMesssage extends StatefulWidget {
   const DirectMesssage({super.key});
@@ -38,9 +39,9 @@ class _DirectMesssageState extends State<DirectMesssage> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
-    _pagingController1.addPageRequestListener((pageKey) {
-      _fetchPage1(pageKey);
-    });
+    // _pagingController1.addPageRequestListener((pageKey) {
+    //   _fetchPage1(pageKey);
+    // });
   }
 
   final _pageSize = 7;
@@ -72,31 +73,31 @@ class _DirectMesssageState extends State<DirectMesssage> {
     }
   }
 
-  Future<void> _fetchPage1(int pageKey) async {
-    try {
-      final newItems = await SearchForUsers.allusersInChat(
-        pageSize: _pageSize,
-        offset: pageKey,
-      );
-      print(newItems);
-      final isLastPage = newItems.length < _pageSize;
-      if (isLastPage) {
-        _pagingController1.appendLastPage(newItems);
-      } else {
-        final nextPageKey = pageKey + newItems.length;
-        _pagingController1.appendPage(newItems, nextPageKey);
-      }
-    } catch (error) {
-      _pagingController1.error = Container(
-        child: const Center(
-          child: Text(
-            'No results found',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-      );
-    }
-  }
+  // Future<void> _fetchPage1(int pageKey) async {
+  //   try {
+  //     final newItems = await SearchForUsers.allusersInChat(
+  //       pageSize: _pageSize,
+  //       offset: pageKey,
+  //     );
+  //     print(newItems);
+  //     final isLastPage = newItems.length < _pageSize;
+  //     if (isLastPage) {
+  //       _pagingController1.appendLastPage(newItems);
+  //     } else {
+  //       final nextPageKey = pageKey + newItems.length;
+  //       _pagingController1.appendPage(newItems, nextPageKey);
+  //     }
+  //   } catch (error) {
+  //     _pagingController1.error = Container(
+  //       child: const Center(
+  //         child: Text(
+  //           'No results found',
+  //           style: TextStyle(color: Colors.black),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
 
   String query = '';
 
@@ -166,60 +167,61 @@ class _DirectMesssageState extends State<DirectMesssage> {
             ),
           ),
           Expanded(
-            child: showAction
-                ? PagedListView<int, UserChat>(
-                    pagingController: _pagingController,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      animateTransitions: true,
-                      noItemsFoundIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SizedBox(),
-                        );
-                      },
-                      newPageErrorIndicatorBuilder: (context) {
-                        return const SizedBox();
-                      },
-                      firstPageProgressIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SpinKitRing(color: Colors.blueAccent),
-                        );
-                      },
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                        child: SpinKitRing(color: Colors.blueAccent),
-                      ),
-                      itemBuilder: (context, item, index) {
-                        return CustomUserChat(user: item);
-                      },
-                    ),
-                  )
-                : PagedListView<int, UserChat>(
-                    pagingController: _pagingController1,
-                    builderDelegate: PagedChildBuilderDelegate(
-                      animateTransitions: true,
-                      noItemsFoundIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SizedBox(),
-                        );
-                      },
-                      newPageErrorIndicatorBuilder: (context) {
-                        return const SizedBox();
-                      },
-                      firstPageProgressIndicatorBuilder: (context) {
-                        return const Center(
-                          child: SpinKitRing(color: Colors.blueAccent),
-                        );
-                      },
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                        child: SpinKitRing(color: Colors.blueAccent),
-                      ),
-                      itemBuilder: (context, item, index) {
-                        return CustomUserChat(user: item);
-                      },
-                    ),
-                  ),
-          ),
+              child: PagedListView<int, UserChat>(
+            pagingController: _pagingController,
+            builderDelegate: PagedChildBuilderDelegate(
+              animateTransitions: true,
+              noItemsFoundIndicatorBuilder: (context) {
+                return const Center(
+                  child: SizedBox(),
+                );
+              },
+              newPageErrorIndicatorBuilder: (context) {
+                return const SizedBox();
+              },
+              firstPageProgressIndicatorBuilder: (context) {
+                return const Center(
+                  child: SpinKitRing(color: Colors.blueAccent),
+                );
+              },
+              newPageProgressIndicatorBuilder: (context) => const Center(
+                child: SpinKitRing(color: Colors.blueAccent),
+              ),
+              itemBuilder: (context, item, index) {
+                if (item.id == TempUser.id)
+                  return const SizedBox();
+                else
+                  return CustomUserChat(user: item);
+              },
+            ),
+          )
+              //       : PagedListView<int, UserChat>(
+              //           pagingController: _pagingController1,
+              //           builderDelegate: PagedChildBuilderDelegate(
+              //             animateTransitions: true,
+              //             noItemsFoundIndicatorBuilder: (context) {
+              //               return const Center(
+              //                 child: SizedBox(),
+              //               );
+              //             },
+              //             newPageErrorIndicatorBuilder: (context) {
+              //               return const SizedBox();
+              //             },
+              //             firstPageProgressIndicatorBuilder: (context) {
+              //               return const Center(
+              //                 child: SpinKitRing(color: Colors.blueAccent),
+              //               );
+              //             },
+              //             newPageProgressIndicatorBuilder: (context) =>
+              //                 const Center(
+              //               child: SpinKitRing(color: Colors.blueAccent),
+              //             ),
+              //             itemBuilder: (context, item, index) {
+              //               return CustomUserChat(user: item);
+              //             },
+              //           ),
+              //         ),
+              ),
         ],
       ),
     );

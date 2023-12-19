@@ -1,7 +1,14 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dio/dio.dart';
 // import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/helpers/api.dart';
+import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -9,15 +16,27 @@ class ChatRoom extends StatefulWidget {
       {super.key,
       required this.id,
       required this.avatar,
-      required this.username});
+      required this.username,
+      required this.isFirstMsg,
+      required this.name, required this.conversationID});
   final String id;
+  final String conversationID;
   String? avatar = "";
   final String username;
+  final String name;
+  final bool isFirstMsg;
   @override
   State<ChatRoom> createState() => _ChatRoomState();
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  @override
+  void initState() {
+    super.initState();
+    // if ()
+    IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
+  }
+
   final currentUser = ChatUser(
     id: TempUser.id,
     name: TempUser.username,
@@ -54,7 +73,7 @@ class _ChatRoomState extends State<ChatRoom> {
           onBackPress: () {
             Navigator.pop(context);
           },
-          chatTitle: "yara",
+          chatTitle: widget.name,
           chatTitleTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 18,
@@ -145,7 +164,11 @@ class _ChatRoomState extends State<ChatRoom> {
     String message,
     ReplyMessage replyMessage,
     MessageType messageType,
-  ) {
+  ) async {
+    if (widget.isFirstMsg) {
+      ChatRoomService service = ChatRoomService(Dio());
+      String id = await service.firstConversation(widget.username);
+    }
     final id = 1;
     _chatController.addMessage(
       Message(

@@ -6,7 +6,7 @@ import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_chat.dart';
 
 class SearchForUsers {
-  static const String _endpoint = 'users/search/';
+  static const String _endpoint = 'users/search/match?keyword=';
   SearchForUsers._();
   static Future<List<User>> searchForUser(String query, String token,
       {int pageSize = 100, int pageNumber = 0}) async {
@@ -41,7 +41,7 @@ class SearchForUsers {
     token = user.getString("token")!;
     print(token);
     response = await Api.getwithToken(
-      url: '$baseURL$_endpoint$username?limit=$pageSize&offset=$offset',
+      url: '$baseURL$_endpoint$username&limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
@@ -61,14 +61,13 @@ class SearchForUsers {
     required int pageSize,
   }) async {
     dynamic response;
-    String token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwibHUxd2tyM2poMW82a2V2cHV3amE4d2w3OVwiIiwiaWF0IjoxNzAyODU2MTc5LCJleHAiOjE3MDU0NDgxNzl9.eGd2wPdlzzK5HB1CbWuYPG5NfxdUzM3WHjbLTTrSjXI';
-    // SharedPreferences user = await SharedPreferences.getInstance();
-    // token = user.getString("token")!;
+    String token;
+    SharedPreferences user = await SharedPreferences.getInstance();
+    token = user.getString("token")!;
     print(token);
     String u = '$baseURL$_endpoint$username?limit=$pageSize&offset=$offset';
     response = await Api.getwithToken(
-      url: '$baseURL$_endpoint$username?limit=$pageSize&offset=$offset',
+      url: '$baseURL$_endpoint$username&limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

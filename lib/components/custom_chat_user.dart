@@ -45,7 +45,15 @@ class _CustomFollowersState extends State<CustomUserChat> {
         Navigator.push(
             context,
             CustomPageRoute(
-                direction: AxisDirection.left, child:  ChatRoom(id:widget.user.id,avatar:widget.user.avatar,username: widget.user.username,)));
+                direction: AxisDirection.left,
+                child: ChatRoom(
+                  conversationID: '',
+                  isFirstMsg: true,
+                  id: widget.user.id,
+                  avatar: widget.user.avatar,
+                  username: widget.user.username,
+                  name: widget.user.name!,
+                )));
       },
       child: SizedBox(
         width: double.infinity,
