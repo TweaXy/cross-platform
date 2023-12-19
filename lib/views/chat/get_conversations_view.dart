@@ -5,10 +5,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/chat/conversation.dart';
+import 'package:tweaxy/components/custom_head_text.dart';
+import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/services/get_conversation_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/views/chat/direct_message.dart';
 
 class GetConversationsView extends StatefulWidget {
   GetConversationsView({super.key});
@@ -36,6 +40,7 @@ class _GetConversationsViewState extends State<GetConversationsView> {
     try {
       final List<ConversationModel> newItems =
           await service.getConversations(null, limit: 7, pageNumber: pageKey);
+      newItems.removeWhere((element) => element.lastMessage == null);
       log(newItems.toString());
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -95,6 +100,54 @@ class _GetConversationsViewState extends State<GetConversationsView> {
                   ),
                 );
               },
+              noItemsFoundIndicatorBuilder: (context) => Center(
+                heightFactor: 3,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.05),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      CustomHeadText(
+                        textValue: 'Welcome to your\ninbox!',
+                        textAlign: TextAlign.left,
+                        letterSpacing: 1.1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0, bottom: 17),
+                        child: CustomParagraphText(
+                          textValue:
+                              'Drop a line, send photos and more with private conversations between you and others on TweaXy.',
+                          textAlign: TextAlign.left,
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              CustomPageRoute(
+                                  direction: AxisDirection.left,
+                                  child: const DirectMesssage()));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(17),
+                          ),
+                        ),
+                        child: const Text(
+                          "Write a message",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 19),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               newPageProgressIndicatorBuilder: (context) => const Center(
                 child: CircularProgressIndicator(
                   color: Colors.blue,
@@ -102,7 +155,8 @@ class _GetConversationsViewState extends State<GetConversationsView> {
               ),
               itemBuilder: (context, item, index) {
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 5.0),
+                  padding:
+                      EdgeInsets.only(bottom: 8.0, top: index == 0 ? 5.0 : 0),
                   child: Conversation(conversation: item),
                 );
               },

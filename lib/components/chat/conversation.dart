@@ -10,19 +10,19 @@ class Conversation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (conversation.lastmessageTime != null) {
-      conversation.lastmessageTime =
-          dateFormatter(conversation.lastmessageTime!);
+    if (conversation.lastMessage != null) {
+      conversation.lastMessage!.createdDate =
+          dateFormatter(conversation.lastMessage!.createdDate);
     }
-    conversation.photo ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
+    conversation.userAvatar ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
 
     return ListTile(
       onTap: () {},
       leading: CircleAvatar(
         radius: 25,
         backgroundColor: Colors.transparent,
-        backgroundImage:
-            CachedNetworkImageProvider(basePhotosURL + conversation.photo!),
+        backgroundImage: CachedNetworkImageProvider(
+            basePhotosURL + conversation.userAvatar!),
       ),
       title: Row(
         mainAxisSize: MainAxisSize.min,
@@ -31,12 +31,20 @@ class Conversation extends StatelessWidget {
             conversation.name,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          Text(" @${conversation.username} . ${conversation.lastmessageTime}"),
+          Flexible(
+            child: Text(
+              " @${conversation.username} ",
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+          Text(". ${conversation.lastMessage?.createdDate}"),
         ],
       ),
-      subtitle: conversation.lastmessageText == null
-          ? null
-          : Text(conversation.lastmessageText!),
+      subtitle: conversation.lastMessage == null
+          ? const Text("")
+          : conversation.lastMessage!.text == null
+              ? Text("${conversation.name} sent a photo")
+              : Text(conversation.lastMessage!.text!),
     );
   }
 }
