@@ -1,16 +1,20 @@
 class ConversationModel {
-  String id;
-  String photo;
+  String conversationID;
+  String userID;
+  String? photo;
   String username;
   String name;
-  String lastmessage;
-  String time;
+  String? lastmessageText;
+  String? lastmessageMedia;
+  String? lastmessageTime;
   ConversationModel({
-    required this.id,
+    required this.conversationID,
+    required this.userID,
     required this.photo,
     required this.username,
     required this.name,
-    required this.lastmessage,
-    required this.time,
+    required this.lastmessageText,
+    required this.lastmessageMedia,
+    required this.lastmessageTime,
   });
 }
