@@ -1,5 +1,8 @@
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/get_unseen_notification_count.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,7 +45,7 @@ class TempUser {
     TempUser.id = id;
   }
 
-  static void userSetData() async {
+  static void userSetData(context) async {
     //  print(email);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
@@ -62,6 +65,8 @@ class TempUser {
       setUserName(username: res.data['data']['user']['username']);
       setImage(image: res.data['data']['user']['avatar']);
       TempUser.notificationCount = notifica;
+       BlocProvider.of<TweetsUpdateCubit>(context)
+                      .refresh();
     }
   }
 }

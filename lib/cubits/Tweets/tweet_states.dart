@@ -27,6 +27,21 @@ class TweetDeleteState extends TweetUpdateState {
 
   TweetDeleteState({required this.tweetid});
 }
+class TweetUserBlocked extends TweetUpdateState {
+  final String tweetid;
+
+  TweetUserBlocked({required this.tweetid});
+}
+class TweetUserMuted extends TweetUpdateState {
+  final String tweetid;
+
+  TweetUserMuted({required this.tweetid});
+}
+class TweetUserUnfollowed extends TweetUpdateState {
+  final String tweetid;
+
+  TweetUserUnfollowed({required this.tweetid});
+}
 
 class TweetDeleteInReplyState extends TweetUpdateState {}
 

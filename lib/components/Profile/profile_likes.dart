@@ -10,8 +10,10 @@ import 'package:tweaxy/services/get_likers_in_profile.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class ProfileLikes extends StatefulWidget {
-  const ProfileLikes({super.key, required this.id});
+  const ProfileLikes({super.key, required this.id, required this.isMuted});
   final String id;
+  final bool isMuted;
+
   @override
   State<ProfileLikes> createState() => _ProfileLikesState();
 }
@@ -107,7 +109,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
           itemBuilder: (context, item, index) {
             return CustomTweet(
               tweet: item,
-              replyto: [],
+              replyto: [], isMuted: widget.isMuted,
             );
           },
         ),

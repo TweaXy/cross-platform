@@ -23,9 +23,11 @@ import 'package:tweaxy/shared/keys/home_page_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet, required this.replyto});
+  const CustomTweet({super.key, required this.tweet, required this.replyto, required this.isMuted});
   final List<String> replyto;
   final Tweet tweet;
+  final bool isMuted;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -34,9 +36,6 @@ class CustomTweet extends StatelessWidget {
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0]!;
-    print('kkkk' + k.toString());
-    // if (t != null && t.length > 1) k = t[1].trim()!;
-
     return GestureDetector(
       key: const ValueKey(TweetKeys.clickToShowRepliesScreen),
       onTap: () {
@@ -72,13 +71,14 @@ class CustomTweet extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => ProfileScreen(
                           id: tweet.reposterid,
-                          text: TempUser.id==tweet.userId?'':'no',
+                          text: TempUser.id == tweet.userId ? '' : 'no',
                         ),
                       ),
                     );
                   } else {
                     BlocProvider.of<SidebarCubit>(context).openProfile(
-                        tweet.reposterid, tweet.reposterid == TempUser.id ? '' : 'Following');
+                        tweet.reposterid,
+                        tweet.reposterid == TempUser.id ? '' : 'Following');
                   }
                 },
                 child: Padding(
@@ -138,7 +138,7 @@ class CustomTweet extends StatelessWidget {
                             )
                           : User_TweetInfo(
                               tweet: tweet,
-                              replyto: replyto,
+                              replyto: replyto, isMuted: isMuted,
                             ),
                       if (tweet.tweetText != null)
                         Container(

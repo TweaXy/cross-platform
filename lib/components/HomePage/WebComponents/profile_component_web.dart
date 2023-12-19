@@ -57,7 +57,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     });
     controller = ScrollController();
 
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -349,9 +349,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                                 text: 'Posts',
                               ),
                               Tab(
-                                text: 'Replies',
-                              ),
-                              Tab(
                                 text: 'Likes',
                               )
                             ],
@@ -362,6 +359,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     body: ProfileScreenBody(
                       tabController: _tabController,
                       id: id,
+                      isMuted: false,
                     ),
                   ),
                 );

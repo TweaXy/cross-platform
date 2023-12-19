@@ -337,8 +337,9 @@ class _TweetsSearchedState extends State<TweetsSearched>
                       ),
                       itemBuilder: (context, item, index) {
                         return CustomTweet(
+
                           tweet: item,
-                          replyto: [],
+                          replyto: [], isMuted: false,
                         );
                       },
                     ),

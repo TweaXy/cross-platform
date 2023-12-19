@@ -103,7 +103,7 @@ class _MyPageState extends State<HomePageBody> {
                     // },
                     animateTransitions: true,
                     itemBuilder: (context, item, index) {
-                      return CustomTweet(tweet: item, replyto: const []);
+                      return CustomTweet(tweet: item, replyto: const [], isMuted: false,);
                     },
                   ),
                 );

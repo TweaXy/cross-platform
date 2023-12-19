@@ -65,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       text = widget.text;
     }
     controller = ScrollController();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -173,9 +173,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           text: 'Posts',
                                         ),
                                         Tab(
-                                          text: 'Replies',
-                                        ),
-                                        Tab(
                                           text: 'Likes',
                                         )
                                       ],
@@ -188,6 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                             : ProfileScreenBody(
                                 tabController: _tabController,
                                 id: id,
+                                isMuted: true,
                               ));
                   }
                 },
@@ -754,7 +752,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
                   setState(() {
                     _isLoading = true;
                   });
-                  
+
                   bool flag = await BlockingUserService.blockUser(
                       username: widget.username);
                   setState(() {

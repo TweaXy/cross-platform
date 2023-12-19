@@ -187,8 +187,12 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
       state is TweetReplyAddedState ||
       state is UpdateUsernameDoneState) {
     pagingController.refresh();
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
-  if (state is TweetDeleteState) {
+  if (state is TweetDeleteState ||
+      state is TweetUserBlocked ||
+      state is TweetUserMuted ||
+      state is TweetUserUnfollowed) {
     pagingController.itemList!
         .removeWhere((element) => element.id == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();

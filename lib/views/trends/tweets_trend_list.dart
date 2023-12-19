@@ -80,7 +80,7 @@ class _MyPageState extends State<TweetsListTrend> {
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
                     tweet: item,
-                    replyto: const [],
+                    replyto: const [], isMuted: false,
                   );
                 },
               ),

@@ -239,7 +239,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   animateTransitions: true,
                   itemBuilder: (context, item, index) {
                     return CustomTweet(
-                        tweet: item, replyto: const []);
+                        tweet: item, replyto: const [], isMuted: false,);
                   },
                 ),
               ),

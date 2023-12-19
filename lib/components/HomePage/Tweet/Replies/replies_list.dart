@@ -83,7 +83,7 @@ class _MyPageState extends State<RepliesList> {
                             : 0),
                     child: CustomTweet(
                       tweet: item,
-                      replyto: widget.replyto,
+                      replyto: widget.replyto, isMuted: false,
                     ),
                   );
                 },

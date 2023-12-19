@@ -38,4 +38,13 @@ void addReply() {
   void deleteretweet({ required String userid,required String id,required bool isretweet}) {
     emit(TweetDeleteRetweetState(userid,id,isretweet));
   }
+   void blockUser(String id) {
+    emit(TweetUserBlocked(tweetid: id));
+  }
+   void muteUser(String id) {
+    emit(TweetUserMuted(tweetid: id));
+  }
+   void unfollowUser(String id) {
+    emit(TweetUserUnfollowed(tweetid: id));
+  }
 }
