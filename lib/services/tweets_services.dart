@@ -27,7 +27,7 @@ class TweetsServices {
       return [];
     }
 
-    List<Map<String, dynamic>> m =await mapToList(res);
+    List<Map<String, dynamic>> m = await mapToList(res);
 
     List<Tweet> t = initializeTweets(m);
     print('tt' + t.toString());
@@ -154,7 +154,9 @@ class TweetsServices {
               'createdDate':
                   calculateTime(item['mainInteraction']['createdDate']),
               'isretweet':
-                  item['mainInteraction']['type'] != "RETWEET" ? false : true
+                  item['mainInteraction']['type'] != "RETWEET" ? false : true,
+              'reposterid': '',
+              'reposteruserName': ''
             })
         .toList();
     print('ressss' + m.toString());
