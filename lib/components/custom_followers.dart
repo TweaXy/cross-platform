@@ -172,16 +172,23 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             // width: 140,
                             // height: 45,
                             child: CustomButton(
-                                color: !widget.user.followedByMe
-                                    ? Colors.black
-                                    : Colors.white,
-                                text: !widget.user.followedByMe
-                                    ? kIsWeb
-                                        ? 'Follow'
-                                        : (!widget.user.followesMe
-                                            ? 'Follow'
-                                            : 'Follow Back')
-                                    : 'Following',
+                                color: (widget.user.blocksMe ||
+                                        widget.user.blockedByMe)
+                                    ? Colors.red
+                                    : !widget.user.followedByMe
+                                        ? Colors.black
+                                        : Colors.white,
+                                text: widget.user.blocksMe
+                                    ? 'Blocked you'
+                                    : widget.user.blockedByMe
+                                        ? 'Blocked'
+                                        : !widget.user.followedByMe
+                                            ? kIsWeb
+                                                ? 'Follow'
+                                                : (!widget.user.followesMe
+                                                    ? 'Follow'
+                                                    : 'Follow Back')
+                                            : 'Following',
                                 onPressedCallback: () {
                                   if (!kIsWeb) {
                                     setState(() {
