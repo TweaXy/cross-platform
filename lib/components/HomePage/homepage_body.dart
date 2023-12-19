@@ -65,8 +65,20 @@ class _MyPageState extends State<HomePageBody> {
   final _pageSize = 10;
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final List<Tweet> newItems =
+      final List<Tweet> newItemstmp =
           await TweetsServices.getTweetsHome(offset: pageKey);
+      // final List<Tweet>newItems=newItemstmp.map((e) {if(!_pagingController.itemList.contains(e))
+      //  return e;}).toList();
+      final List<Tweet> newItems = [];
+      if (_pagingController.itemList != null)
+        // ignore: curly_braces_in_flow_control_structures
+        for (int i = 0; i < newItemstmp.length; i++) {
+          if (!_pagingController.itemList!.contains(newItemstmp[i])) {
+            newItems.add(newItemstmp[i]);
+          }
+        }
+        else newItems.addAll(newItemstmp);
+
       final isLastPage = newItems.length < _pageSize;
       // print('tttt');
       // print(newItems.length);
@@ -87,7 +99,7 @@ class _MyPageState extends State<HomePageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<UpdateUsernameCubit, UpdateUsernameStates>(
       builder: (context, state) {
-      updateStatesforTweet(state, context, _pagingController);
+        updateStatesforTweet(state, context, _pagingController);
         return BlocBuilder<UpdateAllCubit, UpdataAllState>(
           builder: (context, updateallstate) {
             return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
@@ -103,7 +115,11 @@ class _MyPageState extends State<HomePageBody> {
                     // },
                     animateTransitions: true,
                     itemBuilder: (context, item, index) {
-                      return CustomTweet(tweet: item, replyto: const [], isMuted: false,);
+                      return CustomTweet(
+                        tweet: item,
+                        replyto: const [],
+                        isMuted: false,
+                      );
                     },
                   ),
                 );

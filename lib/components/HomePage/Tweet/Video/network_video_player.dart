@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Video/full_video_screen.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:video_player/video_player.dart';
 
 class NetworkVideoPlayer extends StatefulWidget {
@@ -14,8 +16,7 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
   @override
   void initState() {
     super.initState();
-controller = VideoPlayerController.networkUrl(Uri.parse(widget.video
-     ));
+    controller = VideoPlayerController.networkUrl(Uri.parse(widget.video));
     // controller = VideoPlayerController.asset('/assets/video (2160p).mp4')
     //   ..addListener(() => setState(() {}))
     //   ..setLooping(true)
@@ -51,49 +52,45 @@ controller = VideoPlayerController.networkUrl(Uri.parse(widget.video
   }
 
   @override
-  Widget build(BuildContext context) => AspectRatio(
-    aspectRatio: 9 / 16,
+  Widget build(BuildContext context) => Stack(
     
-    // aspectRatio: controller.value.aspectRatio,
-    child: Stack(
-      alignment: Alignment.topRight,
-      children: [
-        VideoPlayer(controller),
-        Center(
-          child: IconButton(
-            onPressed: () {
-              setState(
-                () {
-                  controller.value.isPlaying
-                      ? controller.pause()
-                      : controller.play();
-                },
-              );
-            },
-            icon: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
+    alignment: Alignment.topRight,
+    children: [
+      VideoPlayer(controller),
+      Center(
+        child: IconButton(
+          onPressed: () {
+            setState(
+              () {
                 controller.value.isPlaying
-                    ? Icons.pause_circle
-                    : Icons.play_circle,
-                color: const Color(0xFF1e9aeb),
-              ),
+                    ? controller.pause()
+                    : controller.play();
+              },
+            );
+          },
+          icon: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              controller.value.isPlaying
+                  ? Icons.pause_circle
+                  : Icons.play_circle,
+              color: const Color(0xFF1e9aeb),
             ),
           ),
         ),
-        Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
-              style: const TextStyle(
-                color: Colors.white,
-                backgroundColor: Colors.black54,
-              ),
-            )),
-      ],
-    ),
+      ),
+      Align(
+          alignment: Alignment.bottomLeft,
+          child: Text(
+            ' ${controller.value.duration.inMinutes}:${controller.value.duration.inSeconds.toString().padLeft(2, '0')}',
+            style: const TextStyle(
+              color: Colors.white,
+              backgroundColor: Colors.black54,
+            ),
+          )),
+    ],
   );
 }

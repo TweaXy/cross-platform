@@ -5,6 +5,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet
 import 'package:tweaxy/components/HomePage/Tweet/Replies/interactions.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/text_reply_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/user_tweet_info_main_reply.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
@@ -119,7 +120,20 @@ class MainTweetReplies extends StatelessWidget {
                       // const NetworkVideoPlayer(
                       //   video: '',
                       // ),
-                      if (t != null) TweetMedia(pickedfiles: tweet.image!),
+                      if (t != null)
+                        MultiVideo(
+                          videos: tweet.image!
+                              .where((element) => element.endsWith('.mp4'))
+                              .toList(),
+                        ),
+                      if (t != null)
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child: TweetMedia(
+                              pickedfiles: tweet.image!
+                                  .where((element) => !element.endsWith('.mp4'))
+                                  .toList()),
+                        ),
                     ],
                   ),
                 ),
@@ -175,8 +189,7 @@ class MainTweetReplies extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                RepostsinTweet(id: tweet.id),
+                            builder: (context) => RepostsinTweet(id: tweet.id),
                           ),
                         );
                       },

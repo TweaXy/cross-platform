@@ -45,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ProfileScreen(
-                      id: '',
+                      id: TempUser.id,
                       text: '',
                     ),
                   ),
@@ -58,7 +58,7 @@ class CustomDrawer extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: 10.0),
                     child: UserImageForTweet(
                       image: TempUser.image,
-                      userid: '',
+                      userid: TempUser.id,
                       text: '',
                     ),
                   ),
