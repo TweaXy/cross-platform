@@ -117,7 +117,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                       userid: widget.userid,
                       id: widget.id,
                       isretweet: widget.isretweet);
-                  return res;
+                  return !res;
                 } else {
                   var res = await TweetsServices.addRetweet(widget.id);
 
