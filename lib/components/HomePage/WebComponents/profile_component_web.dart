@@ -321,6 +321,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                             profileName: user.name ?? '',
                             birthDate: user.birthdayDate ?? '2002-08-27',
                             userName: user.userName ?? '',
+                            blockedMe: user.blockedMe!,
                           ),
                         ),
                         SliverAppBar(

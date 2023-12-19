@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:blur/blur.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cherry_toast/cherry_toast.dart';
-import 'package:cherry_toast/resources/arrays.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -13,28 +12,22 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
-import 'package:tweaxy/cubits/block_user_cubit/block_user_cubit.dart';
-import 'package:tweaxy/cubits/block_user_cubit/block_user_states.dart';
+
+import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
-import 'package:tweaxy/views/profile/likers_profile_view.dart';
+
 import 'package:tweaxy/components/HomePage/SharedComponents/account_information.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/profile_icon_button.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
-import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_cubit.dart';
-import 'package:tweaxy/cubits/profile_tabs_cubit/profile_tabs_status.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
-import 'package:tweaxy/services/temp_user.dart';
-import 'package:tweaxy/services/unfollow_user.dart';
-import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
-import 'package:tweaxy/components/Profile/profile_likes.dart';
 import 'package:tweaxy/components/Profile/profile_screen_body.dart';
 import 'package:tweaxy/views/search_users/search_tweets.dart';
 
@@ -100,71 +93,70 @@ class _ProfileScreenState extends State<ProfileScreen>
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: BlocProvider(
-          create: (context) => BlockUserCubit(),
-          child: BlocBuilder<EditProfileCubit, EditProfileState>(
-            builder: (context, state) {
-              if (state is ProfilePageLoadingState) {
-                return const LoadingScreen(asyncCall: true);
-              } else if (state is ProfilePageInitialState ||
-                  state is ProfilePageCompletedState) {
-                return FutureBuilder(
-                  future: GetUserById.instance.getUserById(id),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      return const LoadingScreen(
-                        asyncCall: true,
-                      );
-                    } else {
-                      User user = snapshot.data!;
-                      if (!initialized) {
-                        initialized = true;
-                        if (text != '') {
-                          text = user.followedByMe! ? 'Following' : 'Follow';
-                        }
+        child: BlocBuilder<EditProfileCubit, EditProfileState>(
+          builder: (context, state) {
+            if (state is ProfilePageLoadingState) {
+              return const LoadingScreen(asyncCall: true);
+            } else if (state is ProfilePageInitialState ||
+                state is ProfilePageCompletedState) {
+              return FutureBuilder(
+                future: GetUserById.instance.getUserById(id),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return const LoadingScreen(
+                      asyncCall: true,
+                    );
+                  } else {
+                    User user = snapshot.data!;
+                    if (!initialized) {
+                      initialized = true;
+                      _isUserBlocked = user.blockedByMe!;
+                      if (text != '') {
+                        text = user.followedByMe! ? 'Following' : 'Follow';
                       }
-                      return NestedScrollView(
-                          controller: controller,
-                          physics: const BouncingScrollPhysics(),
-                          headerSliverBuilder:
-                              (BuildContext context, bool innerBoxIsScrolled) {
-                            return <Widget>[
-                              SliverPersistentHeader(
-                                pinned: true,
-                                delegate: ProfileScreenAppBar(
-                                  text: text,
-                                  user: user,
-                                  postsNumber: 216820,
-                                  avatarURL: user.avatar ?? '',
-                                  coverURL: user.cover ?? '',
-                                ),
+                    }
+                    return NestedScrollView(
+                        controller: controller,
+                        physics: const BouncingScrollPhysics(),
+                        headerSliverBuilder:
+                            (BuildContext context, bool innerBoxIsScrolled) {
+                          return <Widget>[
+                            SliverPersistentHeader(
+                              pinned: true,
+                              delegate: ProfileScreenAppBar(
+                                text: text,
+                                user: user,
+                                postsNumber: 216820,
+                                avatarURL: user.avatar ?? '',
+                                coverURL: user.cover ?? '',
                               ),
-                              SliverToBoxAdapter(
-                                child: AccountInformation(
-                                  website: user.website ?? '',
-                                  birthDate: user.birthdayDate ?? '',
-                                  bio: user.bio ?? '',
-                                  followers: user.followers ?? 0,
-                                  following: user.following ?? 0,
-                                  joinedDate: user.joinedDate ?? '',
-                                  location: user.location ?? '',
-                                  profileName: user.name ?? '',
-                                  userName: user.userName ?? '',
-                                ),
+                            ),
+                            SliverToBoxAdapter(
+                              child: AccountInformation(
+                                website: user.website ?? '',
+                                birthDate: user.birthdayDate ?? '',
+                                bio: user.bio ?? '',
+                                followers: user.followers ?? 0,
+                                following: user.following ?? 0,
+                                joinedDate: user.joinedDate ?? '',
+                                location: user.location ?? '',
+                                profileName: user.name ?? '',
+                                userName: user.userName ?? '',
+                                blockedMe: user.blockedMe ?? true,
                               ),
-                              BlocBuilder<BlockUserCubit, BlockUserState>(
-                                builder: (context, state) {
-                                  if (state is BlockUserLoadingState) {
-                                    return const Center(
-                                      child: SpinKitCircle(
-                                          color: Colors.blueAccent),
-                                    );
-                                  } else if ((state is BlockUserInitialState &&
-                                          user.blockedByMe!) ||
-                                      state is BlockUserSucessState) {
-                                    return ProfileBlockedScreen(user: user);
-                                  }
-                                  return SliverTabBar(
+                            ),
+                            user.blockedMe == true
+                                ? SliverToBoxAdapter(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(16.0),
+                                      child: Text(
+                                        'You are blocked from following @${user.userName} and viewing @${user.userName} posts',
+                                        style: const TextStyle(
+                                            color: Colors.black54),
+                                      ),
+                                    ),
+                                  )
+                                : SliverTabBar(
                                     expandedHeight: 0,
                                     backgroundColor: Colors.white,
                                     tabBar: TabBar(
@@ -188,54 +180,24 @@ class _ProfileScreenState extends State<ProfileScreen>
                                         )
                                       ],
                                     ),
-                                  );
-                                },
-                              ),
-                            ];
-                          },
-                          body: ProfileScreenBody(
-                            tabController: _tabController,
-                            id: id,
-                          ));
-                    }
-                  },
-                );
-              }
-              return const Placeholder();
-            },
-          ),
+                                  ),
+                          ];
+                        },
+                        body: user.blockedMe!
+                            ? const SizedBox()
+                            : ProfileScreenBody(
+                                tabController: _tabController,
+                                id: id,
+                              ));
+                  }
+                },
+              );
+            }
+            return const Placeholder();
+          },
         ),
       ),
       // ),
-    );
-  }
-}
-
-class ProfileBlockedScreen extends StatelessWidget {
-  const ProfileBlockedScreen({
-    super.key,
-    required this.user,
-  });
-
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          const Text(
-            'You blocked the user',
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
-          ),
-          ElevatedButton(
-              onPressed: () {
-                BlocProvider.of<BlockUserCubit>(context)
-                    .unblockUser(user.userName!);
-              },
-              child: const Text('Unblock'))
-        ],
-      ),
     );
   }
 }
@@ -256,14 +218,12 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   final bottomHeight = 60;
   final extraRadius = 5;
   bool _isMuted = false;
-  bool _isBlocked = false;
   bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
     if (!initialized) {
       initialized = true;
       _isMuted = user.muted!;
-      _isBlocked = user.blockedByMe!;
     }
     final imageTop =
         -shrinkOffset.clamp(0.0, maxExtent - minExtent - bottomHeight);
@@ -292,11 +252,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 ),
               ),
               const Spacer(),
-              FollowEditButton(
-                text: text,
-                user: user,
-                key: const ValueKey('followEditButton'),
-              ),
+              user.blockedMe!
+                  ? const SizedBox()
+                  : FollowEditButton(
+                      text: _isUserBlocked ? 'Blocked' : text,
+                      user: user,
+                      key: const ValueKey('followEditButton'),
+                    ),
             ],
           ),
         ),
@@ -341,23 +303,26 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                 const Spacer(),
                 Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 12.0),
-                      child: ProfileIconButton(
-                        borderWidth: 2,
-                        icon: Icons.search,
-                        iconColor: Colors.white,
-                        color: Colors.black,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchTweets(
-                                    username: user.userName!, id: user.id!)),
-                          );
-                        },
-                      ),
-                    ),
+                    user.blockedMe!
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: ProfileIconButton(
+                              borderWidth: 2,
+                              icon: Icons.search,
+                              iconColor: Colors.white,
+                              color: Colors.black,
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SearchTweets(
+                                          username: user.userName!,
+                                          id: user.id!)),
+                                );
+                              },
+                            ),
+                          ),
                     text == 'Edit Profile'
                         ? const SizedBox()
                         : PopupMenuButton(
@@ -381,7 +346,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                               ),
                               PopupMenuItem(
                                 value: 1,
-                                child: Text(_isBlocked ? 'Unblock' : 'Block'),
+                                child:
+                                    Text(_isUserBlocked ? 'Unblock' : 'Block'),
                               ),
                             ],
                             onSelected: (value) async {
@@ -390,70 +356,51 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                   var flag = await MuteUserService.mute(
                                       username: user.userName!);
                                   if (flag) {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'You muted @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.volume_off_outlined,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
+                                    muteAnimatedSnackBar(
+                                      failure: false,
+                                      icon: Icons.volume_off_outlined,
+                                      muteFlag: true,
+                                      mainContext: context,
+                                      userName: user.userName!,
                                     ).show(context);
                                     _isMuted = true;
                                   } else {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'Failed to mute @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.close,
-                                        color: Colors.redAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
-                                    ).show(context);
+                                    muteAnimatedSnackBar(
+                                            failure: true, muteFlag: false)
+                                        .show(context);
                                   }
                                 } else {
                                   var flag = await MuteUserService.unMuteUser(
                                       username: user.userName!);
                                   if (flag) {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'You unmuted @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.volume_mute_outlined,
-                                        color: Colors.blueAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
+                                    muteAnimatedSnackBar(
+                                      failure: false,
+                                      icon: Icons.volume_mute_outlined,
+                                      muteFlag: false,
+                                      mainContext: context,
+                                      userName: user.userName!,
                                     ).show(context);
                                     _isMuted = false;
                                   } else {
-                                    CherryToast.info(
-                                      title: Text(
-                                        'Failed to unmute @${user.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black),
-                                      ),
-                                      iconWidget: const Icon(
-                                        Icons.close,
-                                        color: Colors.redAccent,
-                                      ),
-                                      animationType: AnimationType.fromTop,
-                                      displayCloseButton: false,
-                                    ).show(context);
+                                    muteAnimatedSnackBar(
+                                            failure: true, muteFlag: false)
+                                        .show(context);
                                   }
                                 }
                               } else {
+                                if (_isUserBlocked) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => BlockUserDialog(
+                                        username: user.userName!),
+                                  );
+                                } else {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => BlockUserDialog(
+                                        username: user.userName!),
+                                  );
+                                }
                                 //Todo implement Block Logic
                               }
                             },
@@ -470,6 +417,65 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
               ],
             )),
       ],
+    );
+  }
+
+  AnimatedSnackBar muteAnimatedSnackBar(
+      {IconData? icon,
+      bool muteFlag = true,
+      BuildContext? mainContext,
+      bool failure = false,
+      String userName = ''}) {
+    String titleText = '';
+    Color iconColor = Colors.blue[700]!;
+    if (muteFlag) {
+      titleText = 'You muted @$userName';
+    } else {
+      titleText = 'You unmuted @$userName';
+    }
+    return AnimatedSnackBar(
+      mobileSnackBarPosition: MobileSnackBarPosition.top,
+      mobilePositionSettings: const MobilePositionSettings(
+        left: 5,
+        right: 5,
+      ),
+      duration: const Duration(seconds: 3),
+      builder: ((context) {
+        return Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: failure ? Colors.red[100] : Colors.blue[100],
+              border: Border.all(
+                color: Colors.blue[700]!,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(20))),
+          width: double.infinity,
+          child: ListTile(
+            title: Text(
+              failure ? 'Oops There\'s an error' : titleText,
+              style: const TextStyle(color: Colors.black, fontSize: 18),
+            ),
+            leading: Icon(
+              failure ? Icons.close : icon,
+              color: failure ? Colors.red : Colors.blue[700],
+            ),
+            subtitle: muteFlag
+                ? ElevatedButton(
+                    onPressed: () {
+                      muteAnimatedSnackBar(
+                        failure: false,
+                        icon: Icons.volume_off_outlined,
+                        muteFlag: false,
+                        mainContext: context,
+                        userName: user.userName!,
+                      ).show(context);
+                      _isMuted = false;
+                    },
+                    child: const Text('Undo'))
+                : null,
+          ),
+        );
+      }),
     );
   }
 
@@ -584,6 +590,12 @@ class _FollowEditButtonState extends State<FollowEditButton> {
                 setState(() {
                   text = 'Follow';
                 });
+              } else if (text == 'Blocked') {
+                showDialog(
+                    context: context,
+                    builder: (context) =>
+                        UnblockUserDialog(username: widget.user.userName!));
+                return;
               } else {
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => EditProfileScreen(
@@ -603,22 +615,179 @@ class _FollowEditButtonState extends State<FollowEditButton> {
               shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  side: const BorderSide(color: Colors.grey),
+                  side: BorderSide(
+                      color: text == 'Blocked'
+                          ? Colors.redAccent[700]!
+                          : Colors.grey),
                 ),
               ),
             ),
             child: Text(
               text!,
               style: TextStyle(
-                color: text == 'Follow' || text == 'Follow back'
-                    ? Colors.white
-                    : Colors.black,
+                color: text == 'Blocked'
+                    ? Colors.red[800]
+                    : text == 'Follow' || text == 'Follow back'
+                        ? Colors.white
+                        : Colors.black,
                 fontSize: 17,
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class UnblockUserDialog extends StatefulWidget {
+  const UnblockUserDialog({super.key, required this.username});
+  final String username;
+
+  @override
+  State<UnblockUserDialog> createState() => _UnblockUserDialogState();
+}
+
+bool _isUserBlocked = false;
+
+class _UnblockUserDialogState extends State<UnblockUserDialog> {
+  bool _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Unblock @${widget.username}?'),
+      titleTextStyle: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+      ),
+      content:
+          const Text('They will be able to follow you and view your posts.'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text('Cancel'),
+        ),
+        _isLoading
+            ? const SpinKitCircle(
+                color: Colors.blueAccent,
+              )
+            : TextButton(
+                onPressed: () async {
+                  BlocProvider.of<EditProfileCubit>(context)
+                      .emit(ProfilePageLoadingState());
+                  setState(() {
+                    _isLoading = true;
+                  });
+
+                  bool flag = await BlockingUserService.unBlockUser(
+                      username: widget.username);
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  if (flag) {
+                    Fluttertoast.showToast(
+                      msg: 'You unblocked @${widget.username}',
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                    );
+                    _isUserBlocked = false;
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: 'Oops There\'s an error',
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                    );
+                  }
+                  BlocProvider.of<EditProfileCubit>(context)
+                      .emit(ProfilePageCompletedState());
+                  Navigator.pop(context);
+                },
+                child: const Text('Unblock'),
+              ),
+      ],
+    );
+  }
+}
+
+class BlockUserDialog extends StatefulWidget {
+  const BlockUserDialog({super.key, required this.username});
+  final String username;
+
+  @override
+  State<BlockUserDialog> createState() => _BlockUserDialogState();
+}
+
+class _BlockUserDialogState extends State<BlockUserDialog> {
+  bool _isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('Block @${widget.username}?'),
+      titleTextStyle: const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w700,
+        fontSize: 18,
+      ),
+      content: Text(
+          '@${widget.username} will no longer be able to follow or message you, and you will not see notifications from @${widget.username}'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () => Navigator.pop(context, 'Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
+        ),
+        _isLoading
+            ? const SpinKitCircle(
+                color: Colors.blueAccent,
+              )
+            : TextButton(
+                onPressed: () async {
+                  BlocProvider.of<EditProfileCubit>(context)
+                      .emit(ProfilePageLoadingState());
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  
+                  bool flag = await BlockingUserService.blockUser(
+                      username: widget.username);
+                  setState(() {
+                    _isLoading = true;
+                  });
+                  if (flag) {
+                    Fluttertoast.showToast(
+                      msg: 'You Blocked @${widget.username}',
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                    );
+                    _isUserBlocked = true;
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: 'Oops There\'s an error',
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                    );
+                  }
+                  BlocProvider.of<EditProfileCubit>(context)
+                      .emit(ProfilePageCompletedState());
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Block',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+      ],
     );
   }
 }

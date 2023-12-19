@@ -20,6 +20,7 @@ class AccountInformation extends StatelessWidget {
     required this.location,
     required this.website,
     required this.birthDate,
+    required this.blockedMe,
   });
   final String profileName;
   final String userName;
@@ -30,6 +31,7 @@ class AccountInformation extends StatelessWidget {
   final String joinedDate;
   final String birthDate;
   final String location;
+  final bool blockedMe;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,11 +99,13 @@ class AccountInformation extends StatelessWidget {
                 ? AccountWebsiteBar(website: website)
                 : const SizedBox(),
           ]),
-          FollowingAndFollowersBar(
-            following: following,
-            followers: followers,
-            username: userName,
-          )
+          blockedMe
+              ? const SizedBox()
+              : FollowingAndFollowersBar(
+                  following: following,
+                  followers: followers,
+                  username: userName,
+                )
         ],
       ),
     );

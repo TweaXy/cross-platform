@@ -29,7 +29,7 @@ class _UpdateUsernameEnabledTextfieldState
   }
 
   void validate() async {
-    if (widget.controller.text.trim() == TempUser.username) {
+    if (widget.controller.text == TempUser.username) {
       _errorText = "Your new username is the same as your existing username";
       setState(() {
         _isValid = 2;

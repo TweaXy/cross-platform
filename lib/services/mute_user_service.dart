@@ -10,7 +10,6 @@ class MuteUserService {
   static Future<bool> mute({required String username}) async {
     var response = await Api.post(
         url: '$baseURL$_endpoint$username', body: {}, token: TempUser.token);
-    log(response.toString());
     if (response is String) {
       return false;
     }

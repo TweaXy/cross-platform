@@ -13,6 +13,8 @@ import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.da
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
@@ -256,13 +258,17 @@ class _SideNavBarState extends State<SideNavBar> {
                                 fontSize: 15),
                           ),
                         ),
-                        Text(
-                          maxLines: 1,
-                          '@${TempUser.username}',
-                          style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 14,
-                              color: Colors.grey.shade600),
+                        BlocBuilder<UpdateUsernameCubit, UpdateUsernameStates>(
+                          builder: (context, state) {
+                            return Text(
+                              maxLines: 1,
+                              '@${TempUser.username}',
+                              style: TextStyle(
+                                  overflow: TextOverflow.ellipsis,
+                                  fontSize: 14,
+                                  color: Colors.grey.shade600),
+                            );
+                          },
                         )
                       ],
                     ),

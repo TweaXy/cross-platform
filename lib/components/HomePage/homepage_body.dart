@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
@@ -11,7 +12,10 @@ import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
+import 'package:tweaxy/helpers/firebase_api.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/services/send_device_token.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
@@ -24,6 +28,22 @@ class HomePageBody extends StatefulWidget {
 class _MyPageState extends State<HomePageBody> {
   PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
+  Future checkNotificationTokenSent() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // Save user information
+    var notificationToken = prefs.getString('notificationTokenSent');
+    if (notificationToken == null) {
+      var notificationToken = await FirebaseApi.initNotifications();
+      SendDeviceToken.getAllNotifications(
+        TempUser.token,
+        notificationToken,
+      );
+      prefs.setString(
+        'notificationTokenSent',
+        notificationToken!,
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -33,6 +53,7 @@ class _MyPageState extends State<HomePageBody> {
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
+    checkNotificationTokenSent();
   }
 
   void dispose() {

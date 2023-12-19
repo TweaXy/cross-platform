@@ -23,7 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLogin();
-    checkNotificationTokenSent();
     Timer(const Duration(seconds: 2), () {
       if (token == null) {
         kIsWeb
@@ -49,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Save user information
     var notificationToken = prefs.getString('notificationTokenSent');
     var retrivedtoken = prefs.getString("token");
+    print('Token = $notificationToken');
     token = retrivedtoken;
     TempUser.token = token ?? '';
     if (notificationToken == null) {

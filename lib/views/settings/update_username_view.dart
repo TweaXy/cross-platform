@@ -4,6 +4,7 @@ import 'package:tweaxy/components/settings/update_username_components/update_use
 import 'package:tweaxy/components/settings/update_username_components/update_username_disabled_textfield.dart';
 import 'package:tweaxy/components/settings/update_username_components/update_username_enabled_textfield.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/shared/keys/update_username_keys.dart';
 
 class UpdateUsernameView extends StatefulWidget {
   const UpdateUsernameView({super.key});
@@ -26,7 +27,7 @@ class _UpdateUsernameViewState extends State<UpdateUsernameView> {
 
   void _updateButtonState() {
     setState(() {
-      isButtonEnabled = controller.text.trim().length > 5;
+      isButtonEnabled = controller.text.trim().length > 4;
     });
   }
 
@@ -54,6 +55,7 @@ class _UpdateUsernameViewState extends State<UpdateUsernameView> {
             Form(
               key: _formKey,
               child: UpdateUsernameEnabledTextfield(
+                key: const ValueKey(UpdateUsernameKeys.updateUsernameTextfield),
                 controller: controller,
               ),
             ),
@@ -71,6 +73,7 @@ class _UpdateUsernameViewState extends State<UpdateUsernameView> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.23,
                 child: UpdateUsernameButton(
+                  key: const ValueKey(UpdateUsernameKeys.updateUsernameButton),
                   isButtonEnabled: isButtonEnabled,
                   username: controller.text,
                   formKey: _formKey,

@@ -1,7 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
@@ -71,53 +77,62 @@ class _BlockedUserScreenState extends State<BlockedUserScreen> {
         ),
         elevation: 1,
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          return _pagingController.refresh();
+      body: BlocBuilder<EditProfileCubit, EditProfileState>(
+        builder: (context, state) {
+          if (state is ProfilePageLoadingState) {
+            return const Center(
+              child: SpinKitRing(color: Colors.blueAccent),
+            );
+          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              return _pagingController.refresh();
+            },
+            child: PagedListView<int, User>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<User>(
+                noItemsFoundIndicatorBuilder: (context) {
+                  return Center(
+                    child: SizedBox(
+                      width: 330,
+                      child: RichText(
+                        text: TextSpan(children: [
+                          const TextSpan(
+                            text: 'Block unwanted accounts\n',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 32,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text:
+                                '\nWhen you block someone, they won\'t be able to follow or message you, and you won\'t see notifications from them.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              color: Colors.blueGrey[600],
+                            ),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  );
+                },
+                itemBuilder: (context, item, index) {
+                  return Column(
+                    children: [
+                      BlockedUserListTile(status: 'Blocked', user: item),
+                      Divider(
+                        color: Colors.grey[300],
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          );
         },
-        child: PagedListView<int, User>(
-          pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<User>(
-            noItemsFoundIndicatorBuilder: (context) {
-              return Center(
-                child: SizedBox(
-                  width: 330,
-                  child: RichText(
-                    text: TextSpan(children: [
-                      const TextSpan(
-                        text: 'Block unwanted accounts\n',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 32,
-                          color: Colors.black,
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            '\nWhen you block someone, they won\'t be able to follow or message you, and you won\'t see notifications from them.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15,
-                          color: Colors.blueGrey[600],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-              );
-            },
-            itemBuilder: (context, item, index) {
-              return Column(
-                children: [
-                  BlockedUserListTile(status: 'Blocked', user: item),
-                  Divider(
-                    color: Colors.grey[300],
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
       ),
     );
   }
@@ -153,7 +168,7 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
             CustomPageRoute(
                 direction: AxisDirection.left,
                 child: ProfileScreen(
-                  id: '',
+                  id: widget.user.id!,
                   text: _status,
                 )));
       },
@@ -241,7 +256,7 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
                       ),
                       borderRadius: BorderRadius.circular(80))),
                   backgroundColor: MaterialStatePropertyAll(_status == 'Blocked'
-                      ? Colors.redAccent
+                      ? Colors.redAccent[700]
                       : _status == 'Follow'
                           ? Colors.black
                           : Colors.white),
@@ -259,7 +274,7 @@ class _BlockedUserListTileState extends State<BlockedUserListTile> {
       ),
       titleAlignment: ListTileTitleAlignment.top,
       subtitle: Text(
-        widget.user.bio!,
+        widget.user.bio ?? '',
         style: const TextStyle(
           color: Colors.black54,
           overflow: TextOverflow.clip,
