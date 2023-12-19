@@ -29,7 +29,6 @@ class Api {
       if (token != null) {
         headers.addAll({
           'Authorization': 'Bearer $token',
-          // 'Content-Type': 'application/json;charset=UTF-8'
         });
       }
       response = await Dio().get(url, options: Options(headers: headers));

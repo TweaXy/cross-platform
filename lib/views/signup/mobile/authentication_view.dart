@@ -66,49 +66,49 @@ class AuthenticationView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        alignment: Alignment.center,
-                        child: WebViewPlus(
-                          key: const ValueKey("AuthenticationWebView"),
-                          javascriptMode: JavascriptMode.unrestricted,
-                          backgroundColor: Colors.transparent,
-                          onWebViewCreated: (controller) {
-                            controller.loadUrl("assets/web/index.html");
-                          },
-                          javascriptChannels: {
-                            JavascriptChannel(
-                              name: 'Captcha',
-                              onMessageReceived:
-                                  (JavascriptMessage message) async {
-                                try {
-                                  dynamic response = await service
-                                      .authentication(captcha: message.message);
-                                  if (response is String) {
-                                    showToastWidget(
-                                      CustomToast(
-                                        message: response,
-                                      ),
-                                      position: ToastPosition.bottom,
-                                      duration: const Duration(seconds: 2),
-                                    );
-                                  } else {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const NotRobotView()));
-                                  }
-                                } catch (e) {
-                                  log(e.toString());
-                                }
-                              },
-                            ),
-                          },
-                        ),
-                      ),
-                    ),
+                    // Expanded(
+                    //   child: Container(
+                    //     height: MediaQuery.of(context).size.height * 0.2,
+                    //     alignment: Alignment.center,
+                    //     child: WebViewPlus(
+                    //       key: const ValueKey("AuthenticationWebView"),
+                    //       javascriptMode: JavascriptMode.unrestricted,
+                    //       backgroundColor: Colors.transparent,
+                    //       onWebViewCreated: (controller) {
+                    //         controller.loadUrl("assets/web/index.html");
+                    //       },
+                    //       javascriptChannels: {
+                    //         JavascriptChannel(
+                    //           name: 'Captcha',
+                    //           onMessageReceived:
+                    //               (JavascriptMessage message) async {
+                    //             try {
+                    //               dynamic response = await service
+                    //                   .authentication(captcha: message.message);
+                    //               if (response is String) {
+                    //                 showToastWidget(
+                    //                   CustomToast(
+                    //                     message: response,
+                    //                   ),
+                    //                   position: ToastPosition.bottom,
+                    //                   duration: const Duration(seconds: 2),
+                    //                 );
+                    //               } else {
+                    //                 Navigator.pushReplacement(
+                    //                     context,
+                    //                     MaterialPageRoute(
+                    //                         builder: (context) =>
+                    //                             const NotRobotView()));
+                    //               }
+                    //             } catch (e) {
+                    //               log(e.toString());
+                    //             }
+                    //           },
+                    //         ),
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

@@ -24,7 +24,9 @@ class TweetInteractions extends StatefulWidget {
       required this.isUserLiked,
       required this.isUserCommented,
       required this.isUserRetweeted,
-      required this.replyto});
+      required this.replyto,
+      required this.userid,
+      required this.isretweet});
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
@@ -32,6 +34,8 @@ class TweetInteractions extends StatefulWidget {
   final bool isUserLiked;
   final bool isUserCommented;
   bool isUserRetweeted;
+  final String userid;
+  final bool isretweet;
   final String replyto;
 
   final String id;
@@ -107,16 +111,19 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 });
                 print(" the like value $isLiked");
                 if (isLiked) {
-                  // var res = await LikeTweet.unLikeTweet(widget.id, token);
-                  BlocProvider.of<TweetsUpdateCubit>(context)
-                      .deleteretweet(widget.id);
-                  return false;
+                  var res =
+                      await TweetsServices.deleteRetweet(tweetid: widget.id);
+                  BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
+                      userid: widget.userid,
+                      id: widget.id,
+                      isretweet: widget.isretweet);
+                  return res;
                 } else {
-                  // var res = await LikeTweet.likeTweet(widget.id, token);
+                  var res = await TweetsServices.addRetweet(widget.id);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
                       .retweet(widget.id);
-                  return true;
+                  return res;
                 }
               },
               likeCount: widget.retweetsCount,

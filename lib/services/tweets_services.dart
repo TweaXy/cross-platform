@@ -20,42 +20,17 @@ class TweetsServices {
     // print('scroll=' + scroll.position.userScrollDirection.toString());
     Response res = await Api.getwithToken(
         url: '$baseUrl/home?/limit=10&offset=$offset', token: s);
+    print('resss' + res.toString());
+
     if (res is String) {
       // throw Future.error(res);
       return [];
     }
-    print('resss'+res.toString());
 
-    List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
-        .map((item) => {
-              'likesCount': item['mainInteraction']['likesCount'],
-              'viewsCount': item['mainInteraction']['viewsCount'],
-              'retweetsCount': item['mainInteraction']['retweetsCount'],
-              'commentsCount': item['mainInteraction']['commentsCount'],
-              'id': item['mainInteraction']['id'],
-              'userid': item['mainInteraction']['user']['id'],
-              'userImage': item['mainInteraction']['user']['avatar'],
-              'image': item['mainInteraction']['media'] != null
-                  ? item['mainInteraction']['media'].toList()
-                  : null,
-              'userName': item['mainInteraction']['user']['name'],
-              'userHandle': item['mainInteraction']['user']['username'],
-              'time': dateFormatter(item['mainInteraction']['createdDate']),
-              'tweetText': item['mainInteraction']['text'],
-              'isUserLiked': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserLiked']),
-              'isUserRetweeted': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-              'isUserCommented': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserCommented']),
-              'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate']),
-              'isretweet':
-                  item['mainInteraction']['type'] != "RETWEET" ? false : true
-            })
-        .toList();
+    List<Map<String, dynamic>> m =await mapToList(res);
+
     List<Tweet> t = initializeTweets(m);
-    print('tt'+t.toString());
+    print('tt' + t.toString());
     // print('hh' + m.whereType().toString());
     return t;
   }
@@ -73,17 +48,6 @@ class TweetsServices {
       return "success";
   }
 
-  static Future<bool> deleteReTweet({required String tweetid}) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? s = prefs.getString('token');
-    dynamic res =
-        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
-    if (res is String)
-      return false;
-    else
-      return true;
-  }
-
   static Future<List<Tweet>> getProfilePosts(
       {required int offset, required String id}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -98,34 +62,7 @@ class TweetsServices {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
-        .map((item) => {
-              'likesCount': item['mainInteraction']['likesCount'],
-              'viewsCount': item['mainInteraction']['viewsCount'],
-              'retweetsCount': item['mainInteraction']['retweetsCount'],
-              'commentsCount': item['mainInteraction']['commentsCount'],
-              'id': item['mainInteraction']['id'],
-              'userid': item['mainInteraction']['user']['id'],
-              'userImage': item['mainInteraction']['user']['avatar'],
-              'image': item['mainInteraction']['media'] != null
-                  ? item['mainInteraction']['media'].toList()
-                  : null,
-              'userName': item['mainInteraction']['user']['name'],
-              'userHandle': item['mainInteraction']['user']['username'],
-              'time': dateFormatter(item['mainInteraction']['createdDate']),
-              'tweetText': item['mainInteraction']['text'],
-              'isUserLiked': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserLiked']),
-              'isUserRetweeted': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-              'isUserCommented': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserCommented']),
-              'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate']),
-                  'isretweet':
-                  item['mainInteraction']['type'] != "RETWEET" ? false : true
-            })
-        .toList();
+    List<Map<String, dynamic>> m = await mapToList(res);
     print('ressss' + m.toString());
 
     print('mm' + m.toString());
@@ -168,54 +105,29 @@ class TweetsServices {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = (res.data['data']['items'] as List<dynamic>)
-        .map((item) => {
-              'likesCount': item['mainInteraction']['likesCount'],
-              'viewsCount': item['mainInteraction']['viewsCount'],
-              'retweetsCount': item['mainInteraction']['retweetsCount'],
-              'commentsCount': item['mainInteraction']['commentsCount'],
-              'id': item['mainInteraction']['id'],
-              'userid': item['mainInteraction']['user']['id'],
-              'userImage': item['mainInteraction']['user']['avatar'],
-              'image': item['mainInteraction']['media'] != null
-                  ? item['mainInteraction']['media'].toList()
-                  : null,
-              'userName': item['mainInteraction']['user']['name'],
-              'userHandle': item['mainInteraction']['user']['username'],
-              'time': dateFormatter(item['mainInteraction']['createdDate']),
-              'tweetText': item['mainInteraction']['text'],
-              'isUserLiked': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserLiked']),
-              'isUserRetweeted': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-              'isUserCommented': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserCommented']),
-              'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate']),
-                  'isretweet':
-                  item['mainInteraction']['type'] != "RETWEET" ? false : true
-            })
-        .toList();
+    List<Map<String, dynamic>> m = await mapToList(res);
     print('ressss' + m.toString());
 
     print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
-  }static Future<List<Tweet>> getReplies(
+  }
+
+  static Future<List<Tweet>> getReplies(
       {required int offset, required String id}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '$baseUrl/interactions/$id/replies?limit=5&offset=$offset', token: s);
+        url: '$baseUrl/interactions/$id/replies?limit=5&offset=$offset',
+        token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
     }
     // Response response = res;
-if (res.data['data']==[])
-return [];
+    if (res.data['data'] == []) return [];
     print('rrrrr' + res.data['data'].toString());
     List<Map<String, dynamic>> m = (res.data['data'] as List<dynamic>)
         .map((item) => {
@@ -241,7 +153,7 @@ return [];
                   item['mainInteraction']['isUserInteract']['isUserCommented']),
               'createdDate':
                   calculateTime(item['mainInteraction']['createdDate']),
-                  'isretweet':
+              'isretweet':
                   item['mainInteraction']['type'] != "RETWEET" ? false : true
             })
         .toList();
@@ -251,6 +163,33 @@ return [];
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
+  }
+
+  static Future<bool> addRetweet(String id) async {
+    var dio = Dio();
+    print(id);
+    try {
+      var response = await dio.post(
+        '$baseUrl/interactions/$id/retweet',
+        options:
+            Options(headers: {'Authorization': 'Bearer ${TempUser.token}'}),
+      );
+      print('Liked');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> deleteRetweet({required String tweetid}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? s = prefs.getString('token');
+    dynamic res =
+        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
+    if (res is String)
+      return false;
+    else
+      return true;
   }
 }
 

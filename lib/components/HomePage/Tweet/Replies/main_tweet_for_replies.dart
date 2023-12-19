@@ -176,7 +176,7 @@ class MainTweetReplies extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                RetweetersInTweet(id: tweet.id),
+                                RepostsinTweet(id: tweet.id),
                           ),
                         );
                       },

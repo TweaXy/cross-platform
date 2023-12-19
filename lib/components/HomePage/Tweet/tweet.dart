@@ -13,6 +13,7 @@ import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
@@ -33,7 +34,7 @@ class CustomTweet extends StatelessWidget {
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0]!;
-    print('kkkk'+k.toString());
+    print('kkkk' + k.toString());
     // if (t != null && t.length > 1) k = t[1].trim()!;
 
     return GestureDetector(
@@ -63,36 +64,55 @@ class CustomTweet extends StatelessWidget {
         child: Column(
           children: [
             if (tweet.isretweet)
-              Padding(
-                padding: EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
-                child: Row(
-                  children: [
-                    const Icon(FontAwesomeIcons.retweet,
-                        size: 20, color: Color.fromARGB(255, 95, 94, 94)),
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: screenWidth * 0.5),
-                      child: Text(
+              GestureDetector(
+                onTap: () {
+                  if (!kIsWeb) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                          id: tweet.reposterid,
+                          text: TempUser.id==tweet.userId?'':'no',
+                        ),
+                      ),
+                    );
+                  } else {
+                    BlocProvider.of<SidebarCubit>(context).openProfile(
+                        tweet.reposterid, tweet.reposterid == TempUser.id ? '' : 'Following');
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
+                  child: Row(
+                    children: [
+                      const Icon(FontAwesomeIcons.retweet,
+                          size: 20, color: Color.fromARGB(255, 95, 94, 94)),
+                      ConstrainedBox(
+                        constraints:
+                            BoxConstraints(maxWidth: screenWidth * 0.5),
+                        child: Text(
+                          maxLines: 1,
+                          TempUser.id == tweet.reposterid
+                              ? '  You'
+                              : '  ${tweet.reposteruserName}',
+                          style: const TextStyle(
+                              overflow: TextOverflow.ellipsis,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              color: Color.fromARGB(255, 95, 94, 94)),
+                        ),
+                      ),
+                      const Text(
                         maxLines: 1,
-                        TempUser.id == tweet.userId
-                            ? '  You'
-                            : '  ${tweet.userName}',
-                        style: const TextStyle(
+                        ' reposted',
+                        style: TextStyle(
                             overflow: TextOverflow.ellipsis,
                             fontSize: 17,
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 95, 94, 94)),
                       ),
-                    ),
-                    const Text(
-                      maxLines: 1,
-                      ' reposted',
-                      style: TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 95, 94, 94)),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             Row(
@@ -161,6 +181,8 @@ class CustomTweet extends StatelessWidget {
                         isUserLiked: tweet.isUserLiked,
                         isUserCommented: tweet.isUserCommented,
                         isUserRetweeted: tweet.isUserRetweeted,
+                        userid: tweet.userId,
+                        isretweet: tweet.isretweet,
                       ),
                     ],
                   ),

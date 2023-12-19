@@ -7,18 +7,19 @@ class Tweet {
   final String? tweetText;
   final String id;
   final String userId;
-   int likesCount;
+  int likesCount;
   final int viewsCount;
-   int retweetsCount;
+  int retweetsCount;
   final int commentsCount;
   bool isUserLiked;
-   bool isUserRetweeted;
+  bool isUserRetweeted;
   final bool isUserCommented;
   final List<String> createdDate;
   final bool isretweet;
-
+  final String reposterid;
+  final String reposteruserName;
   //+++++++++video
-  Tweet( {
+  Tweet({
     required this.isretweet,
     required this.createdDate,
     required this.isUserLiked,
@@ -36,6 +37,8 @@ class Tweet {
     required this.viewsCount,
     required this.retweetsCount,
     required this.commentsCount,
+    required this.reposterid,
+    required this.reposteruserName,
   });
   String getId() {
     return id;

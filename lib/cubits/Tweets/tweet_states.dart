@@ -37,7 +37,9 @@ class TweetRetweetState extends TweetUpdateState {
 }
 
 class TweetDeleteRetweetState extends TweetUpdateState {
-  final String tweetid;
+  final String userid;
+  final String id;
+  final bool isretweet;
 
-  TweetDeleteRetweetState({required this.tweetid});
+  TweetDeleteRetweetState(this.userid, this.id, this.isretweet);
 }

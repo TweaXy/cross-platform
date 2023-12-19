@@ -35,7 +35,7 @@ void addReply() {
   void retweet(String id) {
     emit(TweetRetweetState(tweetid: id));
   }
-  void deleteretweet(String id) {
-    emit(TweetDeleteRetweetState(tweetid: id));
+  void deleteretweet({ required String userid,required String id,required bool isretweet}) {
+    emit(TweetDeleteRetweetState(userid,id,isretweet));
   }
 }

@@ -26,7 +26,7 @@ class UserImageForTweet extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => ProfileScreen(
                 id: userid,
-                text: text,
+                text: userid==TempUser.id ?'':'no',
               ),
             ),
           );

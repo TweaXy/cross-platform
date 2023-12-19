@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
@@ -58,15 +59,17 @@ class InteractionReplyScreen extends StatelessWidget {
             });
             print(" the like value $isLiked");
             if (isLiked) {
-              // var res = await LikeTweet.unLikeTweet(widget.id, token);
-              BlocProvider.of<TweetsUpdateCubit>(context)
-                  .deleteretweet(tweet.id);
-              return false;
+              var res = await TweetsServices.deleteRetweet(tweetid: tweet.id);
+              BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
+                  userid: tweet.userId,
+                  id: tweet.id,
+                  isretweet: tweet.isretweet);
+              return res;
             } else {
-              // var res = await LikeTweet.likeTweet(widget.id, token);
+              var res = await TweetsServices.addRetweet(tweet.id);
 
               BlocProvider.of<TweetsUpdateCubit>(context).retweet(tweet.id);
-              return true;
+              return res;
             }
           },
           size: 20,

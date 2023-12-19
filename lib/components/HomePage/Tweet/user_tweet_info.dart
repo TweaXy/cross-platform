@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom_profile.dart';
+import 'package:tweaxy/components/HomePage/Tweet/modal_bottom_sheet_tweet.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/temp_user.dart';
@@ -88,7 +89,7 @@ class User_TweetInfo extends StatelessWidget {
                   constraints: BoxConstraints(),
                   key: ValueKey((Utils()).hashText(
                       DeleteTweetKeys.tweetSettingsClickMobile +
-                          tweet.tweetText!.toString() +
+                          (tweet.tweetText==null?'':tweet.tweetText).toString() +
                           tweet.userHandle.toString())),
                   icon: const Icon(FontAwesomeIcons.ellipsisVertical),
                   color: const Color.fromARGB(255, 182, 182, 182),
@@ -123,89 +124,7 @@ class User_TweetInfo extends StatelessWidget {
                         ),
                         context: context,
                         builder: (context) {
-                          return Wrap(
-                            children: [
-                              ListTile(
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  await FollowUser.instance
-                                      .deleteUser(tweet.userName);
-                                  Fluttertoast.showToast(
-                                      msg: 'You Unfollowed ${tweet.userName}');
-                                },
-                                leading: Icon(
-                                  Icons.person_remove_outlined,
-                                  color: Colors.blueGrey[600],
-                                ),
-                                title: Text(
-                                  'Unfollow @${tweet.userName}',
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  //TODO: Implement Mute Logic
-                                },
-                                leading: Icon(
-                                  Icons.volume_off_outlined,
-                                  color: Colors.blueGrey[600],
-                                ),
-                                title: Text(
-                                  'Mute @${tweet.userName}',
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ),
-                              ListTile(
-                                onTap: () async {
-                                  Navigator.pop(context);
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      contentPadding: const EdgeInsets.all(20),
-                                      title: Text(
-                                        'Block @${tweet.userName}',
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 24),
-                                      ),
-                                      content: Text(
-                                        "@${tweet.userName} will no longer be able to follow or message you, and you will not see notifications from @${tweet.userName}",
-                                      ),
-                                      actions: [
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text(
-                                              'Cancel',
-                                              style: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 16),
-                                            )),
-                                        TextButton(
-                                            onPressed: () {
-                                              //TODO: Implement Block Logic
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text('Block',
-                                                style: TextStyle(
-                                                    color: Colors.black,
-                                                    fontSize: 16))),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                leading: Icon(
-                                  Icons.block,
-                                  color: Colors.blueGrey[600],
-                                ),
-                                title: Text(
-                                  'Block @${tweet.userName}',
-                                  style: const TextStyle(fontSize: 20),
-                                ),
-                              ),
-                            ],
-                          );
+                          return ModalBottomSheetTweet(tweet: tweet);
                         },
                       );
                     }

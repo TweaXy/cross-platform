@@ -7,6 +7,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 List<String>? _getImageList(dynamic image) {
@@ -47,7 +48,9 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isUserRetweeted: e['isUserRetweeted'],
           isUserCommented: e['isUserCommented'],
           createdDate: e['createdDate'],
-          isretweet: e['isretweet']))
+          isretweet: e['isretweet'],
+          reposterid: e['reposterid'],
+          reposteruserName: e['reposteruserName']))
       .toList();
 }
 
@@ -111,31 +114,42 @@ List<String> calculateTime(String fulldate) {
 }
 
 List<Map<String, dynamic>> mapToList(Response res) {
-  return (res.data['data']['items']['data'] as List<dynamic>)
-      .map((item) => {
-            'likesCount': item['mainInteraction']['likesCount'],
-            'viewsCount': item['mainInteraction']['viewsCount'],
-            'retweetsCount': item['mainInteraction']['retweetsCount'],
-            'commentsCount': item['mainInteraction']['commentsCount'],
-            'id': item['mainInteraction']['id'],
-            'userid': item['mainInteraction']['user']['id'],
-            'userImage': item['mainInteraction']['user']['avatar'],
-            'image': item['mainInteraction']['media'] != null
-                ? item['mainInteraction']['media'].toList()
-                : null,
-            'userName': item['mainInteraction']['user']['name'],
-            'userHandle': item['mainInteraction']['user']['username'],
-            'time': dateFormatter(item['mainInteraction']['createdDate']),
-            'tweetText': item['mainInteraction']['text'],
-            'isUserLiked': intToBool(
-                item['mainInteraction']['isUserInteract']['isUserLiked']),
-            'isUserRetweeted': intToBool(
-                item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-            'isUserCommented': intToBool(
-                item['mainInteraction']['isUserInteract']['isUserCommented']),
-            'createdDate': calculateTime(item['mainInteraction']['createdDate'])
-          })
-      .toList();
+  return (res.data['data']['items'] as List<dynamic>).map((item) {
+    String x = 'mainInteraction';
+    String reposterid = '';
+    String reposteruserName = '';
+    if (item['mainInteraction']['type'] == "RETWEET") {
+      print(TempUser.id);
+      x = 'parentInteraction';
+      reposterid = item['mainInteraction']['user']['id'];
+      reposteruserName = item['mainInteraction']['user']['name'];
+      print(reposterid);
+    }
+    return {
+      'likesCount': item['mainInteraction']['likesCount'],
+      'viewsCount': item['mainInteraction']['viewsCount'],
+      'retweetsCount': item['mainInteraction']['retweetsCount'],
+      'commentsCount': item['mainInteraction']['commentsCount'],
+      'id': item['mainInteraction']['id'],
+      'userid': item[x]['user']['id'],
+      'userImage': item[x]['user']['avatar'],
+      'image': item[x]['media'] != null ? item[x]['media'].toList() : null,
+      'userName': item[x]['user']['name'],
+      'userHandle': item[x]['user']['username'],
+      'time': dateFormatter(item[x]['createdDate']),
+      'tweetText': item[x]['text'],
+      'isUserLiked':
+          intToBool(item['mainInteraction']['isUserInteract']['isUserLiked']),
+      'isUserRetweeted': intToBool(
+          item['mainInteraction']['isUserInteract']['isUserRetweeted']),
+      'isUserCommented': intToBool(
+          item['mainInteraction']['isUserInteract']['isUserCommented']),
+      'createdDate': calculateTime(item[x]['createdDate']),
+      'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
+      'reposterid': reposterid,
+      'reposteruserName': reposteruserName
+    };
+  }).toList();
 }
 
 bool intToBool(int a) => a == 0 ? false : true;
@@ -170,7 +184,8 @@ void addReplyPress(context,
 void updateStatesforTweet(state, context, PagingController pagingController) {
   if (state is TweetHomeRefresh ||
       state is TweetAddedState ||
-      state is TweetReplyAddedState || state is UpdateUsernameDoneState) {
+      state is TweetReplyAddedState ||
+      state is UpdateUsernameDoneState) {
     pagingController.refresh();
   }
   if (state is TweetDeleteState) {
@@ -215,7 +230,7 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
   }
   if (state is TweetDeleteRetweetState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.tweetid) {
+      if (element.id == state.id) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount--;
       }
@@ -223,15 +238,4 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     }).toList();
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
-}
-
-bool retweetPress(bool isUserRetweeted, String tweetid, context) {
-  print('sss' + isUserRetweeted.toString());
-  if (!isUserRetweeted) {
-    print('hhhhhhhhhhhhhhhhh');
-    BlocProvider.of<TweetsUpdateCubit>(context).retweet(tweetid);
-  } else {
-    BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(tweetid);
-  }
-  return !isUserRetweeted;
 }

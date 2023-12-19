@@ -12,17 +12,18 @@ import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/get_likers.dart';
+import 'package:tweaxy/services/get_reposts.dart';
 import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
-class RetweetersInTweet extends StatefulWidget {
-  RetweetersInTweet({super.key, required this.id});
+class RepostsinTweet extends StatefulWidget {
+  RepostsinTweet({super.key, required this.id});
   String id;
   @override
-  State<RetweetersInTweet> createState() => _LikersInTweetState();
+  State<RepostsinTweet> createState() => _RepostsinTweetState();
 }
 
-class _LikersInTweetState extends State<RetweetersInTweet> {
+class _RepostsinTweetState extends State<RepostsinTweet> {
   PagingController<int, FollowersModel> _pagingController =
       PagingController(firstPageKey: 0);
   @override
@@ -47,7 +48,7 @@ class _LikersInTweetState extends State<RetweetersInTweet> {
   final _pageSize = 7;
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await Likers().getLikers(
+      final newItems = await Reposters().getReposts(
         id: widget.id,
         pageSize: _pageSize,
         offset: pageKey,
@@ -113,7 +114,7 @@ class _LikersInTweetState extends State<RetweetersInTweet> {
                   noItemsFoundIndicatorBuilder: (context) {
                     return const Center(
                       child: Text(
-                        "No reposts in this tweet yet",
+                        "No Likers in this tweet yet",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       ),

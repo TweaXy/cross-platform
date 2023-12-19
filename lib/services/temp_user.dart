@@ -15,7 +15,7 @@ class TempUser {
   static String token = '';
   static String username = '';
   static String name = '';
-  static String image = 'uploads/default.png';
+  static String image = 'b631858bdaafa77258b9ed2f7c689bdb.png';
   static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
   // String baseUrl = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
@@ -56,11 +56,11 @@ class TempUser {
       int notifica =
           await GetUnseenNotificationCount.getUnseenNotificationCount(token);
       Response res = result;
+      setId(id: userid!);
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
       setImage(image: res.data['data']['user']['avatar']);
-      setId(id: res.data['data']['user']['id']);
       TempUser.notificationCount = notifica;
     }
   }
