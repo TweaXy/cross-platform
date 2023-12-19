@@ -5,12 +5,12 @@ import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/user.dart';
 
 class SearchForUsers {
-  static const String _endpoint = 'users/search/';
+  static const String _endpoint = 'users/search/match?keyword=';
   SearchForUsers._();
   static Future<List<User>> searchForUser(String query, String token,
       {int pageSize = 100, int pageNumber = 0}) async {
     var response = await Api.getwithToken(
-        url: '$baseURL$_endpoint$query?limit=$pageSize&offset=$pageNumber',
+        url: '$baseURL$_endpoint$query&limit=$pageSize&offset=$pageNumber',
         token: token);
     var data = response.data['data']['users'] as List<dynamic>;
     List<User> u = [];
@@ -40,7 +40,7 @@ class SearchForUsers {
     token = user.getString("token")!;
     print(token);
     response = await Api.getwithToken(
-      url: '$baseURL$_endpoint$username?limit=$pageSize&offset=$offset',
+      url: '$baseURL$_endpoint$username&limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

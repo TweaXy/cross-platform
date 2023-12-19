@@ -7,6 +7,8 @@ class FollowersModel {
   bool? status;
   bool followesMe;
   bool followedByMe;
+  bool blocksMe;
+  bool blockedByMe;
   FollowersModel({
     required this.avatar,
     required this.bio,
@@ -16,6 +18,8 @@ class FollowersModel {
     required this.username,
     required this.followedByMe,
     required this.followesMe,
+    required this.blocksMe,
+    required this.blockedByMe,
   });
   factory FollowersModel.fromJson(dynamic data) {
     var jsonData = data;
@@ -28,6 +32,8 @@ class FollowersModel {
       status: jsonData["status"],
       followedByMe: jsonData["followedByMe"],
       followesMe: jsonData["followsMe"],
+      blocksMe: jsonData["blocksMe"],
+      blockedByMe: jsonData["blockedByMe"],
     );
   }
   factory FollowersModel.fromJsonLikers(dynamic data) {
@@ -41,6 +47,8 @@ class FollowersModel {
       status: jsonData["status"],
       followedByMe: jsonData["followedByMe"],
       followesMe: jsonData["followsMe"],
+      blocksMe: jsonData["blocksMe"],
+      blockedByMe: jsonData["blockedByMe"],
     );
   }
   factory FollowersModel.fromJsoning(dynamic data) {
@@ -53,6 +61,8 @@ class FollowersModel {
       bio: jsonData['bio'],
       followedByMe: jsonData["followedByMe"],
       followesMe: jsonData["followsMe"],
+      blocksMe: jsonData["blocksMe"],
+      blockedByMe: jsonData["blockedByMe"],
     );
   }
 }

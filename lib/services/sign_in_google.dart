@@ -1,52 +1,63 @@
-// import 'package:flutter/foundation.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-// class GoogleSingInApi {
-//   static const clientIdWeb =
-//       '150598822682-k32n8uknhd9o6vqdnr045qic68103ou1.apps.googleusercontent.com';
-//   static const clientIdAndroid =
-//       '731962970730-eogvrnvtmkq777vvd7s5gumlguqql9o2.apps.googleusercontent.com';
-//   static final GoogleSignIn _googleSignInMob =
-//       GoogleSignIn(clientId: clientIdAndroid);
-//   static final GoogleSignIn googleSignInWeb = GoogleSignIn(
-//     clientId: clientIdWeb,
-//   );
+class GoogleAPI {
+  final dio = Dio();
+  signInWithGoogle() async {
+    try {
+      const List<String> scopes = <String>[
+        'email',
+        'openid',
+        'https://www.googleapis.com/auth/contacts.readonly',
+      ];
+      GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: scopes,
+      ).signIn();
+      GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      print("start");
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      User? user = FirebaseAuth.instance.currentUser;
 
-//   static Future<GoogleSignInAccount?> loginMob() async {
-//     return await _googleSignInMob.signIn();
-//   }
+      String? token = await userCredential.user?.getIdToken();
+      return token;
 
-//   static Future<GoogleSignInAccount?> logoutMob() {
-//     return _googleSignInMob.signOut();
-//   } //this signout is for mobile but it saves your account`
+      while (token!.length > 0) {
+        int initLength = (token!.length >= 500 ? 500 : token.length);
+        print(token.substring(0, initLength));
+        int? endLength = token.length;
+        token = token.substring(initLength, endLength);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
-//   static Future<GoogleSignInAccount?> signoutMob() => _googleSignInMob
-//       .disconnect(); //this signout is for mobile and it deletes your account
+  Future<dynamic> login() async {
+    String token = await signInWithGoogle();
+    if (token.length > 0) {
+      Response response = await dio.post(
+          'https://tweaxybackend.mywire.org/api/v1/auth/google/android/',
+          data: {'token': token});
+      SharedPreferences user = await SharedPreferences.getInstance();
+      print('kk' + response.data.toString());
+      print('kkkk' + response.data['data']['token'].toString());
 
-//   static Future<GoogleSignInAccount?> loginWeb() async {
-//     return await googleSignInWeb.signIn();
-//   }
+      user.setString('username', response.data['data']['user']['username']);
+      user.setString("token", response.data['data']['token']);
+      user.setString("id", response.data['data']['user']['id']);
 
-//   static Future<GoogleSignInAccount?> logoutWeb() => googleSignInWeb.signOut();
-//   static Future<GoogleSignInAccount?> signoutWeb() =>
-//       googleSignInWeb.disconnect();
-
-//   static Future<bool> checkIfSignedIn() async {
-//     if (kIsWeb) {
-//       return await googleSignInWeb.isSignedIn();
-//     }
-//     return await _googleSignInMob.isSignedIn();
-//   }
-
-//   static Future<String?> getGoogleToken() async {
-//     String? token;
-//     if (kIsWeb) {
-//       token = await googleSignInWeb.currentUser?.authentication
-//           .then((value) => value.idToken);
-//     } else {
-//       token = await _googleSignInMob.currentUser?.authentication
-//           .then((value) => value.idToken);
-//     }
-//     return token;
-//   }
-// }
+      print(response.toString());
+      print(response.data['data']['token']);
+      print(response.data['data']['user']['username']);
+      return response.data;
+    } else
+      return null;
+  }
+}
