@@ -15,7 +15,7 @@ import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/chat/direct_message.dart';
 
 class GetConversationsView extends StatefulWidget {
-  GetConversationsView({super.key});
+  const GetConversationsView({super.key});
 
   @override
   State<GetConversationsView> createState() => _GetConversationsViewState();

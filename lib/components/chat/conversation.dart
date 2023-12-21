@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
+import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
@@ -16,35 +19,41 @@ class Conversation extends StatelessWidget {
     }
     conversation.userAvatar ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
 
-    return ListTile(
-      onTap: () {},
-      leading: CircleAvatar(
-        radius: 25,
-        backgroundColor: Colors.transparent,
-        backgroundImage: CachedNetworkImageProvider(
-            basePhotosURL + conversation.userAvatar!),
-      ),
-      title: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            conversation.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+    return BlocBuilder<ChatWebCubit, ChatWebCubitState>(
+      builder: (context, state) {
+        return ListTile(
+          onTap: () {
+            BlocProvider.of<ChatWebCubit>(context).openConversation();
+          },
+          leading: CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.transparent,
+            backgroundImage: CachedNetworkImageProvider(
+                basePhotosURL + conversation.userAvatar!),
           ),
-          Flexible(
-            child: Text(
-              " @${conversation.username} ",
-              overflow: TextOverflow.ellipsis,
-            ),
+          title: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                conversation.name,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Flexible(
+                child: Text(
+                  " @${conversation.username} ",
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Text(". ${conversation.lastMessage?.createdDate}"),
+            ],
           ),
-          Text(". ${conversation.lastMessage?.createdDate}"),
-        ],
-      ),
-      subtitle: conversation.lastMessage == null
-          ? const Text("")
-          : conversation.lastMessage!.text == null
-              ? Text("${conversation.name} sent a photo")
-              : Text(conversation.lastMessage!.text!),
+          subtitle: conversation.lastMessage == null
+              ? const Text("")
+              : conversation.lastMessage!.text == null
+                  ? Text("${conversation.name} sent a photo")
+                  : Text(conversation.lastMessage!.text!),
+        );
+      },
     );
   }
 }
