@@ -11,7 +11,7 @@ import 'package:tweaxy/utilities/tweets_utilities.dart';
 class ChatRoomService {
   final Dio dio;
   final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
-  late String id;
+  late String userID;
   ChatRoomService(this.dio);
   Future<List<Message>> getMessages(String id, int pageOffset) async {
     Response response;
@@ -19,7 +19,7 @@ class ChatRoomService {
     try {
       List<String> s = await loadPrefs();
       token = s[1];
-      id = s[0];
+      userID = s[0];
     } catch (e) {
       log(e.toString());
     }
@@ -33,7 +33,7 @@ class ChatRoomService {
       if (kDebugMode) {
         log(e.toString());
       } //debug mode only
-      throw Exception('varification code error ');
+      throw Exception('get old messages error ');
     }
   }
 
@@ -46,7 +46,7 @@ class ChatRoomService {
     var items = response.data["data"]["items"];
     List<Message> messages = [];
     for (var i in items) {
-      String sendByid = id == i["senderId"] ? id : "2";
+      String sendByid = userID == i["senderId"] ? userID : "2";
       String mess = i["media"] == [] ? i["text"] : i["medai"];
       MessageType messtype =
           i["media"] == [] ? MessageType.text : MessageType.image;
@@ -63,7 +63,8 @@ class ChatRoomService {
     return messages;
   }
 
-  Future firstConversation(String username) async {
+  Future<String> firstConversation(String username) async {
+    String returndata = "";
     Response response;
     String? token;
     try {
@@ -77,13 +78,17 @@ class ChatRoomService {
           body: {"UUID": username},
           url: '${baseURL}conversations',
           token: token);
-
-      return response.data["data"]["conversationID"];
+      if (response.statusCode == 201) {
+        returndata = response.data["data"]["conversationID"];
+      } else if (response.statusCode == 200) {
+        returndata = response.data["data"]["conversation"]["id"];
+      }
+      return returndata;
     } catch (e) {
       if (kDebugMode) {
         log(e.toString());
       } //debug mode only
-      throw Exception('varification code error ');
+      throw Exception('create conservation error ');
     }
   }
 }

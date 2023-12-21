@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -34,27 +36,61 @@ class _ChatRoomState extends State<ChatRoom> {
     name: TempUser.username,
     //  profilePhoto: Data.profileImage,
   );
+  String consversationID = "";
+
   late ChatController _chatController;
   List<Message> oldMessages = [];
   int pageOffset = 20;
-  void loadMessages() async {
-    oldMessages =
-        await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+  Future loadMessages() async {
+    consversationID =
+        await ChatRoomService(Dio()).firstConversation(widget.username);
+    if (widget.conversationID != "") {
+      oldMessages =
+          await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+      consversationID = widget.conversationID;
+    } else {
+      oldMessages =
+          await ChatRoomService(Dio()).getMessages(consversationID, 0);
+    }
+    socket = IO.io(
+        'https://tweaxybackend.mywire.org/api/v1/conversations/$consversationID');
+    // socket.on('message', (data) => addmessage(data));
+    socket.connect();
+    socket.on('connect_error', (error) {
+      print('Error connecting to the socket: $error');
+    });
+
+    socket.on('connect_timeout', (_) {
+      print('Connection timeout');
+    });
+
+    socket.on('error', (error) {
+      print('Socket error: $error');
+    });
+    socket.connect();
   }
 
+  late IO.Socket socket;
   @override
   void initState() {
     super.initState();
-    // if ()
-    loadMessages();
+
+    Future(() async {
+      await loadMessages();
+    });
+
     pageOffset = oldMessages.length;
-    IO.Socket socket = IO.io(baseURL + "/conversations/{id}");
+  }
+
+  void addmessage(dynamic data) {
+    _chatController.addMessage(
+        Message(message: data, createdAt: DateTime.now(), sendBy: widget.id));
   }
 
   @override
   Widget build(BuildContext context) {
     _chatController = ChatController(
-      initialMessageList: [],
+      initialMessageList: oldMessages,
       scrollController: ScrollController(),
       chatUsers: [
         ChatUser(
@@ -97,11 +133,12 @@ class _ChatRoomState extends State<ChatRoom> {
                   },
                   icon: const Icon(Icons.arrow_back_sharp)),
               Container(
-                margin: EdgeInsets.all(2),
+                margin: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.05),
                 // padding: EdgeInsets.symmetric(
                 //     vertical: MediaQuery.of(context).size.height * 0.001),
                 child: CircleAvatar(
-                  radius: kIsWeb ? 20 : 28,
+                  radius: kIsWeb ? 20 : 20,
                   backgroundColor: Colors.blueGrey[300],
                   backgroundImage: CachedNetworkImageProvider(
                       basePhotosURL + widget.avatar!),
@@ -109,7 +146,9 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
             ],
           ),
-          onBackPress: () {},
+          onBackPress: () {
+            Navigator.pop(context);
+          },
           chatTitle: widget.name,
           chatTitleTextStyle: const TextStyle(
             fontWeight: FontWeight.bold,
@@ -202,11 +241,11 @@ class _ChatRoomState extends State<ChatRoom> {
     ReplyMessage replyMessage,
     MessageType messageType,
   ) async {
-    if (widget.isFirstMsg) {
-      ChatRoomService service = ChatRoomService(Dio());
-      String id = await service.firstConversation(widget.username);
-    }
-    final id = 1;
+    // if (consversationID=="") {
+    //   ChatRoomService service = ChatRoomService(Dio());
+    //   String id = await service.firstConversation(widget.username);
+    // }
+    final int id = 1;
     _chatController.addMessage(
       Message(
         id: id.toString(),
@@ -217,6 +256,10 @@ class _ChatRoomState extends State<ChatRoom> {
         messageType: messageType,
       ),
     );
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('sendMessage', {"text": message, "media": []});
+    });
     Future.delayed(const Duration(milliseconds: 300), () {
       _chatController.initialMessageList.last.setStatus =
           MessageStatus.delivered;
