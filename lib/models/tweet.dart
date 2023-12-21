@@ -17,7 +17,7 @@ class Tweet {
   final List<String> createdDate;
   final bool isretweet;
   final String reposteruserid;
-  final String reposttweetid;
+  final String parentid;
   final String reposteruserName;
   //+++++++++video
   Tweet({
@@ -39,7 +39,7 @@ class Tweet {
     required this.retweetsCount,
     required this.commentsCount,
     required this.reposteruserid,
-    required this.reposttweetid,
+    required this.parentid,
     required this.reposteruserName,
   });
   String getId() {

@@ -55,14 +55,15 @@ class _MyPageState extends State<HomePageBody> {
       // final List<Tweet>newItems=newItemstmp.map((e) {if(!_pagingController.itemList.contains(e))
       //  return e;}).toList();
       final List<Tweet> newItems = [];
-      if (_pagingController.itemList != null)
-        // ignore: curly_braces_in_flow_control_structures
-        for (int i = 0; i < newItemstmp.length; i++) {
-          if (!_pagingController.itemList!.contains(newItemstmp[i])) {
-            newItems.add(newItemstmp[i]);
-          }
-        }
-        else newItems.addAll(newItemstmp);
+      // if (_pagingController.itemList != null)
+      //   // ignore: curly_braces_in_flow_control_structures
+      //   for (int i = 0; i < newItemstmp.length; i++) {
+      //     if (!_pagingController.itemList!.contains(newItemstmp[i])) {
+      //       newItems.add(newItemstmp[i]);
+      //     }
+      //   }
+      //   else newItems.addAll(newItemstmp);
+      newItems.addAll(newItemstmp);
 
       final isLastPage = newItems.length < _pageSize;
       // print('tttt');

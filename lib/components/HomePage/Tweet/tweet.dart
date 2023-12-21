@@ -34,6 +34,7 @@ class CustomTweet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(tweet);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
@@ -186,8 +187,10 @@ class CustomTweet extends StatelessWidget {
                         isUserLiked: tweet.isUserLiked,
                         isUserCommented: tweet.isUserCommented,
                         isUserRetweeted: tweet.isUserRetweeted,
-                        userid: tweet.userId,
-                        isretweet: tweet.isretweet,
+                        userid: tweet.reposteruserid == ''
+                            ? tweet.userId
+                            : tweet.reposteruserid,
+                        isretweet: tweet.isretweet, parenttweetid: tweet.parentid,
                       ),
                     ],
                   ),

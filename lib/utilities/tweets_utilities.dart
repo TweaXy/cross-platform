@@ -51,7 +51,7 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isretweet: e['isretweet'],
           reposteruserid: e['reposteruserid'],
           reposteruserName: e['reposteruserName'],
-          reposttweetid: e['reposttweetid']))
+          parentid: e['parentid']))
       .toList();
   return t;
 }
@@ -120,13 +120,11 @@ List<Map<String, dynamic>> mapToList(Response res) {
     String x = 'mainInteraction';
     String reposteruserid = '';
     String reposteruserName = '';
-    String reposttweetid = '';
     if (item['mainInteraction']['type'] == "RETWEET") {
       print(TempUser.id);
       x = 'parentInteraction';
       reposteruserid = item['mainInteraction']['user']['id'];
       reposteruserName = item['mainInteraction']['user']['name'];
-      reposttweetid = item['mainInteraction']['id'];
       print(reposteruserid);
     }
     return {
@@ -134,7 +132,7 @@ List<Map<String, dynamic>> mapToList(Response res) {
       'viewsCount': item[x]['viewsCount'],
       'retweetsCount': item[x]['retweetsCount'],
       'commentsCount': item[x]['commentsCount'],
-      'id': item[x]['id'],
+      'id': item['mainInteraction']['id'],
       'userid': item[x]['user']['id'],
       'userImage': item[x]['user']['avatar'] != null
           ? item[x]['user']['avatar']
@@ -144,17 +142,16 @@ List<Map<String, dynamic>> mapToList(Response res) {
       'userHandle': item[x]['user']['username'],
       'time': dateFormatter(item[x]['createdDate']),
       'tweetText': item[x]['text'],
-      'isUserLiked':
-          intToBool(item[x]['isUserInteract']['isUserLiked']),
-      'isUserRetweeted': intToBool(
-          item[x]['isUserInteract']['isUserRetweeted']),
-      'isUserCommented': intToBool(
-          item[x]['isUserInteract']['isUserCommented']),
+      'isUserLiked': intToBool(item[x]['isUserInteract']['isUserLiked']),
+      'isUserRetweeted':
+          intToBool(item[x]['isUserInteract']['isUserRetweeted']),
+      'isUserCommented':
+          intToBool(item[x]['isUserInteract']['isUserCommented']),
       'createdDate': calculateTime(item[x]['createdDate']),
       'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
       'reposteruserid': reposteruserid,
       'reposteruserName': reposteruserName,
-      'reposttweetid': reposttweetid
+      'parentid': item[x]['id']
     };
   }).toList();
 }
@@ -206,7 +203,7 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
   }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.tweetid) {
+      if (element.id == state.parentid) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount++;
       }
@@ -217,7 +214,7 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
   }
   if (state is TweetUnLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.tweetid) {
+      if (element.id == state.parentid) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount--;
       }
@@ -230,7 +227,7 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     pagingController.itemList!.map((element) {
       print('hereee');
 
-      if (element.id == state.tweetid) {
+      if (element.id == state.parentid) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount++;
       }
@@ -240,13 +237,20 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteRetweetState) {
+    if (state.reposteruserid == TempUser.id && state.isretweet) {
+      pagingController.itemList!
+          .removeWhere((element) => element.id == state.id);
+      BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+    } else {
     pagingController.itemList!.map((element) {
-      if (element.id == state.id) {
+      if (element.id == state.parentid) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount--;
       }
+
       return element;
     }).toList();
+    }
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
 }

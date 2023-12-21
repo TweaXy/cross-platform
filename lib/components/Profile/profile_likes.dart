@@ -64,7 +64,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
       }
         if (state is TweetLikedState) {
               _pagingController.itemList!.map((element) {
-                if (element.id == state.tweetid) {
+                if (element.id == state.parentid) {
                   element.isUserLiked = !element.isUserLiked;
                   element.likesCount++;
                 }
@@ -76,7 +76,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
            
       if (state is TweetUnLikedState && TempUser.id == widget.id) {
         _pagingController.itemList!
-            .removeWhere((element) => element.id == state.tweetid);
+            .removeWhere((element) => element.id == state.parentid);
         // BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
       }
       return PagedSliverList<int, Tweet>(

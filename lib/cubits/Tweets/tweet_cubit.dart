@@ -12,39 +12,52 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   void addTweet() {
     emit(TweetAddedState());
   }
-void addReply() {
-  emit(TweetReplyAddedState());
+
+  void addReply() {
+    emit(TweetReplyAddedState());
   }
 
   void initializeTweet() {
     emit(TweetInitialState());
   }
 
-  void unLikeTweet(String id) {
-    emit(TweetUnLikedState(tweetid: id));
+  void unLikeTweet(String parentid) {
+    emit(TweetUnLikedState(parentid: parentid));
   }
- void likeTweet(String id) {
-    emit(TweetLikedState(tweetid: id));
+
+  void likeTweet(String parentid) {
+    emit(TweetLikedState(parentid: parentid));
   }
+
   void refresh() {
     emit(TweetHomeRefresh());
   }
+
   void deletewithpopforreply() {
     emit(TweetDeleteInReplyState());
   }
-  void retweet(String id) {
-    emit(TweetRetweetState(tweetid: id));
+
+  void retweet(String parentid) {
+    emit(TweetRetweetState(parentid: parentid));
   }
-  void deleteretweet({ required String userid,required String id,required bool isretweet}) {
-    emit(TweetDeleteRetweetState(userid,id,isretweet));
+
+  void deleteretweet(
+      {required String userid,
+      required String id,
+      required bool isretweet,
+      required String parentid}) {
+    emit(TweetDeleteRetweetState(userid, id, isretweet, parentid));
   }
-   void blockUser(String id) {
+
+  void blockUser(String id) {
     emit(TweetUserBlocked(tweetid: id));
   }
-   void muteUser(String id) {
+
+  void muteUser(String id) {
     emit(TweetUserMuted(tweetid: id));
   }
-   void unfollowUser(String id) {
+
+  void unfollowUser(String id) {
     emit(TweetUserUnfollowed(tweetid: id));
   }
 }

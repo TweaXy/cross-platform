@@ -124,8 +124,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                           initialEnabled: true,
                         ),
                       IconButton(
-              key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
-
+                        key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
                         icon: const Icon(FontAwesomeIcons.ellipsisVertical),
@@ -145,7 +144,8 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               ),
                               builder: (context) {
                                 return WrapModalBottomProfile(
-                                  tweetid: widget.tweet.id, forreply:true ,
+                                  tweetid: widget.tweet.id,
+                                  forreply: true,
                                 );
                               },
                             );
