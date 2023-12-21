@@ -28,7 +28,6 @@ class HomePageBody extends StatefulWidget {
 class _MyPageState extends State<HomePageBody> {
   PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
-  
 
   @override
   void initState() {
@@ -51,7 +50,7 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItemstmp =
           await TweetsServices.getTweetsHome(offset: pageKey);
-          print('lllll'+newItemstmp.toString());
+      print('lllll' + newItemstmp.toString());
       // final List<Tweet>newItems=newItemstmp.map((e) {if(!_pagingController.itemList.contains(e))
       //  return e;}).toList();
       final List<Tweet> newItems = [];
@@ -62,7 +61,8 @@ class _MyPageState extends State<HomePageBody> {
             newItems.add(newItemstmp[i]);
           }
         }
-        else newItems.addAll(newItemstmp);
+      else
+        newItems.addAll(newItemstmp);
 
       final isLastPage = newItems.length < _pageSize;
       // print('tttt');
@@ -104,6 +104,7 @@ class _MyPageState extends State<HomePageBody> {
                         tweet: item,
                         replyto: const [],
                         isMuted: false,
+                        isUserBlocked: false,
                       );
                     },
                   ),

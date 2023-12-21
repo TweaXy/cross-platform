@@ -247,6 +247,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       tweet: item,
                       replyto: const [],
                       isMuted: false,
+                      isUserBlocked: false,
                     );
                   },
                 ),

@@ -54,7 +54,6 @@ class MuteUserTweet extends StatelessWidget {
 
         BlocProvider.of<EditProfileCubit>(context)
             .emit(ProfilePageCompletedState());
-        BlocProvider.of<TweetsUpdateCubit>(context).refresh();
 
         Navigator.pop(context);
         //TODO: Implement Mute Logic

@@ -10,9 +10,15 @@ import 'package:tweaxy/services/get_likers_in_profile.dart';
 import 'package:tweaxy/services/temp_user.dart';
 
 class ProfileLikes extends StatefulWidget {
-  const ProfileLikes({super.key, required this.id, required this.isMuted});
+  const ProfileLikes({
+    super.key,
+    required this.id,
+    required this.isMuted,
+    required this.isUserBlocked,
+  });
   final String id;
   final bool isMuted;
+  final bool isUserBlocked;
 
   @override
   State<ProfileLikes> createState() => _ProfileLikesState();
@@ -62,18 +68,18 @@ class _ProfileLikesState extends State<ProfileLikes> {
       if (state is TweetDeleteState || state is TweetAddedState) {
         _pagingController.refresh();
       }
-        if (state is TweetLikedState) {
-              _pagingController.itemList!.map((element) {
-                if (element.id == state.tweetid) {
-                  element.isUserLiked = !element.isUserLiked;
-                  element.likesCount++;
-                }
-                return element;
-              }).toList();
+      if (state is TweetLikedState) {
+        _pagingController.itemList!.map((element) {
+          if (element.id == state.tweetid) {
+            element.isUserLiked = !element.isUserLiked;
+            element.likesCount++;
+          }
+          return element;
+        }).toList();
 
-              BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
-            }
-           
+        BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+      }
+
       if (state is TweetUnLikedState && TempUser.id == widget.id) {
         _pagingController.itemList!
             .removeWhere((element) => element.id == state.tweetid);
@@ -109,7 +115,9 @@ class _ProfileLikesState extends State<ProfileLikes> {
           itemBuilder: (context, item, index) {
             return CustomTweet(
               tweet: item,
-              replyto: [], isMuted: widget.isMuted,
+              replyto: [],
+              isMuted: widget.isMuted,
+              isUserBlocked: widget.isUserBlocked,
             );
           },
         ),

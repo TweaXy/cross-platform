@@ -11,10 +11,12 @@ class ProfileScreenBody extends StatelessWidget {
       {super.key,
       required this.tabController,
       required this.id,
-      required this.isMuted});
+      required this.isMuted,
+      required this.isUserBlocked});
   final TabController tabController;
   final String id;
   final bool isMuted;
+  final bool isUserBlocked;
   // final List<Map<String, String>> temp = const [
   //   {
   //     'likesCount': '1',
@@ -111,6 +113,7 @@ class ProfileScreenBody extends StatelessWidget {
               ProfilePosts(
                 id: id,
                 isMuted: isMuted,
+                isUserBlocked: isUserBlocked,
               )
             ]),
         CustomScrollView(
@@ -120,6 +123,7 @@ class ProfileScreenBody extends StatelessWidget {
             ProfileLikes(
               id: id,
               isMuted: isMuted,
+              isUserBlocked: isUserBlocked,
             )
           ],
         )

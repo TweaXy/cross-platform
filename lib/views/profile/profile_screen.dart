@@ -111,12 +111,13 @@ class _ProfileScreenState extends State<ProfileScreen>
                     User user = snapshot.data!;
                     if (!initialized) {
                       initialized = true;
-                      _isUserBlocked = user.blockedByMe!;
 
                       if (text != 'Edit Profile') {
                         text = user.followedByMe! ? 'Following' : 'Follow';
                       }
                     }
+                    _isUserBlocked = user.blockedByMe!;
+
                     _isMuted = user.muted!;
                     return NestedScrollView(
                         controller: controller,
@@ -189,6 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 tabController: _tabController,
                                 id: id,
                                 isMuted: _isMuted,
+                                isUserBlocked: _isUserBlocked,
                               ));
                   }
                 },

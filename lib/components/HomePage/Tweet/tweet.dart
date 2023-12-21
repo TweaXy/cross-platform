@@ -27,10 +27,12 @@ class CustomTweet extends StatelessWidget {
       {super.key,
       required this.tweet,
       required this.replyto,
-      required this.isMuted});
+      required this.isMuted,
+      required this.isUserBlocked});
   final List<String> replyto;
   final Tweet tweet;
   final bool isMuted;
+  final bool isUserBlocked;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +41,7 @@ class CustomTweet extends StatelessWidget {
 
     List<String>? t = tweet.image;
     String? k = null;
-    if (t != null) k = t[0]!;
+    if (t != null) k = t[0];
     return GestureDetector(
       key: const ValueKey(TweetKeys.clickToShowRepliesScreen),
       onTap: () {
@@ -144,6 +146,7 @@ class CustomTweet extends StatelessWidget {
                               tweet: tweet,
                               replyto: replyto,
                               isMuted: isMuted,
+                              isUserBlocked: isUserBlocked,
                             ),
                       if (tweet.tweetText != null)
                         Container(
