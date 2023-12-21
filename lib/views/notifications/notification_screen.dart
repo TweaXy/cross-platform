@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
@@ -17,6 +19,7 @@ import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
 import 'package:tweaxy/services/get_mentioned_tweets.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -292,7 +295,14 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
   @override
   Widget build(BuildContext context) {
     String text = '';
-    void Function() onPressed = () {};
+    void Function() onPressed = () async{
+      // List<Map<String, dynamic>> m = await mapToList(res);
+      // Navigator.push(
+      //     context,
+      //     CustomPageRoute(
+      //         child: RepliesScreen(tweet: tweet, replyto: replyto),
+      //         direction: AxisDirection.left));
+    };
     switch (widget.notificationType) {
       case 'like':
         text = 'Liked your tweet';
