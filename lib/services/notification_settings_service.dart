@@ -19,6 +19,7 @@ class NotificationSettingsService {
     } catch (e) {
       log(e.toString());
     }
+    print(token);
     try {
       response = await Api.post(
         url: '${baseURL}notification/satatus',
@@ -41,7 +42,7 @@ class NotificationSettingsService {
     }
   }
 
-  Future<Response> notificatioDisable(String deviceToken) async {
+  Future<String> notificatioDisable(String deviceToken) async {
     Response response;
     String? token;
     try {
@@ -56,14 +57,18 @@ class NotificationSettingsService {
         token: token,
         body: {"token": deviceToken},
       );
-
-      return response;
+      String ret = "fail";
+      if (response.statusCode == 200) {
+        ret = "sucess";
+      }
+      return ret;
     } catch (e) {
       log(e.toString());
       throw Exception('notification disable error');
     }
   }
-  Future<Response> notificatioEnable(String deviceToken) async {
+
+  Future<String> notificatioEnable(String deviceToken) async {
     Response response;
     String? token;
     try {
@@ -78,8 +83,11 @@ class NotificationSettingsService {
         token: token,
         body: {"token": deviceToken},
       );
-
-      return response;
+      String ret = "fail";
+      if (response.statusCode == 200) {
+        ret = "sucess";
+      }
+      return ret;
     } catch (e) {
       log(e.toString());
       throw Exception('notification enable error');
