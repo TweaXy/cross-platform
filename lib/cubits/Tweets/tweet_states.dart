@@ -70,3 +70,11 @@ class TweetDeleteRetweetState extends TweetUpdateState {
 
   TweetDeleteRetweetState(this.reposteruserid, this.id, this.isretweet, this.parentid);
 }
+class ViewTweetforMuteorBlock extends TweetUpdateState {
+  final String id;
+  ViewTweetforMuteorBlock(this.id,);
+
+
+
+}
+

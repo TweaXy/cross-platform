@@ -19,8 +19,13 @@ class Tweet {
   final String reposteruserid;
   final String parentid;
   final String reposteruserName;
+  final bool isUserBlockedByMe;
+  final bool isUserMutedByMe;
+   bool isShown;
   //+++++++++video
-  Tweet({
+  Tweet({ required  this.isShown, 
+    required this.isUserBlockedByMe,
+    required this.isUserMutedByMe,
     required this.isretweet,
     required this.createdDate,
     required this.isUserLiked,

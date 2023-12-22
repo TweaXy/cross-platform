@@ -60,4 +60,9 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   void unfollowUser(String id,String parentid) {
     emit(TweetUserUnfollowed(tweetid: id, tweetparentid: parentid));
   }
+  void showTweet(String id)
+  {
+    emit(ViewTweetforMuteorBlock(id));
+
+  }
 }

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/mute_block_reply.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
@@ -81,12 +82,17 @@ class _MyPageState extends State<RepliesList> {
                                 index == _pagingController.itemList!.length - 1)
                             ? 150
                             : 0),
-                    child: CustomTweet(
-                      tweet: item,
-                      replyto: widget.replyto,
-                      isMuted: false,
-                      isUserBlocked: false,
-                    ),
+                    child: !item.isShown
+                        ? MuteBlockReply(
+                            tweetid: item.id,
+                            isMute: item.isUserMutedByMe,
+                          )
+                        : CustomTweet(
+                            tweet: item,
+                            replyto: widget.replyto,
+                            isMuted: false,
+                            isUserBlocked: false,
+                          ),
                   );
                 },
               ),

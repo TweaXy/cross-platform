@@ -51,7 +51,10 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isretweet: e['isretweet'],
           reposteruserid: e['reposteruserid'],
           reposteruserName: e['reposteruserName'],
-          parentid: e['parentid']))
+          parentid: e['parentid'],
+          isUserBlockedByMe: e['isUserBlockedByMe'],
+          isUserMutedByMe: e['isUserMutedByMe'],
+          isShown: !(e['isUserBlockedByMe'] || e['isUserMutedByMe'])))
       .toList();
   return t;
 }
@@ -152,7 +155,10 @@ List<Map<String, dynamic>> mapToList(Response res, {bool isforreply = false}) {
       'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
       'reposteruserid': reposteruserid,
       'reposteruserName': reposteruserName,
-      'parentid': item[x]['id']
+      'parentid': item[x]['id'],
+      'isUserBlockedByMe':
+          item['mainInteraction']['user']['blockedByMe'] ?? false,
+      'isUserMutedByMe': item['mainInteraction']['user']['mutedByMe'] ?? false,
     };
   }).toList();
 }
@@ -205,10 +211,22 @@ void updateStatesforTweet(state, context, PagingController pagingController,
           state is TweetUserUnfollowed) &&
       isforHome) {
     pagingController.itemList!.removeWhere((element) =>
-        element.id == state.tweetid||
-        element.id == state.tweetparentid||
-        element.parentid== state.tweetid);
+        element.id == state.tweetid ||
+        element.id == state.tweetparentid ||
+        element.parentid == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+  }
+  if (state is ViewTweetforMuteorBlock)
+  {
+  pagingController.itemList!.map((element) {
+      if (element.id == state.id ) {
+        element.isShown=true;
+        return element;
+      }
+    }).toList();
+
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+
   }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {
