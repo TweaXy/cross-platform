@@ -42,8 +42,8 @@ class NotificationSettingsService {
     }
   }
 
-  Future<String> notificatioDisable(String deviceToken) async {
-    Response response;
+  Future<dynamic> notificatioDisable(String deviceToken) async {
+    dynamic response;
     String? token;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -57,19 +57,16 @@ class NotificationSettingsService {
         token: token,
         body: {"token": deviceToken},
       );
-      String ret = "fail";
-      if (response.statusCode == 200) {
-        ret = "sucess";
-      }
-      return ret;
+
+      return response;
     } catch (e) {
       log(e.toString());
       throw Exception('notification disable error');
     }
   }
 
-  Future<String> notificatioEnable(String deviceToken) async {
-    Response response;
+  Future<dynamic> notificatioEnable(String deviceToken) async {
+    dynamic response;
     String? token;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -78,16 +75,12 @@ class NotificationSettingsService {
       log(e.toString());
     }
     try {
-      response = await Api.delete(
+      response = await Api.post(
         url: '${baseURL}notification/deviceTokenAndorid',
         token: token,
         body: {"token": deviceToken},
       );
-      String ret = "fail";
-      if (response.statusCode == 200) {
-        ret = "sucess";
-      }
-      return ret;
+      return response;
     } catch (e) {
       log(e.toString());
       throw Exception('notification enable error');

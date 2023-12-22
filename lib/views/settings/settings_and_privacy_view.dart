@@ -33,9 +33,13 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
         .notificatioCheckState(deviceToken!);
     // String response = "true";
     if (response == "true") {
-      notiifcationEnable = true;
+      setState(() {
+        notiifcationEnable = true;
+      });
     } else if (response == "false") {
-      notiifcationEnable = false;
+      setState(() {
+        notiifcationEnable = false;
+      });
     } else {
       showToastWidget(
         CustomToast(
@@ -126,31 +130,36 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
                     ),
                   ),
                   value: notiifcationEnable,
-                  onChanged: (bool value) {
-                    setState(() {
-                      notiifcationEnable = value;
-                    });
+                  onChanged: (bool value) async {
                     if (value == true) {
-                      Future<String> response =
-                          NotificationSettingsService(Dio())
+                      dynamic response =
+                          await NotificationSettingsService(Dio())
                               .notificatioEnable(deviceToken!);
-                      if (response.toString() == "fail") {
+                      if (response is String) {
                         showToastWidget(
-                          CustomToast(message: response as String),
+                          CustomToast(message: response.toString()),
                           position: ToastPosition.bottom,
                           duration: const Duration(seconds: 2),
                         );
+                      } else {
+                        setState(() {
+                          notiifcationEnable = value;
+                        });
                       }
                     } else {
-                      Future<String> response =
-                          NotificationSettingsService(Dio())
+                      dynamic response =
+                          await NotificationSettingsService(Dio())
                               .notificatioDisable(deviceToken!);
-                      if (response.toString() == "fail") {
+                      if (response is String) {
                         showToastWidget(
-                          CustomToast(message: response as String),
+                          CustomToast(message: response.toString()),
                           position: ToastPosition.bottom,
                           duration: const Duration(seconds: 2),
                         );
+                      } else {
+                        setState(() {
+                          notiifcationEnable = value;
+                        });
                       }
                     }
                   },
