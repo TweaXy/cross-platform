@@ -26,7 +26,8 @@ class TweetInteractions extends StatefulWidget {
       required this.isUserRetweeted,
       required this.replyto,
       required this.userid,
-      required this.isretweet});
+      required this.isretweet, required this.parenttweetid,
+});
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
@@ -37,8 +38,8 @@ class TweetInteractions extends StatefulWidget {
   final String userid;
   final bool isretweet;
   final String replyto;
-
   final String id;
+  final String parenttweetid;
 
   @override
   State<TweetInteractions> createState() => _TweetInteractionsState();
@@ -111,18 +112,20 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 });
                 print(" the like value $isLiked");
                 if (isLiked) {
-                  var res =
-                      await TweetsServices.deleteRetweet(tweetid: widget.id);
+                  var res = await TweetsServices.deleteRetweet(
+                      tweetid:
+                         widget.id);
                   BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
                       userid: widget.userid,
-                      id: widget.id,
-                      isretweet: widget.isretweet);
+                      id:widget.id,
+                      isretweet: widget.isretweet,
+                      parentid: widget.parenttweetid);
                   return !res;
                 } else {
                   var res = await TweetsServices.addRetweet(widget.id);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .retweet(widget.id);
+                      .retweet(widget.parenttweetid,widget.id);
                   return res;
                 }
               },
@@ -144,13 +147,13 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 if (isLiked) {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .unLikeTweet(widget.id);
+                      .unLikeTweet(widget.parenttweetid,widget.id);
                   return res;
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .likeTweet(widget.id);
+                      .likeTweet(widget.parenttweetid,widget.id);
                   return res;
                 }
               },

@@ -32,39 +32,6 @@ class MainTweetReplies extends StatelessWidget {
       ),
       child: Column(
         children: [
-          if (tweet.isretweet)
-            Padding(
-              padding: EdgeInsets.only(top: 3.0, bottom: 4, left: 30),
-              child: Row(
-                children: [
-                  const Icon(FontAwesomeIcons.retweet,
-                      size: 20, color: Color.fromARGB(255, 95, 94, 94)),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: screenWidth * 0.5),
-                    child: Text(
-                      maxLines: 1,
-                      TempUser.id == tweet.userId
-                          ? '  You'
-                          : '  ${tweet.userName}',
-                      style: const TextStyle(
-                          overflow: TextOverflow.ellipsis,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 95, 94, 94)),
-                    ),
-                  ),
-                  const Text(
-                    maxLines: 1,
-                    ' reposted',
-                    style: TextStyle(
-                        overflow: TextOverflow.ellipsis,
-                        fontSize: 17,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 95, 94, 94)),
-                  ),
-                ],
-              ),
-            ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -95,24 +62,13 @@ class MainTweetReplies extends StatelessWidget {
                       if (tweet.tweetText != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      LikersInTweet(id: tweet.id),
-                                ),
-                              );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(left: 2, right: 2),
-                              child: Text(
-                                tweet.tweetText!,
-                                style: const TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: 18,
-                                ),
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 2, right: 2),
+                            child: Text(
+                              tweet.tweetText!,
+                              style: const TextStyle(
+                                fontFamily: 'Roboto',
+                                fontSize: 18,
                               ),
                             ),
                           ),
@@ -189,7 +145,10 @@ class MainTweetReplies extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RepostsinTweet(id: tweet.id),
+                            builder: (context) => RepostsinTweet(
+                                id: tweet.isretweet
+                                    ? tweet.parentid
+                                    : tweet.id),
                           ),
                         );
                       },
@@ -206,7 +165,10 @@ class MainTweetReplies extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LikersInTweet(id: tweet.id),
+                            builder: (context) => LikersInTweet(
+                                id: tweet.isretweet
+                                    ? tweet.parentid
+                                    : tweet.id),
                           ),
                         );
                       },

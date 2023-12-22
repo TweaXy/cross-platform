@@ -13,6 +13,7 @@ class LikeTweet {
         '$baseURL$_endpoint$id/like',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
+      print(response);
       print('Liked');
       return true;
     } catch (e) {

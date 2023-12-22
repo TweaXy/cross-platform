@@ -19,14 +19,17 @@ import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 import 'package:tweaxy/shared/utils.dart';
 
 class User_TweetInfo extends StatelessWidget {
-  const User_TweetInfo(
-      {super.key,
-      required this.tweet,
-      required this.replyto,
-      required this.isMuted});
+  const User_TweetInfo({
+    super.key,
+    required this.tweet,
+    required this.replyto,
+    required this.isMuted,
+    required this.isUserBlocked,
+  });
   final Tweet tweet;
   final List<String> replyto;
   final bool isMuted;
+  final bool isUserBlocked;
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -122,9 +125,7 @@ class User_TweetInfo extends StatelessWidget {
                         ),
                         builder: (context) {
                           return WrapModalBottomProfile(
-                            tweetid: tweet.reposttweetid == ''
-                                ? tweet.id
-                                : tweet.reposttweetid,
+                            tweetid: tweet.id,
                             forreply: false,
                           );
                         },
@@ -144,16 +145,21 @@ class User_TweetInfo extends StatelessWidget {
                           return Wrap(
                             children: [
                               FollowUserTweet(
-                                  userHandle: tweet.userHandle,
-                                  tweetid: tweet.id),
+                                userHandle: tweet.userHandle,
+                                tweetid: tweet.id,
+                                parentid: tweet.parentid,
+                              ),
                               MuteUserTweet(
                                 tweetid: tweet.id,
                                 userHandle: tweet.userHandle,
                                 isMuted: isMuted,
+                                parentid: tweet.parentid,
                               ),
                               BlockUserTweet(
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
+                                isUserBlocked: isUserBlocked,
+                                parentid: tweet.parentid,
                               )
                             ],
                           );

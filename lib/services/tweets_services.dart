@@ -75,7 +75,7 @@ class TweetsServices {
     dynamic result = await Api.getwithToken(
         token: TempUser.token,
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
-    print(result);
+    print('resulttt' + result.toString());
     if (result is String) {
       return [];
     } else if (result is Response) {
@@ -85,7 +85,6 @@ class TweetsServices {
         res.data['data']['user']['followsMe'],
         TempUser.id == userid
       ];
-      print(ret);
       return ret;
     }
     return [];
@@ -129,36 +128,7 @@ class TweetsServices {
     // Response response = res;
     if (res.data['data'] == []) return [];
     print('rrrrr' + res.data['data'].toString());
-    List<Map<String, dynamic>> m = (res.data['data'] as List<dynamic>)
-        .map((item) => {
-              'likesCount': item['mainInteraction']['likesCount'],
-              'viewsCount': item['mainInteraction']['viewsCount'],
-              'retweetsCount': item['mainInteraction']['retweetsCount'],
-              'commentsCount': item['mainInteraction']['commentsCount'],
-              'id': item['mainInteraction']['id'],
-              'userid': item['mainInteraction']['user']['id'],
-              'userImage': item['mainInteraction']['user']['avatar'],
-              'image': item['mainInteraction']['media'] != null
-                  ? item['mainInteraction']['media'].toList()
-                  : null,
-              'userName': item['mainInteraction']['user']['name'],
-              'userHandle': item['mainInteraction']['user']['username'],
-              'time': dateFormatter(item['mainInteraction']['createdDate']),
-              'tweetText': item['mainInteraction']['text'],
-              'isUserLiked': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserLiked']),
-              'isUserRetweeted': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-              'isUserCommented': intToBool(
-                  item['mainInteraction']['isUserInteract']['isUserCommented']),
-              'createdDate':
-                  calculateTime(item['mainInteraction']['createdDate']),
-              'isretweet':
-                  item['mainInteraction']['type'] != "RETWEET" ? false : true,
-              'reposterid': '',
-              'reposteruserName': ''
-            })
-        .toList();
+    List<Map<String, dynamic>> m = mapToList(res, isforreply: true);
     print('ressss' + m.toString());
 
     print('mm' + m.toString());
