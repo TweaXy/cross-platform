@@ -358,6 +358,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             onSelected: (value) async {
                               if (value == 0) {
                                 if (!_isMuted) {
+                                  BlocProvider.of<EditProfileCubit>(context)
+                                      .emit(ProfilePageLoadingState());
                                   var flag = await MuteUserService.mute(
                                       username: user.userName!);
                                   if (flag) {
@@ -392,6 +394,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 }
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageCompletedState());
                               } else {
                                 if (_isUserBlocked) {
                                   showDialog(
