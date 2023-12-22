@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chatview/chatview.dart';
+// import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tweaxy/constants.dart';
@@ -46,14 +47,14 @@ class ChatRoomService {
     var items = response.data["data"]["items"];
     List<Message> messages = [];
     for (var i in items) {
-      String sendByid = userID == i["senderId"] ? userID : "2";
-      String mess = i["media"] == [] ? i["text"] : i["medai"];
-      MessageType messtype =
-          i["media"] == [] ? MessageType.text : MessageType.image;
+      String sendByid = i["senderId"];
+      String mess = i["text"];
+      MessageType messtype = MessageType.text;
       MessageStatus state =
           i["seen"] == true ? MessageStatus.read : MessageStatus.delivered;
 
       messages.add(Message(
+          id: "1",
           status: state,
           messageType: messtype,
           message: mess,
@@ -62,6 +63,24 @@ class ChatRoomService {
     }
     return messages;
   }
+
+  // List<ChatMessage> chatmessageformat(Response response) {
+  //   var items = response.data["data"]["items"];
+  //   List<ChatMessage> messages = [];
+  //   for (var i in items) {
+  //     String sendByid = i["senderId"];
+  //     String mess = i["text"];
+
+  //     messages.add(ChatMessage(
+  //       text: mess,
+  //       user: ChatUser(
+  //         id: sendByid,
+  //       ),
+  //       createdAt: DateTime.parse(i["createdDate"]).toLocal(),
+  //     ));
+  //   }
+  //   return messages;
+  // }
 
   Future<String> firstConversation(String username) async {
     String returndata = "";

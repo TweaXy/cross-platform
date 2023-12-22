@@ -12,6 +12,7 @@ import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/services/get_conversation_service.dart';
+import 'package:tweaxy/views/chat/chat_room.dart';
 import 'package:tweaxy/views/chat/web/chat_room_web.dart';
 import 'package:tweaxy/views/chat/web/diect_message_web.dart';
 import 'package:tweaxy/views/chat/web/no_convesations_web_view.dart';
@@ -236,7 +237,7 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                     return const NoConversationsWebView();
                   }
                   if (state is ChatWebCubitConversationState) {
-                    return const ChatRoomWeb();
+                    return  Container();
                   } else {
                     return const NoConversationsWebView();
                   }

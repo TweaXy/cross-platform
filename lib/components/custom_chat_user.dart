@@ -5,6 +5,7 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/models/user_chat.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/views/chat/web/chat_room_web.dart';
 
 class CustomUserChat extends StatefulWidget {
   CustomUserChat({super.key, required this.user});
