@@ -41,10 +41,7 @@ class CustomTweet extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     List<String> rawLines = [];
     if (tweet.tweetText != null) {
-      rawLines = tweet.tweetText!
-          .split(new RegExp(r'(?<=#\w+)(?=\s)'))
-          .expand((s) => s.split(RegExp(r'(?<=\S)(?=\s)')))
-          .toList();
+      rawLines = tweet.tweetText!.split(new RegExp(r'(?<=#\w+)\s'));
       print('rr' + rawLines.toString());
     }
     List<String>? t = tweet.image;
@@ -176,7 +173,7 @@ class CustomTweet extends StatelessWidget {
                                       fontSize: 18,
                                       color: e.contains('#')
                                           ? Colors.blue
-                                          : Color.fromARGB(255, 40, 39, 39)),
+                                          : Colors.black),
                                 );
                               }).toList(),
                             ))),
