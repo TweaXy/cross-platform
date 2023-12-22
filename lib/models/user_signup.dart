@@ -8,6 +8,7 @@ class UserSignup {
   static XFile profilePicture = XFile('');
   static String username = '';
   static String emailVerificationToken = '';
+  static String captcha = '';
 
   static set setName(String name) {
     UserSignup.name = name;
@@ -35,5 +36,9 @@ class UserSignup {
 
   static set setEmailVerificationToken(String emailVerificationToken) {
     UserSignup.emailVerificationToken = emailVerificationToken;
+  }
+
+  static set setCaptcha(String captcha) {
+    UserSignup.captcha = captcha;
   }
 }
