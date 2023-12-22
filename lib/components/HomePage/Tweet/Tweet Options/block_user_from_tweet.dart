@@ -13,10 +13,13 @@ class BlockUserTweet extends StatelessWidget {
       {super.key,
       required this.userHandle,
       required this.tweetid,
-      required this.isUserBlocked});
+      required this.isUserBlocked,
+      required this.parentid});
   final String userHandle;
   final String tweetid;
   final bool isUserBlocked;
+  final String parentid;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -33,6 +36,8 @@ class BlockUserTweet extends StatelessWidget {
             context: context,
             builder: (context) => BlockUserDialog(username: userHandle),
           );
+          BlocProvider.of<TweetsUpdateCubit>(context)
+              .blockUser(tweetid, parentid);
         }
       },
       leading: Icon(
@@ -40,7 +45,7 @@ class BlockUserTweet extends StatelessWidget {
         color: Colors.blueGrey[600],
       ),
       title: Text(
-        'Block @${userHandle}',
+        isUserBlocked ? 'Unblock @${userHandle}' : 'Block @${userHandle}',
         style: const TextStyle(fontSize: 20),
       ),
     );

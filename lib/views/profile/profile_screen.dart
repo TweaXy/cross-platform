@@ -797,6 +797,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
                     _isLoading = true;
                   });
                   if (flag) {
+
                     Fluttertoast.showToast(
                       msg: 'You Blocked @${widget.username}',
                       backgroundColor: Colors.black,
