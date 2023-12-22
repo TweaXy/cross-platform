@@ -48,7 +48,7 @@ class SearchForUsers {
     List<dynamic> allData = jsondata['data']['users'] as List<dynamic>;
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
-      FollowersModel follower = FollowersModel.fromJson(allData[i]);
+      FollowersModel follower = FollowersModel.fromJsonIncide(allData[i]);
       allFollowers.add(follower);
     }
     return allFollowers;
