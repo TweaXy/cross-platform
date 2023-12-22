@@ -9,9 +9,9 @@ class NotificationSettingsService {
   final Dio dio;
   NotificationSettingsService(this.dio);
 
-  Future<String> notificatioCheckState(String deviceToken) async {
+  Future<dynamic> notificatioCheckState(String deviceToken) async {
     Response response;
-    String returnvalue = "";
+    dynamic returnvalue;
     String? token;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -22,18 +22,18 @@ class NotificationSettingsService {
     print(token);
     try {
       response = await Api.post(
-        url: '${baseURL}notification/satatus',
+        url: '${baseURL}notification/status',
         token: token,
         body: {"token": deviceToken, "type": "android"},
       );
       if (response.statusCode == 200) {
-        if (response.data["data"] == "status:enabled") {
+        if (response.data["data"]["status"] == "enabled") {
           returnvalue = "true";
-        } else {
+        } else if (response.data["data"]["status"] == "disabled") {
           returnvalue = "false";
         }
       } else {
-        returnvalue = "";
+        returnvalue = response;
       }
       return returnvalue;
     } catch (e) {
