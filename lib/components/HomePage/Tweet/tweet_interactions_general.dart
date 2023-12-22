@@ -14,20 +14,21 @@ import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetInteractions extends StatefulWidget {
-  TweetInteractions(
-      {interactionskey,
-      required this.id,
-      required this.likesCount,
-      required this.viewsCount,
-      required this.retweetsCount,
-      required this.commentsCount,
-      required this.isUserLiked,
-      required this.isUserCommented,
-      required this.isUserRetweeted,
-      required this.replyto,
-      required this.userid,
-      required this.isretweet, required this.parenttweetid,
-});
+  TweetInteractions({
+    interactionskey,
+    required this.id,
+    required this.likesCount,
+    required this.viewsCount,
+    required this.retweetsCount,
+    required this.commentsCount,
+    required this.isUserLiked,
+    required this.isUserCommented,
+    required this.isUserRetweeted,
+    required this.replyto,
+    required this.userid,
+    required this.isretweet,
+    required this.parenttweetid,
+  });
   final int likesCount;
   final int viewsCount;
   final int retweetsCount;
@@ -113,11 +114,12 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 print(" the like value $isLiked");
                 if (isLiked) {
                   var res = await TweetsServices.deleteRetweet(
-                      tweetid:
-                         widget.id);
+                      tweetid: widget.parenttweetid == ''
+                          ? widget.id
+                          : widget.parenttweetid);
                   BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
                       userid: widget.userid,
-                      id:widget.id,
+                      id: widget.id,
                       isretweet: widget.isretweet,
                       parentid: widget.parenttweetid);
                   return !res;
@@ -125,7 +127,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   var res = await TweetsServices.addRetweet(widget.id);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .retweet(widget.parenttweetid,widget.id);
+                      .retweet(widget.parenttweetid, widget.id);
                   return res;
                 }
               },
@@ -147,13 +149,13 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 if (isLiked) {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .unLikeTweet(widget.parenttweetid,widget.id);
+                      .unLikeTweet(widget.parenttweetid, widget.id);
                   return res;
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .likeTweet(widget.parenttweetid,widget.id);
+                      .likeTweet(widget.parenttweetid, widget.id);
                   return res;
                 }
               },

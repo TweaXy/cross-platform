@@ -15,12 +15,10 @@ class TweetsServices {
   static Future<List<Tweet>> getTweetsHome({required int offset}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
-    print('kkk' + s.toString());
     //down->false
     // print('scroll=' + scroll.position.userScrollDirection.toString());
     Response res = await Api.getwithToken(
         url: '$baseUrl/home?/limit=10&offset=$offset', token: s);
-    print('resss' + res.toString());
 
     if (res is String) {
       // throw Future.error(res);
@@ -63,9 +61,6 @@ class TweetsServices {
 
     // print('rrrrr' + res.toString());
     List<Map<String, dynamic>> m = await mapToList(res);
-    print('ressss' + m.toString());
-
-    print('mm' + m.toString());
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
@@ -156,8 +151,8 @@ class TweetsServices {
   static Future<bool> deleteRetweet({required String tweetid}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
-    dynamic res =
-        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
+    dynamic res = await Api.delete(
+        url: '$baseUrl/interactions/retweet/$tweetid', token: s);
     if (res is String)
       return false;
     else

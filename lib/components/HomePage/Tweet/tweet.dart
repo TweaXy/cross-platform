@@ -168,7 +168,6 @@ class CustomTweet extends StatelessWidget {
                                   fontSize: 18,
                                   color: Colors.black),
                               children: rawLines.map((e) {
-                                print('eee' + e.toString());
                                 return TextSpan(
                                   text: e,
                                   style: TextStyle(
