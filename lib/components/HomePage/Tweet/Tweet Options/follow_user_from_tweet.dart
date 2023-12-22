@@ -5,9 +5,10 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/follow_user.dart';
 
 class FollowUserTweet extends StatelessWidget {
-  const FollowUserTweet({super.key, required this.userHandle, required this.tweetid});
+  const FollowUserTweet({super.key, required this.userHandle, required this.tweetid, required this.parentid});
   final String userHandle;
   final String tweetid;
+  final String parentid;
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -15,7 +16,7 @@ class FollowUserTweet extends StatelessWidget {
         Navigator.pop(context);
         await FollowUser.instance.deleteUser(userHandle);
         Fluttertoast.showToast(msg: 'You Unfollowed @${userHandle}');
-        BlocProvider.of<TweetsUpdateCubit>(context).unfollowUser(tweetid);
+        BlocProvider.of<TweetsUpdateCubit>(context).unfollowUser(tweetid,parentid);
       },
       leading: Icon(
         Icons.person_remove_outlined,

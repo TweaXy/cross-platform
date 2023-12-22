@@ -51,7 +51,10 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isretweet: e['isretweet'],
           reposteruserid: e['reposteruserid'],
           reposteruserName: e['reposteruserName'],
-          parentid: e['parentid']))
+          parentid: e['parentid'],
+          isUserBlockedByMe: e['isUserBlockedByMe'],
+          isUserMutedByMe: e['isUserMutedByMe'],
+          isShown: !(e['isUserBlockedByMe'] || e['isUserMutedByMe'])))
       .toList();
   return t;
 }
@@ -115,8 +118,8 @@ List<String> calculateTime(String fulldate) {
   return [time, date];
 }
 
-List<Map<String, dynamic>> mapToList(Response res,{bool isforreply=false}) {
-  List<dynamic>t=isforreply?res.data['data']:res.data['data']['items'];
+List<Map<String, dynamic>> mapToList(Response res, {bool isforreply = false}) {
+  List<dynamic> t = isforreply ? res.data['data'] : res.data['data']['items'];
   return (t as List<dynamic>).map((item) {
     String x = 'mainInteraction';
     String reposteruserid = '';
@@ -152,7 +155,10 @@ List<Map<String, dynamic>> mapToList(Response res,{bool isforreply=false}) {
       'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
       'reposteruserid': reposteruserid,
       'reposteruserName': reposteruserName,
-      'parentid': item[x]['id']
+      'parentid': item[x]['id'],
+      'isUserBlockedByMe':
+          item['mainInteraction']['user']['blockedByMe'] ?? false,
+      'isUserMutedByMe': item['mainInteraction']['user']['mutedByMe'] ?? false,
     };
   }).toList();
 }
@@ -186,7 +192,8 @@ void addReplyPress(context,
               )));
 }
 
-void updateStatesforTweet(state, context, PagingController pagingController) {
+void updateStatesforTweet(state, context, PagingController pagingController,
+    {bool isforHome = false}) {
   if (state is TweetHomeRefresh ||
       state is TweetAddedState ||
       state is TweetReplyAddedState ||
@@ -194,17 +201,38 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     pagingController.refresh();
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
-  if (state is TweetDeleteState ||
-      state is TweetUserBlocked ||
-      state is TweetUserMuted ||
-      state is TweetUserUnfollowed) {
+  if (state is TweetDeleteState) {
     pagingController.itemList!
         .removeWhere((element) => element.id == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
+  if ((state is TweetUserBlocked ||
+          state is TweetUserMuted ||
+          state is TweetUserUnfollowed) &&
+      isforHome) {
+    pagingController.itemList!.removeWhere((element) =>
+        element.id == state.tweetid ||
+        element.id == state.tweetparentid ||
+        element.parentid == state.tweetid);
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+  }
+  if (state is ViewTweetforMuteorBlock)
+  {
+  pagingController.itemList!.map((element) {
+      if (element.id == state.id ) {
+        element.isShown=true;
+        return element;
+      }
+    }).toList();
+
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+
+  }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.id || element.parentid == state.id) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount++;
         return element;
@@ -215,7 +243,9 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
   }
   if (state is TweetUnLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.id || element.parentid == state.id) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount--;
       }
@@ -228,7 +258,9 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     pagingController.itemList!.map((element) {
       print('hereee');
 
-      if (element.id == state.id || element.parentid == state.id) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount++;
       }
@@ -243,7 +275,9 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
           .removeWhere((element) => element.id == state.id);
     } else {
       pagingController.itemList!.map((element) {
-        if (element.id == state.id || element.parentid == state.id) {
+        if (element.id == state.id ||
+            element.id == state.parentid ||
+            element.parentid == state.id) {
           element.isUserRetweeted = !element.isUserRetweeted;
           element.retweetsCount--;
         }

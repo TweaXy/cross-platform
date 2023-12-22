@@ -75,7 +75,7 @@ class TweetsServices {
     dynamic result = await Api.getwithToken(
         token: TempUser.token,
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
-    print(result);
+    print('resulttt' + result.toString());
     if (result is String) {
       return [];
     } else if (result is Response) {
@@ -85,7 +85,6 @@ class TweetsServices {
         res.data['data']['user']['followsMe'],
         TempUser.id == userid
       ];
-      print(ret);
       return ret;
     }
     return [];
@@ -129,7 +128,7 @@ class TweetsServices {
     // Response response = res;
     if (res.data['data'] == []) return [];
     print('rrrrr' + res.data['data'].toString());
-    List<Map<String, dynamic>> m = mapToList(res,isforreply: true);
+    List<Map<String, dynamic>> m = mapToList(res, isforreply: true);
     print('ressss' + m.toString());
 
     print('mm' + m.toString());

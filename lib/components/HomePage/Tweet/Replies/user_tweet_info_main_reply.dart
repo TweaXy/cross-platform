@@ -24,7 +24,7 @@ class UserTweetInfoReply extends StatefulWidget {
 }
 
 class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
-  late List<bool> isfollowed = [];
+  bool isFutureComplete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,20 +38,27 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
       child: FutureBuilder(
           future: TweetsServices.isFollowed(widget.tweet.userId),
           builder: (context, snapshot) {
-            print('llll' + snapshot.data.toString());
+            if (!isFutureComplete) {
+              // The future is not complete, show loading or an empty container
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
             if (!snapshot.hasData)
               return Center(
                 child: CircularProgressIndicator(),
               );
             else {
-              isfollowed = snapshot.data!;
+              List<bool> isfollowed = snapshot.data!;
 
               String text = isfollowed[0]
                   ? "Following"
                   : isfollowed[1]
                       ? "Follow Back"
                       : "Follow";
+              print('llll' + isfollowed.toString());
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,7 +83,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                           ),
                           ConstrainedBox(
                             constraints:
-                                BoxConstraints(maxWidth: screenwidth * 0.45),
+                                BoxConstraints(maxWidth: screenwidth * 0.36),
                             child: Text(
                               maxLines: 1,
                               // tweet.userName.trim().length <= 5
@@ -100,8 +107,10 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                           color: isfollowed[0] ? Colors.white : Colors.black,
                           text: text,
                           onPressedCallback: () {
-                            BlocProvider.of<EditProfileCubit>(context)
-                                .emit(ProfilePageLoadingState());
+                            print('tttttt' + snapshot.data.toString());
+
+                            // BlocProvider.of<EditProfileCubit>(context)
+                            //     .emit(ProfilePageLoadingState());
 
                             setState(() {
                               if (!isfollowed[0]) {
@@ -118,8 +127,8 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                             });
                             // BlocProvider.of<UpdateAllCubit>(context)
                             //     .emit(LoadingStata());
-                            BlocProvider.of<EditProfileCubit>(context)
-                                .emit(ProfilePageCompletedState());
+                            // BlocProvider.of<EditProfileCubit>(context)
+                            //     .emit(ProfilePageCompletedState());
                           },
                           initialEnabled: true,
                         ),
@@ -194,5 +203,17 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
             }
           }),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Check if the FutureBuilder has completed
+    if (!isFutureComplete) {
+      // Update the flag to avoid unnecessary rebuilds
+      setState(() {
+        isFutureComplete = true;
+      });
+    }
   }
 }
