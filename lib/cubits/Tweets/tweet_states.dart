@@ -10,16 +10,19 @@ class TweetReplyAddedState extends TweetUpdateState {}
 
 class TweetUnLikedState extends TweetUpdateState {
   final String parentid;
+  final String id;
 
-  TweetUnLikedState({required this.parentid});
+  TweetUnLikedState({required this.id, required this.parentid});
 }
 
 class TweetHomeRefresh extends TweetUpdateState {}
 
 class TweetLikedState extends TweetUpdateState {
   final String parentid;
+  final String id;
 
-  TweetLikedState({required this.parentid});
+
+  TweetLikedState({required this.id, required this.parentid});
 }
 
 class TweetDeleteState extends TweetUpdateState {
@@ -48,8 +51,9 @@ class TweetDeleteInReplyState extends TweetUpdateState {}
 
 class TweetRetweetState extends TweetUpdateState {
   final String parentid;
+  final String id;
 
-  TweetRetweetState({required this.parentid});
+  TweetRetweetState({required this.id, required this.parentid});
 }
 
 class TweetDeleteRetweetState extends TweetUpdateState {

@@ -125,7 +125,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                   var res = await TweetsServices.addRetweet(widget.id);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .retweet(widget.parenttweetid);
+                      .retweet(widget.parenttweetid,widget.id);
                   return res;
                 }
               },
@@ -147,13 +147,13 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 if (isLiked) {
                   var res = await LikeTweet.unLikeTweet(widget.id, token);
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .unLikeTweet(widget.parenttweetid);
+                      .unLikeTweet(widget.parenttweetid,widget.id);
                   return res;
                 } else {
                   var res = await LikeTweet.likeTweet(widget.id, token);
 
                   BlocProvider.of<TweetsUpdateCubit>(context)
-                      .likeTweet(widget.parenttweetid);
+                      .likeTweet(widget.parenttweetid,widget.id);
                   return res;
                 }
               },

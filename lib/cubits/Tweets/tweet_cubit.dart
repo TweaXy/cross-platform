@@ -21,12 +21,12 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
     emit(TweetInitialState());
   }
 
-  void unLikeTweet(String parentid) {
-    emit(TweetUnLikedState(parentid: parentid));
+  void unLikeTweet(String parentid,String id) {
+    emit(TweetUnLikedState(parentid: parentid, id: id));
   }
 
-  void likeTweet(String parentid) {
-    emit(TweetLikedState(parentid: parentid));
+  void likeTweet(String parentid,String id) {
+    emit(TweetLikedState(parentid: parentid, id: id));
   }
 
   void refresh() {
@@ -37,8 +37,8 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
     emit(TweetDeleteInReplyState());
   }
 
-  void retweet(String parentid) {
-    emit(TweetRetweetState(parentid: parentid));
+  void retweet(String parentid,String id) {
+    emit(TweetRetweetState(parentid: parentid, id: id));
   }
 
   void deleteretweet(

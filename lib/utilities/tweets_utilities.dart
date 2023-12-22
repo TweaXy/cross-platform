@@ -115,8 +115,9 @@ List<String> calculateTime(String fulldate) {
   return [time, date];
 }
 
-List<Map<String, dynamic>> mapToList(Response res) {
-  return (res.data['data']['items'] as List<dynamic>).map((item) {
+List<Map<String, dynamic>> mapToList(Response res,{bool isforreply=false}) {
+  List<dynamic>t=isforreply?res.data['data']:res.data['data']['items'];
+  return (t as List<dynamic>).map((item) {
     String x = 'mainInteraction';
     String reposteruserid = '';
     String reposteruserName = '';
@@ -203,18 +204,18 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
   }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.parentid) {
+      if (element.id == state.id || element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount++;
+        return element;
       }
-      return element;
     }).toList();
 
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetUnLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.parentid) {
+      if (element.id == state.id || element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount--;
       }
@@ -227,7 +228,7 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     pagingController.itemList!.map((element) {
       print('hereee');
 
-      if (element.id == state.parentid) {
+      if (element.id == state.id || element.parentid == state.id) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount++;
       }
@@ -240,16 +241,15 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     if (state.reposteruserid == TempUser.id && state.isretweet) {
       pagingController.itemList!
           .removeWhere((element) => element.id == state.id);
-      BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
     } else {
-    pagingController.itemList!.map((element) {
-      if (element.id == state.parentid) {
-        element.isUserRetweeted = !element.isUserRetweeted;
-        element.retweetsCount--;
-      }
+      pagingController.itemList!.map((element) {
+        if (element.id == state.id || element.parentid == state.id) {
+          element.isUserRetweeted = !element.isUserRetweeted;
+          element.retweetsCount--;
+        }
 
-      return element;
-    }).toList();
+        return element;
+      }).toList();
     }
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
