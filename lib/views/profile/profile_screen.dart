@@ -377,8 +377,6 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 } else {
-                                  BlocProvider.of<EditProfileCubit>(context)
-                                      .emit(ProfilePageLoadingState());
                                   var flag = await MuteUserService.unMuteUser(
                                       username: user.userName!);
                                   if (flag) {
