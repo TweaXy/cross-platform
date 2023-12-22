@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GoogleAPI {
   final dio = Dio();
+
   signInWithGoogle() async {
     try {
       const List<String> scopes = <String>[
@@ -28,18 +29,20 @@ class GoogleAPI {
       String? token = await userCredential.user?.getIdToken();
       return token;
 
-      while (token!.length > 0) {
-        int initLength = (token!.length >= 500 ? 500 : token.length);
-        print(token.substring(0, initLength));
-        int? endLength = token.length;
-        token = token.substring(initLength, endLength);
-      }
+      // while (token!.length > 0) {
+      //   int initLength = (token!.length >= 500 ? 500 : token.length);
+      //   print(token.substring(0, initLength));
+      //   int? endLength = token.length;
+      //   token = token.substring(initLength, endLength);
+      // }
     } catch (e) {
       print(e);
     }
   }
 
   Future<dynamic> login() async {
+    await GoogleSignIn().signOut();
+
     String token = await signInWithGoogle();
     if (token.length > 0) {
       Response response = await dio.post(
@@ -56,6 +59,7 @@ class GoogleAPI {
       print(response.toString());
       print(response.data['data']['token']);
       print(response.data['data']['user']['username']);
+      await GoogleSignIn().signOut();
       return response.data;
     } else
       return null;

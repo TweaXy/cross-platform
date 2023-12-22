@@ -2,6 +2,8 @@ import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
 
 class MuteUserTweet extends StatelessWidget {
@@ -12,44 +14,48 @@ class MuteUserTweet extends StatelessWidget {
       required this.isMuted});
   final String tweetid;
   final String userHandle;
-  bool isMuted = false;
+  bool isMuted;
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        Navigator.pop(context);
-
+        BlocProvider.of<EditProfileCubit>(context)
+            .emit(ProfilePageLoadingState());
         if (!isMuted) {
-          var flag = await MuteUserService.mute(username: userHandle!);
-          // if (flag) {
-          //   muteAnimatedSnackBar(
-          //     failure: false,
-          //     icon: Icons.volume_off_outlined,
-          //     muteFlag: true,
-          //     mainContext: context,
-          //     userName: userHandle!,
-          //   ).show(context);
-          //   isMuted = true;
-          //     BlocProvider.of<TweetsUpdateCubit>(context)
-          //                 .muteUser(tweetid);
-          // } else {
-          //   muteAnimatedSnackBar(failure: true, muteFlag: false).show(context);
-          // }
+          var flag = await MuteUserService.mute(username: userHandle);
+          print('Flag = $flag');
+          if (flag) {
+            muteAnimatedSnackBar(
+              failure: false,
+              icon: Icons.volume_off_outlined,
+              muteFlag: true,
+              mainContext: context,
+              userName: userHandle,
+            ).show(context);
+            BlocProvider.of<TweetsUpdateCubit>(context).muteUser(tweetid);
+          } else {
+            muteAnimatedSnackBar(failure: true, muteFlag: false).show(context);
+          }
         } else {
-          var flag = await MuteUserService.unMuteUser(username: userHandle!);
-          // if (flag) {
-          //   muteAnimatedSnackBar(
-          //     failure: false,
-          //     icon: Icons.volume_mute_outlined,
-          //     muteFlag: false,
-          //     mainContext: context,
-          //     userName: userHandle!,
-          //   ).show(context);
-          //   isMuted = false;
-          // } else {
-          //   muteAnimatedSnackBar(failure: true, muteFlag: false).show(context);
-          // }
+          var flag = await MuteUserService.unMuteUser(username: userHandle);
+          print('Flag = $flag');
+          if (flag) {
+            muteAnimatedSnackBar(
+              failure: false,
+              icon: Icons.volume_mute_outlined,
+              muteFlag: false,
+              mainContext: context,
+              userName: userHandle,
+            ).show(context);
+          } else {
+            muteAnimatedSnackBar(failure: true, muteFlag: false).show(context);
+          }
         }
+
+        BlocProvider.of<EditProfileCubit>(context)
+            .emit(ProfilePageCompletedState());
+
+        Navigator.pop(context);
         //TODO: Implement Mute Logic
       },
       leading: Icon(

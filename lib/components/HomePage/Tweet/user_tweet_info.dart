@@ -23,10 +23,12 @@ class User_TweetInfo extends StatelessWidget {
       {super.key,
       required this.tweet,
       required this.replyto,
-      required this.isMuted});
+      required this.isMuted,
+      required this.isUserBlocked,});
   final Tweet tweet;
   final List<String> replyto;
   final bool isMuted;
+  final bool isUserBlocked;
   @override
   Widget build(BuildContext context) {
     double screenwidth = MediaQuery.of(context).size.width;
@@ -152,6 +154,7 @@ class User_TweetInfo extends StatelessWidget {
                               BlockUserTweet(
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
+                                isUserBlocked: isUserBlocked,
                               )
                             ],
                           );

@@ -8,10 +8,15 @@ import 'package:tweaxy/components/Profile/profile_likes.dart';
 
 class ProfileScreenBody extends StatelessWidget {
   const ProfileScreenBody(
-      {super.key, required this.tabController, required this.id, required this.isMuted});
+      {super.key,
+      required this.tabController,
+      required this.id,
+      required this.isMuted,
+      required this.isUserBlocked});
   final TabController tabController;
   final String id;
   final bool isMuted;
+  final bool isUserBlocked;
   // final List<Map<String, String>> temp = const [
   //   {
   //     'likesCount': '1',
@@ -97,6 +102,7 @@ class ProfileScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // List<Tweet> tweets = initializeTweets(temp);
+    print('IsMuted = $isMuted');
     return TabBarView(
       controller: tabController,
       children: <Widget>[
@@ -105,7 +111,9 @@ class ProfileScreenBody extends StatelessWidget {
                 ScrollConfiguration.of(context).copyWith(scrollbars: false),
             slivers: [
               ProfilePosts(
-                id: id, isMuted: isMuted,
+                id: id,
+                isMuted: isMuted,
+                isUserBlocked: isUserBlocked,
               )
             ]),
         CustomScrollView(
@@ -113,7 +121,9 @@ class ProfileScreenBody extends StatelessWidget {
               ScrollConfiguration.of(context).copyWith(scrollbars: false),
           slivers: [
             ProfileLikes(
-              id: id, isMuted: isMuted,
+              id: id,
+              isMuted: isMuted,
+              isUserBlocked: isUserBlocked,
             )
           ],
         )
