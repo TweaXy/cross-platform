@@ -42,7 +42,7 @@ class SearchTweetTweets {
     if (response is String) {
       return [];
     }
-    List<Map<String, dynamic>> m = mapToList(response);
+    List<Map<String, dynamic>> m = await mapToList(response);
     print('ressss' + m.toString());
 
     print('mm' + m.toString());
