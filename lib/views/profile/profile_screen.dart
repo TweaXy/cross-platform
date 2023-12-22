@@ -357,8 +357,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             ],
                             onSelected: (value) async {
                               if (value == 0) {
-                                BlocProvider.of<EditProfileCubit>(context)
-                                      .emit(ProfilePageLoadingState());
+                                
                                 if (!_isMuted) {
                                   
                                   var flag = await MuteUserService.mute(
@@ -378,6 +377,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 } else {
+                                  BlocProvider.of<EditProfileCubit>(context)
+                                      .emit(ProfilePageLoadingState());
                                   var flag = await MuteUserService.unMuteUser(
                                       username: user.userName!);
                                   if (flag) {
@@ -395,6 +396,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 }
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageLoadingState());
                                 BlocProvider.of<EditProfileCubit>(context)
                                     .emit(ProfilePageCompletedState());
                               } else {
