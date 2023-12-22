@@ -24,10 +24,10 @@ class _TweetMediaState extends State<TweetMedia> {
     // double screenheight = MediaQuery.of(context).size.height;
     // List<String> s = widget.pickedfiles.map((item) => '').toList();
 
-    // return MultiImageViewer(
-    //   images: widget.pickedfiles,
-    // );
-    return Container();
+    return MultiImageViewer(
+      images: widget.pickedfiles,
+    );
+    // return Container();
   }
 
   Widget buildItem(String file, {int flex = 1}) {
