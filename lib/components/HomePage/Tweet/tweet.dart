@@ -37,10 +37,13 @@ class CustomTweet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(tweet);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    List<String> rawLines = [];
+    if (tweet.tweetText != null) {
+      rawLines = tweet.tweetText!.split(new RegExp(r'(?<=#\w+)\s'));
+      print('rr' + rawLines.toString());
+    }
     List<String>? t = tweet.image;
     String? k = null;
     if (t != null) k = t[0];
@@ -152,17 +155,28 @@ class CustomTweet extends StatelessWidget {
                             ),
                       if (tweet.tweetText != null)
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          margin: const EdgeInsets.only(
-                              left: 2, right: 2, bottom: 5),
-                          child: Text(
-                            tweet.tweetText!,
-                            style: const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.only(
+                                left: 2, right: 2, bottom: 5),
+                            child: RichText(
+                                text: TextSpan(
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 18,
+                                  color: Colors.black),
+                              children: rawLines.map((e) {
+                                print('eee' + e.toString());
+                                return TextSpan(
+                                  text: e,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                      color: e.contains('#')
+                                          ? Colors.blue
+                                          : Colors.black),
+                                );
+                              }).toList(),
+                            ))),
                       // const NetworkVideoPlayer(
                       //   video: '',
                       // ),
@@ -194,7 +208,8 @@ class CustomTweet extends StatelessWidget {
                         userid: tweet.reposteruserid == ''
                             ? tweet.userId
                             : tweet.reposteruserid,
-                        isretweet: tweet.isretweet, parenttweetid: tweet.parentid,
+                        isretweet: tweet.isretweet,
+                        parenttweetid: tweet.parentid,
                       ),
                     ],
                   ),

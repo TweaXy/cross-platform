@@ -119,7 +119,7 @@ List<String> calculateTime(String fulldate) {
 }
 
 List<Map<String, dynamic>> mapToList(Response res, {bool isforreply = false}) {
-  List<dynamic> t = isforreply ? res.data['data'] : res.data['data']['items'];
+  List<dynamic> t = isforreply ? res.data['data']['interactions'] : res.data['data']['items'];
   return (t as List<dynamic>).map((item) {
     String x = 'mainInteraction';
     String reposteruserid = '';

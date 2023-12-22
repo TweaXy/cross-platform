@@ -82,7 +82,9 @@ class _MyPageState extends State<RepliesList> {
                                 index == _pagingController.itemList!.length - 1)
                             ? 150
                             : 0),
-                    child: !item.isShown
+                    child: _pagingController.itemList != null &&
+                            _pagingController.itemList!.length > 0 &&
+                            !item.isShown
                         ? MuteBlockReply(
                             tweetid: item.id,
                             isMute: item.isUserMutedByMe,
