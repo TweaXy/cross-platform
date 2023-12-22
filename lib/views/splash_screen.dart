@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     checkLogin();
+    checkNotificationTokenSent();
     Timer(const Duration(seconds: 2), () {
       if (token == null) {
         kIsWeb

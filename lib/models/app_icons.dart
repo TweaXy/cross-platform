@@ -46,6 +46,7 @@ class AppIcon {
   static const IconData twitterAds = IconData(0xf504, fontFamily: _kFontFam);
   static const IconData bulb = IconData(0xf567, fontFamily: _kFontFam);
   static const IconData newMessage = IconData(0xf035, fontFamily: _kFontFam);
+  static const IconData notificationIcon = IconData(0xf026, fontFamily: _kFontFam);
 
   static const IconData sadFace = IconData(0xf430, fontFamily: _kFontFam);
   static const IconData bulbOn = IconData(0xf066, fontFamily: _kFontFam);
