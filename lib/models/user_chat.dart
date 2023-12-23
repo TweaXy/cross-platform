@@ -1,6 +1,6 @@
 class UserChat {
   String id;
-  String? name = 'hassan';
+  String name;
   String? email;
   String username;
   String? avatar;
@@ -9,7 +9,7 @@ class UserChat {
       this.email,
       required this.username,
       this.avatar,
-      this.name});
+      required this.name});
   factory UserChat.fromJson(dynamic data) {
     var jsonData = data;
     return UserChat(

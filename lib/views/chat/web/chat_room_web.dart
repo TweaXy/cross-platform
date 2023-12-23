@@ -2,41 +2,51 @@ import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-// import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:socket_io_client/socket_io_client.dart' as ioo;
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
+import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:get/get.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class ChatRoomWeb extends StatefulWidget {
   ChatRoomWeb(
-      {required this.id,
+      {super.key,
+      required this.id,
       required this.avatar,
       required this.username,
       required this.isFirstMsg,
       required this.name,
-      required this.conversationID});
+      required this.conversationID,
+      required this.block,
+      this.userFollowersNum,
+      this.userFollowingsNum});
   final String id;
   final String conversationID;
   String? avatar = "";
   final String username;
   final String name;
+  final bool block;
+  int? userFollowersNum;
+  int? userFollowingsNum;
   final bool isFirstMsg;
   @override
   State<ChatRoomWeb> createState() => _ChatRoomWebState();
 }
 
 class _ChatRoomWebState extends State<ChatRoomWeb> {
-  late IO.Socket socket;
+  late ioo.Socket socket;
   final currentUser = ChatUser(
     id: TempUser.id,
     name: TempUser.username,
     //  profilePhoto: Data.profileImage,
   );
+  bool tany = false;
   Rx<ChatViewState> chatViewState = ChatViewState.loading.obs;
   String consversationID = "";
   String usertoken = "";
@@ -45,6 +55,7 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
   List<Message> oldMessages = [];
   int pageOffset = 0;
   String userID = "";
+  bool isLastPage = false;
   Future loadMessages() async {
     List<String> s = await loadPrefs();
     usertoken = s[1];
@@ -74,7 +85,7 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
   }
 
   void connectsocket() {
-    socket = IO.io('https://tweaxychat.gleeze.com/', <String, dynamic>{
+    socket = ioo.io('https://tweaxychat.gleeze.com/', <String, dynamic>{
       'transports': ['websocket'], // optional your need for
       'autoConnect': false,
     });
@@ -116,9 +127,23 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
 
   @override
   void initState() {
+    ScrollController scrollController = ScrollController();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+              scrollController.position.maxScrollExtent &&
+          tany) {
+        setState(() {
+          isLastPage = true;
+        });
+      } else {
+        setState(() {
+          isLastPage = false; // Reset isLastPage to false when scrolling down
+        });
+      }
+    });
     _chatController = ChatController(
       initialMessageList: [],
-      scrollController: ScrollController(),
+      scrollController: scrollController,
       chatUsers: [
         ChatUser(
             id: widget.id, name: widget.username, profilePhoto: widget.avatar),
@@ -137,151 +162,228 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
   }
 
   @override
+  void dispose() {
+    socket.disconnect();
+    _chatController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => ChatView(
-          loadingWidget: const CircularProgressIndicator(
-            color: Colors.blue,
-          ),
-          isLastPage: pageOffset < pageSize ? true : false,
-          loadMoreData: () async {
-            var newMessages = await ChatRoomService(Dio())
-                .getMessages(consversationID, pageOffset);
-            newMessages = newMessages.reversed.toList();
-            _chatController.loadMoreData(newMessages);
-            pageOffset += newMessages.length;
-          },
-          currentUser: currentUser,
-          chatController: _chatController,
-          onSendTap: _onSendTap,
-          featureActiveConfig: const FeatureActiveConfig(
-            enablePagination: true,
-            enableOtherUserProfileAvatar: false,
-            lastSeenAgoBuilderVisibility: true,
-            receiptsBuilderVisibility: true,
-          ),
-          chatViewState: chatViewState.value,
-          chatViewStateConfig: ChatViewStateConfiguration(
-            loadingWidgetConfig: const ChatViewStateWidgetConfiguration(
-                loadingIndicatorColor: Colors.black),
-            noMessageWidgetConfig: const ChatViewStateWidgetConfiguration(
-                widget: Text("no message now")),
-            onReloadButtonTap: () {
-              loadMessages();
-            },
-          ),
-          appBar: ChatViewAppBar(
-            leading: Row(
-              children: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: const Icon(Icons.arrow_back_sharp)),
-                Container(
-                  margin: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.05),
-                  // padding: EdgeInsets.symmetric(
-                  //     vertical: MediaQuery.of(context).size.height * 0.001),
-                  child: CircleAvatar(
-                    radius: kIsWeb ? 20 : 20,
-                    backgroundColor: Colors.blueGrey[300],
-                    backgroundImage: CachedNetworkImageProvider(
-                        basePhotosURL + widget.avatar!),
-                  ),
-                ),
-              ],
+    return BlocBuilder<ChatWebCubit, ChatWebCubitState>(
+        builder: (context, state) {
+      if (state is ChatWebCubitNoConversationState) {
+        dispose();
+        return const CircularProgressIndicator();
+      } else {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: CircleAvatar(
+                radius: 5,
+                backgroundColor: Colors.blueGrey[300],
+                backgroundImage:
+                    CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+              ),
             ),
-            onBackPress: () {
-              Navigator.pop(context);
-            },
-            chatTitle: widget.name,
-            chatTitleTextStyle: const TextStyle(
+            title: Text(widget.name),
+            titleTextStyle: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
               letterSpacing: 0.25,
             ),
           ),
-          chatBackgroundConfig: const ChatBackgroundConfiguration(
-            backgroundColor: Colors.white,
-          ),
-          sendMessageConfig: SendMessageConfiguration(
-            textFieldBackgroundColor: Colors.grey[300],
-            imagePickerIconsConfig: ImagePickerIconsConfiguration(
-              cameraIconColor: Colors.grey[600],
-              galleryIconColor: Colors.grey[600],
-            ),
-            replyMessageColor: Colors.black,
-            defaultSendButtonColor: Colors.grey[600],
-            replyDialogColor: Colors.grey[300],
-            closeIconColor: Colors.black,
-            textFieldConfig: TextFieldConfiguration(
-              hintText: "Start a message",
-              onMessageTyping: (status) {
-                debugPrint(status.toString());
-              },
-              compositionThresholdTime: const Duration(seconds: 1),
-              textStyle: const TextStyle(color: Colors.black),
-            ),
-            voiceRecordingConfiguration: VoiceRecordingConfiguration(
-              backgroundColor: Colors.black,
-              recorderIconColor: Colors.grey[600],
-              waveStyle: const WaveStyle(
-                showMiddleLine: false,
-                waveColor: Colors.white,
-                extendWaveform: true,
-              ),
-            ),
-          ),
-          chatBubbleConfig: ChatBubbleConfiguration(
-            outgoingChatBubbleConfig: const ChatBubble(
-              linkPreviewConfig: LinkPreviewConfiguration(
-                backgroundColor: Colors.black,
-              ),
-              receiptsWidgetConfig:
-                  ReceiptsWidgetConfig(showReceiptsIn: ShowReceiptsIn.all),
-              color: Colors.blue,
-            ),
-            inComingChatBubbleConfig: ChatBubble(
-              linkPreviewConfig: const LinkPreviewConfiguration(
-                linkStyle: TextStyle(
-                  color: Colors.black,
-                  decoration: TextDecoration.underline,
+          body: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              if (isLastPage)
+                GestureDetector(
+                  onTap: () {
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) => ProfileScreen(
+                    //             id: widget.id,
+                    //             text: "",
+                    //           )),
+                    // );
+                  },
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: CircleAvatar(
+                          radius: 25,
+                          backgroundColor: Colors.blueGrey[300],
+                          backgroundImage: CachedNetworkImageProvider(
+                              basePhotosURL + widget.avatar!),
+                        ),
+                      ),
+                      Text(
+                        widget.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Text(
+                          "@${widget.username}",
+                          style: TextStyle(color: Colors.grey.shade600),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0),
+                        child: Text(
+                          "Followers: ${widget.userFollowersNum} . Followings: ${widget.userFollowingsNum} ",
+                          style: TextStyle(color: Colors.grey.shade600),
+                        ),
+                      ),
+                      const Divider(),
+                    ],
+                  ),
                 ),
-                backgroundColor: Color.fromARGB(255, 117, 113, 113),
+              Expanded(
+                child: Obx(
+                  () => ChatView(
+                    loadingWidget: const CircularProgressIndicator(
+                      color: Colors.blue,
+                    ),
+                    isLastPage: pageOffset < pageSize ? true : false,
+                    loadMoreData: () async {
+                      if (!isLastPage) {
+                        var newMessages = await ChatRoomService(Dio())
+                            .getMessages(consversationID, pageOffset);
+                        newMessages = newMessages.reversed.toList();
+                        _chatController.loadMoreData(newMessages);
+                        pageOffset += newMessages.length;
+                        setState(() {
+                          tany = newMessages.isEmpty;
+                        });
+                      }
+                    },
+                    currentUser: currentUser,
+                    chatController: _chatController,
+                    onSendTap: _onSendTap,
+                    featureActiveConfig: FeatureActiveConfig(
+                      enableTextField: !widget.block,
+                      enablePagination: true,
+                      enableOtherUserProfileAvatar: false,
+                      lastSeenAgoBuilderVisibility: true,
+                      receiptsBuilderVisibility: true,
+                    ),
+                    chatViewState: chatViewState.value,
+                    chatViewStateConfig: ChatViewStateConfiguration(
+                      loadingWidgetConfig:
+                          const ChatViewStateWidgetConfiguration(
+                              loadingIndicatorColor: Colors.blue),
+                      noMessageWidgetConfig:
+                          const ChatViewStateWidgetConfiguration(
+                              widget: Text("no message now")),
+                      onReloadButtonTap: () {
+                        loadMessages();
+                      },
+                    ),
+                    chatBackgroundConfig: const ChatBackgroundConfiguration(
+                      backgroundColor: Colors.white,
+                    ),
+                    sendMessageConfig: SendMessageConfiguration(
+                      textFieldBackgroundColor: Colors.grey[300],
+                      imagePickerIconsConfig: ImagePickerIconsConfiguration(
+                        cameraIconColor: Colors.grey[600],
+                        galleryIconColor: Colors.grey[600],
+                      ),
+                      replyMessageColor: Colors.black,
+                      defaultSendButtonColor: Colors.grey[600],
+                      replyDialogColor: Colors.grey[300],
+                      closeIconColor: Colors.black,
+                      textFieldConfig: TextFieldConfiguration(
+                        hintText: "Start a message",
+                        onMessageTyping: (status) {
+                          debugPrint(status.toString());
+                        },
+                        compositionThresholdTime: const Duration(seconds: 1),
+                        textStyle: const TextStyle(color: Colors.black),
+                      ),
+                      voiceRecordingConfiguration: VoiceRecordingConfiguration(
+                        backgroundColor: Colors.black,
+                        recorderIconColor: Colors.grey[600],
+                        waveStyle: const WaveStyle(
+                          showMiddleLine: false,
+                          waveColor: Colors.white,
+                          extendWaveform: true,
+                        ),
+                      ),
+                    ),
+                    chatBubbleConfig: ChatBubbleConfiguration(
+                      outgoingChatBubbleConfig: const ChatBubble(
+                        linkPreviewConfig: LinkPreviewConfiguration(
+                          backgroundColor: Colors.black,
+                        ),
+                        receiptsWidgetConfig: ReceiptsWidgetConfig(
+                            showReceiptsIn: ShowReceiptsIn.all),
+                        color: Colors.blue,
+                      ),
+                      inComingChatBubbleConfig: ChatBubble(
+                        textStyle: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        senderNameTextStyle: const TextStyle(
+                            color: Colors.transparent, fontSize: 0),
+                        color: const Color(0xFFeff3f4),
+                        onMessageRead: (message) {
+                          debugPrint('Message Read');
+                        },
+                      ),
+                    ),
+                    reactionPopupConfig: ReactionPopupConfiguration(
+                      shadow: BoxShadow(
+                        color: Colors.grey.shade400,
+                        blurRadius: 20,
+                      ),
+                    ),
+                    messageConfig: const MessageConfiguration(
+                      imageMessageConfig: ImageMessageConfiguration(
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+                      ),
+                    ),
+                    repliedMessageConfig: RepliedMessageConfiguration(
+                      repliedMsgAutoScrollConfig: RepliedMsgAutoScrollConfig(
+                        enableHighlightRepliedMsg: true,
+                        highlightColor: Colors.pinkAccent.shade100,
+                        highlightScale: 1.1,
+                      ),
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.25,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              onMessageRead: (message) {
-                debugPrint('Message Read');
-              },
-            ),
+              if (widget.block)
+                const Padding(
+                  padding: EdgeInsets.only(
+                    bottom: 15,
+                  ),
+                  child: Text(
+                    "You can no longer send messages to this person.",
+                    style: TextStyle(
+                        color: Colors
+                            .red), // defaultSendButtonColor: Colors.grey[600],
+                  ),
+                )
+            ],
           ),
-          reactionPopupConfig: ReactionPopupConfiguration(
-            shadow: BoxShadow(
-              color: Colors.grey.shade400,
-              blurRadius: 20,
-            ),
-          ),
-          messageConfig: const MessageConfiguration(
-            imageMessageConfig: ImageMessageConfiguration(
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-            ),
-          ),
-          repliedMessageConfig: RepliedMessageConfiguration(
-            repliedMsgAutoScrollConfig: RepliedMsgAutoScrollConfig(
-              enableHighlightRepliedMsg: true,
-              highlightColor: Colors.pinkAccent.shade100,
-              highlightScale: 1.1,
-            ),
-            textStyle: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.25,
-            ),
-          ),
-        ),
-      ),
-    );
+        );
+      }
+    });
   }
 
   void _onSendTap(

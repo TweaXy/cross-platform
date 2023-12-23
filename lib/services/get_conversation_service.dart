@@ -32,7 +32,14 @@ class GetConversationsService {
                     'userUsername': item['user']['username'],
                     'userName': item['user']['name'],
                     'userAvatar': item['user']['avatar'],
+                    'isBlockedByMe': item['user']['isBlockedByMe'],
+                    'isBlockingMe': item['user']['isBlockingMe'],
+                    'isMutedByMe': item['user']['isMutedByMe'],
+                    'isMutingMe': item['user']['isMutingMe'],
                     'lastMessage': item['lastMessage'],
+                    'userFollowersNum': item['user']['_count']["followedBy"],
+                    'userFollowingsNum': item['user']['_count']["following"],
+
                   })
               .toList();
       return conversations
@@ -48,7 +55,19 @@ class GetConversationsService {
                         text: e['lastMessage']!['text'],
                         media: e['lastMessage']!['media'],
                         createdDate: e['lastMessage']!['createdDate'],
+
                       ),
+                isBlockedByMe: 
+                    e['isBlockedByMe'],
+                isBlockingMe: 
+                    e['isBlockingMe'],
+                isMutedByMe:
+                    e['isMutedByMe'],
+                isMutingMe:
+                    e['isMutingMe'],
+                userFollowersNum: e['userFollowersNum'],
+                userFollowingsNum: e['userFollowingsNum']
+                
               ))
           .toList();
     } catch (e) {

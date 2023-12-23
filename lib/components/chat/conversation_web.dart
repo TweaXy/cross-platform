@@ -6,7 +6,6 @@ import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
 import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
-import 'package:tweaxy/views/chat/chat_room.dart';
 
 class ConversationWeb extends StatelessWidget {
   ConversationWeb({super.key, required this.conversation});
@@ -16,16 +15,19 @@ class ConversationWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (conversation.lastMessage != null) {
-      date =
-          dateFormatter(conversation.lastMessage!.createdDate);
+      date = dateFormatter(conversation.lastMessage!.createdDate);
     }
     conversation.userAvatar ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
 
-    return  BlocBuilder<ChatWebCubit, ChatWebCubitState>(
+    return BlocBuilder<ChatWebCubit, ChatWebCubitState>(
       builder: (context, state) {
         return ListTile(
           onTap: () {
-            BlocProvider.of<ChatWebCubit>(context).openConversation(conversation: conversation);
+            BlocProvider.of<ChatWebCubit>(context).loadingConversation();
+            Future.delayed(const Duration(milliseconds: 100), () {
+              BlocProvider.of<ChatWebCubit>(context)
+                  .openConversation(conversation: conversation);
+            });
           },
           leading: CircleAvatar(
             radius: 25,
@@ -44,6 +46,10 @@ class ConversationWeb extends StatelessWidget {
                 child: Text(
                   " @${conversation.username} ",
                   overflow: TextOverflow.ellipsis,
+                  style:  TextStyle(
+                   color: Colors.grey.shade600
+
+                  ),
                 ),
               ),
               Text(". $date"),
@@ -53,7 +59,8 @@ class ConversationWeb extends StatelessWidget {
               ? const Text("")
               : conversation.lastMessage!.text == null
                   ? Text("${conversation.name} sent a photo")
-                  : Text(conversation.lastMessage!.text!),);
+                  : Text(conversation.lastMessage!.text!),
+        );
       },
     );
   }

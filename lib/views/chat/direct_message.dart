@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/custom_chat_user.dart';
+import 'package:tweaxy/components/chat/custom_chat_user.dart';
 import 'package:tweaxy/components/custom_followers.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/user.dart';

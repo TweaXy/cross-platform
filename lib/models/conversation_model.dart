@@ -6,6 +6,12 @@ class ConversationModel {
   String? userAvatar;
   String username;
   String name;
+  bool isBlockedByMe;
+  bool isBlockingMe;
+  bool isMutedByMe;
+  bool isMutingMe;
+  int? userFollowersNum;
+  int? userFollowingsNum;
   LastMessage? lastMessage;
   ConversationModel({
     required this.conversationID,
@@ -14,5 +20,11 @@ class ConversationModel {
     required this.username,
     required this.name,
     required this.lastMessage,
+    required this.isBlockedByMe,
+    required this.isBlockingMe,
+    required this.isMutedByMe,
+    required this.isMutingMe,
+    this.userFollowersNum,
+    this.userFollowingsNum,
   });
 }

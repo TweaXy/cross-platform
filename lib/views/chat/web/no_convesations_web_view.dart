@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
+import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
 import 'package:tweaxy/views/chat/web/diect_message_web.dart';
 
 class NoConversationsWebView extends StatelessWidget {
@@ -42,9 +44,15 @@ class NoConversationsWebView extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
+                  final exampleCubit = context.read<ChatWebCubit>();
                   showDialog(
                     context: context,
-                    builder: (context) => const DirectMesssageWeb(),
+                    builder: (context) {
+                      return BlocProvider<ChatWebCubit>.value(
+                        value: exampleCubit,
+                        child: const DirectMesssageWeb(),
+                      );
+                    },
                     barrierColor: const Color.fromARGB(100, 97, 119, 129),
                     barrierDismissible: false,
                   );

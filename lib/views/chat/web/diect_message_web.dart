@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/custom_chat_user.dart';
-import 'package:tweaxy/components/custom_followers.dart';
-import 'package:tweaxy/models/followers_model.dart';
-import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/components/chat/custom_chat_user_web.dart';
 import 'package:tweaxy/models/user_chat.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 
@@ -175,7 +171,7 @@ class _DirectMesssageState extends State<DirectMesssageWeb> {
                           child: SpinKitRing(color: Colors.blueAccent),
                         ),
                         itemBuilder: (context, item, index) {
-                          return CustomUserChat(user: item);
+                          return CustomUserChatWeb(user: item);
                         },
                       ),
                     ),

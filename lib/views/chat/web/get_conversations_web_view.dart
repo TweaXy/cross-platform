@@ -111,9 +111,16 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                     ),
                     trailing: IconButton(
                       onPressed: () {
+                        final exampleCubit = context.read<ChatWebCubit>();
+
                         showDialog(
                           context: context,
-                          builder: (context) => const DirectMesssageWeb(),
+                          builder: (context) {
+                            return BlocProvider<ChatWebCubit>.value(
+                              value: exampleCubit,
+                              child: const DirectMesssageWeb(),
+                            );
+                          },
                           barrierColor: const Color.fromARGB(100, 97, 119, 129),
                           barrierDismissible: false,
                         );
@@ -167,10 +174,17 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
+                                    final exampleCubit =
+                                        context.read<ChatWebCubit>();
+
                                     showDialog(
                                       context: context,
-                                      builder: (context) =>
-                                          const DirectMesssageWeb(),
+                                      builder: (context) {
+                                        return BlocProvider<ChatWebCubit>.value(
+                                          value: exampleCubit,
+                                          child: const DirectMesssageWeb(),
+                                        );
+                                      },
                                       barrierColor: const Color.fromARGB(
                                           100, 97, 119, 129),
                                       barrierDismissible: false,
@@ -238,12 +252,24 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                     return const NoConversationsWebView();
                   }
                   if (state is ChatWebCubitConversationState) {
-                    return  ChatRoomWeb(id: ChatWebCubitConversationState.conversation.userID,
-                    name:ChatWebCubitConversationState.conversation.name ,
-                    avatar: ChatWebCubitConversationState.conversation.userAvatar,
-                    conversationID: ChatWebCubitConversationState.conversation.conversationID,
-                    username: ChatWebCubitConversationState.conversation.username,
-                    isFirstMsg: false,
+                    return ChatRoomWeb(
+                      id: state.conversation.userID,
+                      name: state.conversation.name,
+                      avatar: state.conversation.userAvatar,
+                      conversationID: state.conversation.conversationID,
+                      username: state.conversation.username,
+                      block: state.conversation.isBlockedByMe ||
+                          state.conversation.isBlockingMe,
+                      isFirstMsg: false,
+                      userFollowersNum: state.conversation.userFollowersNum,
+                      userFollowingsNum: state.conversation.userFollowingsNum,
+                    );
+                  }
+                  if (state is LoadingChatWebCubitState) {
+                    return const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.blue,
+                      ),
                     );
                   } else {
                     return const NoConversationsWebView();

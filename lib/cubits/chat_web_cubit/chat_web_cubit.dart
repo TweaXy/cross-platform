@@ -6,8 +6,11 @@ class ChatWebCubit extends Cubit<ChatWebCubitState> {
   ChatWebCubit() : super(InitialChatWebCubitState());
 
   void openConversation({required ConversationModel conversation}) {
-    ChatWebCubitConversationState.conversation = conversation;
-    emit(ChatWebCubitConversationState());
+    emit(ChatWebCubitConversationState(conversation));
+  }
+
+  void loadingConversation() {
+    emit(LoadingChatWebCubitState());
   }
 
   void closeConversation() {
