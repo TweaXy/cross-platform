@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 // import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
-import 'package:socket_io_client/socket_io_client.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
@@ -32,6 +32,7 @@ class ChatRoom extends StatefulWidget {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  late IO.Socket socket;
   final currentUser = ChatUser(
     id: TempUser.id,
     name: TempUser.username,
@@ -71,46 +72,48 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  late Socket socket;
-  void connectsocket() async {
-    List<String> s = await loadPrefs();
-    usertoken = s[1];
-    userID = s[0];
 
-    socket = io(
-      'https://tweaxychat.gleeze.com/',
-      OptionBuilder()
-          .setPath("https://tweaxychat.gleeze.com/")
-          .setTransports(['pollin'])
-          .enableReconnection()
-          .enableForceNew()
-          .enableForceNewConnection()
-          .enableAutoConnect()
-          .setExtraHeaders({"Authorization": "Bearer $usertoken"})
-          .build(),
-    );
+  void connectsocket() {
+    socket = IO.io('https://tweaxychat.gleeze.com/', <String, dynamic>{
+      'transports': ['websocket'], // optional your need for
+      'autoConnect': false,
+    });
+    socket.auth = {"token": TempUser.token};
     socket.connect();
-    // socket = IO.io('https://tweaxychat.gleeze.com/', <String, dynamic>{
-    //   'transports': ['polling'],
-    // });
-    // // socket = IO.io('https://tweaxychat.gleeze.com/');
-    // socket.auth = {usertoken};
-    //     socket.connect();
 
-    // socket.on('connect_error', (error) {
-    //   print('Error connecting to the socket: $error');
-    // });
 
-    // socket.on('connect_timeout', (_) {
-    //   print('Connection timeout');
-    // });
+    socket.onConnect((_) {
+      log('connect');
+    });
+    socket.on('event', (data) => log(data.toString()));
+    socket.on('fromServer', (_) => log(_.toString()));
+    socket.onConnect((data) {
+      log(data.toString());
+    });
+    socket.onConnecting((data) {
+      log(data.toString());
+    });
+    socket.onConnectError((data) {
+      log(data.toString());
+    });
+    socket.onConnectTimeout((data) {
+      log(data.toString());
+    });
+    socket.onError((data) {
+      log(data.toString());
+    });
+    socket.onDisconnect((_) => log('disconnect'));
 
-    // socket.on('error', (error) {
-    //   print('Socket error: $error');
-    // });
+
+    socket.onAny((event, data) {
+      log("$event $data");
+    });
+    socket.on('message', (data) {
+      log("msg$data");
+      addmessage(data.toString());
+    });
   }
-
-  // late IO.Socket socket;
+  
   @override
   void initState() {
     chatViewState.value = ChatViewState.loading;
@@ -260,7 +263,7 @@ class _ChatRoomState extends State<ChatRoom> {
           ),
           messageConfig: const MessageConfiguration(
             imageMessageConfig: ImageMessageConfiguration(
-              margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
             ),
           ),
           repliedMessageConfig: RepliedMessageConfiguration(
@@ -285,10 +288,6 @@ class _ChatRoomState extends State<ChatRoom> {
     ReplyMessage replyMessage,
     MessageType messageType,
   ) async {
-    // if (consversationID=="") {
-    //   ChatRoomService service = ChatRoomService(Dio());
-    //   String id = await service.firstConversation(widget.username);
-    // }
 
     Message mess = Message(
       id: userID,
@@ -306,7 +305,8 @@ class _ChatRoomState extends State<ChatRoom> {
     } else {
       _chatController.addMessage(mess);
     }
-    var res = socket.emit('sendMessage', {consversationID, message});
+    socket.emit('sendMessage', {consversationID, message});
+
 
     Future.delayed(const Duration(milliseconds: 300), () {
       _chatController.initialMessageList.last.setStatus =
