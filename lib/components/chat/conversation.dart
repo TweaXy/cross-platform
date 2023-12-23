@@ -9,14 +9,13 @@ import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';
 
 class Conversation extends StatelessWidget {
-  const Conversation({super.key, required this.conversation});
+  Conversation({super.key, required this.conversation});
   final ConversationModel conversation;
-
+  late String date;
   @override
   Widget build(BuildContext context) {
     if (conversation.lastMessage != null) {
-      conversation.lastMessage!.createdDate =
-          dateFormatter(conversation.lastMessage!.createdDate);
+      date = dateFormatter(conversation.lastMessage!.createdDate);
     }
     conversation.userAvatar ??= "d1deecebfe9e00c91dec2de8bc0d68bb";
 
@@ -54,7 +53,7 @@ class Conversation extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Text(". ${conversation.lastMessage?.createdDate}"),
+          Text(". $date"),
         ],
       ),
       subtitle: conversation.lastMessage == null

@@ -14,8 +14,7 @@ import 'package:get/get.dart';
 
 class ChatRoom extends StatefulWidget {
   ChatRoom(
-      {super.key,
-      required this.id,
+      {required this.id,
       required this.avatar,
       required this.username,
       required this.isFirstMsg,
@@ -71,7 +70,7 @@ class _ChatRoomState extends State<ChatRoom> {
         _chatController.addMessage(message);
       }
     }
-    pageOffset += 10;
+    pageOffset += oldMessages.length;
   }
 
   void connectsocket() {
@@ -299,13 +298,14 @@ class _ChatRoomState extends State<ChatRoom> {
       messageType: messageType,
     );
 
-    if (_chatController.initialMessageList.isEmpty) {
-      chatViewState.value = ChatViewState.loading;
-      _chatController.initialMessageList = [mess];
-      chatViewState.value = ChatViewState.hasMessages;
-    } else {
-      _chatController.addMessage(mess);
-    }
+    // if (_chatController.initialMessageList.isEmpty) {
+    //   chatViewState.value = ChatViewState.loading;
+    //   _chatController.initialMessageList = [mess];
+    //   chatViewState.value = ChatViewState.hasMessages;
+    //   _chatController.addMessage(mess);
+    // } else {
+    _chatController.addMessage(mess);
+    // }
     socket.emit(
       'sendMessage',
       {
