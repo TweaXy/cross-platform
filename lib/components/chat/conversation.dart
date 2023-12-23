@@ -1,9 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
-import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';

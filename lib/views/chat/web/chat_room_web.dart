@@ -12,7 +12,6 @@ import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:get/get.dart';
-import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class ChatRoomWeb extends StatefulWidget {
   ChatRoomWeb(
@@ -202,6 +201,7 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
             children: [
               if (isLastPage && !widget.isFirstMsg)
                 GestureDetector(
+                  behavior: HitTestBehavior.translucent,
                   onTap: () {
                     // Navigator.push(
                     //   context,

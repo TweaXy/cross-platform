@@ -125,8 +125,8 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     ScrollController scrollController = ScrollController();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
+      if (scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent - 10 &&
           tany) {
         setState(() {
           isLastPage = true;
@@ -284,7 +284,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 chatViewState: chatViewState.value,
                 chatViewStateConfig: ChatViewStateConfiguration(
                   loadingWidgetConfig: const ChatViewStateWidgetConfiguration(
-                      loadingIndicatorColor: Colors.black),
+                      loadingIndicatorColor: Colors.blue),
                   noMessageWidgetConfig: const ChatViewStateWidgetConfiguration(
                       widget: Text("no message now")),
                   onReloadButtonTap: () {
