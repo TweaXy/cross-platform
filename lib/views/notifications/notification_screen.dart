@@ -303,6 +303,16 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
       //     CustomPageRoute(
       //         child: RepliesScreen(tweet: tweet, replyto: replyto),
       //         direction: AxisDirection.left));
+      if (!kIsWeb) {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ProfileScreen(id: widget.userId, text: _followStatus);
+          },
+        ));
+      } else {
+        BlocProvider.of<SidebarCubit>(context)
+            .emit(OtherProfileState(widget.userId, _followStatus));
+      }
     };
     switch (widget.notificationType) {
       case 'like':
