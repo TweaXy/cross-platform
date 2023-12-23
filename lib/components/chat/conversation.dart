@@ -21,7 +21,6 @@ class Conversation extends StatelessWidget {
 
     return ListTile(
       onTap: () {
-        // BlocProvider.of<ChatWebCubit>(context).openConversation();
         Navigator.push(
           context,
           MaterialPageRoute(

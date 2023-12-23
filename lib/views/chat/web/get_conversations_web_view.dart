@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/chat/conversation.dart';
+import 'package:tweaxy/components/chat/conversation_web.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
@@ -209,7 +210,7 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                             return Padding(
                               padding: EdgeInsets.only(
                                   bottom: 8.0, top: index == 0 ? 5.0 : 0),
-                              child: Conversation(conversation: item),
+                              child: ConversationWeb(conversation: item),
                             );
                           },
                         ),
@@ -237,7 +238,13 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
                     return const NoConversationsWebView();
                   }
                   if (state is ChatWebCubitConversationState) {
-                    return  Container();
+                    return  ChatRoomWeb(id: ChatWebCubitConversationState.conversation.userID,
+                    name:ChatWebCubitConversationState.conversation.name ,
+                    avatar: ChatWebCubitConversationState.conversation.userAvatar,
+                    conversationID: ChatWebCubitConversationState.conversation.conversationID,
+                    username: ChatWebCubitConversationState.conversation.username,
+                    isFirstMsg: false,
+                    );
                   } else {
                     return const NoConversationsWebView();
                   }
