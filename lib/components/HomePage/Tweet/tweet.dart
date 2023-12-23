@@ -45,7 +45,6 @@ class CustomTweet extends StatelessWidget {
           .split(new RegExp(r'(?<=#\w+)(?=\s)'))
           .expand((s) => s.split(RegExp(r'(?<=\S)(?=\s)')))
           .toList();
-      print('rr' + rawLines.toString());
     }
     List<String>? t = tweet.image;
     String? k = null;
@@ -58,8 +57,10 @@ class CustomTweet extends StatelessWidget {
             context,
             CustomPageRoute(
                 child: RepliesScreen(
-                  tweet: tweet,
                   replyto: replyto,
+                  tweetid:
+                      tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
+                  userHandle: tweet.userHandle,
                 ),
                 direction: AxisDirection.left));
       },

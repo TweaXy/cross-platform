@@ -118,18 +118,23 @@ List<String> calculateTime(String fulldate) {
   return [time, date];
 }
 
-List<Map<String, dynamic>> mapToList(Response res, {bool isforreply = false}) {
-  List<dynamic> t = isforreply ? res.data['data']['interactions'] : res.data['data']['items'];
+List<Map<String, dynamic>> mapToList(Response res,
+    {bool isforreply = false, bool isformaintweetreply = false}) {
+  List<dynamic> t = [];
+  if (isformaintweetreply)
+    t = res.data['data']['parent'] as  List<dynamic>;
+  else
+    t = isforreply
+        ? res.data['data']['interactions']
+        : res.data['data']['items'];
   return (t as List<dynamic>).map((item) {
     String x = 'mainInteraction';
     String reposteruserid = '';
     String reposteruserName = '';
     if (item['mainInteraction']['type'] == "RETWEET") {
-      print(TempUser.id);
       x = 'parentInteraction';
       reposteruserid = item['mainInteraction']['user']['id'];
       reposteruserName = item['mainInteraction']['user']['name'];
-      print(reposteruserid);
     }
     return {
       'likesCount': item[x]['likesCount'],
@@ -216,17 +221,15 @@ void updateStatesforTweet(state, context, PagingController pagingController,
         element.parentid == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
-  if (state is ViewTweetforMuteorBlock)
-  {
-  pagingController.itemList!.map((element) {
-      if (element.id == state.id ) {
-        element.isShown=true;
+  if (state is ViewTweetforMuteorBlock) {
+    pagingController.itemList!.map((element) {
+      if (element.id == state.id) {
+        element.isShown = true;
         return element;
       }
     }).toList();
 
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
-
   }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {

@@ -132,6 +132,64 @@ class TweetsServices {
     return t;
   }
 
+  static Future<dynamic> getMainTweetForReply(
+      {required int offset, required String id}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? s = prefs.getString('token');
+    Response res = await Api.getwithToken(
+        url: '$baseUrl/interactions/$id/replies?limit=5&offset=$offset',
+        token: s);
+    if (res is String) {
+      throw Future.error(res);
+      return null;
+    }
+
+    Tweet t = Tweet(
+      likesCount: res.data['data']['parent']['mainInteraction']['likesCount'],
+      retweetsCount: res.data['data']['parent']['mainInteraction']
+          ['retweetsCount'],
+      viewsCount: res.data['data']['parent']['mainInteraction']['viewsCount'],
+      commentsCount: res.data['data']['parent']['mainInteraction']
+          ['commentsCount'],
+      id: res.data['data']['parent']['mainInteraction']['id'],
+      userId: res.data['data']['parent']['mainInteraction']['user']['id'],
+      userImage: res.data['data']['parent']['mainInteraction']['user']
+                  ['avatar'] !=
+              null
+          ? res.data['data']['parent']['mainInteraction']['user']['avatar']
+          : 'b631858bdaafa77258b9ed2f7c689bdb.png',
+      image: res.data['data']['parent']['mainInteraction']['media'] != null
+          ? res.data['data']['parent']['mainInteraction']['media'].toList()
+          : null,
+      userName: res.data['data']['parent']['mainInteraction']['user']['name'],
+      userHandle: res.data['data']['parent']['mainInteraction']['user']['username'],
+      time: dateFormatter(res.data['data']['parent']['mainInteraction']['createdDate']),
+      tweetText: res.data['data']['parent']['mainInteraction']['text'],
+      isUserLiked: intToBool(
+          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserLiked']),
+      isUserRetweeted: intToBool(
+          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserRetweeted']),
+      isUserCommented: intToBool(
+          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserCommented']),
+      createdDate: calculateTime(res.data['data']['parent']['mainInteraction']['createdDate']),
+      isretweet:
+          res.data['data']['parent']['mainInteraction']['type'] != "RETWEET"
+              ? false
+              : true,
+      reposteruserid: '',
+      reposteruserName: '',
+      parentid: res.data['data']['parent']['mainInteraction']['id'],
+      isUserBlockedByMe: res.data['data']['parent']['mainInteraction']['user']
+              ['blockedByMe'] ??
+          false,
+      isUserMutedByMe: res.data['data']['parent']['mainInteraction']['user']
+              ['mutedByMe'] ??
+          false,
+      isShown: true,
+    );
+    return t;
+  }
+
   static Future<bool> addRetweet(String id) async {
     var dio = Dio();
     print(id);

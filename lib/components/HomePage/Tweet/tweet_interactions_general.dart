@@ -114,9 +114,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 print(" the like value $isLiked");
                 if (isLiked) {
                   var res = await TweetsServices.deleteRetweet(
-                      tweetid: widget.parenttweetid == ''
-                          ? widget.id
-                          : widget.parenttweetid);
+                      tweetid: widget.parenttweetid);
                   BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
                       userid: widget.userid,
                       id: widget.id,
