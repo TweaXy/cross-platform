@@ -48,8 +48,10 @@ class _CustomFollowersState extends State<CustomUserChat> {
                   id: widget.user.id,
                   avatar: widget.user.avatar,
                   username: widget.user.username,
-                  name: widget.user.name!,
-                )));
+                  name: widget.user.name,
+                  block: false,
+
+                ),),);
       },
       child: SizedBox(
         width: double.infinity,

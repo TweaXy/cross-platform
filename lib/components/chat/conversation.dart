@@ -7,6 +7,7 @@ import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class Conversation extends StatelessWidget {
   Conversation({super.key, required this.conversation});
@@ -24,20 +25,38 @@ class Conversation extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ChatRoom(
-                  id: conversation.userID,
-                  avatar: conversation.userAvatar,
-                  username: conversation.username,
-                  isFirstMsg: false,
-                  name: conversation.name,
-                  conversationID: conversation.conversationID)),
+            builder: (context) => ChatRoom(
+              id: conversation.userID,
+              avatar: conversation.userAvatar,
+              username: conversation.username,
+              isFirstMsg: false,
+              name: conversation.name,
+              conversationID: conversation.conversationID,
+              block: conversation.isBlockedByMe || conversation.isBlockingMe,
+              userFollowersNum: conversation.userFollowersNum,
+              userFollowingsNum: conversation.userFollowingsNum,
+            ),
+          ),
         );
       },
-      leading: CircleAvatar(
-        radius: 25,
-        backgroundColor: Colors.transparent,
-        backgroundImage: CachedNetworkImageProvider(
-            basePhotosURL + conversation.userAvatar!),
+      leading: GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProfileScreen(
+                id: conversation.userID,
+                text: "",
+              ),
+            ),
+          );
+        },
+        child: CircleAvatar(
+          radius: 25,
+          backgroundColor: Colors.transparent,
+          backgroundImage: CachedNetworkImageProvider(
+              basePhotosURL + conversation.userAvatar!),
+        ),
       ),
       title: Row(
         mainAxisSize: MainAxisSize.min,

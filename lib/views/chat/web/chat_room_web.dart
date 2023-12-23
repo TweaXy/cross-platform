@@ -200,7 +200,7 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (isLastPage)
+              if (isLastPage && !widget.isFirstMsg)
                 GestureDetector(
                   onTap: () {
                     // Navigator.push(
