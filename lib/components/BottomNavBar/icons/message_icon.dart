@@ -23,7 +23,11 @@ class _MessageIconState extends State<MessageIcon> {
         stream: GetUnseenConversationCount.getUnseenConversationCount(),
         builder: (context, snapshot) {
           return Badge(
-            isLabelVisible: widget.selectedIndex == 3 ? false : true,
+            isLabelVisible:  widget.selectedIndex == 3 ||
+                    snapshot.data == null ||
+                    snapshot.data == 0
+                ? false
+                : true,
             offset: const Offset(6.0, -5.0),
             label: Text(snapshot.data.toString()),
             backgroundColor: Colors.blue,

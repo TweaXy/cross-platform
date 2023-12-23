@@ -43,7 +43,7 @@ class Conversation extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => ProfileScreen(
                 id: conversation.userID,
-                text: "",
+                text: "yara",
               ),
             ),
           );
@@ -75,7 +75,11 @@ class Conversation extends StatelessWidget {
           ? const Text("")
           : conversation.lastMessage!.text == null
               ? Text("${conversation.name} sent a photo")
-              : Text(conversation.lastMessage!.text!),
+              : Text(
+                  conversation.lastMessage!.text!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
     );
   }
 }

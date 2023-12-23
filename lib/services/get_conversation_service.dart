@@ -71,7 +71,7 @@ class GetConversationsService {
 
 class GetUnseenConversationCount {
   GetUnseenConversationCount._();
-  static const String _endpoint = '/conversations/unseen';
+  static const String _endpoint = 'conversations/unseen';
   static final instance = GetUnseenConversationCount._();
   static Stream<int> getUnseenConversationCount() async* {
     SharedPreferences prefs = await SharedPreferences.getInstance();

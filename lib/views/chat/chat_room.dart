@@ -212,7 +212,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   MaterialPageRoute(
                     builder: (context) => ProfileScreen(
                       id: widget.id,
-                      text: "",
+                      text: "yara",
                     ),
                   ),
                 );
