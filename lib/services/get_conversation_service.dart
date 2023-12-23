@@ -39,40 +39,47 @@ class GetConversationsService {
                     'lastMessage': item['lastMessage'],
                     'userFollowersNum': item['user']['_count']["followedBy"],
                     'userFollowingsNum': item['user']['_count']["following"],
-
                   })
               .toList();
       return conversations
           .map((e) => ConversationModel(
-                conversationID: e['id']!,
-                userID: e['userID']!,
-                username: e['userUsername']!,
-                name: e['userName']!,
-                userAvatar: e['userAvatar'],
-                lastMessage: e['lastMessage'] == null
-                    ? null
-                    : LastMessage(
-                        text: e['lastMessage']!['text'],
-                        media: e['lastMessage']!['media'],
-                        createdDate: e['lastMessage']!['createdDate'],
-
-                      ),
-                isBlockedByMe: 
-                    e['isBlockedByMe'],
-                isBlockingMe: 
-                    e['isBlockingMe'],
-                isMutedByMe:
-                    e['isMutedByMe'],
-                isMutingMe:
-                    e['isMutingMe'],
-                userFollowersNum: e['userFollowersNum'],
-                userFollowingsNum: e['userFollowingsNum']
-                
-              ))
+              conversationID: e['id']!,
+              userID: e['userID']!,
+              username: e['userUsername']!,
+              name: e['userName']!,
+              userAvatar: e['userAvatar'],
+              lastMessage: e['lastMessage'] == null
+                  ? null
+                  : LastMessage(
+                      text: e['lastMessage']!['text'],
+                      media: e['lastMessage']!['media'],
+                      createdDate: e['lastMessage']!['createdDate'],
+                    ),
+              isBlockedByMe: e['isBlockedByMe'],
+              isBlockingMe: e['isBlockingMe'],
+              isMutedByMe: e['isMutedByMe'],
+              isMutingMe: e['isMutingMe'],
+              userFollowersNum: e['userFollowersNum'],
+              userFollowingsNum: e['userFollowingsNum']))
           .toList();
     } catch (e) {
       log(e.toString());
       throw Exception('varification code error ');
     }
+  }
+}
+
+class GetUnseenConversationCount {
+  GetUnseenConversationCount._();
+  static const String _endpoint = '/conversations/unseen';
+  static final instance = GetUnseenConversationCount._();
+  static Stream<int> getUnseenConversationCount() async* {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    var response =
+        await Api.getwithToken(url: '$baseURL$_endpoint', token: token);
+    int data = response.data['data']['unseenConversations'];
+    log('MsgsUnseenCount = $data');
+    yield data;
   }
 }
