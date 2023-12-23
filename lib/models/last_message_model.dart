@@ -1,6 +1,6 @@
 class LastMessage {
   String? text;
-  String? media;
+  List<dynamic>? media;
   String createdDate;
   LastMessage({
     required this.text,

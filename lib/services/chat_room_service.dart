@@ -26,9 +26,8 @@ class ChatRoomService {
     }
     try {
       response = await Api.getwithToken(
-          url: '${baseUrl}conversations/$id?limit=20&offset=$pageOffset',
+          url: '${baseUrl}conversations/$id?limit=10&offset=$pageOffset',
           token: token);
-
       return messageformat(response);
     } catch (e) {
       if (kDebugMode) {

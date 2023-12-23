@@ -42,8 +42,9 @@ class _ChatRoomState extends State<ChatRoom> {
   String consversationID = "";
   String usertoken = "";
   late ChatController _chatController;
+  int pageSize = 10;
   List<Message> oldMessages = [];
-  int pageOffset = 20;
+  int pageOffset = 0;
   String userID = "";
   Future loadMessages() async {
     List<String> s = await loadPrefs();
@@ -63,15 +64,15 @@ class _ChatRoomState extends State<ChatRoom> {
       chatViewState.value = ChatViewState.noData;
     }
     if (_chatController.initialMessageList.isEmpty) {
-      _chatController.initialMessageList = oldMessages;
+      _chatController.initialMessageList = oldMessages.reversed.toList();
       chatViewState.value = ChatViewState.hasMessages;
     } else {
       for (var message in oldMessages) {
         _chatController.addMessage(message);
       }
     }
+    pageOffset += 10;
   }
-
 
   void connectsocket() {
     socket = IO.io('https://tweaxychat.gleeze.com/', <String, dynamic>{
@@ -80,7 +81,6 @@ class _ChatRoomState extends State<ChatRoom> {
     });
     socket.auth = {"token": TempUser.token};
     socket.connect();
-
 
     socket.onConnect((_) {
       log('connect');
@@ -102,20 +102,29 @@ class _ChatRoomState extends State<ChatRoom> {
     socket.onError((data) {
       log(data.toString());
     });
-    socket.onDisconnect((_) => log('disconnect'));
+    // socket.onDisconnect((_) => log('disconnect'));
 
-
-    socket.onAny((event, data) {
-      log("$event $data");
-    });
+    // socket.onAny((event, data) {
+    //   log("$event $data");
+    // });
     socket.on('message', (data) {
       log("msg$data");
-      addmessage(data.toString());
+      if (data['senderId'] == widget.id) {
+        addmessage(data['text']);
+      }
     });
   }
-  
+
   @override
   void initState() {
+    _chatController = ChatController(
+      initialMessageList: [],
+      scrollController: ScrollController(),
+      chatUsers: [
+        ChatUser(
+            id: widget.id, name: widget.username, profilePhoto: widget.avatar),
+      ],
+    );
     chatViewState.value = ChatViewState.loading;
     loadMessages();
     connectsocket();
@@ -130,15 +139,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
-    _chatController = ChatController(
-      initialMessageList: [],
-      scrollController: ScrollController(),
-      chatUsers: [
-        ChatUser(
-            id: widget.id, name: widget.username, profilePhoto: widget.avatar),
-      ],
-    );
-    const int pageSize = 20;
     return Scaffold(
       body: Obx(
         () => ChatView(
@@ -148,8 +148,10 @@ class _ChatRoomState extends State<ChatRoom> {
           isLastPage: pageOffset < pageSize ? true : false,
           loadMoreData: () async {
             var newMessages = await ChatRoomService(Dio())
-                .getMessages(widget.conversationID, pageOffset);
+                .getMessages(consversationID, pageOffset);
+            newMessages = newMessages.reversed.toList();
             _chatController.loadMoreData(newMessages);
+            pageOffset += newMessages.length;
           },
           currentUser: currentUser,
           chatController: _chatController,
@@ -288,7 +290,6 @@ class _ChatRoomState extends State<ChatRoom> {
     ReplyMessage replyMessage,
     MessageType messageType,
   ) async {
-
     Message mess = Message(
       id: userID,
       createdAt: DateTime.now(),
@@ -305,9 +306,15 @@ class _ChatRoomState extends State<ChatRoom> {
     } else {
       _chatController.addMessage(mess);
     }
-    socket.emit('sendMessage', {consversationID, message});
-
-
+    socket.emit(
+      'sendMessage',
+      {
+        "id": consversationID,
+        "conversationID": consversationID,
+        "text": message,
+        "media": null
+      },
+    );
     Future.delayed(const Duration(milliseconds: 300), () {
       _chatController.initialMessageList.last.setStatus =
           MessageStatus.delivered;
