@@ -162,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: BlocProvider(
                 create: (context) => SidebarCubit(),
                 child: PagedListView.separated(
-                  separatorBuilder: (context, index) => Divider(
+                  separatorBuilder: (context, index) => const Divider(
                     color: Colors.grey,
                   ),
                   pagingController: _pagingController,
@@ -179,7 +179,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.all(20.0),
                           child: Text(
                             'Any new notification will appear here',
                             style: TextStyle(
@@ -199,7 +199,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         tweet: item.interaction == null
                             ? ''
                             : item.interaction!.text ?? '',
-                        followStatus: 'Follow back',
+                        followStatus:item.followedByMe!?'Following': 'Follow back',
                         userId: item.userId!,
                         username: item.userName!,
                       );
