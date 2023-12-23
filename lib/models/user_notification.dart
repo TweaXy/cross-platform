@@ -9,19 +9,23 @@ class UserNotification {
   String? avatar;
   String? date;
   Interaction? interaction;
+  bool? followedByMe;
 
-  UserNotification(
-      {this.userId,
-      this.name,
-      this.action,
-      this.avatar,
-      this.date,
-      this.interaction});
+  UserNotification({
+    this.userId,
+    this.name,
+    this.action,
+    this.avatar,
+    this.date,
+    this.interaction,
+    this.followedByMe,
+  });
 
   UserNotification.fromJson(Map<String, dynamic> json) {
     userName = json['fromUser']['username'];
     userId = json['fromUser']['id'];
     name = json['fromUser']['name'];
+    followedByMe = json['fromUser']['followedByMe'];
     action = json['action'].toLowerCase();
     avatar = json['fromUser']['avatar'];
     date = json['createdDate'];

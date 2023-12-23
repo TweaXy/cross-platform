@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/homepage_mobile.dart';
@@ -31,6 +33,7 @@ class _HomePage2State extends State<HomePage>
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Save user information
     var notificationToken = prefs.getString('notificationTokenSent');
+    log('Notification Token = $notificationToken');
     var userToken = prefs.getString('token');
     if (notificationToken == null) {
       var notificationToken = await FirebaseApi.initNotifications();
