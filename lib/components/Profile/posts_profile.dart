@@ -13,8 +13,11 @@ import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class ProfilePosts extends StatefulWidget {
-  const ProfilePosts({super.key, required this.id});
+  const ProfilePosts({super.key, required this.id, required this.isMuted,required this.isUserBlocked,});
   final String id;
+  final bool isMuted;
+  final bool isUserBlocked;
+
   @override
   State<ProfilePosts> createState() => _MyPageState();
 }
@@ -80,7 +83,8 @@ class _MyPageState extends State<ProfilePosts> {
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
                     tweet: item,
-                    replyto: [],
+                    replyto: [], isMuted: widget.isMuted,
+                    isUserBlocked: widget.isUserBlocked,
                   );
                 },
               ),

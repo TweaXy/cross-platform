@@ -11,7 +11,7 @@ class SearchForUsers {
   static Future<List<User>> searchForUser(String query, String token,
       {int pageSize = 100, int pageNumber = 0}) async {
     var response = await Api.getwithToken(
-        url: '$baseURL$_endpoint$query?limit=$pageSize&offset=$pageNumber',
+        url: '$baseURL$_endpoint$query&limit=$pageSize&offset=$pageNumber',
         token: token);
     var data = response.data['data']['users'] as List<dynamic>;
     List<User> u = [];
@@ -49,7 +49,7 @@ class SearchForUsers {
     List<dynamic> allData = jsondata['data']['users'] as List<dynamic>;
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
-      FollowersModel follower = FollowersModel.fromJson(allData[i]);
+      FollowersModel follower = FollowersModel.fromJsonIncide(allData[i]);
       allFollowers.add(follower);
     }
     return allFollowers;

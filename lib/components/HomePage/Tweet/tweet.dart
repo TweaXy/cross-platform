@@ -17,26 +17,38 @@ import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet({super.key, required this.tweet, required this.replyto});
+  const CustomTweet(
+      {super.key,
+      required this.tweet,
+      required this.replyto,
+      required this.isMuted,
+      required this.isUserBlocked});
   final List<String> replyto;
   final Tweet tweet;
+  final bool isMuted;
+  final bool isUserBlocked;
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-
+    List<String> rawLines = [];
+    if (tweet.tweetText != null) {
+      rawLines = tweet.tweetText!
+          .split(new RegExp(r'(?<=#\w+)(?=\s)'))
+          .expand((s) => s.split(RegExp(r'(?<=\S)(?=\s)')))
+          .toList();
+    }
     List<String>? t = tweet.image;
     String? k = null;
-    if (t != null) k = t[0]!;
-    print('kkkk' + k.toString());
-    // if (t != null && t.length > 1) k = t[1].trim()!;
-
+    if (t != null) k = t[0];
     return GestureDetector(
       key: const ValueKey(TweetKeys.clickToShowRepliesScreen),
       onTap: () {
@@ -45,8 +57,10 @@ class CustomTweet extends StatelessWidget {
             context,
             CustomPageRoute(
                 child: RepliesScreen(
-                  tweet: tweet,
                   replyto: replyto,
+                  tweetid:
+                      tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
+                  userHandle: tweet.userHandle,
                 ),
                 direction: AxisDirection.left));
       },
@@ -71,14 +85,15 @@ class CustomTweet extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ProfileScreen(
-                          id: tweet.reposterid,
-                          text: TempUser.id==tweet.userId?'':'no',
+                          id: tweet.reposteruserid,
+                          text: TempUser.id == tweet.userId ? '' : 'no',
                         ),
                       ),
                     );
                   } else {
                     BlocProvider.of<SidebarCubit>(context).openProfile(
-                        tweet.reposterid, tweet.reposterid == TempUser.id ? '' : 'Following');
+                        tweet.reposteruserid,
+                        tweet.reposteruserid == TempUser.id ? '' : 'Following');
                   }
                 },
                 child: Padding(
@@ -92,7 +107,7 @@ class CustomTweet extends StatelessWidget {
                             BoxConstraints(maxWidth: screenWidth * 0.5),
                         child: Text(
                           maxLines: 1,
-                          TempUser.id == tweet.reposterid
+                          TempUser.id == tweet.reposteruserid
                               ? '  You'
                               : '  ${tweet.reposteruserName}',
                           style: const TextStyle(
@@ -139,20 +154,32 @@ class CustomTweet extends StatelessWidget {
                           : User_TweetInfo(
                               tweet: tweet,
                               replyto: replyto,
+                              isMuted: isMuted,
+                              isUserBlocked: isUserBlocked,
                             ),
                       if (tweet.tweetText != null)
                         Container(
-                          padding: EdgeInsets.symmetric(vertical: 5),
-                          margin: const EdgeInsets.only(
-                              left: 2, right: 2, bottom: 5),
-                          child: Text(
-                            tweet.tweetText!,
-                            style: const TextStyle(
-                              fontFamily: 'Roboto',
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            margin: const EdgeInsets.only(
+                                left: 2, right: 2, bottom: 5),
+                            child: RichText(
+                                text: TextSpan(
+                              style: const TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: 18,
+                                  color: Colors.black),
+                              children: rawLines.map((e) {
+                                return TextSpan(
+                                  text: e,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                      color: e.contains('#')
+                                          ? Colors.blue
+                                          : Color.fromARGB(255, 40, 39, 39)),
+                                );
+                              }).toList(),
+                            ))),
                       // const NetworkVideoPlayer(
                       //   video: '',
                       // ),
@@ -181,8 +208,11 @@ class CustomTweet extends StatelessWidget {
                         isUserLiked: tweet.isUserLiked,
                         isUserCommented: tweet.isUserCommented,
                         isUserRetweeted: tweet.isUserRetweeted,
-                        userid: tweet.userId,
+                        userid: tweet.reposteruserid == ''
+                            ? tweet.userId
+                            : tweet.reposteruserid,
                         isretweet: tweet.isretweet,
+                        parenttweetid: tweet.parentid,
                       ),
                     ],
                   ),

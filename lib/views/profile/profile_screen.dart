@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
@@ -65,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen>
       text = widget.text;
     }
     controller = ScrollController();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     _tabController.addListener(_handleTabSelection);
   }
 
@@ -110,11 +111,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                     User user = snapshot.data!;
                     if (!initialized) {
                       initialized = true;
-                      _isUserBlocked = user.blockedByMe!;
-                      if (text != '') {
+
+                      if (text != 'Edit Profile') {
                         text = user.followedByMe! ? 'Following' : 'Follow';
                       }
                     }
+                    _isUserBlocked = user.blockedByMe!;
+
+                    _isMuted = user.muted!;
                     return NestedScrollView(
                         controller: controller,
                         physics: const BouncingScrollPhysics(),
@@ -173,9 +177,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                                           text: 'Posts',
                                         ),
                                         Tab(
-                                          text: 'Replies',
-                                        ),
-                                        Tab(
                                           text: 'Likes',
                                         )
                                       ],
@@ -188,6 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             : ProfileScreenBody(
                                 tabController: _tabController,
                                 id: id,
+                                isMuted: _isMuted,
+                                isUserBlocked: _isUserBlocked,
                               ));
                   }
                 },
@@ -201,6 +204,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 }
+
+bool _isMuted = false;
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   ProfileScreenAppBar({
@@ -217,13 +222,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   final int postsNumber;
   final bottomHeight = 60;
   final extraRadius = 5;
-  bool _isMuted = false;
+
   bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
+    print(text);
     if (!initialized) {
       initialized = true;
-      _isMuted = user.muted!;
     }
     final imageTop =
         -shrinkOffset.clamp(0.0, maxExtent - minExtent - bottomHeight);
@@ -352,7 +357,9 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             ],
                             onSelected: (value) async {
                               if (value == 0) {
+                                
                                 if (!_isMuted) {
+                                  
                                   var flag = await MuteUserService.mute(
                                       username: user.userName!);
                                   if (flag) {
@@ -387,11 +394,15 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 }
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageLoadingState());
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageCompletedState());
                               } else {
                                 if (_isUserBlocked) {
                                   showDialog(
                                     context: context,
-                                    builder: (context) => BlockUserDialog(
+                                    builder: (context) => UnblockUserDialog(
                                         username: user.userName!),
                                   );
                                 } else {
@@ -401,7 +412,6 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         username: user.userName!),
                                   );
                                 }
-                                //Todo implement Block Logic
                               }
                             },
                           ),
@@ -666,12 +676,17 @@ class _UnblockUserDialogState extends State<UnblockUserDialog> {
       actions: <Widget>[
         TextButton(
           onPressed: () => Navigator.pop(context, 'Cancel'),
-          child: const Text('Cancel'),
+          child: const Text(
+            'Cancel',
+            style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+          ),
         ),
         _isLoading
-            ? const SpinKitCircle(
-                color: Colors.blueAccent,
-              )
+            ? const ProfileDialogLoading()
             : TextButton(
                 onPressed: () async {
                   BlocProvider.of<EditProfileCubit>(context)
@@ -703,9 +718,38 @@ class _UnblockUserDialogState extends State<UnblockUserDialog> {
                       .emit(ProfilePageCompletedState());
                   Navigator.pop(context);
                 },
-                child: const Text('Unblock'),
+                child: const Text(
+                  'Unblock',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
               ),
       ],
+    );
+  }
+}
+
+class ProfileDialogLoading extends StatelessWidget {
+  const ProfileDialogLoading({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
+      child: SizedBox(
+        width: 40,
+        height: 40,
+        child: SpinKitRing(
+          color: Colors.blueAccent,
+          size: 40,
+          lineWidth: 5,
+        ),
+      ),
     );
   }
 }
@@ -744,9 +788,7 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
           ),
         ),
         _isLoading
-            ? const SpinKitCircle(
-                color: Colors.blueAccent,
-              )
+            ? const ProfileDialogLoading()
             : TextButton(
                 onPressed: () async {
                   BlocProvider.of<EditProfileCubit>(context)
@@ -754,13 +796,14 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
                   setState(() {
                     _isLoading = true;
                   });
-                  
+
                   bool flag = await BlockingUserService.blockUser(
                       username: widget.username);
                   setState(() {
                     _isLoading = true;
                   });
                   if (flag) {
+
                     Fluttertoast.showToast(
                       msg: 'You Blocked @${widget.username}',
                       backgroundColor: Colors.black,

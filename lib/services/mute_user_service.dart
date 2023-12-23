@@ -17,8 +17,9 @@ class MuteUserService {
 
   static Future<bool> unMuteUser({required String username}) async {
     try {
-      await Api.delete(
+      var res = await Api.delete(
           url: '$baseURL$_endpoint$username', body: {}, token: TempUser.token);
+      print(res);
       return true;
     } catch (e) {
       return false;

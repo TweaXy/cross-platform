@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
+import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
@@ -17,6 +19,7 @@ import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
 import 'package:tweaxy/services/get_mentioned_tweets.dart';
 import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -27,7 +30,7 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
-  static const _pageSize = 20;
+  static const _pageSize = 10;
   final PagingController<int, Tweet> _mentionsPagingController =
       PagingController(firstPageKey: 0);
   final PagingController<int, UserNotification> _pagingController =
@@ -35,6 +38,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   void initState() {
+    TempUser.notificationCount = 0;
     _pagingController.addPageRequestListener((pageKey) {
       _fetchPage(pageKey);
     });
@@ -76,13 +80,14 @@ class _NotificationScreenState extends State<NotificationScreen> {
         _mentionsPagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _mentionsPagingController.error = error;
     }
   }
 
   @override
   void dispose() {
     _pagingController.dispose();
+    _mentionsPagingController.dispose();
     super.dispose();
   }
 
@@ -157,7 +162,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
               child: BlocProvider(
                 create: (context) => SidebarCubit(),
                 child: PagedListView.separated(
-                  separatorBuilder: (context, index) => Divider(
+                  separatorBuilder: (context, index) => const Divider(
                     color: Colors.grey,
                   ),
                   pagingController: _pagingController,
@@ -174,7 +179,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding: EdgeInsets.all(20.0),
                           child: Text(
                             'Any new notification will appear here',
                             style: TextStyle(
@@ -194,7 +199,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         tweet: item.interaction == null
                             ? ''
                             : item.interaction!.text ?? '',
-                        followStatus: 'Follow back',
+                        followStatus:item.followedByMe!?'Following': 'Follow back',
                         userId: item.userId!,
                         username: item.userName!,
                       );
@@ -239,7 +244,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   animateTransitions: true,
                   itemBuilder: (context, item, index) {
                     return CustomTweet(
-                        tweet: item, replyto: const []);
+                      tweet: item,
+                      replyto: const [],
+                      isMuted: false,
+                      isUserBlocked: false,
+                    );
                   },
                 ),
               ),
@@ -287,7 +296,24 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
   @override
   Widget build(BuildContext context) {
     String text = '';
-    void Function() onPressed = () {};
+    void Function() onPressed = () async{
+      // List<Map<String, dynamic>> m = await mapToList(res);
+      // Navigator.push(
+      //     context,
+      //     CustomPageRoute(
+      //         child: RepliesScreen(tweet: tweet, replyto: replyto),
+      //         direction: AxisDirection.left));
+      if (!kIsWeb) {
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ProfileScreen(id: widget.userId, text: _followStatus);
+          },
+        ));
+      } else {
+        BlocProvider.of<SidebarCubit>(context)
+            .emit(OtherProfileState(widget.userId, _followStatus));
+      }
+    };
     switch (widget.notificationType) {
       case 'like':
         text = 'Liked your tweet';

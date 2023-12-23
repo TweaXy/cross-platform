@@ -30,7 +30,7 @@ List<String>? _getImageList(dynamic image) {
 
 List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
   // print('hhh' + temp.toString());
-  return temp
+  List<Tweet> t = temp
       .map((e) => Tweet(
           id: e['id']!,
           image: _getImageList(e['image']),
@@ -49,9 +49,14 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
           isUserCommented: e['isUserCommented'],
           createdDate: e['createdDate'],
           isretweet: e['isretweet'],
-          reposterid: e['reposterid'],
-          reposteruserName: e['reposteruserName']))
+          reposteruserid: e['reposteruserid'],
+          reposteruserName: e['reposteruserName'],
+          parentid: e['parentid'],
+          isUserBlockedByMe: e['isUserBlockedByMe'],
+          isUserMutedByMe: e['isUserMutedByMe'],
+          isShown: !(e['isUserBlockedByMe'] || e['isUserMutedByMe'])))
       .toList();
+  return t;
 }
 
 String dateFormatter(String date) {
@@ -113,41 +118,52 @@ List<String> calculateTime(String fulldate) {
   return [time, date];
 }
 
-List<Map<String, dynamic>> mapToList(Response res) {
-  return (res.data['data']['items'] as List<dynamic>).map((item) {
+List<Map<String, dynamic>> mapToList(Response res,
+    {bool isforreply = false, bool isformaintweetreply = false}) {
+  List<dynamic> t = [];
+  if (isformaintweetreply)
+    t = res.data['data']['parent'] as  List<dynamic>;
+  else
+    t = isforreply
+        ? res.data['data']['interactions']
+        : res.data['data']['items'];
+  return (t as List<dynamic>).map((item) {
     String x = 'mainInteraction';
-    String reposterid = '';
+    String reposteruserid = '';
     String reposteruserName = '';
     if (item['mainInteraction']['type'] == "RETWEET") {
-      print(TempUser.id);
       x = 'parentInteraction';
-      reposterid = item['mainInteraction']['user']['id'];
+      reposteruserid = item['mainInteraction']['user']['id'];
       reposteruserName = item['mainInteraction']['user']['name'];
-      print(reposterid);
     }
     return {
-      'likesCount': item['mainInteraction']['likesCount'],
-      'viewsCount': item['mainInteraction']['viewsCount'],
-      'retweetsCount': item['mainInteraction']['retweetsCount'],
-      'commentsCount': item['mainInteraction']['commentsCount'],
+      'likesCount': item[x]['likesCount'],
+      'viewsCount': item[x]['viewsCount'],
+      'retweetsCount': item[x]['retweetsCount'],
+      'commentsCount': item[x]['commentsCount'],
       'id': item['mainInteraction']['id'],
       'userid': item[x]['user']['id'],
-      'userImage': item[x]['user']['avatar'],
+      'userImage': item[x]['user']['avatar'] != null
+          ? item[x]['user']['avatar']
+          : 'b631858bdaafa77258b9ed2f7c689bdb.png',
       'image': item[x]['media'] != null ? item[x]['media'].toList() : null,
       'userName': item[x]['user']['name'],
       'userHandle': item[x]['user']['username'],
       'time': dateFormatter(item[x]['createdDate']),
       'tweetText': item[x]['text'],
-      'isUserLiked':
-          intToBool(item['mainInteraction']['isUserInteract']['isUserLiked']),
-      'isUserRetweeted': intToBool(
-          item['mainInteraction']['isUserInteract']['isUserRetweeted']),
-      'isUserCommented': intToBool(
-          item['mainInteraction']['isUserInteract']['isUserCommented']),
+      'isUserLiked': intToBool(item[x]['isUserInteract']['isUserLiked']),
+      'isUserRetweeted':
+          intToBool(item[x]['isUserInteract']['isUserRetweeted']),
+      'isUserCommented':
+          intToBool(item[x]['isUserInteract']['isUserCommented']),
       'createdDate': calculateTime(item[x]['createdDate']),
       'isretweet': item['mainInteraction']['type'] != "RETWEET" ? false : true,
-      'reposterid': reposterid,
-      'reposteruserName': reposteruserName
+      'reposteruserid': reposteruserid,
+      'reposteruserName': reposteruserName,
+      'parentid': item[x]['id'],
+      'isUserBlockedByMe':
+          item['mainInteraction']['user']['blockedByMe'] ?? false,
+      'isUserMutedByMe': item['mainInteraction']['user']['mutedByMe'] ?? false,
     };
   }).toList();
 }
@@ -181,32 +197,58 @@ void addReplyPress(context,
               )));
 }
 
-void updateStatesforTweet(state, context, PagingController pagingController) {
+void updateStatesforTweet(state, context, PagingController pagingController,
+    {bool isforHome = false}) {
   if (state is TweetHomeRefresh ||
       state is TweetAddedState ||
       state is TweetReplyAddedState ||
       state is UpdateUsernameDoneState) {
     pagingController.refresh();
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteState) {
     pagingController.itemList!
         .removeWhere((element) => element.id == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
+  if ((state is TweetUserBlocked ||
+          state is TweetUserMuted ||
+          state is TweetUserUnfollowed) &&
+      isforHome) {
+    pagingController.itemList!.removeWhere((element) =>
+        element.id == state.tweetid ||
+        element.id == state.tweetparentid ||
+        element.parentid == state.tweetid);
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+  }
+  if (state is ViewTweetforMuteorBlock) {
+    pagingController.itemList!.map((element) {
+      if (element.id == state.id) {
+        element.isShown = true;
+        return element;
+      }
+    }).toList();
+
+    BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
+  }
   if (state is TweetLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.tweetid) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount++;
+        return element;
       }
-      return element;
     }).toList();
 
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetUnLikedState) {
     pagingController.itemList!.map((element) {
-      if (element.id == state.tweetid) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserLiked = !element.isUserLiked;
         element.likesCount--;
       }
@@ -219,7 +261,9 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     pagingController.itemList!.map((element) {
       print('hereee');
 
-      if (element.id == state.tweetid) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
         element.isUserRetweeted = !element.isUserRetweeted;
         element.retweetsCount++;
       }
@@ -229,13 +273,21 @@ void updateStatesforTweet(state, context, PagingController pagingController) {
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteRetweetState) {
-    pagingController.itemList!.map((element) {
-      if (element.id == state.id) {
-        element.isUserRetweeted = !element.isUserRetweeted;
-        element.retweetsCount--;
-      }
-      return element;
-    }).toList();
+    if (state.reposteruserid == TempUser.id && state.isretweet) {
+      pagingController.itemList!
+          .removeWhere((element) => element.id == state.id);
+    } else {
+      pagingController.itemList!.map((element) {
+        if (element.id == state.id ||
+            element.id == state.parentid ||
+            element.parentid == state.id) {
+          element.isUserRetweeted = !element.isUserRetweeted;
+          element.retweetsCount--;
+        }
+
+        return element;
+      }).toList();
+    }
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
 }

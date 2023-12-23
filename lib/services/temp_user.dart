@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/get_unseen_notification_count.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -42,7 +44,7 @@ class TempUser {
     TempUser.id = id;
   }
 
-  static void userSetData() async {
+  static void userSetData(context) async {
     //  print(email);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
@@ -53,15 +55,18 @@ class TempUser {
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
     if (result is String) {
     } else if (result is Response) {
-      // int notifica =
-      //     await GetUnseenNotificationCount.getUnseenNotificationCount(token);
+      
       Response res = result;
       setId(id: userid!);
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
-      setImage(image: res.data['data']['user']['avatar']);
-      TempUser.notificationCount = 10;
+      setImage(
+          image: res.data['data']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png');
+
+      
+      BlocProvider.of<TweetsUpdateCubit>(context).refresh();
+
     }
   }
 }

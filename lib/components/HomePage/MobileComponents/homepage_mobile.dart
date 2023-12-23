@@ -10,6 +10,7 @@ import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/components/chat/chat_floating_button.dart';
 import 'package:tweaxy/views/chat/get_conversations_view.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';

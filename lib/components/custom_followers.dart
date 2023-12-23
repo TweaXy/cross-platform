@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/models/followers_model.dart';
+import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/constants.dart';
@@ -172,18 +174,36 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             // width: 140,
                             // height: 45,
                             child: CustomButton(
-                                color: !widget.user.followedByMe
-                                    ? Colors.black
-                                    : Colors.white,
-                                text: !widget.user.followedByMe
-                                    ? kIsWeb
-                                        ? 'Follow'
-                                        : (!widget.user.followesMe
-                                            ? 'Follow'
-                                            : 'Follow Back')
-                                    : 'Following',
-                                onPressedCallback: () {
-                                  if (!kIsWeb) {
+                                color: (widget.user.blocksMe! ||
+                                        widget.user.blockedByMe!)
+                                    ? Colors.red
+                                    : !widget.user.followedByMe
+                                        ? Colors.black
+                                        : Colors.white,
+                                text: getText(),
+                                onPressedCallback: () async {
+                                  if (widget.user.blockedByMe!) {
+                                    bool status =
+                                        await BlockingUserService.unBlockUser(
+                                      username: widget.user.username!,
+                                    );
+                                    if (status) {
+                                      Fluttertoast.showToast(
+                                        msg:
+                                            'You unblocked @${widget.user.username}',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                      );
+                                      setState(() {
+                                        widget.user.blockedByMe = false;
+                                        widget.user.followedByMe = true;
+                                      });
+                                    } else {
+                                      Fluttertoast.showToast(
+                                        msg: 'Oops there\'s an error',
+                                        toastLength: Toast.LENGTH_SHORT,
+                                      );
+                                    }
+                                  } else if (!kIsWeb) {
                                     setState(() {
                                       if (!widget.user.followedByMe) {
                                         FollowUser.instance
@@ -327,5 +347,23 @@ class _CustomFollowersState extends State<CustomFollowers> {
         ),
       ),
     );
+  }
+
+  String getText() {
+    String status;
+    if (widget.user.blocksMe!) {
+      status = 'Blocked you';
+    } else if (widget.user.blockedByMe!) {
+      status = 'Blocked';
+    } else if (!widget.user.followedByMe) {
+      if (kIsWeb) {
+        status = 'Follow';
+      } else {
+        status = (!widget.user.followesMe) ? 'Follow' : 'Follow Back';
+      }
+    } else {
+      status = 'Following';
+    }
+    return status;
   }
 }

@@ -12,6 +12,7 @@ import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/search_for_users.dart';
 import 'package:tweaxy/services/suggestions_search.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/search_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/views/search_users/tweets_searched.dart';
@@ -302,8 +303,10 @@ class _MyPageState extends State<SearchScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProfileScreen(id: user.id!, text: text),
+                                    builder: (context) => ProfileScreen(
+                                        id: user.id!,
+                                        text:
+                                            TempUser.id == user.id ? '' : text),
                                   ),
                                 );
                               },

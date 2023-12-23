@@ -81,6 +81,8 @@ class _MyPageState extends State<TweetsListTrend> {
                   return CustomTweet(
                     tweet: item,
                     replyto: const [],
+                    isMuted: false,
+                    isUserBlocked: false,
                   );
                 },
               ),

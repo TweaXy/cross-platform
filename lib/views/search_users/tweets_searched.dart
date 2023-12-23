@@ -337,8 +337,10 @@ class _TweetsSearchedState extends State<TweetsSearched>
                       ),
                       itemBuilder: (context, item, index) {
                         return CustomTweet(
+                          isUserBlocked: false,
                           tweet: item,
                           replyto: [],
+                          isMuted: false,
                         );
                       },
                     ),

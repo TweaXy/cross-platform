@@ -111,7 +111,7 @@ class TweaXy extends StatelessWidget {
             kLikersInTweets: (context) =>
                 LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
             kAccountinfo: (context) => const AccountIfoView(),
-            kSettingsAndPrivacy: (context) => const SettingsAndPrivacyView(),
+            kSettingsAndPrivacy: (context) =>  SettingsAndPrivacyView(),
             kSettings: (context) => const SettingsView(),
             kPrivacySafetySettings: (context) =>
                 const SettingsPrivacySafetyScreen(),
