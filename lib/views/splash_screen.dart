@@ -23,13 +23,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future(() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      int notifica =
-          await GetUnseenNotificationCount.getUnseenNotificationCount(token??'');
-      TempUser.notificationCount = notifica;
-    });
     checkLogin();
     Timer(const Duration(seconds: 2), () {
       if (token == null) {
