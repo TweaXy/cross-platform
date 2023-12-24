@@ -3,6 +3,7 @@ import 'package:tweaxy/models/user.dart';
 
 class UserNotification {
   String? userId;
+  String? tweetId;
   String? userName;
   String? name;
   String? action;
@@ -22,6 +23,7 @@ class UserNotification {
   });
 
   UserNotification.fromJson(Map<String, dynamic> json) {
+    tweetId = json['interaction']['id'];
     userName = json['fromUser']['username'];
     userId = json['fromUser']['id'];
     name = json['fromUser']['name'];

@@ -202,6 +202,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         followStatus:item.followedByMe!?'Following': 'Follow back',
                         userId: item.userId!,
                         username: item.userName!,
+                        tweetId:item.tweetId!,
                       );
                     },
                   ),
@@ -270,12 +271,14 @@ class AllNotificationsListTile extends StatefulWidget {
     required this.userId,
     required this.username,
     required this.followStatus,
+    required this.tweetId,
   });
   final String notificationType;
   final String avatarURL;
   final String name;
   final String tweet;
   final String userId;
+  final String tweetId;
   final String username;
   final String followStatus;
 
@@ -297,22 +300,13 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
   Widget build(BuildContext context) {
     String text = '';
     void Function() onPressed = () async{
-      // List<Map<String, dynamic>> m = await mapToList(res);
-      // Navigator.push(
-      //     context,
-      //     CustomPageRoute(
-      //         child: RepliesScreen(tweet: tweet, replyto: replyto),
-      //         direction: AxisDirection.left));
-      if (!kIsWeb) {
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context) {
-            return ProfileScreen(id: widget.userId, text: _followStatus);
-          },
-        ));
-      } else {
-        BlocProvider.of<SidebarCubit>(context)
-            .emit(OtherProfileState(widget.userId, _followStatus));
-      }
+
+      Navigator.push(
+          context,
+          CustomPageRoute(
+              child: RepliesScreen(tweetid: widget.tweetId, replyto: [], userHandle: widget.username),
+              direction: AxisDirection.left));
+      
     };
     switch (widget.notificationType) {
       case 'like':
