@@ -70,29 +70,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     _tabController.dispose();
     super.dispose();
   }
-
-  List<String> listitems = [
-    'item1',
-    'item2',
-    'item3',
-    'item4',
-    'item5',
-    'item6',
-    'item7',
-    'item8',
-    'item9',
-    'item10',
-    'item11',
-    'item12',
-    'item13',
-    'item14',
-    'item15',
-    'item16',
-    'item17',
-    'item18',
-    'item19',
-    'item20',
-  ];
   int _selectedTabIndex = 0;
 
   Color textColor = Colors.black;
@@ -103,6 +80,8 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int postsNumber = 678530;
   void Function() onPressed = () {};
   int? selectedMenu;
+    bool initialized = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EditProfileCubit, EditProfileState>(
@@ -122,6 +101,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
             future: GetUserById.instance.getUserById(id),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
+                
                 return const Scaffold(
                   body: Center(
                     child: CircularProgressIndicator(
@@ -131,6 +111,13 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                 );
               } else {
                 var user = snapshot.data!;
+                if (!initialized) {
+                  initialized = true;
+
+                  if (text != 'Edit Profile') {
+                    text = user.followedByMe! ? 'Following' : 'Follow';
+                  }
+                }
                 return Scaffold(
                   appBar: AppBar(
                     leading: IconButton(

@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               delegate: ProfileScreenAppBar(
                                 text: text,
                                 user: user,
-                                postsNumber: 216820,
+                                postsNumber: 5,
                                 avatarURL: user.avatar ?? '',
                                 coverURL: user.cover ?? '',
                               ),
