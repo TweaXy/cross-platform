@@ -8,7 +8,10 @@ import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class DeleteAlertDialog extends StatelessWidget {
   const DeleteAlertDialog(
-      {super.key, required this.tweetid, required this.forreply});
+      {super.key,
+      required this.tweetid,
+      required this.forreply,
+      });
   final String tweetid;
   final bool forreply;
   @override

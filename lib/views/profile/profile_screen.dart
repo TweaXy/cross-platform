@@ -12,6 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
+import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
@@ -110,12 +111,14 @@ class _ProfileScreenState extends State<ProfileScreen>
                     User user = snapshot.data!;
                     if (!initialized) {
                       initialized = true;
-                      _isUserBlocked = user.blockedByMe!;
 
                       if (text != 'Edit Profile') {
                         text = user.followedByMe! ? 'Following' : 'Follow';
                       }
                     }
+                    _isUserBlocked = user.blockedByMe!;
+
+                    _isMuted = user.muted!;
                     return NestedScrollView(
                         controller: controller,
                         physics: const BouncingScrollPhysics(),
@@ -186,7 +189,8 @@ class _ProfileScreenState extends State<ProfileScreen>
                             : ProfileScreenBody(
                                 tabController: _tabController,
                                 id: id,
-                                isMuted: true,
+                                isMuted: _isMuted,
+                                isUserBlocked: _isUserBlocked,
                               ));
                   }
                 },
@@ -200,6 +204,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 }
+
+bool _isMuted = false;
 
 class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   ProfileScreenAppBar({
@@ -216,14 +222,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   final int postsNumber;
   final bottomHeight = 60;
   final extraRadius = 5;
-  bool _isMuted = false;
+
   bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
     print(text);
     if (!initialized) {
       initialized = true;
-      _isMuted = user.muted!;
     }
     final imageTop =
         -shrinkOffset.clamp(0.0, maxExtent - minExtent - bottomHeight);
@@ -257,7 +262,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                   : FollowEditButton(
                       text: _isUserBlocked ? 'Blocked' : text,
                       user: user,
-                      key: const ValueKey('followEditButton'),
+                      key: const ValueKey('followEditButton'), forProfile: true,
                     ),
             ],
           ),
@@ -387,6 +392,10 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         .show(context);
                                   }
                                 }
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageLoadingState());
+                                BlocProvider.of<EditProfileCubit>(context)
+                                    .emit(ProfilePageCompletedState());
                               } else {
                                 if (_isUserBlocked) {
                                   showDialog(
@@ -401,7 +410,6 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                                         username: user.userName!),
                                   );
                                 }
-                                //Todo implement Block Logic
                               }
                             },
                           ),
@@ -543,11 +551,12 @@ class FollowEditButton extends StatefulWidget {
     super.key,
     required this.text,
     required this.user,
+    required this.forProfile,
   });
 
   final String text;
   final User user;
-
+  final bool forProfile;
   @override
   State<FollowEditButton> createState() => _FollowEditButtonState();
 }
@@ -561,7 +570,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
       create: (context) => UpdateAllCubit(),
       child: Row(
         children: [
-          text == 'Following'
+          text == 'Following' && widget.forProfile
               ? Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: ProfileIconButton(

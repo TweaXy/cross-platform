@@ -12,9 +12,11 @@ import 'package:tweaxy/shared/keys/add_reply_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
 class RepliesScreen extends StatefulWidget {
-  const RepliesScreen({super.key, required this.tweet, required this.replyto});
-  final Tweet tweet;
+  const RepliesScreen(
+      {super.key, required this.tweetid, required this.replyto, required this.userHandle});
+  final String tweetid;
   final List<String> replyto;
+  final String userHandle;
 
   @override
   State<RepliesScreen> createState() => _RepliesScreenState();
@@ -45,7 +47,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
   @override
   Widget build(BuildContext context) {
     List<String> replytochild = new List.from(widget.replyto);
-    replytochild.add(widget.tweet.userHandle);
+    replytochild.add(widget.userHandle);
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
         // if (state is TweetDeleteState && state.tweetid == widget.tweet.id)
@@ -72,12 +74,12 @@ class _RepliesScreenState extends State<RepliesScreen> {
               slivers: [
                 SliverToBoxAdapter(
                     child: MainTweetReplies(
-                  tweet: widget.tweet,
+                  tweetid: widget.tweetid,
                   replyto: widget.replyto,
                 )),
                 RepliesList(
                   replyto: replytochild as List<String>,
-                  mainTweetId: widget.tweet.id,
+                  mainTweetId: widget.tweetid,
                 )
               ],
             ),
@@ -98,7 +100,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                             horizontal: 8.0, vertical: 5),
                         child: CustomReplytoRow(
                           replyto: [
-                            widget.tweet.userHandle,
+                            widget.userHandle,
                           ],
                         ),
                       )
@@ -128,9 +130,9 @@ class _RepliesScreenState extends State<RepliesScreen> {
                             MaterialPageRoute(
                               builder: (context) => AddTweetView(
                                 text: tweetController.text,
-                                replyto: widget.tweet.userHandle,
+                                replyto: widget.userHandle,
                                 isReply: true,
-                                tweetId: widget.tweet.id,
+                                tweetId: widget.tweetid,
                                 photoIconPressed: false,
                               ),
                             ),
@@ -169,9 +171,9 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           MaterialPageRoute(
                             builder: (context) => AddTweetView(
                               text: tweetController.text,
-                              replyto: widget.tweet.userHandle,
+                              replyto: widget.userHandle,
                               isReply: true,
-                              tweetId: widget.tweet.id,
+                              tweetId: widget.tweetid,
                               photoIconPressed: true,
                             ),
                           ),
@@ -198,7 +200,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                           child: CustomAddTweetButton(
                             key: const ValueKey(AddReplysKeys.addReplyButton),
                             isReply: true,
-                            tweetId: widget.tweet.id,
+                            tweetId: widget.tweetid,
                             tweetcontent: tweetController,
                             xfilePick: const [],
                             isButtonEnabled:

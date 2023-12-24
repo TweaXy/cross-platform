@@ -5,8 +5,8 @@ class Interaction {
   String? tweetId;
   String? userID;
 
-  Interaction(
-      {this.id, this.type, this.text, this.tweetId, this.userID});
+
+  Interaction({this.id, this.type, this.text, this.tweetId, this.userID});
 
   Interaction.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -16,6 +16,4 @@ class Interaction {
     tweetId = json['parentInteractionID'];
     userID = json['userID'];
   }
-
-
 }

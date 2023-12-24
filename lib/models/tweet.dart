@@ -17,10 +17,15 @@ class Tweet {
   final List<String> createdDate;
   final bool isretweet;
   final String reposteruserid;
-  final String reposttweetid;
+  final String parentid;
   final String reposteruserName;
+  final bool isUserBlockedByMe;
+  final bool isUserMutedByMe;
+   bool isShown;
   //+++++++++video
-  Tweet({
+  Tweet({ required  this.isShown, 
+    required this.isUserBlockedByMe,
+    required this.isUserMutedByMe,
     required this.isretweet,
     required this.createdDate,
     required this.isUserLiked,
@@ -39,7 +44,7 @@ class Tweet {
     required this.retweetsCount,
     required this.commentsCount,
     required this.reposteruserid,
-    required this.reposttweetid,
+    required this.parentid,
     required this.reposteruserName,
   });
   String getId() {

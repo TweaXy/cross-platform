@@ -8,11 +8,14 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class UserTweetInfoReply extends StatefulWidget {
   const UserTweetInfoReply(
@@ -24,7 +27,7 @@ class UserTweetInfoReply extends StatefulWidget {
 }
 
 class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
-  late List<bool> isfollowed = [];
+  bool isFutureComplete = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,22 +39,34 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
     return BlocProvider(
       create: (context) => EditProfileCubit(),
       child: FutureBuilder(
-          future: TweetsServices.isFollowed(widget.tweet.userId),
+          future: GetUserById.instance.getUserById(widget.tweet.userId),
           builder: (context, snapshot) {
-            print('llll' + snapshot.data.toString());
+            if (!isFutureComplete) {
+              // The future is not complete, show loading or an empty container
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
             if (!snapshot.hasData)
               return Center(
                 child: CircularProgressIndicator(),
               );
             else {
-              isfollowed = snapshot.data!;
+              User user = snapshot.data!;
+              String text = user.followedByMe!
+                  ? 'Following'
+                  : user.followsme!
+                      ? 'Follow back'
+                      : 'Follow';
 
-              String text = isfollowed[0]
-                  ? "Following"
-                  : isfollowed[1]
-                      ? "Follow Back"
-                      : "Follow";
+              // String text = isfollowed[0]
+              //     ? "Following"
+              //     : isfollowed[1]
+              //         ? "Follow Back"
+              //         : "Follow";
+              // print('llll' + isfollowed.toString());
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -76,7 +91,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                           ),
                           ConstrainedBox(
                             constraints:
-                                BoxConstraints(maxWidth: screenwidth * 0.45),
+                                BoxConstraints(maxWidth: screenwidth * 0.36),
                             child: Text(
                               maxLines: 1,
                               // tweet.userName.trim().length <= 5
@@ -95,37 +110,15 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                       ),
                       const Spacer(),
                       // if (isfollowed != "Following" || count == 2)
-                      if (!isfollowed[2])
-                        CustomButton(
-                          color: isfollowed[0] ? Colors.white : Colors.black,
-                          text: text,
-                          onPressedCallback: () {
-                            BlocProvider.of<EditProfileCubit>(context)
-                                .emit(ProfilePageLoadingState());
-
-                            setState(() {
-                              if (!isfollowed[0]) {
-                                FollowUser.instance
-                                    .followUser(widget.tweet.userHandle);
-                                isfollowed[0] = true;
-                                text = "Following";
-                              } else {
-                                FollowUser.instance
-                                    .deleteUser(widget.tweet.userHandle);
-                                isfollowed[0] = false;
-                                text = isfollowed[1] ? "Follow Back" : "Follow";
-                              }
-                            });
-                            // BlocProvider.of<UpdateAllCubit>(context)
-                            //     .emit(LoadingStata());
-                            BlocProvider.of<EditProfileCubit>(context)
-                                .emit(ProfilePageCompletedState());
-                          },
-                          initialEnabled: true,
+                      if (TempUser.id != user.id)
+                        FollowEditButton(
+                          text: user.blockedByMe! ? 'Blocked' : text,
+                          user: user,
+                          key: const ValueKey('followEditButton'),
+                          forProfile: false,
                         ),
                       IconButton(
-              key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
-
+                        key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
                         padding: EdgeInsets.zero,
                         constraints: BoxConstraints(),
                         icon: const Icon(FontAwesomeIcons.ellipsisVertical),
@@ -145,7 +138,8 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               ),
                               builder: (context) {
                                 return WrapModalBottomProfile(
-                                  tweetid: widget.tweet.id, forreply:true ,
+                                  tweetid: widget.tweet.id,
+                                  forreply: true,
                                 );
                               },
                             );
@@ -194,5 +188,17 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
             }
           }),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Check if the FutureBuilder has completed
+    if (!isFutureComplete) {
+      // Update the flag to avoid unnecessary rebuilds
+      setState(() {
+        isFutureComplete = true;
+      });
+    }
   }
 }

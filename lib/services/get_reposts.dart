@@ -25,7 +25,7 @@ class Reposters {
     );
     Map<String, dynamic> jsondata = response.data;
     print(response.data);
-    List<dynamic> allData = jsondata['data']["users"];
+    List<dynamic> allData = jsondata['data']["retweeters"];
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
       FollowersModel follower = FollowersModel.fromJsonLikers(allData[i]);

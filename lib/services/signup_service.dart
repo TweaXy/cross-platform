@@ -25,6 +25,7 @@ class SignupService {
           "birthdayDate": UserSignup.birthdayDate,
           "password": UserSignup.password,
           "emailVerificationToken": UserSignup.emailVerificationToken,
+          "captcha": UserSignup.captcha,
         },
       );
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -110,23 +111,6 @@ class SignupService {
       log(e.toString());
       log("response $response");
       return response;
-    }
-  }
-
-  Future<dynamic> authentication({required String captcha}) async {
-    dynamic response;
-    try {
-      response = await Api.post(
-        url: '${baseUrl}auth/captcha',
-        token: UserSignup.emailVerificationToken,
-        body: {"captcha": captcha},
-      );
-      return response;
-    } catch (e) {
-      if (kDebugMode) {
-        log(e.toString());
-      } //debug mode only
-      throw Exception('Capthca authentication error');
     }
   }
 

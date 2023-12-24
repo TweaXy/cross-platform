@@ -111,7 +111,7 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   CustomPageRoute(
                       direction: AxisDirection.left,
-                      child: const SettingsAndPrivacyView()));
+                      child:  SettingsAndPrivacyView()));
             },
           ),
         ],

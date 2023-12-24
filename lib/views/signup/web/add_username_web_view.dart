@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
@@ -10,6 +11,7 @@ import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/components/custom_text_form_field.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/custom_text_form_validations.dart';
@@ -129,6 +131,8 @@ class _AddUsernameWebViewState extends State<AddUsernameWebView> {
                                   duration: const Duration(seconds: 2),
                                 );
                               } else if (mounted) {
+                                BlocProvider.of<UpdateUsernameCubit>(context)
+                                    .updateUsername(myController.text);
                                 Navigator.pushReplacementNamed(
                                     context, kHomeScreen);
                               }

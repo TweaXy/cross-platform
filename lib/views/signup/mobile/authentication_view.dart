@@ -1,12 +1,9 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:oktoast/oktoast.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
 import 'package:tweaxy/views/signup/mobile/not_robot_view.dart';
@@ -81,28 +78,14 @@ class AuthenticationView extends StatelessWidget {
                             JavascriptChannel(
                               name: 'Captcha',
                               onMessageReceived:
-                                  (JavascriptMessage message) async {
-                                try {
-                                  dynamic response = await service
-                                      .authentication(captcha: message.message);
-                                  if (response is String) {
-                                    showToastWidget(
-                                      CustomToast(
-                                        message: response,
-                                      ),
-                                      position: ToastPosition.bottom,
-                                      duration: const Duration(seconds: 2),
-                                    );
-                                  } else {
+                                  (JavascriptMessage message)  {
+                             UserSignup.captcha = message.message;
                                     Navigator.pushReplacement(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 const NotRobotView()));
-                                  }
-                                } catch (e) {
-                                  log(e.toString());
-                                }
+                              
                               },
                             ),
                           },

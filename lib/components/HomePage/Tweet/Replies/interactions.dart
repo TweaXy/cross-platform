@@ -63,12 +63,14 @@ class InteractionReplyScreen extends StatelessWidget {
               BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
                   userid: tweet.userId,
                   id: tweet.id,
-                  isretweet: tweet.isretweet);
-              return res;
+                  isretweet: tweet.isretweet,
+                  parentid: tweet.parentid);
+              return !res;
             } else {
               var res = await TweetsServices.addRetweet(tweet.id);
 
-              BlocProvider.of<TweetsUpdateCubit>(context).retweet(tweet.id);
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .retweet(tweet.parentid, tweet.id);
               return res;
             }
           },
@@ -87,12 +89,14 @@ class InteractionReplyScreen extends StatelessWidget {
             print(" the like value $isLiked");
             if (isLiked) {
               var res = await LikeTweet.unLikeTweet(tweet.id, token);
-              BlocProvider.of<TweetsUpdateCubit>(context).unLikeTweet(tweet.id);
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .unLikeTweet(tweet.parentid, tweet.id);
               return res;
             } else {
               var res = await LikeTweet.likeTweet(tweet.id, token);
 
-              BlocProvider.of<TweetsUpdateCubit>(context).likeTweet(tweet.id);
+              BlocProvider.of<TweetsUpdateCubit>(context)
+                  .likeTweet(tweet.parentid, tweet.id);
               return res;
             }
           },

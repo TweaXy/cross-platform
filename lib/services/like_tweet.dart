@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/helpers/api.dart';
 
 class LikeTweet {
   static final String _endpoint = 'interactions/';
@@ -13,6 +12,7 @@ class LikeTweet {
         '$baseURL$_endpoint$id/like',
         options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
+      print(response);
       print('Liked');
       return true;
     } catch (e) {

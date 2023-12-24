@@ -55,8 +55,7 @@ class TempUser {
         url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
     if (result is String) {
     } else if (result is Response) {
-      int notifica =
-          await GetUnseenNotificationCount.getUnseenNotificationCount(token);
+      
       Response res = result;
       setId(id: userid!);
       setEmail(email: res.data['data']['user']['email']);
@@ -65,8 +64,9 @@ class TempUser {
       setImage(
           image: res.data['data']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png');
 
-      TempUser.notificationCount = notifica;
+      
       BlocProvider.of<TweetsUpdateCubit>(context).refresh();
+
     }
   }
 }

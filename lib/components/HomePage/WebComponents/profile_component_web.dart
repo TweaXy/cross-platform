@@ -360,6 +360,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                       tabController: _tabController,
                       id: id,
                       isMuted: false,
+                      isUserBlocked: false,
                     ),
                   ),
                 );
