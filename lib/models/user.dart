@@ -21,6 +21,7 @@ class User {
   bool? muted;
   int? followers;
   int? following;
+  int? interactionCount;
 
   User({
     this.id,
@@ -40,7 +41,9 @@ class User {
     this.blockedByMe,
     this.blockedMe,
     this.muted,
-    this.followedByMe,this.followsme,
+    this.followedByMe,
+    this.followsme,
+    this.interactionCount,
   });
   @override
   bool operator ==(Object other) => other is User && other.name == name;
@@ -68,32 +71,32 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'] != null ? map['id'] as String : null,
-      userName: map['username'] != null ? map['username'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-      email: map['email'] != null ? map['email'] as String : null,
-      avatar: map['avatar'] != null ? map['avatar'] as String : null,
-      cover: map['cover'] != null ? map['cover'] as String : null,
-      phone: map['phone'] != null ? map['phone'] as String : null,
-      birthdayDate:
-          map['birthdayDate'] != null ? map['birthdayDate'] as String : null,
-      joinedDate:
-          map['joinedDate'] != null ? map['joinedDate'] as String : null,
-      bio: map['bio'] != null ? map['bio'] as String : null,
-      website: map['website'] != null ? map['website'] as String : null,
-      location: map['location'] != null ? map['location'] as String : null,
-      followers: map['_count']['followedBy'] != null
-          ? map['_count']['followedBy'] as int
-          : null,
-      following: map['_count']['following'] != null
-          ? map['_count']['following'] as int
-          : null,
-      blockedByMe: map['blockedByMe'],
-      blockedMe: map['blocksMe'],
-      muted: map['mutedByMe'],
-      followedByMe: map['followedByMe'],
-      followsme:map['followsMe']
-    );
+        id: map['id'] != null ? map['id'] as String : null,
+        userName: map['username'] != null ? map['username'] as String : null,
+        name: map['name'] != null ? map['name'] as String : null,
+        email: map['email'] != null ? map['email'] as String : null,
+        avatar: map['avatar'] != null ? map['avatar'] as String : null,
+        cover: map['cover'] != null ? map['cover'] as String : null,
+        phone: map['phone'] != null ? map['phone'] as String : null,
+        birthdayDate:
+            map['birthdayDate'] != null ? map['birthdayDate'] as String : null,
+        joinedDate:
+            map['joinedDate'] != null ? map['joinedDate'] as String : null,
+        bio: map['bio'] != null ? map['bio'] as String : null,
+        website: map['website'] != null ? map['website'] as String : null,
+        location: map['location'] != null ? map['location'] as String : null,
+        followers: map['_count']['followedBy'] != null
+            ? map['_count']['followedBy'] as int
+            : null,
+        following: map['_count']['following'] != null
+            ? map['_count']['following'] as int
+            : null,
+        blockedByMe: map['blockedByMe'],
+        blockedMe: map['blocksMe'],
+        muted: map['mutedByMe'],
+        followedByMe: map['followedByMe'],
+        followsme: map['followsMe'],
+        interactionCount: map['_count']['interactions']);
   }
 
   String toJson() => json.encode(toMap());

@@ -118,6 +118,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                     text = user.followedByMe! ? 'Following' : 'Follow';
                   }
                 }
+                postsNumber=user.interactionCount!;
                 return Scaffold(
                   appBar: AppBar(
                     leading: IconButton(

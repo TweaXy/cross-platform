@@ -130,7 +130,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                               delegate: ProfileScreenAppBar(
                                 text: text,
                                 user: user,
-                                postsNumber: 5,
+                                postsNumber: user.interactionCount!,
                                 avatarURL: user.avatar ?? '',
                                 coverURL: user.cover ?? '',
                               ),
@@ -226,7 +226,6 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
   bool initialized = false;
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
-    print(text);
     if (!initialized) {
       initialized = true;
     }
@@ -533,7 +532,7 @@ class CollapsedAppBarText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
-              '${NumberFormat.compact().format(postsNumber)} Posts',
+              '${NumberFormat.compact().format(postsNumber)} Interactions',
               style: TextStyle(
                   fontWeight: postsNumberTextStyle,
                   fontSize: postsNumberTextSize,
