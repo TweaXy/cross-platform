@@ -60,7 +60,9 @@ class Conversation extends StatelessWidget {
         children: [
           Text(
             conversation.name,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: conversation.unseenCount > 0
+                ? const TextStyle(fontWeight: FontWeight.w700)
+                : const TextStyle(fontWeight: FontWeight.w500),
           ),
           Flexible(
             child: Text(
@@ -74,12 +76,31 @@ class Conversation extends StatelessWidget {
       subtitle: conversation.lastMessage == null
           ? const Text("")
           : conversation.lastMessage!.text == null
-              ? Text("${conversation.name} sent a photo")
+              ? Text(
+                  "${conversation.name} sent a photo",
+                  style: conversation.unseenCount > 0
+                      ? const TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.black)
+                      : const TextStyle(),
+                )
               : Text(
                   conversation.lastMessage!.text!,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
+                  style: conversation.unseenCount > 0
+                      ? const TextStyle(
+                          fontWeight: FontWeight.w500, color: Colors.black)
+                      : const TextStyle(),
                 ),
+      trailing: Badge(
+        isLabelVisible: conversation.unseenCount > 0,
+        smallSize: 10,
+        label: Text(
+          conversation.unseenCount.toString(),
+          style: const TextStyle(fontSize: 10),
+        ),
+        backgroundColor: Colors.blue,
+      ),
     );
   }
 }

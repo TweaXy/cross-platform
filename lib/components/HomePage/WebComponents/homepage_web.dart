@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/chat/web/get_conversations_web_view.dart';
+import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/settings/web/settings_and_privacy_web_view.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
@@ -108,7 +110,17 @@ class _HomePageWebState extends State<HomePageWeb> {
                     } else if (state is SidebarMessageState) {
                       return const Expanded(
                           flex: 13, child: GetConversationsWebView());
-                    } else {
+                    } 
+                    else if (state is FollowingFollowerListState) {
+                      return  Expanded(
+                          flex: 8, child: WebFollowersAndFollowings(
+                            username:state.username,
+                            name: state.name,
+                           ),
+                    );
+                    }
+                    
+                    else {
                       return const Placeholder();
                     }
                   },

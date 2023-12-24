@@ -4,8 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as ioo;
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/get_conversations_cubit/get_conversations_cubit.dart';
+import 'package:tweaxy/cubits/get_conversations_cubit/get_conversations_states.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:get/get.dart';
@@ -164,14 +167,25 @@ class _ChatRoomState extends State<ChatRoom> {
         elevation: 0,
         backgroundColor: Colors.white,
         leadingWidth: MediaQuery.of(context).size.width * 0.08,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
+        leading:
+            BlocBuilder<GetConversationsCubit, GetConversationsCubitStates>(
+          builder: (context, state) {
+            return IconButton(
+              onPressed: () {
+                BlocProvider.of<GetConversationsCubit>(context)
+                    .loadingConversations();
+                Future.delayed(const Duration(milliseconds: 100), () {
+                  BlocProvider.of<GetConversationsCubit>(context)
+                      .getConversations();
+                  Navigator.pop(context);
+                });
+              },
+              icon: const Icon(
+                Icons.arrow_back_sharp,
+                color: Colors.black,
+              ),
+            );
           },
-          icon: const Icon(
-            Icons.arrow_back_sharp,
-            color: Colors.black,
-          ),
         ),
         title: Row(
           mainAxisSize: MainAxisSize.min,
@@ -278,8 +292,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   enableTextField: !widget.block,
                   enablePagination: true,
                   enableOtherUserProfileAvatar: false,
-                  lastSeenAgoBuilderVisibility: true,
-                  receiptsBuilderVisibility: true,
+                  enableSwipeToReply: false,
+                  receiptsBuilderVisibility: false,
+                  enableSwipeToSeeTime: true,
                 ),
                 chatViewState: chatViewState.value,
                 chatViewStateConfig: ChatViewStateConfiguration(
@@ -295,14 +310,12 @@ class _ChatRoomState extends State<ChatRoom> {
                   backgroundColor: Colors.white,
                 ),
                 sendMessageConfig: SendMessageConfiguration(
-                  textFieldBackgroundColor: Colors.grey[300],
-                  imagePickerIconsConfig: ImagePickerIconsConfiguration(
-                    cameraIconColor: Colors.grey[600],
-                    galleryIconColor: Colors.grey[600],
+                  textFieldBackgroundColor: const Color(0xFFeff3f4),
+                  imagePickerIconsConfig: const ImagePickerIconsConfiguration(
+                    cameraIconColor: Colors.black,
+                    galleryIconColor: Colors.black,
                   ),
-                  replyMessageColor: Colors.black,
-                  defaultSendButtonColor: Colors.grey[600],
-                  replyDialogColor: Colors.grey[300],
+                  defaultSendButtonColor: Colors.blue,
                   closeIconColor: Colors.black,
                   textFieldConfig: TextFieldConfiguration(
                     hintText: "Start a message",
@@ -312,15 +325,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     compositionThresholdTime: const Duration(seconds: 1),
                     textStyle: const TextStyle(color: Colors.black),
                   ),
-                  voiceRecordingConfiguration: VoiceRecordingConfiguration(
-                    backgroundColor: Colors.black,
-                    recorderIconColor: Colors.grey[600],
-                    waveStyle: const WaveStyle(
-                      showMiddleLine: false,
-                      waveColor: Colors.white,
-                      extendWaveform: true,
-                    ),
-                  ),
+                  allowRecordingVoice: false,
                 ),
                 chatBubbleConfig: ChatBubbleConfiguration(
                   outgoingChatBubbleConfig: const ChatBubble(

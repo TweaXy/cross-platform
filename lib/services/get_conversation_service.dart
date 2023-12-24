@@ -37,6 +37,7 @@ class GetConversationsService {
                     'isMutedByMe': item['user']['isMutedByMe'],
                     'isMutingMe': item['user']['isMutingMe'],
                     'lastMessage': item['lastMessage'],
+                    'unseenCount': item['unseenCount'],
                     'userFollowersNum': item['user']['_count']["followedBy"],
                     'userFollowingsNum': item['user']['_count']["following"],
                   })
@@ -60,7 +61,8 @@ class GetConversationsService {
               isMutedByMe: e['isMutedByMe'],
               isMutingMe: e['isMutingMe'],
               userFollowersNum: e['userFollowersNum'],
-              userFollowingsNum: e['userFollowingsNum']))
+              userFollowingsNum: e['userFollowingsNum'],
+              unseenCount: e['unseenCount']))
           .toList();
     } catch (e) {
       log(e.toString());

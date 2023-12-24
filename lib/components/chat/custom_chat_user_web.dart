@@ -51,6 +51,7 @@ class _CustomFollowersState extends State<CustomUserChatWeb> {
                 isBlockingMe: false,
                 isMutedByMe: false,
                 isMutingMe: false,
+                unseenCount: 0,
                 lastMessage: null);
             BlocProvider.of<ChatWebCubit>(context).loadingConversation();
             Future.delayed(const Duration(milliseconds: 100), () {

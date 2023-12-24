@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/block_user_cubit/block_user_cubit.dart';
+import 'package:tweaxy/cubits/get_conversations_cubit/get_conversations_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
@@ -73,6 +74,9 @@ class TweaXy extends StatelessWidget {
           BlocProvider(
             create: (context) => UpdateUsernameCubit(),
           ),
+          BlocProvider(
+            create: (context) => GetConversationsCubit(),
+          ),
         ],
         child: MaterialApp(
           navigatorKey: navigatorKey,
@@ -104,8 +108,7 @@ class TweaXy extends StatelessWidget {
                 ),
             kSearchScreen: (context) => SearchScreen(),
             kFollowers: (context) => FollowersPage(username: ''),
-            kwebboth: (context) => WebFollowersAndFollowings(
-                username: 'karim.elsayed401_67616122'),
+    
             kFollowing: (context) =>
                 FollowingPage(username: 'karim.elsayed401_67616122'),
             kLikersInTweets: (context) =>

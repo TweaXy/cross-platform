@@ -13,6 +13,7 @@ class ConversationModel {
   int? userFollowersNum;
   int? userFollowingsNum;
   LastMessage? lastMessage;
+  int unseenCount;
   ConversationModel({
     required this.conversationID,
     required this.userID,
@@ -24,6 +25,7 @@ class ConversationModel {
     required this.isBlockingMe,
     required this.isMutedByMe,
     required this.isMutingMe,
+    required this.unseenCount,
     this.userFollowersNum,
     this.userFollowingsNum,
   });

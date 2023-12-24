@@ -9,6 +9,8 @@ import 'package:socket_io_client/socket_io_client.dart' as ioo;
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/chat_web_cubit/chat_web_cubit.dart';
 import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/services/chat_room_service.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:get/get.dart';
@@ -181,11 +183,23 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
             elevation: 0,
             leading: Padding(
               padding: const EdgeInsets.only(left: 8.0),
-              child: CircleAvatar(
-                radius: 5,
-                backgroundColor: Colors.blueGrey[300],
-                backgroundImage:
-                    CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+              child: BlocBuilder<SidebarCubit, SidebarState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<SidebarCubit>(context).openProfile(
+                        widget.id,
+                        "Following",
+                      );
+                    },
+                    child: CircleAvatar(
+                      radius: 5,
+                      backgroundColor: Colors.blueGrey[300],
+                      backgroundImage: CachedNetworkImageProvider(
+                          basePhotosURL + widget.avatar!),
+                    ),
+                  );
+                },
               ),
             ),
             title: Text(widget.name),
@@ -200,52 +214,52 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               if (isLastPage && !widget.isFirstMsg)
-                GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) => ProfileScreen(
-                    //             id: widget.id,
-                    //             text: "",
-                    //           )),
-                    // );
+                BlocBuilder<SidebarCubit, SidebarState>(
+                  builder: (context, state) {
+                    return GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        BlocProvider.of<SidebarCubit>(context).openProfile(
+                          widget.id,
+                          "Following",
+                        );
+                      },
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.blueGrey[300],
+                              backgroundImage: CachedNetworkImageProvider(
+                                  basePhotosURL + widget.avatar!),
+                            ),
+                          ),
+                          Text(
+                            widget.name,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5.0),
+                            child: Text(
+                              "@${widget.username}",
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              "Followers: ${widget.userFollowersNum} . Followings: ${widget.userFollowingsNum} ",
+                              style: TextStyle(color: Colors.grey.shade600),
+                            ),
+                          ),
+                          const Divider(),
+                        ],
+                      ),
+                    );
                   },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.blueGrey[300],
-                          backgroundImage: CachedNetworkImageProvider(
-                              basePhotosURL + widget.avatar!),
-                        ),
-                      ),
-                      Text(
-                        widget.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5.0),
-                        child: Text(
-                          "@${widget.username}",
-                          style: TextStyle(color: Colors.grey.shade600),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5.0),
-                        child: Text(
-                          "Followers: ${widget.userFollowersNum} . Followings: ${widget.userFollowingsNum} ",
-                          style: TextStyle(color: Colors.grey.shade600),
-                        ),
-                      ),
-                      const Divider(),
-                    ],
-                  ),
                 ),
               Expanded(
                 child: Obx(
@@ -273,8 +287,9 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
                       enableTextField: !widget.block,
                       enablePagination: true,
                       enableOtherUserProfileAvatar: false,
-                      lastSeenAgoBuilderVisibility: true,
-                      receiptsBuilderVisibility: true,
+                      enableSwipeToReply: false,
+                      receiptsBuilderVisibility: false,
+                      enableSwipeToSeeTime: true,
                     ),
                     chatViewState: chatViewState.value,
                     chatViewStateConfig: ChatViewStateConfiguration(
@@ -292,14 +307,13 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
                       backgroundColor: Colors.white,
                     ),
                     sendMessageConfig: SendMessageConfiguration(
-                      textFieldBackgroundColor: Colors.grey[300],
-                      imagePickerIconsConfig: ImagePickerIconsConfiguration(
-                        cameraIconColor: Colors.grey[600],
-                        galleryIconColor: Colors.grey[600],
+                      textFieldBackgroundColor: const Color(0xFFeff3f4),
+                      imagePickerIconsConfig:
+                          const ImagePickerIconsConfiguration(
+                        cameraIconColor: Colors.black,
+                        galleryIconColor: Colors.black,
                       ),
-                      replyMessageColor: Colors.black,
-                      defaultSendButtonColor: Colors.grey[600],
-                      replyDialogColor: Colors.grey[300],
+                      defaultSendButtonColor: Colors.blue,
                       closeIconColor: Colors.black,
                       textFieldConfig: TextFieldConfiguration(
                         hintText: "Start a message",
@@ -308,15 +322,6 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
                         },
                         compositionThresholdTime: const Duration(seconds: 1),
                         textStyle: const TextStyle(color: Colors.black),
-                      ),
-                      voiceRecordingConfiguration: VoiceRecordingConfiguration(
-                        backgroundColor: Colors.black,
-                        recorderIconColor: Colors.grey[600],
-                        waveStyle: const WaveStyle(
-                          showMiddleLine: false,
-                          waveColor: Colors.white,
-                          extendWaveform: true,
-                        ),
                       ),
                     ),
                     chatBubbleConfig: ChatBubbleConfiguration(
@@ -350,18 +355,6 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
                       imageMessageConfig: ImageMessageConfiguration(
                         margin:
                             EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-                      ),
-                    ),
-                    repliedMessageConfig: RepliedMessageConfiguration(
-                      repliedMsgAutoScrollConfig: RepliedMsgAutoScrollConfig(
-                        enableHighlightRepliedMsg: true,
-                        highlightColor: Colors.pinkAccent.shade100,
-                        highlightScale: 1.1,
-                      ),
-                      textStyle: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 0.25,
                       ),
                     ),
                   ),
