@@ -33,7 +33,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CustomdataDisplay(
-                  key: const ValueKey("username_update_button"),
+                  key: const ValueKey(SettingsKeys.usernameButton),
                   onpress: () {
                     Navigator.push(
                         context,
