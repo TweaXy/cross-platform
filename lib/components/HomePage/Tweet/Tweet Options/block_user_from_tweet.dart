@@ -9,11 +9,11 @@ class BlockUserTweet extends StatelessWidget {
       required this.userHandle,
       required this.tweetid,
       required this.isUserBlocked,
-      required this.parentid});
+      required this.userid});
   final String userHandle;
   final String tweetid;
   final bool isUserBlocked;
-  final String parentid;
+  final String userid;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class BlockUserTweet extends StatelessWidget {
             builder: (context) => BlockUserDialog(username: userHandle),
           );
           BlocProvider.of<TweetsUpdateCubit>(context)
-              .blockUser(tweetid, parentid);
+              .blockUser( userid);
         }
       },
       leading: Icon(

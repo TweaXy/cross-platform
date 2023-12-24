@@ -32,24 +32,19 @@ class TweetDeleteState extends TweetUpdateState {
 }
 
 class TweetUserBlocked extends TweetUpdateState {
-  final String tweetid;
-  final String tweetparentid;
+  final String userid;
 
-
-  TweetUserBlocked({required this.tweetparentid,required this.tweetid});
+  TweetUserBlocked({required this.userid});
 }
 class TweetUserMuted extends TweetUpdateState {
-  final String tweetid;
-  final String tweetparentid;
+  final String userid;
 
-  TweetUserMuted({required this.tweetparentid, required this.tweetid});
+  TweetUserMuted({required this.userid});
 }
 class TweetUserUnfollowed extends TweetUpdateState {
-  final String tweetid;
-  final String tweetparentid;
+  final String userid;
 
-
-  TweetUserUnfollowed({required this.tweetparentid,required this.tweetid});
+  TweetUserUnfollowed({required this.userid});
 }
 
 class TweetDeleteInReplyState extends TweetUpdateState {}
@@ -72,9 +67,6 @@ class TweetDeleteRetweetState extends TweetUpdateState {
 }
 class ViewTweetforMuteorBlock extends TweetUpdateState {
   final String id;
-  ViewTweetforMuteorBlock(this.id,);
 
-
-
+  ViewTweetforMuteorBlock({required this.id});
 }
-

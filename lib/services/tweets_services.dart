@@ -159,19 +159,23 @@ class TweetsServices {
           ? res.data['data']['parent']['mainInteraction']['user']['avatar']
           : 'b631858bdaafa77258b9ed2f7c689bdb.png',
       image: res.data['data']['parent']['mainInteraction']['media'] != null
-          ? res.data['data']['parent']['mainInteraction']['media'].toList()
+          ? getImageList(
+              res.data['data']['parent']['mainInteraction']['media'].toList())
           : null,
       userName: res.data['data']['parent']['mainInteraction']['user']['name'],
-      userHandle: res.data['data']['parent']['mainInteraction']['user']['username'],
-      time: dateFormatter(res.data['data']['parent']['mainInteraction']['createdDate']),
+      userHandle: res.data['data']['parent']['mainInteraction']['user']
+          ['username'],
+      time: dateFormatter(
+          res.data['data']['parent']['mainInteraction']['createdDate']),
       tweetText: res.data['data']['parent']['mainInteraction']['text'],
-      isUserLiked: intToBool(
-          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserLiked']),
-      isUserRetweeted: intToBool(
-          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserRetweeted']),
-      isUserCommented: intToBool(
-          res.data['data']['parent']['mainInteraction']['isUserInteract']['isUserCommented']),
-      createdDate: calculateTime(res.data['data']['parent']['mainInteraction']['createdDate']),
+      isUserLiked: intToBool(res.data['data']['parent']['mainInteraction']
+          ['isUserInteract']['isUserLiked']),
+      isUserRetweeted: intToBool(res.data['data']['parent']['mainInteraction']
+          ['isUserInteract']['isUserRetweeted']),
+      isUserCommented: intToBool(res.data['data']['parent']['mainInteraction']
+          ['isUserInteract']['isUserCommented']),
+      createdDate: calculateTime(
+          res.data['data']['parent']['mainInteraction']['createdDate']),
       isretweet:
           res.data['data']['parent']['mainInteraction']['type'] != "RETWEET"
               ? false

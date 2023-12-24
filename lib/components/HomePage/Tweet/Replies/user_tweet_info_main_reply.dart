@@ -8,11 +8,14 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/views/loading_screen.dart';
+import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class UserTweetInfoReply extends StatefulWidget {
   const UserTweetInfoReply(
@@ -36,7 +39,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
     return BlocProvider(
       create: (context) => EditProfileCubit(),
       child: FutureBuilder(
-          future: TweetsServices.isFollowed(widget.tweet.userId),
+          future: GetUserById.instance.getUserById(widget.tweet.userId),
           builder: (context, snapshot) {
             if (!isFutureComplete) {
               // The future is not complete, show loading or an empty container
@@ -50,14 +53,19 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                 child: CircularProgressIndicator(),
               );
             else {
-              List<bool> isfollowed = snapshot.data!;
+              User user = snapshot.data!;
+              String text = user.followedByMe!
+                  ? 'Following'
+                  : user.followsme!
+                      ? 'Follow back'
+                      : 'Follow';
 
-              String text = isfollowed[0]
-                  ? "Following"
-                  : isfollowed[1]
-                      ? "Follow Back"
-                      : "Follow";
-              print('llll' + isfollowed.toString());
+              // String text = isfollowed[0]
+              //     ? "Following"
+              //     : isfollowed[1]
+              //         ? "Follow Back"
+              //         : "Follow";
+              // print('llll' + isfollowed.toString());
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,35 +110,12 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                       ),
                       const Spacer(),
                       // if (isfollowed != "Following" || count == 2)
-                      if (!isfollowed[2])
-                        CustomButton(
-                          color: isfollowed[0] ? Colors.white : Colors.black,
-                          text: text,
-                          onPressedCallback: () {
-                            print('tttttt' + snapshot.data.toString());
-
-                            // BlocProvider.of<EditProfileCubit>(context)
-                            //     .emit(ProfilePageLoadingState());
-
-                            setState(() {
-                              if (!isfollowed[0]) {
-                                FollowUser.instance
-                                    .followUser(widget.tweet.userHandle);
-                                isfollowed[0] = true;
-                                text = "Following";
-                              } else {
-                                FollowUser.instance
-                                    .deleteUser(widget.tweet.userHandle);
-                                isfollowed[0] = false;
-                                text = isfollowed[1] ? "Follow Back" : "Follow";
-                              }
-                            });
-                            // BlocProvider.of<UpdateAllCubit>(context)
-                            //     .emit(LoadingStata());
-                            // BlocProvider.of<EditProfileCubit>(context)
-                            //     .emit(ProfilePageCompletedState());
-                          },
-                          initialEnabled: true,
+                      if (TempUser.id != user.id)
+                        FollowEditButton(
+                          text: user.blockedByMe! ? 'Blocked' : text,
+                          user: user,
+                          key: const ValueKey('followEditButton'),
+                          forProfile: false,
                         ),
                       IconButton(
                         key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),

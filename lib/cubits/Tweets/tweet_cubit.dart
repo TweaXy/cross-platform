@@ -49,20 +49,18 @@ class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
     emit(TweetDeleteRetweetState(userid, id, isretweet, parentid));
   }
 
-  void blockUser(String id,String parentid){
-    emit(TweetUserBlocked(tweetid: id, tweetparentid: parentid));
+  void blockUser(String userid) {
+    emit(TweetUserBlocked(userid: userid));
   }
 
-  void muteUser(String id,String parentid) {
-    emit(TweetUserMuted(tweetid: id, tweetparentid: parentid));
+  void muteUser(String userid) {
+    emit(TweetUserMuted(userid: userid));
   }
 
-  void unfollowUser(String id,String parentid) {
-    emit(TweetUserUnfollowed(tweetid: id, tweetparentid: parentid));
+  void unfollowUser(String userid) {
+    emit(TweetUserUnfollowed(userid: userid));
   }
-  void showTweet(String id)
-  {
-    emit(ViewTweetforMuteorBlock(id));
-
+  void showTweet(String id) {
+    emit(ViewTweetforMuteorBlock(id: id));
   }
 }

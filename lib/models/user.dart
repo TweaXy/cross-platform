@@ -17,9 +17,11 @@ class User {
   bool? blockedByMe;
   bool? blockedMe;
   bool? followedByMe;
+  bool? followsme;
   bool? muted;
   int? followers;
   int? following;
+
   User({
     this.id,
     this.userName,
@@ -38,7 +40,7 @@ class User {
     this.blockedByMe,
     this.blockedMe,
     this.muted,
-    this.followedByMe,
+    this.followedByMe,this.followsme,
   });
   @override
   bool operator ==(Object other) => other is User && other.name == name;
@@ -90,6 +92,7 @@ class User {
       blockedMe: map['blocksMe'],
       muted: map['mutedByMe'],
       followedByMe: map['followedByMe'],
+      followsme:map['followsMe']
     );
   }
 

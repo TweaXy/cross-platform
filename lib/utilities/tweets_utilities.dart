@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
 
-List<String>? _getImageList(dynamic image) {
+List<String>? getImageList(dynamic image) {
   if (image == null) {
     return null;
   } else if (image is String) {
@@ -33,7 +33,7 @@ List<Tweet> initializeTweets(List<Map<String, dynamic>> temp) {
   List<Tweet> t = temp
       .map((e) => Tweet(
           id: e['id']!,
-          image: _getImageList(e['image']),
+          image: getImageList(e['image']),
           userImage: e['userImage']!,
           userHandle: e['userHandle']!,
           userName: e['userName']!,
@@ -122,7 +122,7 @@ List<Map<String, dynamic>> mapToList(Response res,
     {bool isforreply = false, bool isformaintweetreply = false}) {
   List<dynamic> t = [];
   if (isformaintweetreply)
-    t = res.data['data']['parent'] as  List<dynamic>;
+    t = res.data['data']['parent'] as List<dynamic>;
   else
     t = isforreply
         ? res.data['data']['interactions']
@@ -215,10 +215,10 @@ void updateStatesforTweet(state, context, PagingController pagingController,
           state is TweetUserMuted ||
           state is TweetUserUnfollowed) &&
       isforHome) {
-    pagingController.itemList!.removeWhere((element) =>
-        element.id == state.tweetid ||
-        element.id == state.tweetparentid ||
-        element.parentid == state.tweetid);
+    pagingController.itemList!.removeWhere((element) {
+      print(element.userId.toString() + ' ' + state.userid.toString());
+      return element.userId == state.userid;
+    });
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is ViewTweetforMuteorBlock) {
@@ -273,21 +273,23 @@ void updateStatesforTweet(state, context, PagingController pagingController,
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteRetweetState) {
-    if (state.reposteruserid == TempUser.id && state.isretweet) {
-      pagingController.itemList!
-          .removeWhere((element) => element.id == state.id);
-    } else {
-      pagingController.itemList!.map((element) {
-        if (element.id == state.id ||
-            element.id == state.parentid ||
-            element.parentid == state.id) {
-          element.isUserRetweeted = !element.isUserRetweeted;
-          element.retweetsCount--;
-        }
+    pagingController.itemList!.map((element) {
+      if (element.id == state.id ||
+          element.id == state.parentid ||
+          element.parentid == state.id) {
+        element.isUserRetweeted = !element.isUserRetweeted;
+        element.retweetsCount--;
+      }
 
-        return element;
-      }).toList();
+      return element;
+    }).toList();
+    if (state.reposteruserid == TempUser.id) {
+      pagingController.itemList!.removeWhere((element) =>
+          (element.parentid == state.id ||
+              element.parentid == state.parentid) &&
+          element.isretweet);
     }
+
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
 }

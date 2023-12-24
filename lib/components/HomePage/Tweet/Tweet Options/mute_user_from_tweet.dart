@@ -11,10 +11,10 @@ class MuteUserTweet extends StatelessWidget {
       {super.key,
       required this.tweetid,
       required this.userHandle,
-      required this.isMuted, required this.parentid});
+      required this.isMuted, required this.userid});
   final String tweetid;
   final String userHandle;
-  final String parentid;
+  final String userid;
 
   bool isMuted;
   @override
@@ -34,7 +34,7 @@ class MuteUserTweet extends StatelessWidget {
               mainContext: context,
               userName: userHandle,
             ).show(context);
-            BlocProvider.of<TweetsUpdateCubit>(context).muteUser(tweetid,parentid);
+            BlocProvider.of<TweetsUpdateCubit>(context).muteUser(userid);
           } else {
             muteAnimatedSnackBar(failure: true, muteFlag: false).show(context);
           }

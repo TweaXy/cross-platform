@@ -147,19 +147,19 @@ class User_TweetInfo extends StatelessWidget {
                               FollowUserTweet(
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
-                                parentid: tweet.parentid,
+                                userid: tweet.userId,
                               ),
                               MuteUserTweet(
                                 tweetid: tweet.id,
                                 userHandle: tweet.userHandle,
                                 isMuted: isMuted,
-                                parentid: tweet.parentid,
+                                userid: tweet.userId,
                               ),
                               BlockUserTweet(
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
                                 isUserBlocked: isUserBlocked,
-                                parentid: tweet.parentid,
+                                userid: tweet.userId,
                               )
                             ],
                           );

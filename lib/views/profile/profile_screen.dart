@@ -262,7 +262,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                   : FollowEditButton(
                       text: _isUserBlocked ? 'Blocked' : text,
                       user: user,
-                      key: const ValueKey('followEditButton'),
+                      key: const ValueKey('followEditButton'), forProfile: true,
                     ),
             ],
           ),
@@ -357,9 +357,7 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                             ],
                             onSelected: (value) async {
                               if (value == 0) {
-                                
                                 if (!_isMuted) {
-                                  
                                   var flag = await MuteUserService.mute(
                                       username: user.userName!);
                                   if (flag) {
@@ -553,11 +551,12 @@ class FollowEditButton extends StatefulWidget {
     super.key,
     required this.text,
     required this.user,
+    required this.forProfile,
   });
 
   final String text;
   final User user;
-
+  final bool forProfile;
   @override
   State<FollowEditButton> createState() => _FollowEditButtonState();
 }
@@ -571,7 +570,7 @@ class _FollowEditButtonState extends State<FollowEditButton> {
       create: (context) => UpdateAllCubit(),
       child: Row(
         children: [
-          text == 'Following'
+          text == 'Following' && widget.forProfile
               ? Padding(
                   padding: const EdgeInsets.only(right: 16),
                   child: ProfileIconButton(
@@ -803,7 +802,6 @@ class _BlockUserDialogState extends State<BlockUserDialog> {
                     _isLoading = true;
                   });
                   if (flag) {
-
                     Fluttertoast.showToast(
                       msg: 'You Blocked @${widget.username}',
                       backgroundColor: Colors.black,
