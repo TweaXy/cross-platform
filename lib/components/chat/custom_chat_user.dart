@@ -1,15 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/user_chat.dart';
-import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';
-import 'package:tweaxy/views/profile/profile_screen.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/views/chat/web/chat_room_web.dart';
 
 class CustomUserChat extends StatefulWidget {
   CustomUserChat({super.key, required this.user});
@@ -45,7 +41,17 @@ class _CustomFollowersState extends State<CustomUserChat> {
         Navigator.push(
             context,
             CustomPageRoute(
-                direction: AxisDirection.left, child:  ChatRoom(id:widget.user.id,avatar:widget.user.avatar,username: widget.user.username,)));
+                direction: AxisDirection.left,
+                child: ChatRoom(
+                  conversationID: "",
+                  isFirstMsg: true,
+                  id: widget.user.id,
+                  avatar: widget.user.avatar,
+                  username: widget.user.username,
+                  name: widget.user.name,
+                  block: false,
+
+                ),),);
       },
       child: SizedBox(
         width: double.infinity,
@@ -63,11 +69,10 @@ class _CustomFollowersState extends State<CustomUserChat> {
                     padding: const EdgeInsets.only(left: 0),
                     child: CircleAvatar(
                       radius: 25,
-                      backgroundImage: CachedNetworkImageProvider(widget
-                                  .user.avatar ==
-                              null
-                          ? "https://www.gstatic.com/webp/gallery2/4.png"
-                          : 'https://tweaxybackend.mywire.org/${widget.user.avatar}'),
+                      backgroundImage: CachedNetworkImageProvider(
+                          widget.user.avatar == null
+                              ? kDefaultAvatarPhoto
+                              : '$basePhotosURL${widget.user.avatar}'),
                     ),
                   ),
                   Padding(

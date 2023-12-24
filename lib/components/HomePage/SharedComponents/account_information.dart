@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:intl/intl.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/views/followersAndFollowing/followers.dart';
 import 'package:tweaxy/views/followersAndFollowing/following.dart';
 import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
@@ -102,6 +105,7 @@ class AccountInformation extends StatelessWidget {
           blockedMe
               ? const SizedBox()
               : FollowingAndFollowersBar(
+                name: profileName,
                   following: following,
                   followers: followers,
                   username: userName,
@@ -148,11 +152,12 @@ class FollowingAndFollowersBar extends StatefulWidget {
       {super.key,
       required this.following,
       required this.followers,
-      required this.username});
+      required this.username, required this.name});
 
   final int following;
   final int followers;
   final String username;
+  final String name;
 
   @override
   State<FollowingAndFollowersBar> createState() =>
@@ -173,7 +178,7 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
                   context,
                   MaterialPageRoute(
                     builder: (context) =>
-                        WebFollowersAndFollowings(username: widget.username),
+                        WebFollowersAndFollowings(username: widget.username,name: widget.name,),
                   ),
                 );
               } else {
@@ -207,45 +212,46 @@ class _FollowingAndFollowersBarState extends State<FollowingAndFollowersBar> {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () {
-              if (kIsWeb) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        WebFollowersAndFollowings(username: widget.username),
-                  ),
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        FollowersPage(username: widget.username),
-                  ),
-                );
-              }
+          BlocBuilder<SidebarCubit, SidebarState>(
+            builder: (context, state) {
+              return GestureDetector(
+                onTap: () {
+                  if (kIsWeb) {
+                    BlocProvider.of<SidebarCubit>(context)
+                        .openFollowers(username:widget.username,
+                        name: widget.name);
+                   
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            FollowersPage(username: widget.username),
+                      ),
+                    );
+                  }
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      NumberFormat.compact().format(widget.followers),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 17,
+                      ),
+                    ),
+                    Text(
+                      ' Followers',
+                      style: TextStyle(
+                        // fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey[700],
+                        fontSize: 15,
+                      ),
+                    ),
+                  ],
+                ),
+              );
             },
-            child: Row(
-              children: [
-                Text(
-                  NumberFormat.compact().format(widget.followers),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    fontSize: 17,
-                  ),
-                ),
-                Text(
-                  ' Followers',
-                  style: TextStyle(
-                    // fontWeight: FontWeight.bold,
-                    color: Colors.blueGrey[700],
-                    fontSize: 15,
-                  ),
-                ),
-              ],
-            ),
           ),
         ],
       ),

@@ -4,8 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/custom_followers.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
@@ -14,9 +12,11 @@ import 'package:tweaxy/views/loading_screen.dart';
 
 // ignore: must_be_immutable
 class WebFollowersAndFollowings extends StatefulWidget {
-  WebFollowersAndFollowings({Key? key, required this.username})
+  WebFollowersAndFollowings(
+      {Key? key, required this.username, required this.name})
       : super(key: key);
   String username;
+  String name;
   @override
   State<WebFollowersAndFollowings> createState() =>
       _WebFollowersAndFollowingsState();
@@ -91,13 +91,13 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
       print(newItems);
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
-        _pagingController1.appendLastPage(newItems);
+        _pagingController2.appendLastPage(newItems);
       } else {
         final nextPageKey = pageKey + newItems.length;
-        _pagingController1.appendPage(newItems, nextPageKey);
+        _pagingController2.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController1.error = error;
+      _pagingController2.error = error;
     }
   }
 
@@ -129,19 +129,19 @@ class _WebFollowersAndFollowingsState extends State<WebFollowersAndFollowings>
                   Navigator.pop(context);
                 },
               ),
-              title: const Column(
+              title: Column(
                 children: [
                   Text(
-                    'KareemKaokab',
-                    style: TextStyle(
+                    widget.name,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
                       fontSize: 20,
                     ),
                   ),
                   Text(
-                    '@KareemKaokab',
-                    style: TextStyle(
+                    "@${widget.username}",
+                    style: const TextStyle(
                       color: Color(0xffADB5BC),
                       fontWeight: FontWeight.w400,
                       fontSize: 18,

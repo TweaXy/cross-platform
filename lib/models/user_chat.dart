@@ -1,6 +1,6 @@
 class UserChat {
   String id;
-  String? name = 'hassan';
+  String name;
   String? email;
   String username;
   String? avatar;
@@ -9,13 +9,15 @@ class UserChat {
       this.email,
       required this.username,
       this.avatar,
-      this.name});
+      required this.name});
   factory UserChat.fromJson(dynamic data) {
     var jsonData = data;
     return UserChat(
       id: jsonData['id'],
       username: jsonData['username'],
       email: jsonData['email'],
+      avatar: jsonData['avatar'],
+      name: jsonData['name'],
     );
   }
   factory UserChat.fromJsonSearch(dynamic data, int i) {
@@ -23,6 +25,8 @@ class UserChat {
     return UserChat(
       id: jsonData['id'],
       username: jsonData['username'],
+      email: jsonData['email'],
+      avatar: jsonData['avatar'],
       name: jsonData['name'],
     );
   }
