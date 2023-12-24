@@ -11,7 +11,7 @@ import 'package:tweaxy/components/review_input_text_field.dart';
 import 'package:tweaxy/models/user_signup.dart';
 import 'package:tweaxy/services/signup_service.dart';
 import 'package:tweaxy/utilities/theme_validations.dart';
-import 'package:tweaxy/views/signup/web/varification_code_web_view.dart';
+import 'package:tweaxy/views/signup/web/authentication_web_view.dart';
 
 class CreateAccountDataReviewWebView extends StatefulWidget {
   const CreateAccountDataReviewWebView({
@@ -115,8 +115,8 @@ class _CreateAccountDataReviewWebViewState
                       } else if (mounted) {
                         showDialog(
                           context: context,
-                          builder: (context) => const VarificationCodeWebView(),
-                          barrierColor: Colors.transparent,
+                          builder: (context) =>  const AuthenticationWebView(),
+                          barrierColor: const Color.fromARGB(100, 97, 119, 129),
                           barrierDismissible: false,
                         );
                       }

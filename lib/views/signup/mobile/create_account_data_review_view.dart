@@ -110,7 +110,6 @@ class _CreateAccountDataReviewState extends State<CreateAccountDataReview> {
                         duration: const Duration(seconds: 2),
                       );
                     } else if (mounted) {
-                      //TODO go to home page
                       Navigator.push(
                           context,
                           CustomPageRoute(

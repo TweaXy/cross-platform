@@ -59,7 +59,7 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
             children: [
               const CustomAppbarWeb(
                 key: ValueKey("CreateAccountWebAppbar"),
-                pageNumber: "4",
+                pageNumber: "5",
                 icon: null,
               ),
               SizedBox(
@@ -128,7 +128,8 @@ class _AddPasswordWebViewState extends State<AddPasswordWebView> {
                                 context: context,
                                 builder: (context) =>
                                     const AddProfilePictureWebView(),
-                                barrierColor: Colors.transparent,
+                                 barrierColor:
+                                    const Color.fromARGB(100, 97, 119, 129),
                                 barrierDismissible: false,
                               );
                             }

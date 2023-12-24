@@ -119,7 +119,7 @@ class _NewEmailDailogState extends State<NewEmailDailog> {
                         showDialog(
                       context: context,
                       builder: (context) =>  VarificationCodeWeb(email: emailController.text,),
-                      barrierColor: Colors.transparent,
+                      barrierColor: const Color.fromARGB(100, 97, 119, 129),
                       barrierDismissible: false,
                     );
                       }

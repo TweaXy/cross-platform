@@ -16,7 +16,6 @@ import 'package:tweaxy/views/settings/settings_view.dart';
 import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 import 'package:tweaxy/views/settings/update_password_view.dart';
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
-import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
 import 'package:tweaxy/views/signup/mobile/create_account_data_review_view.dart';
@@ -108,13 +107,13 @@ class TweaXy extends StatelessWidget {
                 ),
             kSearchScreen: (context) => SearchScreen(),
             kFollowers: (context) => FollowersPage(username: ''),
-    
+
             kFollowing: (context) =>
                 FollowingPage(username: 'karim.elsayed401_67616122'),
             kLikersInTweets: (context) =>
                 LikersInTweet(id: 'sfr1ztrbdopvclujg0boys62a'),
             kAccountinfo: (context) => const AccountIfoView(),
-            kSettingsAndPrivacy: (context) =>  SettingsAndPrivacyView(),
+            kSettingsAndPrivacy: (context) => SettingsAndPrivacyView(),
             kSettings: (context) => const SettingsView(),
             kPrivacySafetySettings: (context) =>
                 const SettingsPrivacySafetyScreen(),

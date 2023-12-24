@@ -15,7 +15,7 @@ class CustomAppbarWeb extends StatelessWidget {
         children: [
           icon ?? const SizedBox(),
           Text(
-            pageNumber == null ? "" : "Step $pageNumber of 4",
+            pageNumber == null ? "" : "Step $pageNumber of 5",
             textAlign: TextAlign.left,
             style: TextStyle(
                 color: forgroundColorTheme(context),
