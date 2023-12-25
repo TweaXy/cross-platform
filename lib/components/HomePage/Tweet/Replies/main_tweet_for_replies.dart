@@ -130,7 +130,7 @@ class MainTweetReplies extends StatelessWidget {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 15.0, left: 7, bottom: 10),
+                        const EdgeInsets.only(top: 5.0, left: 7, bottom: 10),
                     child: Row(
                       children: [
                         TextReplyInfo(count: '', text: tweet.createdDate[0]),
