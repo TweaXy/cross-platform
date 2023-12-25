@@ -83,7 +83,7 @@ class MainTweetReplies extends StatelessWidget {
                                 Container(
                                     padding: EdgeInsets.symmetric(vertical: 5),
                                     margin: const EdgeInsets.only(
-                                        left: 2, right: 2, bottom: 5),
+                                        left: 2, right: 2, bottom: 3),
                                     child: RichText(
                                         text: TextSpan(
                                       style: const TextStyle(
