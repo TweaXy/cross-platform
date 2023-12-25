@@ -75,6 +75,30 @@ class _MyPageState extends State<RepliesList> {
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate(
                 animateTransitions: true,
+                noItemsFoundIndicatorBuilder: (context) {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "No replies found\n",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            "List is currently empty",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromRGBO(121, 119, 119, 1)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
                 itemBuilder: (context, item, index) {
                   return Padding(
                     padding: EdgeInsets.only(
