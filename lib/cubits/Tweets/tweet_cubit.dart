@@ -4,9 +4,9 @@ import 'package:tweaxy/models/tweet.dart';
 
 class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   TweetsUpdateCubit() : super(TweetInitialState());
-  void deleteTweet({required String tweetid}) {
+  void deleteTweet({required String tweetid,required String parentid}) {
     print('deleted');
-    emit(TweetDeleteState(tweetid: tweetid));
+    emit(TweetDeleteState(tweetid: tweetid, parentid: parentid));
   }
 
   void addTweet() {

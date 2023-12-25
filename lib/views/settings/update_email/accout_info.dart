@@ -1,5 +1,9 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/services/logout_service.dart';
 import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/update_email/password_varification_view.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
@@ -61,12 +65,25 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                   title: "Log out",
                   subtitle: "",
                   onpress: () async {
-                    SharedPreferences preferences =
+                   
+                    dynamic response = await LOGOUT(Dio()).logOutDevice();
+                    if (response is String) {
+                      showToastWidget(
+                        CustomToast(
+                          message: response.toString(),
+                        ),
+                        position: ToastPosition.bottom,
+                        duration: const Duration(seconds: 2),
+                      );
+                    } else {
+                       SharedPreferences preferences =
                         await SharedPreferences.getInstance();
                     await preferences.clear();
-                    if (mounted) {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      Navigator.pushReplacementNamed(context, kSplashScreen);
+                      if (mounted) {
+
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.pushReplacementNamed(context, kSplashScreen);
+                      }
                     }
                     // todo: log out the app and clear shared preference
                   },

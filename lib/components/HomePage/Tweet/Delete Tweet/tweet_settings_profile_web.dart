@@ -4,8 +4,9 @@ import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dia
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class TweetSettingsProfileWeb extends StatelessWidget {
-  const TweetSettingsProfileWeb({super.key, required this.tweetId});
+  const TweetSettingsProfileWeb({super.key, required this.tweetId, required this.parentid});
   final String tweetId;
+  final String parentid;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class TweetSettingsProfileWeb extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return DeleteAlertDialogWeb(
-                    tweetId: tweetId,
+                    tweetId: tweetId, parentid: parentid,
                   );
                 });
           }

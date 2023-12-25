@@ -37,7 +37,7 @@ class InteractionReplyScreen extends StatelessWidget {
           ],
         ),
         LikeButton(
-          key: const ValueKey(TweetKeys.repostInteraction),
+          key: const ValueKey(TweetKeys.repostInteractionRepliesScreen),
           isLiked: tweet.isUserRetweeted,
           bubblesSize: 0,
           bubblesColor: BubblesColor(

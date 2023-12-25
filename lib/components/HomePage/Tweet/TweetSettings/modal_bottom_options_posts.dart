@@ -5,9 +5,10 @@ import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dia
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 
 class ModalBottomProfilePosts extends StatelessWidget {
-  const ModalBottomProfilePosts({super.key, required this.tweetid, required this.forreply});
+  const ModalBottomProfilePosts({super.key, required this.tweetid, required this.forreply, required this.parentid});
   final String tweetid;
   final bool forreply;
+  final String parentid;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class ModalBottomProfilePosts extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return DeleteAlertDialog(
-                    tweetid: tweetid, forreply: forreply,
+                    tweetid: tweetid, forreply: forreply, parentid: parentid,
                   );
                 });
           },

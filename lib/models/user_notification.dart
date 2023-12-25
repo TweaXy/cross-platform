@@ -23,7 +23,7 @@ class UserNotification {
   });
 
   UserNotification.fromJson(Map<String, dynamic> json) {
-    tweetId = json['interaction']['id'];
+    tweetId = json['interaction']==null?'': json['interaction']['id'];
     userName = json['fromUser']['username'];
     userId = json['fromUser']['id'];
     name = json['fromUser']['name'];

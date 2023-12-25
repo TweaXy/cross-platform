@@ -199,10 +199,11 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         tweet: item.interaction == null
                             ? ''
                             : item.interaction!.text ?? '',
-                        followStatus:item.followedByMe!?'Following': 'Follow back',
+                        followStatus:
+                            item.followedByMe! ? 'Following' : 'Follow back',
                         userId: item.userId!,
                         username: item.userName!,
-                        tweetId:item.tweetId!,
+                        tweetId: item.tweetId!,
                       );
                     },
                   ),
@@ -299,14 +300,18 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
   @override
   Widget build(BuildContext context) {
     String text = '';
-    void Function() onPressed = () async{
-
+    void Function() onPressed = () async {
       Navigator.push(
           context,
           CustomPageRoute(
-              child: RepliesScreen(tweetid: widget.tweetId, replyto: [], userHandle: widget.username),
+              child: RepliesScreen(
+                tweetid: widget.tweetId,
+                replyto: [],
+                userHandle: widget.username,
+                isARepost: false,
+                reposteruserName: '',
+              ),
               direction: AxisDirection.left));
-      
     };
     switch (widget.notificationType) {
       case 'like':

@@ -94,11 +94,30 @@ class _MyPageState extends State<HomePageBody> {
                 return PagedSliverList<int, Tweet>(
                   pagingController: _pagingController,
                   builderDelegate: PagedChildBuilderDelegate(
-                    // noItemsFoundIndicatorBuilder: (context) {
-                    //   return const Center(
-                    //     child: Text("No tweets yet"),
-                    //   );
-                    // },
+                    noItemsFoundIndicatorBuilder: (context) {
+                      return const Padding(
+                        padding: EdgeInsets.only(top: 30.0),
+                        child: Column(
+                          children: [
+                            Center(
+                              child: Text(
+                                "No tweets found\n",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                "List is currently empty",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromRGBO(121, 119, 119, 1)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                     animateTransitions: true,
                     itemBuilder: (context, item, index) {
                       return CustomTweet(

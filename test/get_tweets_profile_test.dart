@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/tweets_services.dart';
@@ -12,7 +13,7 @@ void main() {
     test('Test1:  Get Tweets Profile for invalid user id', () async {
       expect(
           await Api.getwithToken(
-              url: '$baseUrl/users/-1/tweets?limit=5&offset=2', token: '5'),
+              url: '${baseURL}users/-1/tweets?limit=5&offset=2', token: '5'),
           "no user found ");
     });
     // test('Test2:  Get Tweets Profile for valid user id and invalid token',

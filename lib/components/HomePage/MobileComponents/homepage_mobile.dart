@@ -90,8 +90,9 @@ class _HomePage2State extends State<HomePageMobile>
               return const Placeholder();
           },
         ),
-        floatingActionButton:
-            _selectedIndex == 3 ? ChatFloatingButton() : const FloatingButton(),
+        floatingActionButton: _selectedIndex == 3
+            ? ChatFloatingButton()
+            : Offstage(offstage: !_isVisible, child: const FloatingButton()),
         bottomNavigationBar: Offstage(
           offstage: !_isVisible,
           child: Container(

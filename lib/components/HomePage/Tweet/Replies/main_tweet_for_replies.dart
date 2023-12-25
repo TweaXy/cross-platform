@@ -6,6 +6,7 @@ import 'package:tweaxy/components/HomePage/Tweet/Replies/interactions.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/text_reply_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/user_tweet_info_main_reply.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
+import 'package:tweaxy/components/HomePage/Tweet/reposted.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/models/tweet.dart';
@@ -17,9 +18,15 @@ import 'package:tweaxy/views/followersAndFollowing/retweeters_in_tweet.dart';
 
 class MainTweetReplies extends StatelessWidget {
   const MainTweetReplies(
-      {super.key, required this.tweetid, required this.replyto});
+      {super.key,
+      required this.tweetid,
+      required this.replyto,
+      required this.isARepost,
+      required this.reposteruserName});
   final String tweetid;
   final List<String> replyto;
+  final bool isARepost;
+  final String reposteruserName;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +58,14 @@ class MainTweetReplies extends StatelessWidget {
               ),
               child: Column(
                 children: [
+                  if (isARepost)
+                    RepostedBy(
+                      userId: tweet.userId,
+                      reposteruserid: tweet.reposteruserid,
+                      reposteruserName: TempUser.name == reposteruserName
+                          ? ' You'
+                          : '  ${reposteruserName}',
+                    ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -83,7 +98,7 @@ class MainTweetReplies extends StatelessWidget {
                                 Container(
                                     padding: EdgeInsets.symmetric(vertical: 5),
                                     margin: const EdgeInsets.only(
-                                        left: 2, right: 2, bottom: 5),
+                                        left: 2, right: 2, bottom: 3),
                                     child: RichText(
                                         text: TextSpan(
                                       style: const TextStyle(
@@ -130,7 +145,7 @@ class MainTweetReplies extends StatelessWidget {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(top: 15.0, left: 7, bottom: 10),
+                        const EdgeInsets.only(top: 5.0, left: 7, bottom: 10),
                     child: Row(
                       children: [
                         TextReplyInfo(count: '', text: tweet.createdDate[0]),

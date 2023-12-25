@@ -114,7 +114,8 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                         FollowEditButton(
                           text: user.blockedByMe! ? 'Blocked' : text,
                           user: user,
-                          key: const ValueKey('followEditButton'),
+                          key: const ValueKey(
+                              TweetKeys.followButtonRepliesScreen),
                           forProfile: false,
                         ),
                       IconButton(
@@ -125,7 +126,12 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                         color: const Color.fromARGB(255, 182, 182, 182),
                         iconSize: 16,
                         onPressed: () {
-                          if (widget.tweet.userId == TempUser.id) {
+                          if (widget.tweet.userId ==
+                                  TempUser
+                                      .id && //my post and not retweet or my post and my retweet
+                              (!widget.tweet.isretweet ||
+                                  widget.tweet.userId ==
+                                      widget.tweet.reposteruserid)) {
                             showModalBottomSheet(
                               showDragHandle: true,
                               useSafeArea: false,
@@ -140,6 +146,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                                 return WrapModalBottomProfile(
                                   tweetid: widget.tweet.id,
                                   forreply: true,
+                                  parentid: widget.tweet.parentid,
                                 );
                               },
                             );

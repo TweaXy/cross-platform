@@ -10,9 +10,10 @@ class DeleteAlertDialog extends StatelessWidget {
   const DeleteAlertDialog(
       {super.key,
       required this.tweetid,
-      required this.forreply,
+      required this.forreply, required this.parentid,
       });
   final String tweetid;
+  final String parentid;
   final bool forreply;
   @override
   Widget build(BuildContext context) {
@@ -55,7 +56,7 @@ class DeleteAlertDialog extends StatelessWidget {
                 duration: const Duration(seconds: 2));
             if (t == "success") {
               BlocProvider.of<TweetsUpdateCubit>(context)
-                  .deleteTweet(tweetid: tweetid);
+                  .deleteTweet(tweetid: tweetid, parentid: parentid);
               if (forreply) Navigator.pop(context);
             }
           },

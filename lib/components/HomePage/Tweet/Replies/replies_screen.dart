@@ -17,10 +17,14 @@ class RepliesScreen extends StatefulWidget {
       {super.key,
       required this.tweetid,
       required this.replyto,
-      required this.userHandle});
+      required this.userHandle,
+      required this.isARepost,
+      required this.reposteruserName});
   final String tweetid;
   final List<String> replyto;
   final String userHandle;
+  final bool isARepost;
+  final String reposteruserName;
 
   @override
   State<RepliesScreen> createState() => _RepliesScreenState();
@@ -80,6 +84,8 @@ class _RepliesScreenState extends State<RepliesScreen> {
                     child: MainTweetReplies(
                   tweetid: widget.tweetid,
                   replyto: widget.replyto,
+                  isARepost: widget.isARepost,
+                  reposteruserName: widget.reposteruserName,
                 )),
                 RepliesList(
                   replyto: replytochild as List<String>,
@@ -89,7 +95,10 @@ class _RepliesScreenState extends State<RepliesScreen> {
             ),
           ),
           bottomSheet: TempUser.username == widget.userHandle
-              ? const SizedBox(width: 0,height: 0,)
+              ? const SizedBox(
+                  width: 0,
+                  height: 0,
+                )
               : Padding(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   child: Column(
@@ -117,7 +126,6 @@ class _RepliesScreenState extends State<RepliesScreen> {
                         ),
                         child: TextFormField(
                           key: const ValueKey(AddReplysKeys.addReplyTextfield),
-                     
                           onTap: () {
                             setState(() {
                               isTapped = true;

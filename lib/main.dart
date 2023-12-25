@@ -5,6 +5,7 @@ import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/cubits/block_user_cubit/block_user_cubit.dart';
 import 'package:tweaxy/cubits/get_conversations_cubit/get_conversations_cubit.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/firebase_options.dart';
@@ -76,6 +77,9 @@ class TweaXy extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => GetConversationsCubit(),
+          ),
+           BlocProvider(
+            create: (context) => SidebarCubit(),
           ),
         ],
         child: MaterialApp(
