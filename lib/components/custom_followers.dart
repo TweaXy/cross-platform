@@ -105,11 +105,10 @@ class _CustomFollowersState extends State<CustomFollowers> {
                     padding: const EdgeInsets.only(left: 0),
                     child: CircleAvatar(
                       radius: 25,
-                      backgroundImage: CachedNetworkImageProvider(widget
-                                  .user.avatar ==
-                              null
-                          ? "https://www.gstatic.com/webp/gallery2/4.png"
-                          : 'https://tweaxybackend.mywire.org/api/v1/images/${widget.user.avatar}'),
+                      backgroundImage: CachedNetworkImageProvider(
+                          widget.user.avatar == null
+                              ? "https://www.gstatic.com/webp/gallery2/4.png"
+                              : '${baseURL}images/${widget.user.avatar}'),
                     ),
                   ),
                   Padding(

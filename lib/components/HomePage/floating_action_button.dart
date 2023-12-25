@@ -12,7 +12,8 @@ class FloatingButton extends StatelessWidget {
     return Theme(
       data: ThemeData(
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-          splashColor: Color.fromARGB(255, 156, 203, 250),
+          backgroundColor: Color.fromARGB(255, 29, 148, 246),
+          splashColor: Color.fromARGB(255, 121, 170, 220),
           highlightElevation: 0,
         ),
       ),
