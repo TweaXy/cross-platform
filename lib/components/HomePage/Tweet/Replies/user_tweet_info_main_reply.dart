@@ -125,7 +125,9 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                         color: const Color.fromARGB(255, 182, 182, 182),
                         iconSize: 16,
                         onPressed: () {
-                          if (widget.tweet.userId == TempUser.id) {
+                          if (widget.tweet.userId == TempUser.id &&
+                              widget.tweet.userId ==
+                                  widget.tweet.reposteruserid) {
                             showModalBottomSheet(
                               showDragHandle: true,
                               useSafeArea: false,
@@ -140,6 +142,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                                 return WrapModalBottomProfile(
                                   tweetid: widget.tweet.id,
                                   forreply: true,
+                                  parentid: widget.tweet.parentid,
                                 );
                               },
                             );

@@ -27,8 +27,9 @@ class TweetLikedState extends TweetUpdateState {
 
 class TweetDeleteState extends TweetUpdateState {
   final String tweetid;
+  final String parentid;
 
-  TweetDeleteState({required this.tweetid});
+  TweetDeleteState({required this.parentid, required this.tweetid});
 }
 
 class TweetUserBlocked extends TweetUpdateState {

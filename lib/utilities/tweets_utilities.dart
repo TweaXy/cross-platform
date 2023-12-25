@@ -216,8 +216,10 @@ void updateStatesforTweet(state, context, PagingController pagingController,
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteState) {
-    pagingController.itemList!
-        .removeWhere((element) => element.id == state.tweetid);
+    pagingController.itemList!.removeWhere((element) =>
+        element.id == state.tweetid ||
+        element.id == state.parentid ||
+        element.parentid == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if ((state is TweetUserBlocked ||
