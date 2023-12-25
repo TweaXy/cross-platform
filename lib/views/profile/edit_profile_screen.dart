@@ -13,6 +13,7 @@ import 'package:tweaxy/components/custom_date_picker_style.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/profile_keys.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -132,6 +133,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 removedAvatar: removedAvatar,
                                 removedBanner: removedBanner,
                                 token: token);
+                        TempUser.userSetData(context);
                         Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
@@ -176,6 +178,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           removedAvatar: removedAvatar,
                           removedBanner: removedBanner,
                           token: token);
+                      TempUser.userSetData(context);
+
                       Navigator.pop(context);
                     },
                     child: const Text(
