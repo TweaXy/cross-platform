@@ -1,24 +1,19 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetsServices {
-  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
   static Future<List<Tweet>> getTweetsHome({required int offset}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
     //down->false
     // print('scroll=' + scroll.position.userScrollDirection.toString());
     Response res = await Api.getwithToken(
-        url: '$baseUrl/home?/limit=10&offset=$offset', token: s);
+        url: '${baseURL}home?/limit=10&offset=$offset', token: s);
 
     if (res is String) {
       // throw Future.error(res);
@@ -39,7 +34,7 @@ class TweetsServices {
     print(s);
     print(tweetid);
     dynamic res =
-        await Api.delete(url: '$baseUrl/interactions/$tweetid', token: s);
+        await Api.delete(url: '${baseURL}interactions/$tweetid', token: s);
     if (res is String)
       return res;
     else
@@ -52,7 +47,7 @@ class TweetsServices {
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '$baseUrl/users/tweets/$id?limit=5&offset=$offset', token: s);
+        url: '${baseURL}users/tweets/$id?limit=5&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
@@ -68,8 +63,7 @@ class TweetsServices {
 
   static Future<List<bool>> isFollowed(String userid) async {
     dynamic result = await Api.getwithToken(
-        token: TempUser.token,
-        url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
+        token: TempUser.token, url: '${baseURL}users/$userid');
     print('resulttt' + result.toString());
     if (result is String) {
       return [];
@@ -91,7 +85,7 @@ class TweetsServices {
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '$baseUrl/trends/$trendname?limit=5&offset=$offset', token: s);
+        url: '${baseURL}trends/$trendname?limit=5&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
@@ -114,7 +108,7 @@ class TweetsServices {
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '$baseUrl/interactions/$id/replies?limit=5&offset=$offset',
+        url: '${baseURL}interactions/$id/replies?limit=5&offset=$offset',
         token: s);
     if (res is String) {
       // throw Future.error(res);
@@ -137,7 +131,7 @@ class TweetsServices {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
     Response res = await Api.getwithToken(
-        url: '$baseUrl/interactions/$id/replies?limit=5&offset=$offset',
+        url: '${baseURL}interactions/$id/replies?limit=5&offset=$offset',
         token: s);
     if (res is String) {
       throw Future.error(res);
@@ -199,7 +193,7 @@ class TweetsServices {
     print(id);
     try {
       var response = await dio.post(
-        '$baseUrl/interactions/$id/retweet',
+        '${baseURL}interactions/$id/retweet',
         options:
             Options(headers: {'Authorization': 'Bearer ${TempUser.token}'}),
       );
@@ -214,7 +208,7 @@ class TweetsServices {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
     dynamic res = await Api.delete(
-        url: '$baseUrl/interactions/retweet/$tweetid', token: s);
+        url: '${baseURL}interactions/retweet/$tweetid', token: s);
     if (res is String)
       return false;
     else

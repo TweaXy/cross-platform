@@ -112,7 +112,11 @@ class User_TweetInfo extends StatelessWidget {
                   color: const Color.fromARGB(255, 182, 182, 182),
                   iconSize: 18,
                   onPressed: () {
-                    if (tweet.userId == TempUser.id) {
+                    if (tweet.userId ==
+                            TempUser
+                                .id && //my post and not retweet or my post and my retweet
+                        (!tweet.isretweet ||
+                            tweet.userId == tweet.reposteruserid)) {
                       showModalBottomSheet(
                         showDragHandle: true,
                         useSafeArea: false,
@@ -127,10 +131,12 @@ class User_TweetInfo extends StatelessWidget {
                           return WrapModalBottomProfile(
                             tweetid: tweet.id,
                             forreply: false,
+                            parentid: tweet.parentid,
                           );
                         },
                       );
-                    } else {
+                    } else if (!tweet.isretweet ||
+                        (tweet.userId != TempUser.id && tweet.isretweet)) {
                       showModalBottomSheet(
                         showDragHandle: true,
                         useSafeArea: false,

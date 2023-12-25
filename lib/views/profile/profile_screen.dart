@@ -113,7 +113,11 @@ class _ProfileScreenState extends State<ProfileScreen>
                       initialized = true;
 
                       if (text != 'Edit Profile') {
-                        text = user.followedByMe! ? 'Following' : 'Follow';
+                        text = user.followedByMe!
+                            ? 'Following'
+                            : user.followsme!
+                                ? 'Follow back'
+                                : 'Follow';
                       }
                     }
                     _isUserBlocked = user.blockedByMe!;
@@ -261,7 +265,8 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
                   : FollowEditButton(
                       text: _isUserBlocked ? 'Blocked' : text,
                       user: user,
-                      key: const ValueKey('followEditButton'), forProfile: true,
+                      key: const ValueKey('followEditButton'),
+                      forProfile: true,
                     ),
             ],
           ),
@@ -594,9 +599,11 @@ class _FollowEditButtonState extends State<FollowEditButton> {
                 });
               } else if (text == 'Following') {
                 //TODO :- Implement the unfollow logic
+                bool s = widget.user.followsme!;
                 await FollowUser.instance.deleteUser(widget.user.userName!);
+
                 setState(() {
-                  text = 'Follow';
+                  text = s ? 'Follow back' : 'Follow';
                 });
               } else if (text == 'Blocked') {
                 showDialog(

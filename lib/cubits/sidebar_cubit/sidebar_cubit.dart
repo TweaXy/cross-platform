@@ -21,6 +21,7 @@ class SidebarCubit extends Cubit<SidebarState> {
         emit(SearchUserLoadingState());
         emit(SidebarProfileState());
         break;
+
       default:
         emit(SidebarSettingsState());
     }
@@ -32,5 +33,9 @@ class SidebarCubit extends Cubit<SidebarState> {
 
   void openExplore() {
     emit(SidebarExploreState());
+  }
+
+  void openFollowers({required String username, required String name}) {
+    emit(FollowingFollowerListState(username,name));
   }
 }

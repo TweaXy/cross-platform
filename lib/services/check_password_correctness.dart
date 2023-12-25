@@ -7,7 +7,6 @@ import 'package:tweaxy/helpers/api.dart';
 
 class CheckPassword {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
   CheckPassword(this.dio);
 
@@ -22,7 +21,7 @@ class CheckPassword {
     }
     try {
       response = await Api.post(
-        url: '${baseUrl}users/checkPassword',
+        url: '${baseURL}users/checkPassword',
         token: token,
         body: {"password": password},
       );

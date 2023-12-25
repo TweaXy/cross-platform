@@ -68,7 +68,7 @@ class User_TweetInfoWeb extends StatelessWidget {
           child: Container(
             child: ( tweet.userId == TempUser.id)
                 ? TweetSettingsProfileWeb(
-                    tweetId: tweet.id,
+                    tweetId: tweet.id, parentid: tweet.parentid,
                   )
                 : IconButton(
                     key: new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),

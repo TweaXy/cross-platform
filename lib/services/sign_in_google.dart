@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 
 class GoogleAPI {
   final dio = Dio();
@@ -46,7 +47,7 @@ class GoogleAPI {
     String token = await signInWithGoogle();
     if (token.length > 0) {
       Response response = await dio.post(
-          'https://tweaxybackend.mywire.org/api/v1/auth/google/android/',
+          '${baseURL}auth/google/android/',
           data: {'token': token});
       SharedPreferences user = await SharedPreferences.getInstance();
       print('kk' + response.data.toString());

@@ -11,6 +11,7 @@ class SidebarNotificationState extends SidebarState {}
 class SidebarMessageState extends SidebarState {}
 
 class SidebarProfileState extends SidebarState {}
+
 class SearchUserLoadingState extends SidebarState {}
 
 class SidebarSettingsState extends SidebarState {}
@@ -21,8 +22,9 @@ class OtherProfileState extends SidebarState {
   OtherProfileState(this.id, this.text);
 }
 
+class FollowingFollowerListState extends SidebarState {
+  final String username;
+  final String name;
 
-
-class FollowingListState extends SidebarState {}
-
-class FollowerListState extends SidebarState {}
+  FollowingFollowerListState(this.username, this.name);
+}

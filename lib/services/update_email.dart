@@ -7,7 +7,6 @@ import 'package:tweaxy/helpers/api.dart';
 
 class UpdateEmail {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
   UpdateEmail(this.dio);
   Future<dynamic> sendEmailCodeVerification(String email) async {
@@ -21,7 +20,7 @@ class UpdateEmail {
     }
     try {
       response = await Api.post(
-        url: '${baseUrl}auth/sendEmailVerification',
+        url: '${baseURL}auth/sendEmailVerification',
         token:token,
         body: {"email": email},
       );
@@ -46,7 +45,7 @@ class UpdateEmail {
 
     try {
       response = await Api.patch(
-        url: '${baseUrl}users/email',
+        url: '${baseURL}users/email',
         token: token,
         body: {"token": code, "email": email},
       );

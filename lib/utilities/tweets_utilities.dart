@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
@@ -20,7 +21,7 @@ List<String>? getImageList(dynamic image) {
 
     // If 'image' is already a List, convert each item to String
     return tmp
-        .map((item) => 'https://tweaxybackend.mywire.org/api/v1/images/$item')
+        .map((item) => '${baseURL}images/$item')
         .toList();
   } else {
     return null;
@@ -95,13 +96,22 @@ String dateFormatter(String date) {
 
 List<String> calculateTime(String fulldate) {
   DateTime dt1 = DateTime.parse(fulldate).toLocal();
-
+  print(fulldate.toString());
+  print('ddd' + dt1.hour.toString());
   String time;
   String date;
-  if (dt1.hour <= 12)
-    time = '${dt1.hour}' + ':' + '${dt1.minute}' + ' ' + 'AM';
+  String min = '';
+
+  if (dt1.minute < 10)
+    min += ':' + '0' + '${dt1.minute}';
   else
-    time = '${dt1.hour - 12}' + ':' + '${dt1.minute}' + ' ' + 'PM';
+    min += ':' + '${dt1.minute}';
+  if (dt1.hour == 0)
+    time = '12' + min + ' ' + 'AM';
+  else if (dt1.hour <= 12)
+    time = '${dt1.hour}' + min + ' ' + 'AM';
+  else
+    time = '${dt1.hour - 12}' + min + ' ' + 'PM';
   if (dt1.day < 10)
     date = '0' +
         '${dt1.day}' +
@@ -207,8 +217,10 @@ void updateStatesforTweet(state, context, PagingController pagingController,
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if (state is TweetDeleteState) {
-    pagingController.itemList!
-        .removeWhere((element) => element.id == state.tweetid);
+    pagingController.itemList!.removeWhere((element) =>
+        element.id == state.tweetid ||
+        element.id == state.parentid ||
+        element.parentid == state.tweetid);
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();
   }
   if ((state is TweetUserBlocked ||

@@ -10,6 +10,7 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_appbar.dart';
 import 'package:tweaxy/components/add_tweet/custom_add_tweet_text_field.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/components/toasts/custom_toast.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/add_tweet_keys.dart';
@@ -194,7 +195,7 @@ class _AddTweetViewState extends State<AddTweetView> {
                     child: CircleAvatar(
                       radius: 21,
                       backgroundImage: CachedNetworkImageProvider(
-                          'https://tweaxybackend.mywire.org/api/v1/images/${TempUser.image}'),
+                          '${baseURL}images/${TempUser.image}'),
                     ),
                   ),
                   Container(

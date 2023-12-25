@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
@@ -21,7 +22,7 @@ class SearchTweetTweets {
     print(token);
     if (username == null) {
       String u =
-          "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=$query&username=&limit=$pageSize&offset=$offset";
+          "${baseURL}tweets/search?keyword=$query&username=&limit=$pageSize&offset=$offset";
       response = await Api.getwithToken(
         url: u,
         token: token,
@@ -29,13 +30,13 @@ class SearchTweetTweets {
     } else if (query == null) {
       response = await Api.getwithToken(
         url:
-            "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=&username=$username&limit=$pageSize&offset=$offset",
+            "${baseURL}tweets/search?keyword=&username=$username&limit=$pageSize&offset=$offset",
         token: token,
       );
     } else {
       response = await Api.getwithToken(
         url:
-            "https://tweaxybackend.mywire.org/api/v1/tweets/search?keyword=$query&username=$username&limit=$pageSize&offset=$offset",
+            "${baseURL}tweets/search?keyword=$query&username=$username&limit=$pageSize&offset=$offset",
         token: token,
       );
     }

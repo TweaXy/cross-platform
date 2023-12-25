@@ -11,4 +11,7 @@ class TweetKeys {
       'like_button_replies_screen';
       static const String deleteTweetRepliesScreen =
       'like_button_replies_screen';
+      static const String followButtonRepliesScreen =
+      'follow_button_replies_screen';
+
 }

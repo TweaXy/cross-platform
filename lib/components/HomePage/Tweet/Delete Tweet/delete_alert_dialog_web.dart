@@ -10,8 +10,9 @@ import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 import 'package:tweaxy/views/homepage.dart';
 
 class DeleteAlertDialogWeb extends StatefulWidget {
-  const DeleteAlertDialogWeb({super.key, required this.tweetId});
+  const DeleteAlertDialogWeb({super.key, required this.tweetId, required this.parentid});
   final String tweetId;
+  final String parentid;
   @override
   State<DeleteAlertDialogWeb> createState() => _DeleteAlertDialogWebState();
 }
@@ -71,7 +72,7 @@ class _DeleteAlertDialogWebState extends State<DeleteAlertDialogWeb> {
                   print("t state" + t.toString());
                   if (t == "success")
                     BlocProvider.of<TweetsUpdateCubit>(context)
-                  .deleteTweet(tweetid: widget.tweetId);
+                  .deleteTweet(tweetid: widget.tweetId, parentid: widget.parentid);
                         
                 },
                 child: const Text('Delete',

@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/user_signup.dart';
 
 class SignupService {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
 
   SignupService(this.dio);
 
@@ -17,7 +17,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.post(
-        url: '${baseUrl}auth/signup',
+        url: '${baseURL}auth/signup',
         token: UserSignup.emailVerificationToken,
         body: {
           "email": UserSignup.email,
@@ -45,7 +45,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.post(
-        url: '${baseUrl}users/checkEmailUniqueness',
+        url: '${baseURL}users/checkEmailUniqueness',
         token: UserSignup.emailVerificationToken,
         body: {"email": email},
       );
@@ -65,7 +65,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.post(
-        url: '${baseUrl}users/checkUsernameUniqueness',
+        url: '${baseURL}users/checkUsernameUniqueness',
         token: UserSignup.emailVerificationToken,
         body: {"username": username},
       );
@@ -85,7 +85,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.post(
-        url: '${baseUrl}auth/sendEmailVerification',
+        url: '${baseURL}auth/sendEmailVerification',
         token: UserSignup.emailVerificationToken,
         body: {"email": UserSignup.email},
       );
@@ -102,7 +102,7 @@ class SignupService {
     dynamic response;
     try {
       response = await Api.get(
-        '${baseUrl}auth/checkEmailVerification/${UserSignup.email}/$code',
+        '${baseURL}auth/checkEmailVerification/${UserSignup.email}/$code',
       );
       log("response $response");
 
@@ -132,7 +132,7 @@ class SignupService {
         ),
       });
       response = await Api.patch(
-        url: '${baseUrl}users',
+        url: '${baseURL}users',
         token: token,
         body: formData,
       );
@@ -156,7 +156,7 @@ class SignupService {
     }
     try {
       response = await Api.patch(
-        url: '${baseUrl}users/updateUserName',
+        url: '${baseURL}users/updateUserName',
         token: token,
         body: {
           "username": newUsername,

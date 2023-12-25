@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:url_launcher/url_launcher.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
@@ -11,8 +11,7 @@ class SignInServices {
   static String email = '';
   // http://16.171.65.142:3000/api/v1/docs/
   static String token = ''; //code sent to email
-  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
-  // String baseUrl = 'http://localhost:3000/api/v1';
+  // String baseURL = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     SignInServices.email = email;
   }
@@ -25,7 +24,7 @@ class SignInServices {
     //  print(email);
     var res = await Api.post(
       body: {'UUID': email},
-      url: '$baseUrl/auth/forgetPassword',
+      url: '${baseURL}auth/forgetPassword',
     );
     //   print('signin' + res.toString());
     if (res is String) {
@@ -37,7 +36,7 @@ class SignInServices {
 
   static dynamic resetPassword(String password) async {
     var res = await Api.post(
-      url: '$baseUrl/auth/resetPassword/$email/$token',
+      url: '${baseURL}auth/resetPassword/$email/$token',
       body: {"password": password},
     );
     // print();
@@ -56,7 +55,7 @@ class SignInServices {
 
   static dynamic checkResetToken() async {
     var res = await Api.get(
-      '$baseUrl/auth/checkResetToken/$email/$token',
+      '${baseURL}auth/checkResetToken/$email/$token',
     );
     // print(email);
     // print(token);

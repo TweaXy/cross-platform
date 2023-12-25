@@ -48,13 +48,13 @@ class CustomAddTweetButton extends StatelessWidget {
             showToastWidget(CustomToast(message: "the $type cant be posted"));
           } else {
             showToastWidget(CustomToast(message: "the $type has been posted"));
+            tweetcontent.text = '';
           }
           if (type == 'post')
             BlocProvider.of<TweetsUpdateCubit>(context).addTweet();
           if (type == 'reply')
             BlocProvider.of<TweetsUpdateCubit>(context).addReply();
-if (!forReplyScreen)
-          Navigator.pop(context);
+          if (!forReplyScreen) Navigator.pop(context);
         } else {
           showToastWidget(CustomToast(message: "the $type cant be empty"));
         }

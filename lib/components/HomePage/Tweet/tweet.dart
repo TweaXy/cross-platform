@@ -6,6 +6,7 @@ import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/network_video_player.dart';
+import 'package:tweaxy/components/HomePage/Tweet/reposted.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_interactions_general.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
@@ -61,6 +62,8 @@ class CustomTweet extends StatelessWidget {
                   tweetid:
                       tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
                   userHandle: tweet.userHandle,
+                  isARepost: tweet.isretweet,
+                  reposteruserName: tweet.reposteruserName,
                 ),
                 direction: AxisDirection.left));
       },
@@ -78,57 +81,12 @@ class CustomTweet extends StatelessWidget {
         child: Column(
           children: [
             if (tweet.isretweet)
-              GestureDetector(
-                onTap: () {
-                  if (!kIsWeb) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(
-                          id: tweet.reposteruserid,
-                          text: TempUser.id == tweet.userId ? '' : 'no',
-                        ),
-                      ),
-                    );
-                  } else {
-                    BlocProvider.of<SidebarCubit>(context).openProfile(
-                        tweet.reposteruserid,
-                        tweet.reposteruserid == TempUser.id ? '' : 'Following');
-                  }
-                },
-                child: Padding(
-                  padding: EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
-                  child: Row(
-                    children: [
-                      const Icon(FontAwesomeIcons.retweet,
-                          size: 20, color: Color.fromARGB(255, 95, 94, 94)),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxWidth: screenWidth * 0.5),
-                        child: Text(
-                          maxLines: 1,
-                          TempUser.id == tweet.reposteruserid
-                              ? '  You'
-                              : '  ${tweet.reposteruserName}',
-                          style: const TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Color.fromARGB(255, 95, 94, 94)),
-                        ),
-                      ),
-                      const Text(
-                        maxLines: 1,
-                        ' reposted',
-                        style: TextStyle(
-                            overflow: TextOverflow.ellipsis,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 95, 94, 94)),
-                      ),
-                    ],
-                  ),
-                ),
+              RepostedBy(
+                userId: tweet.userId,
+                reposteruserid: tweet.reposteruserid,
+                reposteruserName: TempUser.id == tweet.reposteruserid
+                    ? ' You'
+                    : '  ${tweet.reposteruserName}',
               ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

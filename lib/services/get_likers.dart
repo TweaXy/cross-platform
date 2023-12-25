@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/followers_model.dart';
 
@@ -20,7 +19,7 @@ class Likers {
     token = user.getString("token")!;
     response = await Api.getwithToken(
       url:
-          "https://tweaxybackend.mywire.org/api/v1/interactions/$id/likers?limit=$pageSize&offset=$offset",
+          "${baseURL}interactions/$id/likers?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
