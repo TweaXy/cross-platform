@@ -4,8 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:multi_image_layout/multi_image_layout.dart';
+import 'package:multi_image_layout/multi_image_layout.dart';
 import 'package:video_player/video_player.dart';
 
 class TweetMedia extends StatefulWidget {
@@ -20,14 +19,14 @@ class TweetMedia extends StatefulWidget {
 class _TweetMediaState extends State<TweetMedia> {
   @override
   Widget build(BuildContext context) {
-    // double screenwidth = MediaQuery.of(context).size.width;
-    // double screenheight = MediaQuery.of(context).size.height;
-    // List<String> s = widget.pickedfiles.map((item) => '').toList();
+    double screenwidth = MediaQuery.of(context).size.width;
+    double screenheight = MediaQuery.of(context).size.height;
+    List<String> s = widget.pickedfiles.map((item) => '').toList();
 
-    // return MultiImageViewer(
-    //   images: widget.pickedfiles,
-    // );
-    return Container();
+    return MultiImageViewer(
+      images: widget.pickedfiles,
+    );
+    // return Container();
   }
 
   Widget buildItem(String file, {int flex = 1}) {
