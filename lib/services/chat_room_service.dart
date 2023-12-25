@@ -7,11 +7,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class ChatRoomService {
   final Dio dio;
-  final String baseUrl = 'https://tweaxybackend.mywire.org/api/v1/';
   late String userID;
   ChatRoomService(this.dio);
   Future<List<Message>> getMessages(String id, int pageOffset) async {
@@ -26,7 +24,7 @@ class ChatRoomService {
     }
     try {
       response = await Api.getwithToken(
-          url: '${baseUrl}conversations/$id?limit=10&offset=$pageOffset',
+          url: '${baseURL}conversations/$id?limit=10&offset=$pageOffset',
           token: token);
       return messageformat(response);
     } catch (e) {
@@ -37,10 +35,10 @@ class ChatRoomService {
     }
   }
 
-  Future<dynamic> sendMessage(String text, String media) async {
-    File imageFile = File(media);
-    List<int> imageBytes = await imageFile.readAsBytes();
-  }
+  // Future<dynamic> sendMessage(String text, String media) async {
+  //   File imageFile = File(media);
+  //   List<int> imageBytes = await imageFile.readAsBytes();
+  // }
 
   List<Message> messageformat(Response response) {
     var items = response.data["data"]["items"];
