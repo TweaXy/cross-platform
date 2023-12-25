@@ -95,13 +95,22 @@ String dateFormatter(String date) {
 
 List<String> calculateTime(String fulldate) {
   DateTime dt1 = DateTime.parse(fulldate).toLocal();
-
+  print(fulldate.toString());
+  print('ddd' + dt1.hour.toString());
   String time;
   String date;
-  if (dt1.hour <= 12)
-    time = '${dt1.hour}' + ':' + '${dt1.minute}' + ' ' + 'AM';
+  String min = '';
+
+  if (dt1.minute < 10)
+    min += ':' + '0' + '${dt1.minute}';
   else
-    time = '${dt1.hour - 12}' + ':' + '${dt1.minute}' + ' ' + 'PM';
+    min += ':' + '${dt1.minute}';
+  if (dt1.hour == 0)
+    time = '12' + min + ' ' + 'AM';
+  else if (dt1.hour <= 12)
+    time = '${dt1.hour}' + min + ' ' + 'AM';
+  else
+    time = '${dt1.hour - 12}' + min + ' ' + 'PM';
   if (dt1.day < 10)
     date = '0' +
         '${dt1.day}' +

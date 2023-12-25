@@ -19,11 +19,11 @@ class GetAllNotifications {
     var response = await Api.getwithToken(
         url: '$baseURL$_endpoint?limit=$pageSize&offset=$offset', token: token);
     var data = response.data['data']['notifications'];
-    log('Notify = $data');
+    
     List<UserNotification> notifications = [];
     for (var element in data) {
       notifications.add(UserNotification.fromJson(element));
-    }
+    }log('Notify = $data');
     return notifications;
   }
 }
