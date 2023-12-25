@@ -384,6 +384,9 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
     ReplyMessage replyMessage,
     MessageType messageType,
   ) async {
+    if (message.trim().isEmpty) {
+      return;
+    }
     Message mess = Message(
       id: userID,
       createdAt: DateTime.now(),
