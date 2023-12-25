@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/services/get_unseen_notification_count.dart';
-import 'package:url_launcher/url_launcher.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class TempUser {
@@ -18,8 +15,7 @@ class TempUser {
   static String username = '';
   static String name = '';
   static String image = 'b631858bdaafa77258b9ed2f7c689bdb.png';
-  static String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';
-  // String baseUrl = 'http://localhost:3000/api/v1';
+  // String baseURL = 'http://localhost:3000/api/v1';
   static void setEmail({required String email}) {
     TempUser.email = email;
   }
@@ -52,7 +48,7 @@ class TempUser {
     setToken(token: token!);
     dynamic result = await Api.getwithToken(
         token: token,
-        url: 'https://tweaxybackend.mywire.org/api/v1/users/$userid');
+        url: '${baseURL}users/$userid');
     if (result is String) {
     } else if (result is Response) {
       

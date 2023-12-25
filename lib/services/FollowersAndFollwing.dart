@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/models/followers_model.dart';
 
@@ -21,7 +20,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "https://tweaxybackend.mywire.org/api/v1/users/followers/$username?limit=$pageSize&offset=$offset",
+          '${baseURL}users/followers/$username?limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
@@ -46,7 +45,7 @@ class followApi {
     print(token);
     response = await Api.getwithToken(
       url:
-          "https://tweaxybackend.mywire.org/api/v1/users/followings/$username?limit=$pageSize&offset=$offset",
+          "${baseURL}users/followings/$username?limit=$pageSize&offset=$offset",
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;

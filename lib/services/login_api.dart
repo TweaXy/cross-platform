@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LoginApi {
@@ -8,7 +9,7 @@ class LoginApi {
   LoginApi();
   Future<dynamic> postUser(Map<String, String> data) async {
     Response response =
-        await dio.post('https://tweaxybackend.mywire.org/api/v1/auth/login',
+        await dio.post('${baseURL}auth/login',
             data: data,
             options: Options(headers: {
               "Content-Type": "application/json",
@@ -29,7 +30,7 @@ class LoginApi {
 
   Future<dynamic> getEmailExist(Map<String, String> data) async {
     Response response = await dio.post(
-        'https://tweaxybackend.mywire.org/api/v1/users/checkUUIDExists',
+        '${baseURL}users/checkUUIDExists',
         data: data,
         options: Options(headers: {
           "Content-Type": "application/json",

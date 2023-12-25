@@ -39,13 +39,11 @@ class SearchForUsers {
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
-    print(token);
     response = await Api.getwithToken(
       url: '$baseURL$_endpoint$username&limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
-    print(response.data);
     List<dynamic> allData = jsondata['data']['users'] as List<dynamic>;
     List<FollowersModel> allFollowers = [];
     for (int i = 0; i < allData.length; i++) {
@@ -64,7 +62,6 @@ class SearchForUsers {
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
-    print(token);
     String u = '$baseURL$_endpoint$username?limit=$pageSize&offset=$offset';
     response = await Api.getwithToken(
       url: '$baseURL$_endpoint$username&limit=$pageSize&offset=$offset',
@@ -89,10 +86,9 @@ class SearchForUsers {
     String token;
     SharedPreferences user = await SharedPreferences.getInstance();
     token = user.getString("token")!;
-    print(token);
     response = await Api.getwithToken(
       url:
-          'https://tweaxybackend.mywire.org/api/v1/users/?limit=$pageSize&offset=$offset',
+          '${baseURL}users/?limit=$pageSize&offset=$offset',
       token: token,
     );
     Map<String, dynamic> jsondata = response.data;
