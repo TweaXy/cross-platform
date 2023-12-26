@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 
 class FollowUserTweet extends StatelessWidget {
   const FollowUserTweet(
@@ -19,17 +21,22 @@ class FollowUserTweet extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () async {
-        Navigator.pop(context);
-        if (isfollowedByMe)
+        BlocProvider.of<EditProfileCubit>(context)
+            .emit(ProfilePageLoadingState());
+        if (isfollowedByMe) {
           await FollowUser.instance.deleteUser(userHandle);
-        else
+          BlocProvider.of<TweetsUpdateCubit>(context).unfollowUser(userid);
+        } else
           await FollowUser.instance.followUser(userHandle);
 
         Fluttertoast.showToast(
             msg: isfollowedByMe
                 ? 'You Unfollowed @${userHandle}'
                 : 'You followed @${userHandle}');
-        BlocProvider.of<TweetsUpdateCubit>(context).unfollowUser(userid);
+        BlocProvider.of<EditProfileCubit>(context)
+            .emit(ProfilePageCompletedState());
+
+        Navigator.pop(context);
       },
       leading: Icon(
         Icons.person_remove_outlined,
