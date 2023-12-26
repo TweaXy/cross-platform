@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:flutter/material.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/mute_block_reply.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
@@ -104,12 +105,19 @@ class _ProfileLikesState extends State<ProfileLikes> {
             color: Colors.blue,
           )),
           itemBuilder: (context, item, index) {
-            return CustomTweet(
-              tweet: item,
-              replyto: [],
-              isMuted: widget.isMuted,
-              isUserBlocked: widget.isUserBlocked,
-            );
+            return (_pagingController.itemList != null &&
+                    _pagingController.itemList!.length > 0 &&
+                    !item.isShown)
+                ? MuteBlockReply(
+                    tweetid: item.id,
+                    isMute: item.isUserMutedByMe,
+                  )
+                : CustomTweet(
+                    tweet: item,
+                    replyto: [],
+                    isMuted: widget.isMuted,
+                    isUserBlocked: widget.isUserBlocked,
+                  );
           },
         ),
       );

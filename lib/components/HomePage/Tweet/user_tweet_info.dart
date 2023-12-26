@@ -12,8 +12,10 @@ import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom
 import 'package:tweaxy/components/toasts/custom_toast.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
+import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
+import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
 import 'package:tweaxy/shared/utils.dart';
@@ -111,12 +113,16 @@ class User_TweetInfo extends StatelessWidget {
                   icon: const Icon(FontAwesomeIcons.ellipsisVertical),
                   color: const Color.fromARGB(255, 182, 182, 182),
                   iconSize: 18,
-                  onPressed: () {
+                  onPressed: () async {
+                    User user =
+                        await GetUserById.instance.getUserById(tweet.userId);
+
                     if (tweet.userId ==
                             TempUser
                                 .id && //my post and not retweet or my post and my retweet
                         (!tweet.isretweet ||
                             tweet.userId == tweet.reposteruserid)) {
+                      // ignore: use_build_context_synchronously
                       showModalBottomSheet(
                         showDragHandle: true,
                         useSafeArea: false,
@@ -137,6 +143,7 @@ class User_TweetInfo extends StatelessWidget {
                       );
                     } else if (!tweet.isretweet ||
                         (tweet.userId != TempUser.id && tweet.isretweet)) {
+                      // ignore: use_build_context_synchronously
                       showModalBottomSheet(
                         showDragHandle: true,
                         useSafeArea: false,
@@ -154,17 +161,18 @@ class User_TweetInfo extends StatelessWidget {
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
                                 userid: tweet.userId,
+                                isfollowedByMe: user.followedByMe!,
                               ),
                               MuteUserTweet(
                                 tweetid: tweet.id,
                                 userHandle: tweet.userHandle,
-                                isMuted: isMuted,
+                                isMuted: user.muted!,
                                 userid: tweet.userId,
                               ),
                               BlockUserTweet(
                                 userHandle: tweet.userHandle,
                                 tweetid: tweet.id,
-                                isUserBlocked: isUserBlocked,
+                                isUserBlocked: user.blockedByMe!,
                                 userid: tweet.userId,
                               )
                             ],

@@ -110,17 +110,15 @@ class _HomePageWebState extends State<HomePageWeb> {
                     } else if (state is SidebarMessageState) {
                       return const Expanded(
                           flex: 13, child: GetConversationsWebView());
-                    } 
-                    else if (state is FollowingFollowerListState) {
-                      return  Expanded(
-                          flex: 8, child: WebFollowersAndFollowings(
-                            username:state.username,
-                            name: state.name,
-                           ),
-                    );
-                    }
-                    
-                    else {
+                    } else if (state is FollowingFollowerListState) {
+                      return Expanded(
+                        flex: 8,
+                        child: WebFollowersAndFollowings(
+                          username: state.username,
+                          name: state.name,
+                        ),
+                      );
+                    } else {
                       return const Placeholder();
                     }
                   },
@@ -148,7 +146,8 @@ class _HomePageWebState extends State<HomePageWeb> {
                             width: 0,
                           ));
                     }
-                    if (state is SidebarSettingsState || state is SidebarMessageState) {
+                    if (state is SidebarSettingsState ||
+                        state is SidebarMessageState) {
                       return const Expanded(
                           flex: 0,
                           child: SizedBox(

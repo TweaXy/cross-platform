@@ -37,7 +37,8 @@ const baseURL = 'https://tweaxybackend.mywire.org/api/v1/';
 // const baseURl = 'https://eacd-196-153-2-220.ngrok.io/';
 const basePhotosURL = 'https://tweaxybackend.mywire.org/api/v1/images/';
 const kDefaultBannerPhoto = 'https://www.schemecolor.com/wallpaper?i=4334&og';
-const kDefaultAvatarPhoto = '${basePhotosURL}d1deecebfe9e00c91dec2de8bc0d68bb';
+const kDefaultAvatarPhoto =
+    '${basePhotosURL}b631858bdaafa77258b9ed2f7c689bdb.png';
 const kLikersInProfile = "likers screen";
 const kSearchTweets = "search tweets screen";
 const kDirectMessage = "direct_message";
@@ -50,6 +51,7 @@ Future<List<String>> loadPrefs() async {
   // print('token = $token');
   return [id!, token!];
 }
+
 final navigatorKey = GlobalKey<NavigatorState>();
 const kSettings = 'settings_view';
 const kAccountinfo = "account_info_view";
