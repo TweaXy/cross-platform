@@ -45,11 +45,11 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
     });
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   controller.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) => Stack(
