@@ -10,13 +10,18 @@ import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
-class ApplicationBar extends StatelessWidget {
+class ApplicationBar extends StatefulWidget {
   const ApplicationBar(
       {super.key, required this.isVisible, required this.tabController});
   final bool isVisible;
 
   final TabController tabController;
 
+  @override
+  State<ApplicationBar> createState() => _ApplicationBarState();
+}
+
+class _ApplicationBarState extends State<ApplicationBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -46,7 +51,9 @@ class ApplicationBar extends StatelessWidget {
       leading: Padding(
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
-          onTap: () {
+          onTap: () async {
+            await TempUser.userSetData(context, refresh: false);
+            setState(() {});
             Scaffold.of(context).openDrawer();
           },
           child: CircleAvatar(
@@ -57,8 +64,8 @@ class ApplicationBar extends StatelessWidget {
         ),
       ),
       bottom: CustomTabBar(
-        isVisible: isVisible,
-        tabController: tabController,
+        isVisible: widget.isVisible,
+        tabController: widget.tabController,
       ),
     );
   }

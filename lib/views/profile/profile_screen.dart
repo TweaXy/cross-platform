@@ -109,8 +109,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     );
                   } else {
                     User user = snapshot.data!;
-                    if (!initialized) {
-                      initialized = true;
+
 
                       if (text != 'Edit Profile') {
                         text = user.followedByMe!
@@ -119,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ? 'Follow back'
                                 : 'Follow';
                       }
-                    }
+                    
                     _isUserBlocked = user.blockedByMe!;
 
                     _isMuted = user.muted!;
@@ -537,7 +536,7 @@ class CollapsedAppBarText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
-              '${NumberFormat.compact().format(postsNumber)} Interactions',
+              '${NumberFormat.compact().format(postsNumber)} Posts',
               style: TextStyle(
                   fontWeight: postsNumberTextStyle,
                   fontSize: postsNumberTextSize,

@@ -133,8 +133,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 removedAvatar: removedAvatar,
                                 removedBanner: removedBanner,
                                 token: token);
-                        TempUser.userSetData(context);
-                        Navigator.pop(context);
+                        // TempUser.userSetData(context);
+                        // Navigator.pop(context);
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -178,7 +178,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           removedAvatar: removedAvatar,
                           removedBanner: removedBanner,
                           token: token);
-                      TempUser.userSetData(context);
+                      // TempUser.userSetData(context);
 
                       Navigator.pop(context);
                     },

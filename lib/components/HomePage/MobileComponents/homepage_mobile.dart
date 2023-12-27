@@ -163,8 +163,7 @@ class HomeTweetsMobile extends StatelessWidget {
   final bool isVisible;
   @override
   Widget build(BuildContext context) {
-    TempUser.userSetData(context);
-
+    
     return NestedScrollView(
         physics: const BouncingScrollPhysics(),
         controller: controller,

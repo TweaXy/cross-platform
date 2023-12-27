@@ -24,6 +24,7 @@ class EditProfileCubit extends Cubit<EditProfileState> {
         removedBanner: removedBanner,
         token: token);
     await GetUserById.instance.excute(user.id!);
+    
     emit(ProfilePageCompletedState());
   }
 }

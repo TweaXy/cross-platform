@@ -6,6 +6,8 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
+import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
@@ -68,7 +70,9 @@ class _RepliesScreenState extends State<RepliesScreen> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0.5,
-            leading: const BackButton(color: Colors.black),
+            leading: const BackButton(
+              color: Colors.black,
+            ),
             title: const Text(
               'Post',
               style: TextStyle(color: Colors.black),

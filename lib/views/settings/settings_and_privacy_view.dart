@@ -28,23 +28,34 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
 
   Future setNotificationSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    deviceToken = prefs.getString("notificationTokenSent");
-    String response = await NotificationSettingsService(Dio())
-        .notificatioCheckState(deviceToken!);
-    // String response = "true";
-    if (response == "true") {
-      setState(() {
-        notiifcationEnable = true;
-      });
-    } else if (response == "false") {
-      setState(() {
-        notiifcationEnable = false;
-      });
-    } else {
+    try {
+      deviceToken = prefs.getString("notificationTokenSent");
+      dynamic response = await NotificationSettingsService(Dio())
+          .notificatioCheckState(deviceToken!);
+      // String response = "true";
+      if (response is String) {
+        showToastWidget(
+          const CustomToast(message: "Error in user data"),
+          position: ToastPosition.bottom,
+          duration: const Duration(seconds: 5),
+        );
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } else {
+        if (response.data["data"]["status"] == "enabled") {
+          setState(() {
+            notiifcationEnable = true;
+          });
+        } else if (response.data["data"]["status"] == "disabled") {
+          setState(() {
+            notiifcationEnable = false;
+          });
+        }
+      }
+    } on Exception catch (e) {
       showToastWidget(
-        CustomToast(
-            message:
-                "error in loading notification settings state error\n$response"),
+        CustomToast(message: e.toString()),
         position: ToastPosition.bottom,
         duration: const Duration(seconds: 2),
       );
@@ -56,7 +67,15 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future(() async => await setNotificationSettings());
+    try {
+      Future(() async => await setNotificationSettings());
+    } on Exception catch (e) {
+      showToastWidget(
+        CustomToast(message: e.toString()),
+        position: ToastPosition.bottom,
+        duration: const Duration(seconds: 2),
+      );
+    }
   }
 
   @override
