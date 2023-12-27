@@ -8,6 +8,7 @@ import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_muted_users.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
+import 'package:tweaxy/shared/keys/mute_user_keys.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
@@ -200,6 +201,7 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
               !isMuted
                   ? const SizedBox()
                   : IconButton(
+                      key: const ValueKey(MuteUserKeys.unmuteUser),
                       onPressed: () async {
                         //Todo : Implement the unmute logic here
                         isMuted = await MuteUserService.unMuteUser(

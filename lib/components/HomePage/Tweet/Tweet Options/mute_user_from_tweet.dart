@@ -5,13 +5,15 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
+import 'package:tweaxy/shared/keys/mute_user_keys.dart';
 
 class MuteUserTweet extends StatelessWidget {
   MuteUserTweet(
       {super.key,
       required this.tweetid,
       required this.userHandle,
-      required this.isMuted, required this.userid});
+      required this.isMuted,
+      required this.userid});
   final String tweetid;
   final String userHandle;
   final String userid;
@@ -20,6 +22,7 @@ class MuteUserTweet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: const ValueKey(MuteUserKeys.muteUser),
       onTap: () async {
         BlocProvider.of<EditProfileCubit>(context)
             .emit(ProfilePageLoadingState());
@@ -65,7 +68,7 @@ class MuteUserTweet extends StatelessWidget {
         color: Colors.blueGrey[600],
       ),
       title: Text(
-       isMuted? 'Unmute @${userHandle}':'Mute @${userHandle}',
+        isMuted ? 'Unmute @${userHandle}' : 'Mute @${userHandle}',
         style: const TextStyle(fontSize: 20),
       ),
     );

@@ -3,6 +3,7 @@ import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/mute_and_blocks_screen.dart';
 
 class SettingsPrivacySafetyScreen extends StatelessWidget {
@@ -18,6 +19,7 @@ class SettingsPrivacySafetyScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             vertical: MediaQuery.of(context).size.height * .02),
         child: CustomdataDisplay(
+          key: const ValueKey(SettingsKeys.muteAndBlock),
           lead: const Icon(
             Icons.volume_off_outlined,
           ),

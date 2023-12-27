@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
+import 'package:tweaxy/shared/keys/settings_keys.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/blocked_users_screen.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/muted_users_screen.dart';
 
@@ -40,6 +41,7 @@ class MuteAndBlockScreen extends StatelessWidget {
               },
             ),
             ListTile(
+              key: const ValueKey(SettingsKeys.mutedAccounts),
               title: const Text('Muted accounts'),
               onTap: () {
                 Navigator.push(

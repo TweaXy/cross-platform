@@ -113,6 +113,7 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
                         padding: EdgeInsets.symmetric(
                             vertical: MediaQuery.of(context).size.height * .02),
                         child: CustomdataDisplay(
+                          key: const ValueKey(SettingsKeys.privacyAndSafety),
                           lead: const Icon(Icons.verified_user_outlined),
                           title: 'Privacy and safety',
                           subtitle:
