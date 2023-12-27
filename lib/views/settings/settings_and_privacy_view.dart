@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
+import 'package:tweaxy/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/settings/update_email_components/custom_data_display.dart';
@@ -32,14 +33,17 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
           .notificatioCheckState(deviceToken!);
       // String response = "true";
       if (response is String) {
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        await preferences.clear();
+        if (mounted) {
+          Navigator.popUntil(context, (route) => route.isFirst);
+          Navigator.pushReplacementNamed(context, kSplashScreen);
+        }
         showToastWidget(
           const CustomToast(message: "Error in user data"),
           position: ToastPosition.bottom,
           duration: const Duration(seconds: 5),
         );
-        if (mounted) {
-          Navigator.pop(context);
-        }
       } else {
         if (response.data["data"]["status"] == "enabled") {
           setState(() {
