@@ -45,7 +45,9 @@ class _CustomButtonState extends State<CustomButton> {
               fontWeight: FontWeight.w600,
               fontSize: widget.text == "Follow Back" ||
                       widget.text == 'Following' ||
-                      widget.text == 'Follow'
+                      widget.text == 'Follow' ||
+                      widget.text == 'Blocked' ||
+                      widget.text == 'Blocked you'
                   ? 16
                   : 20),
         ),
