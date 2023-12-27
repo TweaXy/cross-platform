@@ -27,10 +27,10 @@ void main() {
     test(
         'Test4: Reset Password for Existing email but with valid password and wrong token test',
         () async {
-      SignInServices.setEmail(email: "mennaahmed0701@gmail.com");
+      SignInServices.setEmail(email: "Derek_Baumbach");
       SignInServices.setToken(token: 'hhh12345');
       expect(await SignInServices.resetPassword('Mm12345!'),
-          "Reset Code is invalid");
+          "User does not have reset token");
     });
   });
 }

@@ -12,25 +12,26 @@ void main() {
   String userid = "eissqonj1eb4g2fgrbr3idsam";
   String token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlwiZWlzc3FvbmoxZWI0ZzJmZ3JicjNpZHNhbVwiIiwiaWF0IjoxNzAzNjg3NzgxLCJleHAiOjE3MDYyNzk3ODF9.1n_frZ40vH0NxBwBWdAxcM26z-gNdN4XROoR9gkmJt0';
-  group('Test Get Tweets Home Api', () {
-    group('Test Get Tweets Home Api', () {
-      test('Test1:  Get Tweets Profile for invalid token', () async {
+  group('Test Get Tweets Trend Api', () {
+    group('Test Get Tweets Trend Api', () {
+      test('Test1:  Get Tweets Trend for invalid token', () async {
         expect(
             await Api.getwithToken(
-                url: '${baseURL}home?/limit=10&offset=3', token: '-1'),
+                url: '${baseURL}trends/hello?limit=5&offset=3', token: '-1'),
             "token not valid");
       });
 
-      test('Test2:  Get Tweets Home for valid token and userid', () async {
-        expect(await postsInHome('0', token), isA<List<Tweet>>());
+      test('Test2:  Get Tweets Trend for valid token and userid', () async {
+        expect(await postsInTrends('0', token), isA<List<Tweet>>());
       });
+     
     });
   });
 }
 
-Future<List<Tweet>> postsInHome(String offset, String token) async {
+Future<List<Tweet>> postsInTrends(String offset, String token) async {
   Response res = await Api.getwithToken(
-      url: '${baseURL}home?/limit=10&offset=$offset', token: token);
+      url: '${baseURL}trends/adimpleo?limit=5&offset=$offset', token: token);
 
   List<Map<String, dynamic>> m = await mapToList(res);
 

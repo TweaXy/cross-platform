@@ -5,6 +5,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 
 class FollowUserTweet extends StatelessWidget {
   const FollowUserTweet(
@@ -20,6 +21,7 @@ class FollowUserTweet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: new ValueKey(TweetKeys.followUserFromTweet),
       onTap: () async {
         BlocProvider.of<EditProfileCubit>(context)
             .emit(ProfilePageLoadingState());

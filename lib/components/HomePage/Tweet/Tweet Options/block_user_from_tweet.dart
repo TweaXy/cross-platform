@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class BlockUserTweet extends StatelessWidget {
@@ -18,6 +19,7 @@ class BlockUserTweet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: new ValueKey(TweetKeys.blockUserFromTweet),
       onTap: () async {
         Navigator.pop(context);
 
@@ -31,8 +33,7 @@ class BlockUserTweet extends StatelessWidget {
             context: context,
             builder: (context) => BlockUserDialog(username: userHandle),
           );
-          BlocProvider.of<TweetsUpdateCubit>(context)
-              .blockUser( userid);
+          BlocProvider.of<TweetsUpdateCubit>(context).blockUser(userid);
         }
       },
       leading: Icon(

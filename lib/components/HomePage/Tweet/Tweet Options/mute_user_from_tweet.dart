@@ -5,6 +5,7 @@ import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
+import 'package:tweaxy/shared/keys/tweet_keys.dart';
 
 class MuteUserTweet extends StatelessWidget {
   MuteUserTweet(
@@ -20,6 +21,8 @@ class MuteUserTweet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      key: new ValueKey(TweetKeys.muteUserFromTweet),
+
       onTap: () async {
         BlocProvider.of<EditProfileCubit>(context)
             .emit(ProfilePageLoadingState());
