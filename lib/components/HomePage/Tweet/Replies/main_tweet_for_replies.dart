@@ -85,17 +85,14 @@ class MainTweetReplies extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              kIsWeb
-                                  ? User_TweetInfoWeb(
-                                      tweet: tweet,
-                                    )
-                                  : UserTweetInfoReply(
-                                      tweet: tweet,
-                                      replyto: replyto,
-                                    ),
+                              UserTweetInfoReply(
+                                tweet: tweet,
+                                replyto: replyto,
+                              ),
                               if (tweet.tweetText != null)
                                 Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 5),
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
                                     margin: const EdgeInsets.only(
                                         left: 2, right: 2, bottom: 3),
                                     child: RichText(

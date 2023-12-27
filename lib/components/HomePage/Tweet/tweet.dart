@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Video/multi_video.dart';
@@ -8,6 +9,7 @@ import 'package:tweaxy/components/HomePage/Tweet/tweet_media.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info.dart';
 import 'package:tweaxy/components/HomePage/Tweet/user_tweet_info_web.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
@@ -45,19 +47,24 @@ class CustomTweet extends StatelessWidget {
     return GestureDetector(
       key: const ValueKey(TweetKeys.clickToShowRepliesScreen),
       onTap: () {
-        print('tapped');
-        Navigator.push(
-            context,
-            CustomPageRoute(
-                child: RepliesScreen(
-                  replyto: replyto,
-                  tweetid:
-                      tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
-                  userHandle: tweet.userHandle,
-                  isARepost: tweet.isretweet,
-                  reposteruserName: tweet.reposteruserName,
-                ),
-                direction: AxisDirection.left));
+        if (kIsWeb)
+          BlocProvider.of<SidebarCubit>(context).showReplies(
+              tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
+              tweet.userHandle,
+              replyto);
+        else
+          Navigator.push(
+              context,
+              CustomPageRoute(
+                  child: RepliesScreen(
+                    replyto: replyto,
+                    tweetid:
+                        tweet.id == tweet.parentid ? tweet.id : tweet.parentid,
+                    userHandle: tweet.userHandle,
+                    isARepost: tweet.isretweet,
+                    reposteruserName: tweet.reposteruserName,
+                  ),
+                  direction: AxisDirection.left));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 7),
@@ -100,6 +107,7 @@ class CustomTweet extends StatelessWidget {
                       kIsWeb
                           ? User_TweetInfoWeb(
                               tweet: tweet,
+                              replyto: replyto,
                             )
                           : User_TweetInfo(
                               tweet: tweet,

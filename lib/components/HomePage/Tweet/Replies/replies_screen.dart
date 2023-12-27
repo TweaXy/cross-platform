@@ -6,10 +6,12 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
+import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/add_reply_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class RepliesScreen extends StatefulWidget {
   const RepliesScreen(
@@ -67,8 +69,14 @@ class _RepliesScreenState extends State<RepliesScreen> {
           appBar: AppBar(
             backgroundColor: Colors.white,
             elevation: 0.5,
-            leading: const BackButton(
+            leading: BackButton(
               color: Colors.black,
+              onPressed: () {
+                if (kIsWeb)
+                  BlocProvider.of<SidebarCubit>(context).toggleMenu(0);
+                else
+                  Navigator.pop(context);
+              },
             ),
             title: const Text(
               'Post',

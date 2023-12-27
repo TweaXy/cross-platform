@@ -28,3 +28,10 @@ class FollowingFollowerListState extends SidebarState {
 
   FollowingFollowerListState(this.username, this.name);
 }
+
+class OpenRepliesState extends SidebarState {
+final String tweetid;
+final String userHandle;
+final List<String>replyto;
+  OpenRepliesState(this.tweetid, this.userHandle, this.replyto);
+}

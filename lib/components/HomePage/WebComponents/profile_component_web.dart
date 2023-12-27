@@ -10,6 +10,7 @@ import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/user.dart';
+import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/views/profile/edit_profile_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
@@ -68,6 +69,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
     _tabController.dispose();
     super.dispose();
   }
+
   int _selectedTabIndex = 0;
 
   Color textColor = Colors.black;
@@ -78,7 +80,7 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   int postsNumber = 678530;
   void Function() onPressed = () {};
   int? selectedMenu;
-    bool initialized = false;
+  bool initialized = false;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +101,6 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
             future: GetUserById.instance.getUserById(id),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                
                 return const Scaffold(
                   body: Center(
                     child: CircularProgressIndicator(
@@ -109,14 +110,15 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
                 );
               } else {
                 var user = snapshot.data!;
-                if (!initialized) {
-                  initialized = true;
 
-                  if (text != 'Edit Profile') {
-                    text = user.followedByMe! ? 'Following' : 'Follow';
-                  }
+                if (text != 'Edit Profile') {
+                  text = user.followedByMe!
+                      ? 'Following'
+                      : user.followsme!
+                          ? 'Follow back'
+                          : 'Follow';
                 }
-                postsNumber=user.interactionCount!;
+                postsNumber = user.interactionCount!;
                 return Scaffold(
                   appBar: AppBar(
                     leading: IconButton(
@@ -379,15 +381,18 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
   }
 
   Widget _followEditButton(User user, BuildContext currContext) {
-    if (text == 'Follow') {
+    if (text == 'Follow' || text == 'Follow back') {
       textColor = Colors.white;
       buttonColor = Colors.black;
       borderWidth = 0;
       borderColor = Colors.transparent;
-      onPressed = () {
+      onPressed = () async {
         text = 'Following';
         //TODO:- Implement the follow logic
-        setState(() {});
+        await FollowUser.instance.followUser(user.userName!);
+        setState(() {
+          text = 'Following';
+        });
       };
     } else if (text == 'Edit Profile') {
       textColor = Colors.black;
@@ -415,10 +420,15 @@ class _ProfileComponentWebState extends State<ProfileComponentWeb>
         );
       };
     } else {
-      onPressed = () {
+      onPressed = () async {
         text = 'Follow';
         //TODO:- Implement the unfollow logic
-        setState(() {});
+        bool s = user.followsme!;
+        await FollowUser.instance.deleteUser(user.userName!);
+
+        setState(() {
+          text = s ? 'Follow back' : 'Follow';
+        });
       };
       if (hoverd) {
         text = 'Unfollow';
