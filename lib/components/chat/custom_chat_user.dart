@@ -5,7 +5,6 @@ import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/models/user_chat.dart';
 import 'package:tweaxy/views/chat/chat_room.dart';
 import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/views/chat/web/chat_room_web.dart';
 
 class CustomUserChat extends StatefulWidget {
   CustomUserChat({super.key, required this.user});
@@ -16,6 +15,7 @@ class CustomUserChat extends StatefulWidget {
 
 class _CustomFollowersState extends State<CustomUserChat> {
   String id = '0';
+  @override
   void initState() {
     super.initState();
     // Future(() async {
@@ -84,7 +84,7 @@ class _CustomFollowersState extends State<CustomUserChat> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.user.name!,
+                          widget.user.name,
                           maxLines: 1,
                           style: const TextStyle(
                               fontWeight: FontWeight.bold,

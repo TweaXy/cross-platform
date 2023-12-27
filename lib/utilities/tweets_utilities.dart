@@ -89,7 +89,7 @@ String dateFormatter(String date) {
   else if (now.second - dt1.second > 0)
     time = '${now.second - dt1.second}s';
   else
-    time = months[dt1.month - 1] + ' ' + dt1.day.toString();
+    time = '${months[dt1.month - 1]} ${dt1.day}';
   // print('time=' + time.toString());
   return time;
 }
@@ -97,47 +97,41 @@ String dateFormatter(String date) {
 List<String> calculateTime(String fulldate) {
   DateTime dt1 = DateTime.parse(fulldate).toLocal();
   print(fulldate.toString());
-  print('ddd' + dt1.hour.toString());
+  print('ddd${dt1.hour}');
   String time;
   String date;
   String min = '';
 
-  if (dt1.minute < 10)
-    min += ':' + '0' + '${dt1.minute}';
+  if (dt1.minute < 10) {
+    min += ':0${dt1.minute}';
+  } else {
+    min += ':' '${dt1.minute}';
+  }
+  if (dt1.hour == 0) {
+    time = '12$min AM';
+  } else if (dt1.hour <= 12)
+    time = '${dt1.hour}$min AM';
   else
-    min += ':' + '${dt1.minute}';
-  if (dt1.hour == 0)
-    time = '12' + min + ' ' + 'AM';
-  else if (dt1.hour <= 12)
-    time = '${dt1.hour}' + min + ' ' + 'AM';
-  else
-    time = '${dt1.hour - 12}' + min + ' ' + 'PM';
-  if (dt1.day < 10)
-    date = '0' +
-        '${dt1.day}' +
-        ' ' +
-        '${months[dt1.month - 1]}' +
-        ' ' +
-        '${dt1.year - 2000}';
-  else
-    date = '${dt1.day}' +
-        ' ' +
-        '${months[dt1.month - 1]}' +
-        ' ' +
-        '${dt1.year - 2000}';
+    time = '${dt1.hour - 12}$min PM';
+  if (dt1.day < 10) {
+    date = '0${dt1.day} ${months[dt1.month - 1]} ${dt1.year - 2000}';
+  } else {
+    date = '${dt1.day} ${months[dt1.month - 1]} ${dt1.year - 2000}';
+  }
   return [time, date];
 }
 
 List<Map<String, dynamic>> mapToList(Response res,
     {bool isforreply = false, bool isformaintweetreply = false}) {
   List<dynamic> t = [];
-  if (isformaintweetreply)
+  if (isformaintweetreply) {
     t = res.data['data']['parent'] as List<dynamic>;
-  else
+  } else {
     t = isforreply
         ? res.data['data']['interactions']
         : res.data['data']['items'];
-  return (t as List<dynamic>).map((item) {
+  }
+  return (t).map((item) {
     String x = 'mainInteraction';
     String reposteruserid = '';
     String reposteruserName = '';
@@ -153,9 +147,7 @@ List<Map<String, dynamic>> mapToList(Response res,
       'commentsCount': item[x]['commentsCount'],
       'id': item['mainInteraction']['id'],
       'userid': item[x]['user']['id'],
-      'userImage': item[x]['user']['avatar'] != null
-          ? item[x]['user']['avatar']
-          : 'b631858bdaafa77258b9ed2f7c689bdb.png',
+      'userImage': item[x]['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png',
       'image': item[x]['media'] != null ? item[x]['media'].toList() : null,
       'userName': item[x]['user']['name'],
       'userHandle': item[x]['user']['username'],
@@ -228,7 +220,7 @@ void updateStatesforTweet(state, context, PagingController pagingController,
           state is TweetUserUnfollowed) &&
       isforHome) {
     pagingController.itemList!.removeWhere((element) {
-      print(element.userId.toString() + ' ' + state.userid.toString());
+      print('${element.userId} ${state.userid}');
       return element.userId == state.userid;
     });
     BlocProvider.of<TweetsUpdateCubit>(context).initializeTweet();

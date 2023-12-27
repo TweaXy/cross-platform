@@ -2,7 +2,6 @@
 import 'package:dio/dio.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
-import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/suggestions_search.dart';
 
 void main() {

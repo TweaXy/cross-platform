@@ -40,29 +40,26 @@ class TempUser {
     TempUser.id = id;
   }
 
-  static void userSetData(context) async {
+  static Future<void> userSetData(context, {bool refresh = true}) async {
     //  print(email);
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userid = prefs.getString('id');
     String? token = prefs.getString('token');
     setToken(token: token!);
-    dynamic result = await Api.getwithToken(
-        token: token,
-        url: '${baseURL}users/$userid');
+    dynamic result =
+        await Api.getwithToken(token: token, url: '${baseURL}users/$userid');
     if (result is String) {
     } else if (result is Response) {
-      
       Response res = result;
       setId(id: userid!);
       setEmail(email: res.data['data']['user']['email']);
       setName(name: res.data['data']['user']['name']);
       setUserName(username: res.data['data']['user']['username']);
       setImage(
-          image: res.data['data']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png');
-
-      
-      BlocProvider.of<TweetsUpdateCubit>(context).refresh();
-
+          image: res.data['data']['user']['avatar']);
+      if (refresh) {
+        BlocProvider.of<TweetsUpdateCubit>(context).refresh();
+      }
     }
   }
 }

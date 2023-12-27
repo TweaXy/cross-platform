@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as ioo;
 import 'package:tweaxy/constants.dart';
@@ -62,14 +63,14 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
     usertoken = s[1];
     userID = s[0];
     consversationID =
-        await ChatRoomService(Dio()).firstConversation(widget.username);
+        await ChatRoomService(Dio()).firstConversation(null, widget.username);
     if (widget.conversationID != "") {
-      oldMessages =
-          await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+      oldMessages = await ChatRoomService(Dio())
+          .getMessages(null, widget.conversationID, 0);
       consversationID = widget.conversationID;
     } else {
       oldMessages =
-          await ChatRoomService(Dio()).getMessages(consversationID, 0);
+          await ChatRoomService(Dio()).getMessages(null, consversationID, 0);
     }
     if (oldMessages.isEmpty) {
       chatViewState.value = ChatViewState.noData;
@@ -130,13 +131,15 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
   void initState() {
     ScrollController scrollController = ScrollController();
     scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-              scrollController.position.maxScrollExtent &&
+      if (scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse &&
           tany) {
         setState(() {
           isLastPage = true;
         });
-      } else {
+      }
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
         setState(() {
           isLastPage = false; // Reset isLastPage to false when scrolling down
         });
@@ -271,7 +274,7 @@ class _ChatRoomWebState extends State<ChatRoomWeb> {
                     loadMoreData: () async {
                       if (!isLastPage) {
                         var newMessages = await ChatRoomService(Dio())
-                            .getMessages(consversationID, pageOffset);
+                            .getMessages(null, consversationID, pageOffset);
                         newMessages = newMessages.reversed.toList();
                         _chatController.loadMoreData(newMessages);
                         pageOffset += newMessages.length;

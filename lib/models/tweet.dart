@@ -51,6 +51,7 @@ class Tweet {
     return id;
   }
 
+  @override
   String toString() {
     return 'Tweet {'
         'userImage: $userImage, '

@@ -20,10 +20,10 @@ class TweetsServices {
       return [];
     }
 
-    List<Map<String, dynamic>> m = await mapToList(res);
+    List<Map<String, dynamic>> m = mapToList(res);
 
     List<Tweet> t = initializeTweets(m);
-    print('tt' + t.toString());
+    print('tt$t');
     // print('hh' + m.whereType().toString());
     return t;
   }
@@ -35,10 +35,11 @@ class TweetsServices {
     print(tweetid);
     dynamic res =
         await Api.delete(url: '${baseURL}interactions/$tweetid', token: s);
-    if (res is String)
+    if (res is String) {
       return res;
-    else
+    } else {
       return "success";
+    }
   }
 
   static Future<List<Tweet>> getProfilePosts(
@@ -55,7 +56,7 @@ class TweetsServices {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = await mapToList(res);
+    List<Map<String, dynamic>> m = mapToList(res);
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
@@ -64,7 +65,7 @@ class TweetsServices {
   static Future<List<bool>> isFollowed(String userid) async {
     dynamic result = await Api.getwithToken(
         token: TempUser.token, url: '${baseURL}users/$userid');
-    print('resulttt' + result.toString());
+    print('resulttt$result');
     if (result is String) {
       return [];
     } else if (result is Response) {
@@ -93,10 +94,10 @@ class TweetsServices {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m = await mapToList(res);
-    print('ressss' + m.toString());
+    List<Map<String, dynamic>> m = mapToList(res);
+    print('ressss$m');
 
-    print('mm' + m.toString());
+    print('mm$m');
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
@@ -116,11 +117,11 @@ class TweetsServices {
     }
     // Response response = res;
     if (res.data['data'] == []) return [];
-    print('rrrrr' + res.data['data'].toString());
+    print('rrrrr${res.data['data']}');
     List<Map<String, dynamic>> m = mapToList(res, isforreply: true);
-    print('ressss' + m.toString());
+    print('ressss$m');
 
-    print('mm' + m.toString());
+    print('mm$m');
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
@@ -147,11 +148,7 @@ class TweetsServices {
           ['commentsCount'],
       id: res.data['data']['parent']['mainInteraction']['id'],
       userId: res.data['data']['parent']['mainInteraction']['user']['id'],
-      userImage: res.data['data']['parent']['mainInteraction']['user']
-                  ['avatar'] !=
-              null
-          ? res.data['data']['parent']['mainInteraction']['user']['avatar']
-          : 'b631858bdaafa77258b9ed2f7c689bdb.png',
+      userImage: res.data['data']['parent']['mainInteraction']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png',
       image: res.data['data']['parent']['mainInteraction']['media'] != null
           ? getImageList(
               res.data['data']['parent']['mainInteraction']['media'].toList())
@@ -209,10 +206,11 @@ class TweetsServices {
     String? s = prefs.getString('token');
     dynamic res = await Api.delete(
         url: '${baseURL}interactions/retweet/$tweetid', token: s);
-    if (res is String)
+    if (res is String) {
       return false;
-    else
+    } else {
       return true;
+    }
   }
 }
 

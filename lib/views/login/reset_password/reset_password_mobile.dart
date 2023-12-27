@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/custom_head_text.dart';
-import 'package:tweaxy/components/custom_paragraph_text.dart';
 import 'package:tweaxy/shared/keys/sign_in_keys.dart';
 import 'package:tweaxy/views/login/reset_password/reset_password_mobile2.dart';
 import 'package:tweaxy/components/custom_appbar.dart';

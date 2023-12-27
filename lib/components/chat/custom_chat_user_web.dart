@@ -17,6 +17,7 @@ class CustomUserChatWeb extends StatefulWidget {
 
 class _CustomFollowersState extends State<CustomUserChatWeb> {
   String id = '0';
+  @override
   void initState() {
     super.initState();
     // Future(() async {
@@ -91,7 +92,7 @@ class _CustomFollowersState extends State<CustomUserChatWeb> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              widget.user.name!,
+                              widget.user.name,
                               maxLines: 1,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold,

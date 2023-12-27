@@ -1,11 +1,5 @@
-import 'dart:developer';
-import 'dart:ui' as ui;
-import 'dart:io' as io;
-import 'dart:math';
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:tweaxy/models/followers_model.dart';
-import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/services/get_likers.dart';
 
 void main() {

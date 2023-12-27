@@ -35,12 +35,12 @@ class TweetSettingsProfileWeb extends StatelessWidget {
         },
         itemBuilder: (BuildContext bc) {
           return [
-            PopupMenuItem(
+            const PopupMenuItem(
               value: 'delete',
               child: Wrap(
                 children: [
                   Icon(
-                    key: new ValueKey(
+                    key: ValueKey(
                         DeleteTweetKeys.tweetSettingsMenuDeleteWeb),
                     FontAwesomeIcons.trashCan,
                     size: 20,
@@ -59,8 +59,8 @@ class TweetSettingsProfileWeb extends StatelessWidget {
             ),
           ];
         },
-        icon: Icon(
-          key: new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
+        icon: const Icon(
+          key: ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
           FontAwesomeIcons.ellipsis,
           size: 16,
         ));

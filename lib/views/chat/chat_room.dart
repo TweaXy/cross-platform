@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:chatview/chatview.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socket_io_client/socket_io_client.dart' as ioo;
 import 'package:tweaxy/constants.dart';
@@ -16,7 +17,7 @@ import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class ChatRoom extends StatefulWidget {
   ChatRoom(
-      {required this.id,
+      {super.key, required this.id,
       required this.avatar,
       required this.username,
       required this.isFirstMsg,
@@ -60,14 +61,14 @@ class _ChatRoomState extends State<ChatRoom> {
     usertoken = s[1];
     userID = s[0];
     consversationID =
-        await ChatRoomService(Dio()).firstConversation(widget.username);
+        await ChatRoomService(Dio()).firstConversation(null, widget.username);
     if (widget.conversationID != "") {
-      oldMessages =
-          await ChatRoomService(Dio()).getMessages(widget.conversationID, 0);
+      oldMessages = await ChatRoomService(Dio())
+          .getMessages(null, widget.conversationID, 0);
       consversationID = widget.conversationID;
     } else {
       oldMessages =
-          await ChatRoomService(Dio()).getMessages(consversationID, 0);
+          await ChatRoomService(Dio()).getMessages(null, consversationID, 0);
     }
     if (oldMessages.isEmpty) {
       chatViewState.value = ChatViewState.noData;
@@ -128,13 +129,15 @@ class _ChatRoomState extends State<ChatRoom> {
   void initState() {
     ScrollController scrollController = ScrollController();
     scrollController.addListener(() {
-      if (scrollController.position.pixels >=
-              scrollController.position.maxScrollExtent - 10 &&
+      if (scrollController.position.userScrollDirection ==
+              ScrollDirection.reverse &&
           tany) {
         setState(() {
           isLastPage = true;
         });
-      } else {
+      }
+      if (scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
         setState(() {
           isLastPage = false; // Reset isLastPage to false when scrolling down
         });
@@ -231,53 +234,39 @@ class _ChatRoomState extends State<ChatRoom> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           if (isLastPage && !widget.isFirstMsg)
-            GestureDetector(
-              behavior: HitTestBehavior.translucent,
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => ProfileScreen(
-                //       id: widget.id,
-                //       text: "yara",
-                //     ),
-                //   ),
-                // );
-              },
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: Colors.blueGrey[300],
-                      backgroundImage: CachedNetworkImageProvider(
-                          basePhotosURL + widget.avatar!),
-                    ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: Colors.blueGrey[300],
+                    backgroundImage: CachedNetworkImageProvider(
+                        basePhotosURL + widget.avatar!),
                   ),
-                  Text(
-                    widget.name,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  widget.name,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: Text(
+                    "@${widget.username}",
+                    style: TextStyle(color: Colors.grey.shade600),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    child: Text(
-                      "@${widget.username}",
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5.0),
+                  child: Text(
+                    "Followers: ${widget.userFollowersNum} . Followings: ${widget.userFollowingsNum} ",
+                    style: TextStyle(color: Colors.grey.shade600),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 5.0),
-                    child: Text(
-                      "Followers: ${widget.userFollowersNum} . Followings: ${widget.userFollowingsNum} ",
-                      style: TextStyle(color: Colors.grey.shade600),
-                    ),
-                  ),
-                  const Divider(),
-                ],
-              ),
+                ),
+                const Divider(),
+              ],
             ),
           Expanded(
             child: Obx(
@@ -289,7 +278,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 loadMoreData: () async {
                   if (!isLastPage) {
                     var newMessages = await ChatRoomService(Dio())
-                        .getMessages(consversationID, pageOffset);
+                        .getMessages(null, consversationID, pageOffset);
                     newMessages = newMessages.reversed.toList();
                     _chatController.loadMoreData(newMessages);
                     pageOffset += newMessages.length;
@@ -339,6 +328,8 @@ class _ChatRoomState extends State<ChatRoom> {
                     textStyle: const TextStyle(color: Colors.black),
                   ),
                   allowRecordingVoice: false,
+                  enableCameraImagePicker: false,
+                  enableGalleryImagePicker: false,
                 ),
                 chatBubbleConfig: ChatBubbleConfiguration(
                   outgoingChatBubbleConfig: const ChatBubble(

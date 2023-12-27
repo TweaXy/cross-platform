@@ -14,7 +14,7 @@ class GetUserById {
   }
 
   Future<User> getUserById(String id) async {
-    print('uuu'+id.toString());
+    print('uuu$id');
     var response = await Api.getwithToken(
         url: baseURL + _endpoint + id, token: TempUser.token);
     var data = response.data;

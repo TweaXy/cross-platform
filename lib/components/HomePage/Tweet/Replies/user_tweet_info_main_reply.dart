@@ -2,19 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom_profile.dart';
-import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
-import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
-import 'package:tweaxy/cubits/updata/updata_cubit.dart';
-import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
-import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
-import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/shared/keys/tweet_keys.dart';
-import 'package:tweaxy/views/loading_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class UserTweetInfoReply extends StatefulWidget {
@@ -43,16 +36,16 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
           builder: (context, snapshot) {
             if (!isFutureComplete) {
               // The future is not complete, show loading or an empty container
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
 
-            if (!snapshot.hasData)
-              return Center(
+            if (!snapshot.hasData) {
+              return const Center(
                 child: CircularProgressIndicator(),
               );
-            else {
+            } else {
               User user = snapshot.data!;
               String text = user.followedByMe!
                   ? 'Following'
@@ -97,7 +90,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               // tweet.userName.trim().length <= 5
                               //     ? '@${tweet.userHandle}'
                               //     : '${'@${tweet.userHandle.substring(0, 7)}'}...',
-                              '${'@' + widget.tweet.userHandle.toString()}',
+                              '@${widget.tweet.userHandle}',
                               style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontSize: 18,
@@ -118,10 +111,11 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               TweetKeys.followButtonRepliesScreen),
                           forProfile: false,
                         ),
+                        
                       IconButton(
                         key: const ValueKey(TweetKeys.deleteTweetRepliesScreen),
                         padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
+                        constraints: const BoxConstraints(),
                         icon: const Icon(FontAwesomeIcons.ellipsisVertical),
                         color: const Color.fromARGB(255, 182, 182, 182),
                         iconSize: 16,
@@ -155,7 +149,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                       )
                     ],
                   ),
-                  widget.replyto.length > 0
+                  widget.replyto.isNotEmpty
                       ? Padding(
                           padding:
                               const EdgeInsets.only(bottom: 8.0, right: 25),
@@ -164,7 +158,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                               RichText(
                                   text: TextSpan(
                                 text: 'Replying to ',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 18,
                                   color: Color.fromARGB(255, 108, 108, 108),
                                   fontWeight: FontWeight.w400,
@@ -172,7 +166,7 @@ class _UserTweetInfoReplyState extends State<UserTweetInfoReply> {
                                 children:
                                     widget.replyto.asMap().entries.map((e) {
                                   return TextSpan(
-                                      text: '${'@' + e.value}',
+                                      text: '@${e.value}',
                                       style: const TextStyle(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 18,

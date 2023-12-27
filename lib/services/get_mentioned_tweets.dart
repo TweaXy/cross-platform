@@ -12,7 +12,7 @@ class GetMentionedTweets {
       url: '$baseURL$_endpoint$id?limit=$pageSize&offset=$offset',
       token: token,
     );
-    List<Map<String, dynamic>> m = await mapToList(response);
+    List<Map<String, dynamic>> m = mapToList(response);
     List<Tweet> tweets = initializeTweets(m);
     return tweets;
   }

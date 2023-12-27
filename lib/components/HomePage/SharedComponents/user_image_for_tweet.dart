@@ -19,7 +19,6 @@ class UserImageForTweet extends StatelessWidget {
   //
   @override
   Widget build(BuildContext context) {
-
     return GestureDetector(
       onTap: () {
         if (!kIsWeb) {
@@ -27,14 +26,14 @@ class UserImageForTweet extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => ProfileScreen(
-                id: userid == TempUser.id ? '' : userid ,
+                id: userid == TempUser.id ? '' : userid,
                 text: userid == TempUser.id ? '' : 'no',
               ),
             ),
           );
         } else {
           BlocProvider.of<SidebarCubit>(context)
-              .openProfile(userid == TempUser.id ? '' : 'Following', userid == TempUser.id ? '' : 'Following');
+              .openProfile(userid, userid == TempUser.id ? '' : 'Following');
         }
       },
       child: ClipRRect(

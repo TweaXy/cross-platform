@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/blocked_users_screen.dart';
 import 'package:tweaxy/views/settings/mutes_and_blocks/muted_users_screen.dart';
 
@@ -11,7 +10,7 @@ class MuteAndBlockScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: SettingsAppBar(
+        appBar: const SettingsAppBar(
           title: "Mute and block",
         ),
         body: Column(

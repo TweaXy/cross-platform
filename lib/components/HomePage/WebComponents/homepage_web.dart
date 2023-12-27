@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/services/temp_user.dart';
+import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/views/chat/web/get_conversations_web_view.dart';
 import 'package:tweaxy/views/followersAndFollowing/web_followers_followings.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
@@ -96,6 +96,16 @@ class _HomePageWebState extends State<HomePageWeb> {
                             id: state.id,
                             text: state.text,
                           ));
+                    } else if (state is OpenRepliesState) {
+                      return Expanded(
+                        flex: 8,
+                        child: RepliesScreen(
+                            tweetid: state.tweetid,
+                            replyto: state.replyto,
+                            userHandle: state.userHandle,
+                            isARepost: false,
+                            reposteruserName: ''),
+                      );
                     } else if (state is SearchUserLoadingState) {
                       return const Scaffold(
                         body: Center(
@@ -243,7 +253,7 @@ class _HomeTweetsState extends State<HomeTweets> {
                     SliverToBoxAdapter(
                       child: isweb(),
                     ),
-                    HomePageBody()
+                    const HomePageBody()
                   ]),
             ])),
       ),
@@ -255,7 +265,7 @@ Widget isweb() {
   if (kIsWeb) {
     return const AddPost();
   } else {
-    return SizedBox(
+    return const SizedBox(
       height: 0,
       width: 0,
     );

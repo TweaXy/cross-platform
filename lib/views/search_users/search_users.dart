@@ -146,7 +146,7 @@ class _MyPageState extends State<SearchScreen> {
       }
     } catch (error) {
       _pagingController.error = Container(
-        child: Center(
+        child: const Center(
           child: Text(
             'No results found',
             style: TextStyle(color: Colors.black),

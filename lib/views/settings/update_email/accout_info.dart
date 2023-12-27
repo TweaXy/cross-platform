@@ -43,7 +43,7 @@ class _AccountIfoViewState extends State<AccountIfoView> {
                         context,
                         CustomPageRoute(
                             direction: AxisDirection.left,
-                            child: UpdateUsernameView()));
+                            child: const UpdateUsernameView()));
                   },
                   title: "Username",
                   subtitle: TempUser.username,

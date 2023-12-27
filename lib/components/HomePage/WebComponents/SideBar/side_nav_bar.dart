@@ -10,7 +10,6 @@ import 'package:tweaxy/components/HomePage/MobileComponents/custom_drawer_list_t
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/post_button.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/SideBar/sidebar_text.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';

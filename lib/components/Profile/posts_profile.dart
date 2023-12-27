@@ -83,7 +83,7 @@ class _MyPageState extends State<ProfilePosts> {
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
                     tweet: item,
-                    replyto: [], isMuted: widget.isMuted,
+                    replyto: const [], isMuted: widget.isMuted,
                     isUserBlocked: widget.isUserBlocked,
                   );
                 },

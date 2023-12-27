@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -12,17 +11,11 @@ import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/models/user.dart';
-import 'package:tweaxy/services/FollowersAndFollwing.dart';
-import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_search_tweets.dart';
 import 'package:tweaxy/services/search_for_users.dart';
-import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/loading_screen.dart';
-import 'package:tweaxy/views/search_users/search_tweets.dart';
 import 'package:tweaxy/views/search_users/search_users.dart';
-import 'package:tweaxy/views/splash_screen.dart';
 
 class TweetsSearched extends StatefulWidget {
   TweetsSearched(
@@ -206,7 +199,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
           _pagingController3.addPageRequestListener((pageKey) {
             _fetchPage3(pageKey);
           });
-          return LoadingScreen(asyncCall: true);
+          return const LoadingScreen(asyncCall: true);
         } else {
           return Scaffold(
             appBar: AppBar(
@@ -235,7 +228,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
                 style: const TextStyle(color: Colors.black, fontSize: 17),
                 decoration: InputDecoration(
                   filled: true,
-                  fillColor: Color.fromARGB(255, 218, 228, 231),
+                  fillColor: const Color.fromARGB(255, 218, 228, 231),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50),
                     borderSide: BorderSide.none,
@@ -325,8 +318,8 @@ class _TweetsSearchedState extends State<TweetsSearched>
                       noItemsFoundIndicatorBuilder: (context) {
                         return Center(
                           child: Text(
-                            'No results for ${queryTweets}',
-                            style: TextStyle(
+                            'No results for $queryTweets',
+                            style: const TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         );
@@ -339,8 +332,9 @@ class _TweetsSearchedState extends State<TweetsSearched>
                         return CustomTweet(
                           isUserBlocked: false,
                           tweet: item,
-                          replyto: [],
+                          replyto: const [],
                           isMuted: false,
+                          tobebold: queryTweets,
                         );
                       },
                     ),
@@ -359,7 +353,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
                       return Center(
                         child: Text(
                           'No results for ${queryPeople == '' ? queryTweets : queryPeople}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       );

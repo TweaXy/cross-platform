@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:blur/blur.dart';
@@ -12,7 +11,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tabbed_sliverlist/tabbed_sliverlist.dart';
-import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/mute_user_service.dart';
@@ -51,9 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (widget.id != '')
+    if (widget.id != '') {
       id = widget.id;
-    else {
+    } else {
       Future(() async {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         id = prefs.getString('id')!;
@@ -109,8 +107,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                     );
                   } else {
                     User user = snapshot.data!;
-                    if (!initialized) {
-                      initialized = true;
+
 
                       if (text != 'Edit Profile') {
                         text = user.followedByMe!
@@ -119,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                                 ? 'Follow back'
                                 : 'Follow';
                       }
-                    }
+                    
                     _isUserBlocked = user.blockedByMe!;
 
                     _isMuted = user.muted!;
@@ -454,13 +451,13 @@ class ProfileScreenAppBar extends SliverPersistentHeaderDelegate {
       duration: const Duration(seconds: 3),
       builder: ((context) {
         return Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: failure ? Colors.red[100] : Colors.blue[100],
               border: Border.all(
                 color: Colors.blue[700]!,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           width: double.infinity,
           child: ListTile(
             title: Text(
@@ -537,7 +534,7 @@ class CollapsedAppBarText extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 5.0),
             child: Text(
-              '${NumberFormat.compact().format(postsNumber)} Interactions',
+              '${NumberFormat.compact().format(postsNumber)} Posts',
               style: TextStyle(
                   fontWeight: postsNumberTextStyle,
                   fontSize: postsNumberTextSize,

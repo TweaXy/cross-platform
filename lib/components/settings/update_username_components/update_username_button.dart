@@ -28,7 +28,7 @@ class UpdateUsernameButton extends StatelessWidget {
           onPressed: () async {
             if (formKey.currentState!.validate()) {
               try {
-                dynamic response = await service.updateUsername(username);
+                dynamic response = await service.updateUsername(null,username);
 
                 if (response is String) {
                   showToastWidget(

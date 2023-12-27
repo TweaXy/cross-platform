@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
-import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/services/tweets_services.dart';
-import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/components/Profile/posts_profile.dart';
 import 'package:tweaxy/components/Profile/profile_likes.dart';
 
@@ -101,7 +97,7 @@ class ProfileScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('dd'+id.toString());
+    print('dd$id');
     // List<Tweet> tweets = initializeTweets(temp);
     print('IsMuted = $isMuted');
     return TabBarView(

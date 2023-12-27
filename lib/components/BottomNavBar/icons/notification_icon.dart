@@ -1,12 +1,7 @@
-import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tweaxy/constants.dart';
-import 'package:tweaxy/helpers/api.dart';
 import 'package:tweaxy/services/get_unseen_notification_count.dart';
-import 'package:tweaxy/services/temp_user.dart';
 
 class NotificationIcon extends StatefulWidget {
   const NotificationIcon({super.key, required this.selectedIndex});

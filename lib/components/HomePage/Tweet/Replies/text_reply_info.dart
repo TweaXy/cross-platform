@@ -8,7 +8,7 @@ class TextReplyInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return RichText(
       text: TextSpan(
-        text: count + ' ',
+        text: '$count ',
         style: const TextStyle(
           fontSize: 17.5,
           color: Colors.black,
@@ -17,7 +17,7 @@ class TextReplyInfo extends StatelessWidget {
         children: <TextSpan>[
           TextSpan(
             text: text,
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 108, 108, 108),
               fontWeight: FontWeight.w400,
             ),

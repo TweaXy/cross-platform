@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:tweaxy/constants.dart';
 
 class LikeTweet {
-  static final String _endpoint = 'interactions/';
+  static const String _endpoint = 'interactions/';
   LikeTweet._();
   static Future<bool> likeTweet(String id, String token) async {
     var dio = Dio();

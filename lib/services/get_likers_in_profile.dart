@@ -29,7 +29,7 @@ class GetLikersInProfile {
     // Response response = res;
 
     // print('rrrrr' + res.toString());
-    List<Map<String, dynamic>> m =await mapToList(response);
+    List<Map<String, dynamic>> m =mapToList(response);
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;
