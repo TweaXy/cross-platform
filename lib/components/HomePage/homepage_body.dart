@@ -3,19 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
-import 'package:tweaxy/cubits/updata/updata_cubit.dart';
-import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_cubit.dart';
 import 'package:tweaxy/cubits/update_username_cubit/update_username_states.dart';
-import 'package:tweaxy/helpers/firebase_api.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/services/send_device_token.dart';
-import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
@@ -26,7 +19,7 @@ class HomePageBody extends StatefulWidget {
 }
 
 class _MyPageState extends State<HomePageBody> {
-  PagingController<int, Tweet> _pagingController =
+  final PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -50,7 +43,7 @@ class _MyPageState extends State<HomePageBody> {
     try {
       final List<Tweet> newItemstmp =
           await TweetsServices.getTweetsHome(offset: pageKey);
-      print('lllll' + newItemstmp.toString());
+      print('lllll$newItemstmp');
       // final List<Tweet>newItems=newItemstmp.map((e) {if(!_pagingController.itemList.contains(e))
       //  return e;}).toList();
       final List<Tweet> newItems = [];
@@ -84,52 +77,47 @@ class _MyPageState extends State<HomePageBody> {
   Widget build(BuildContext context) {
     return BlocBuilder<UpdateUsernameCubit, UpdateUsernameStates>(
       builder: (context, state) {
-        updateStatesforTweet(state, context, _pagingController);
-        return BlocBuilder<UpdateAllCubit, UpdataAllState>(
-          builder: (context, updateallstate) {
-            return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
-              builder: (context, state) {
-                updateStatesforTweet(state, context, _pagingController,
-                    isforHome: true);
-                return PagedSliverList<int, Tweet>(
-                  pagingController: _pagingController,
-                  builderDelegate: PagedChildBuilderDelegate(
-                    noItemsFoundIndicatorBuilder: (context) {
-                      return const Padding(
-                        padding: EdgeInsets.only(top: 30.0),
-                        child: Column(
-                          children: [
-                            Center(
-                              child: Text(
-                                "No tweets found\n",
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                            Center(
-                              child: Text(
-                                "List is currently empty",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    color: Color.fromRGBO(121, 119, 119, 1)),
-                              ),
-                            ),
-                          ],
+        return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
+          builder: (tweetContext, tweetState) {
+            updateStatesforTweet(tweetState, tweetContext, _pagingController,
+                isforHome: true);
+            return PagedSliverList<int, Tweet>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate(
+                noItemsFoundIndicatorBuilder: (context) {
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 30.0),
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "No tweets found\n",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
                         ),
-                      );
-                    },
-                    animateTransitions: true,
-                    itemBuilder: (context, item, index) {
-                      return CustomTweet(
-                        tweet: item,
-                        replyto: const [],
-                        isMuted: false,
-                        isUserBlocked: false,
-                      );
-                    },
-                  ),
-                );
-              },
+                        Center(
+                          child: Text(
+                            "List is currently empty",
+                            style: TextStyle(
+                                fontSize: 18,
+                                color: Color.fromRGBO(121, 119, 119, 1)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                animateTransitions: true,
+                itemBuilder: (context, item, index) {
+                  return CustomTweet(
+                    tweet: item,
+                    replyto: const [],
+                    isMuted: false,
+                    isUserBlocked: false,
+                  );
+                },
+              ),
             );
           },
         );

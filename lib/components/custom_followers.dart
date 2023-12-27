@@ -20,6 +20,7 @@ class CustomFollowers extends StatefulWidget {
 
 class _CustomFollowersState extends State<CustomFollowers> {
   String id = '0';
+  @override
   void initState() {
     super.initState();
     Future(() async {
@@ -173,18 +174,18 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             // width: 140,
                             // height: 45,
                             child: CustomButton(
-                                color: (widget.user.blocksMe! ||
-                                        widget.user.blockedByMe!)
+                                color: (widget.user.blocksMe||
+                                        widget.user.blockedByMe)
                                     ? Colors.red
                                     : !widget.user.followedByMe
                                         ? Colors.black
                                         : Colors.white,
                                 text: getText(),
                                 onPressedCallback: () async {
-                                  if (widget.user.blockedByMe!) {
+                                  if (widget.user.blockedByMe) {
                                     bool status =
                                         await BlockingUserService.unBlockUser(
-                                      username: widget.user.username!,
+                                      username: widget.user.username,
                                     );
                                     if (status) {
                                       Fluttertoast.showToast(
@@ -350,9 +351,9 @@ class _CustomFollowersState extends State<CustomFollowers> {
 
   String getText() {
     String status;
-    if (widget.user.blocksMe!) {
+    if (widget.user.blocksMe) {
       status = 'Blocked you';
-    } else if (widget.user.blockedByMe!) {
+    } else if (widget.user.blockedByMe) {
       status = 'Blocked';
     } else if (!widget.user.followedByMe) {
       if (kIsWeb) {

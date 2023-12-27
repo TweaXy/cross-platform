@@ -26,7 +26,7 @@ class ProfileLikes extends StatefulWidget {
   State<ProfileLikes> createState() => _ProfileLikesState();
 }
 
-final _pageSize = 4;
+const _pageSize = 4;
 
 class _ProfileLikesState extends State<ProfileLikes> {
   GetLikersInProfile services = GetLikersInProfile(Dio());
@@ -61,7 +61,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
     }
   }
 
-  PagingController<int, Tweet> _pagingController =
+  final PagingController<int, Tweet> _pagingController =
       PagingController(firstPageKey: 0);
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
           )),
           itemBuilder: (context, item, index) {
             return (_pagingController.itemList != null &&
-                    _pagingController.itemList!.length > 0 &&
+                    _pagingController.itemList!.isNotEmpty &&
                     !item.isShown)
                 ? MuteBlockReply(
                     tweetid: item.id,
@@ -114,7 +114,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
                   )
                 : CustomTweet(
                     tweet: item,
-                    replyto: [],
+                    replyto: const [],
                     isMuted: widget.isMuted,
                     isUserBlocked: widget.isUserBlocked,
                   );

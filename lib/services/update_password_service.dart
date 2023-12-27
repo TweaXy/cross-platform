@@ -8,17 +8,21 @@ class UpdatePasswordService {
   final Dio dio;
   UpdatePasswordService(this.dio);
   Future updatePassword(
+    String? tokenSent,
       {required String oldPassword,
       required String newPassword,
       required String confirmPassword}) async {
     dynamic response;
     String? token;
-    try {
+    if (tokenSent != null) {
+      token = tokenSent;
+    } else
+    {try {
       List<String> s = await loadPrefs();
       token = s[1];
     } catch (e) {
       log(e.toString());
-    }
+    }}
     final data = {
       "oldPassword": oldPassword,
       "newPassword": newPassword,

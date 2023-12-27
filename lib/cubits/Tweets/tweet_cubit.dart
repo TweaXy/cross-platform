@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
-import 'package:tweaxy/models/tweet.dart';
 
 class TweetsUpdateCubit extends Cubit<TweetUpdateState> {
   TweetsUpdateCubit() : super(TweetInitialState());

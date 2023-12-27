@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tweaxy/components/AppBar/appbar.dart';
-import 'package:tweaxy/components/BottomNavBar/bottom_navigation_bar.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/home_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/message_icon.dart';
 import 'package:tweaxy/components/BottomNavBar/icons/notification_icon.dart';
@@ -10,9 +9,7 @@ import 'package:tweaxy/components/BottomNavBar/icons/search_icon.dart';
 import 'package:tweaxy/components/HomePage/MobileComponents/drawer_home_screen.dart';
 import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/HomePage/homepage_body.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/components/chat/chat_floating_button.dart';
-import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/chat/get_conversations_view.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/trends/trending_screen.dart';
@@ -67,9 +64,9 @@ class _HomePage2State extends State<HomePageMobile>
         controller: controller,
         isVisible: _isVisible,
       ),
-      TrendingScreen(),
-      NotificationScreen(),
-      GetConversationsView(),
+      const TrendingScreen(),
+      const NotificationScreen(),
+      const GetConversationsView(),
     ];
     return BlocProvider(
       create: (context) => SidebarCubit(),
@@ -82,7 +79,7 @@ class _HomePage2State extends State<HomePageMobile>
             if (state is SidebarInitialState || state is SidebarHomeState) {
               return widgets[_selectedIndex];
             } else if (state is SidebarProfileState)
-              return ProfileScreen(
+              return const ProfileScreen(
                 id: '',
                 text: '',
               );
@@ -92,7 +89,7 @@ class _HomePage2State extends State<HomePageMobile>
           },
         ),
         floatingActionButton: _selectedIndex == 3
-            ? ChatFloatingButton()
+            ? const ChatFloatingButton()
             : Offstage(offstage: !_isVisible, child: const FloatingButton()),
         bottomNavigationBar: Offstage(
           offstage: !_isVisible,
@@ -121,7 +118,7 @@ class _HomePage2State extends State<HomePageMobile>
                 //search icon
                 BottomNavigationBarItem(
                     icon: SearchIcon(
-                      key: new ValueKey(HomePageKeys.navSearchIcon),
+                      key: const ValueKey(HomePageKeys.navSearchIcon),
                       selectedIndex: _selectedIndex,
                     ),
                     label: ''),
@@ -163,8 +160,7 @@ class HomeTweetsMobile extends StatelessWidget {
   final bool isVisible;
   @override
   Widget build(BuildContext context) {
-    TempUser.userSetData(context);
-
+    
     return NestedScrollView(
         physics: const BouncingScrollPhysics(),
         controller: controller,
@@ -180,7 +176,7 @@ class HomeTweetsMobile extends StatelessWidget {
             )
           ];
         },
-        body: CustomScrollView(slivers: [
+        body: const CustomScrollView(slivers: [
           HomePageBody(),
         ]));
   }

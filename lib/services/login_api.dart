@@ -15,8 +15,8 @@ class LoginApi {
               "Content-Type": "application/json",
             }));
     SharedPreferences user = await SharedPreferences.getInstance();
-    print('kk'+response.data.toString());
-    print('kkkk'+response.data['data']['token'].toString());
+    print('kk${response.data}');
+    print('kkkk${response.data['data']['token']}');
 
     user.setString('username', response.data['data']['user']['username']);
     user.setString("token", response.data['data']['token']);

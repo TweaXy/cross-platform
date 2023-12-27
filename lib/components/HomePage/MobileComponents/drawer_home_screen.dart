@@ -39,7 +39,7 @@ class CustomDrawer extends StatelessWidget {
             padding: EdgeInsets.only(
                 left: screenWidth * 0.05, bottom: screenHeight * 0.07),
             child: GestureDetector(
-              key: new ValueKey(HomePageKeys.userInfoInDrawerClick),
+              key: const ValueKey(HomePageKeys.userInfoInDrawerClick),
               onTap: () {
                 Navigator.push(
                   context,
@@ -55,7 +55,7 @@ class CustomDrawer extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.only(bottom: 10.0),
+                    padding: const EdgeInsets.only(bottom: 10.0),
                     child: UserImageForTweet(
                       image: TempUser.image,
                       userid: TempUser.id,
@@ -63,7 +63,7 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 4.5),
+                    padding: const EdgeInsets.only(bottom: 4.5),
                     child: Text(
                       TempUser.name,
                       style: const TextStyle(
@@ -91,7 +91,7 @@ class CustomDrawer extends StatelessWidget {
           ),
           const Divider(height: 7),
           CustomDrawerListTile(
-            key: new ValueKey(HomePageKeys.profileNavigatorInDrawer),
+            key: const ValueKey(HomePageKeys.profileNavigatorInDrawer),
             icon: AppIcon.profile,
             title: 'Profile',
             onTap: () {
@@ -111,7 +111,7 @@ class CustomDrawer extends StatelessWidget {
                   context,
                   CustomPageRoute(
                       direction: AxisDirection.left,
-                      child:  SettingsAndPrivacyView()));
+                      child:  const SettingsAndPrivacyView()));
             },
           ),
         ],

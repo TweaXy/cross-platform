@@ -12,14 +12,14 @@ class MuteBlockReply extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 9),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 9),
         decoration: BoxDecoration(
-            color: Color.fromARGB(255, 236, 236, 236),
+            color: const Color.fromARGB(255, 236, 236, 236),
             border: Border.all(
               width: 1,
               color: const Color.fromARGB(255, 201, 200, 200),
             ),
-            borderRadius: BorderRadius.all(Radius.circular(6))),
+            borderRadius: const BorderRadius.all(Radius.circular(6))),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -29,7 +29,7 @@ class MuteBlockReply extends StatelessWidget {
                   isMute
                       ? 'This Post is from an \naccount you muted.'
                       : 'This Post is from an \naccount you blocked.',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 20,
                     color: Color.fromARGB(255, 69, 68, 68),
                     fontWeight: FontWeight.w400,
@@ -44,7 +44,7 @@ class MuteBlockReply extends StatelessWidget {
                       BlocProvider.of<TweetsUpdateCubit>(context)
                           .showTweet(tweetid);
                     },
-                    child: Text(
+                    child: const Text(
                       'View',
                       style: TextStyle(
                         fontSize: 21,

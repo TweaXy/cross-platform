@@ -1,4 +1,3 @@
-import 'package:tweaxy/models/tweet.dart';
 
 class TweetUpdateState {}
 

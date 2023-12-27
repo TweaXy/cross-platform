@@ -10,8 +10,8 @@ class NotificationSettingsService {
   NotificationSettingsService(this.dio);
 
   Future<dynamic> notificatioCheckState(String deviceToken) async {
-    Response response;
-    dynamic returnvalue;
+    dynamic response;
+    // dynamic returnvalue;
     String? token;
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -26,16 +26,16 @@ class NotificationSettingsService {
         token: token,
         body: {"token": deviceToken, "type": "android"},
       );
-      if (response.statusCode == 200) {
-        if (response.data["data"]["status"] == "enabled") {
-          returnvalue = "true";
-        } else if (response.data["data"]["status"] == "disabled") {
-          returnvalue = "false";
-        }
-      } else {
-        returnvalue = response;
-      }
-      return returnvalue;
+      // if (response.statusCode == 200) {
+      //   if (response.data["data"]["status"] == "enabled") {
+      //     returnvalue = "true";
+      //   } else if (response.data["data"]["status"] == "disabled") {
+      //     returnvalue = "false";
+      //   }
+      // } else {
+      //   returnvalue = response;
+      // }
+      return response;
     } catch (e) {
       log(e.toString());
       throw Exception('notification State error');

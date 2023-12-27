@@ -33,6 +33,7 @@ class _MyPageState extends State<TweetsListTrend> {
     });
   }
 
+  @override
   void dispose() {
     super.dispose();
 

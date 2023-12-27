@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tweaxy/components/HomePage/Tweet/Replies/modal_bottom_repost.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
-import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/services/like_tweet.dart';
 import 'package:tweaxy/services/tweets_services.dart';
@@ -14,7 +12,7 @@ import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
 
 class TweetInteractions extends StatefulWidget {
-  TweetInteractions({
+  TweetInteractions({super.key, 
     interactionskey,
     required this.id,
     required this.likesCount,
@@ -68,7 +66,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
             children: [
               IconButton(
                 key: const ValueKey(TweetKeys.replyInteraction),
-                constraints: BoxConstraints(),
+                constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,
                 icon: const Padding(
                   padding: EdgeInsets.only(bottom: 15.0),
@@ -109,7 +107,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 await Future(() async {
                   final SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  token = await prefs.getString('token')!;
+                  token = prefs.getString('token')!;
                 });
                 print(" the like value $isLiked");
                 if (isLiked) {
@@ -141,7 +139,7 @@ class _TweetInteractionsState extends State<TweetInteractions> {
                 await Future(() async {
                   final SharedPreferences prefs =
                       await SharedPreferences.getInstance();
-                  token = await prefs.getString('token')!;
+                  token = prefs.getString('token')!;
                 });
                 print(" the like value $isLiked");
                 if (isLiked) {

@@ -1,8 +1,6 @@
-import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
@@ -17,7 +15,7 @@ import 'package:tweaxy/views/settings/mutes_and_blocks/settings_privacy_safety_s
 import 'package:tweaxy/views/settings/settings_view.dart';
 
 class SettingsAndPrivacyView extends StatefulWidget {
-  SettingsAndPrivacyView({super.key});
+  const SettingsAndPrivacyView({super.key});
 
   @override
   State<SettingsAndPrivacyView> createState() => _SettingsAndPrivacyViewState();
@@ -28,23 +26,34 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
 
   Future setNotificationSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    deviceToken = prefs.getString("notificationTokenSent");
-    String response = await NotificationSettingsService(Dio())
-        .notificatioCheckState(deviceToken!);
-    // String response = "true";
-    if (response == "true") {
-      setState(() {
-        notiifcationEnable = true;
-      });
-    } else if (response == "false") {
-      setState(() {
-        notiifcationEnable = false;
-      });
-    } else {
+    try {
+      deviceToken = prefs.getString("notificationTokenSent");
+      dynamic response = await NotificationSettingsService(Dio())
+          .notificatioCheckState(deviceToken!);
+      // String response = "true";
+      if (response is String) {
+        showToastWidget(
+          const CustomToast(message: "Error in user data"),
+          position: ToastPosition.bottom,
+          duration: const Duration(seconds: 5),
+        );
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } else {
+        if (response.data["data"]["status"] == "enabled") {
+          setState(() {
+            notiifcationEnable = true;
+          });
+        } else if (response.data["data"]["status"] == "disabled") {
+          setState(() {
+            notiifcationEnable = false;
+          });
+        }
+      }
+    } on Exception catch (e) {
       showToastWidget(
-        CustomToast(
-            message:
-                "error in loading notification settings state error\n$response"),
+        CustomToast(message: e.toString()),
         position: ToastPosition.bottom,
         duration: const Duration(seconds: 2),
       );
@@ -56,7 +65,15 @@ class _SettingsAndPrivacyViewState extends State<SettingsAndPrivacyView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future(() async => await setNotificationSettings());
+    try {
+      Future(() async => await setNotificationSettings());
+    } on Exception catch (e) {
+      showToastWidget(
+        CustomToast(message: e.toString()),
+        position: ToastPosition.bottom,
+        duration: const Duration(seconds: 2),
+      );
+    }
   }
 
   @override

@@ -1,18 +1,12 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/WebComponents/search_bar_web.dart';
-import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/models/trend.dart';
-import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/get_trends.dart';
-import 'package:tweaxy/services/search_for_users.dart';
-import 'package:tweaxy/views/search_users/search_users.dart';
 
 class ExploreWebScreen extends StatefulWidget {
   const ExploreWebScreen({super.key});
@@ -29,6 +23,7 @@ class _ExploreWebScreenState extends State<ExploreWebScreen> {
       PagingController(firstPageKey: 0);
 
   final int _pageSize = 7;
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();

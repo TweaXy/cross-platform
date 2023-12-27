@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -40,7 +42,7 @@ class InteractionReplyScreen extends StatelessWidget {
           key: const ValueKey(TweetKeys.repostInteractionRepliesScreen),
           isLiked: tweet.isUserRetweeted,
           bubblesSize: 0,
-          bubblesColor: BubblesColor(
+          bubblesColor: const BubblesColor(
             dotPrimaryColor: Colors.transparent,
             dotSecondaryColor: Colors.transparent,
           ),
@@ -55,9 +57,9 @@ class InteractionReplyScreen extends StatelessWidget {
             await Future(() async {
               final SharedPreferences prefs =
                   await SharedPreferences.getInstance();
-              token = await prefs.getString('token')!;
+              token = prefs.getString('token')!;
             });
-            print(" the like value $isLiked");
+            log(" the like value $isLiked");
             if (isLiked) {
               var res = await TweetsServices.deleteRetweet(tweetid: tweet.id);
               BlocProvider.of<TweetsUpdateCubit>(context).deleteretweet(
@@ -84,7 +86,7 @@ class InteractionReplyScreen extends StatelessWidget {
             await Future(() async {
               final SharedPreferences prefs =
                   await SharedPreferences.getInstance();
-              token = await prefs.getString('token')!;
+              token = prefs.getString('token')!;
             });
             print(" the like value $isLiked");
             if (isLiked) {

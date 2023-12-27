@@ -28,13 +28,14 @@ class FollowUserTweet extends StatelessWidget {
         if (isfollowedByMe) {
           await FollowUser.instance.deleteUser(userHandle);
           BlocProvider.of<TweetsUpdateCubit>(context).unfollowUser(userid);
-        } else
+        } else {
           await FollowUser.instance.followUser(userHandle);
+        }
 
         Fluttertoast.showToast(
             msg: isfollowedByMe
-                ? 'You Unfollowed @${userHandle}'
-                : 'You followed @${userHandle}');
+                ? 'You Unfollowed @$userHandle'
+                : 'You followed @$userHandle');
         BlocProvider.of<EditProfileCubit>(context)
             .emit(ProfilePageCompletedState());
 
@@ -45,7 +46,7 @@ class FollowUserTweet extends StatelessWidget {
         color: Colors.blueGrey[600],
       ),
       title: Text(
-        isfollowedByMe ? 'Unfollow @${userHandle}' : 'follow @${userHandle}',
+        isfollowedByMe ? 'Unfollow @$userHandle' : 'follow @$userHandle',
         style: const TextStyle(fontSize: 20),
       ),
     );

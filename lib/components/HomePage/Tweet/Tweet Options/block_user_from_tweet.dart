@@ -41,7 +41,7 @@ class BlockUserTweet extends StatelessWidget {
         color: Colors.blueGrey[600],
       ),
       title: Text(
-        isUserBlocked ? 'Unblock @${userHandle}' : 'Block @${userHandle}',
+        isUserBlocked ? 'Unblock @$userHandle' : 'Block @$userHandle',
         style: const TextStyle(fontSize: 20),
       ),
     );
