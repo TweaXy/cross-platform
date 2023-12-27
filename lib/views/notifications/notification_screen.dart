@@ -7,19 +7,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/replies_screen.dart';
 import 'package:tweaxy/components/HomePage/Tweet/tweet.dart';
-import 'package:tweaxy/components/HomePage/floating_action_button.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/models/tweet.dart';
-import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/models/user_notification.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_all_notifications.dart';
 import 'package:tweaxy/services/get_mentioned_tweets.dart';
 import 'package:tweaxy/services/temp_user.dart';
-import 'package:tweaxy/utilities/tweets_utilities.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -215,7 +212,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                 return _mentionsPagingController.refresh();
               },
               child: PagedListView.separated(
-                separatorBuilder: (context, index) => Divider(
+                separatorBuilder: (context, index) => const Divider(
                   color: Colors.grey,
                 ),
                 pagingController: _mentionsPagingController,
@@ -232,7 +229,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(20.0),
                         child: Text(
                           'Any mention notification on post will appear here',
                           style: TextStyle(
@@ -306,7 +303,7 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
           CustomPageRoute(
               child: RepliesScreen(
                 tweetid: widget.tweetId,
-                replyto: [],
+                replyto: const [],
                 userHandle: widget.username,
                 isARepost: false,
                 reposteruserName: '',
@@ -390,11 +387,11 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
       ),
       subtitle: widget.notificationType == 'follow'
           ? Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(50, 20, 30, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(50, 20, 30, 0),
               child: Container(
                 width: double.infinity,
                 height: 150,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.white,
                 ),
                 child: Column(
@@ -451,7 +448,7 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
+                      padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
                       child: Text(
                         widget.name,
                         style: const TextStyle(
@@ -462,7 +459,7 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
                     ),
                     Text(
                       '@${widget.username}',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFF3A5771),
                         fontWeight: FontWeight.normal,
                       ),

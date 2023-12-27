@@ -97,7 +97,7 @@ class _UpdaateUsernameWebViewState extends State<UpdaateUsernameWebView> {
                 isButtonEnabled: isButtonEnabled,
                 onPressed: () async {
                   try {
-                    dynamic response = await service.updateUsername(usernameController.text);
+                    dynamic response = await service.updateUsername(null,usernameController.text);
                        
                     if (response is String) {
                       showToastWidget(

@@ -46,7 +46,7 @@ class _MyPageState extends State<RepliesList> {
     try {
       final List<Tweet> newItems = await TweetsServices.getReplies(
           offset: pageKey, id: widget.mainTweetId);
-      print('neew' + newItems.toString());
+      print('neew$newItems');
       final isLastPage = newItems.length < _pageSize;
       // print('tttt');
       // print(newItems.length);
@@ -107,7 +107,7 @@ class _MyPageState extends State<RepliesList> {
                             ? 150
                             : 0),
                     child: _pagingController.itemList != null &&
-                            _pagingController.itemList!.length > 0 &&
+                            _pagingController.itemList!.isNotEmpty &&
                             !item.isShown
                         ? MuteBlockReply(
                             tweetid: item.id,

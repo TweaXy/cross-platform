@@ -23,6 +23,7 @@ class FloatingButton extends StatelessWidget {
           key: const ValueKey(AddTweetKeys.addTweet),
           icon: Icons.add,
           activeIcon: Icons.close,
+          iconTheme: const IconThemeData(color: Colors.white),
           spacing: 3,
           // openCloseDial: isDialOpen,
           childPadding: const EdgeInsets.all(5),

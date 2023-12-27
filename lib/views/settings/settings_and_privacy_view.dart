@@ -1,8 +1,6 @@
-import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:oktoast/oktoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/AppBar/settings_appbar.dart';
@@ -17,7 +15,7 @@ import 'package:tweaxy/views/settings/mutes_and_blocks/settings_privacy_safety_s
 import 'package:tweaxy/views/settings/settings_view.dart';
 
 class SettingsAndPrivacyView extends StatefulWidget {
-  SettingsAndPrivacyView({super.key});
+  const SettingsAndPrivacyView({super.key});
 
   @override
   State<SettingsAndPrivacyView> createState() => _SettingsAndPrivacyViewState();

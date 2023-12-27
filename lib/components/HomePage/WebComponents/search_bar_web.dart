@@ -34,7 +34,7 @@ class _SearchBarWebState extends State<SearchBarWeb> {
             decoration: InputDecoration(
                 fillColor: Colors.grey[100],
                 hoverColor: Colors.grey[100],
-                prefixIcon: Icon(Icons.search),
+                prefixIcon: const Icon(Icons.search),
                 suffixIcon: cleared
                     ? IconButton(
                         onPressed: () {
@@ -42,7 +42,7 @@ class _SearchBarWebState extends State<SearchBarWeb> {
                           cleared = false;
                           setState(() {});
                         },
-                        icon: Icon(Icons.close))
+                        icon: const Icon(Icons.close))
                     : null,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(50),

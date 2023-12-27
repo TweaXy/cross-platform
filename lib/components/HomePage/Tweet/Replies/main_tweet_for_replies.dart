@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:tweaxy/components/HomePage/SharedComponents/user_image_for_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Replies/interactions.dart';
@@ -38,22 +37,22 @@ class MainTweetReplies extends StatelessWidget {
           id: tweetid,
         ),
         builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(
+          if (!snapshot.hasData) {
+            return const Center(
               child: CircularProgressIndicator(),
             );
-          else {
+          } else {
             Tweet tweet = snapshot.data;
             List<String>? t = tweet.image;
             List<String> rawLines = [];
             if (tweet.tweetText != null) {
               rawLines = tweet.tweetText!
-                  .split(new RegExp(r'(?<=#\w+)(?=\s)'))
+                  .split(RegExp(r'(?<=#\w+)(?=\s)'))
                   .expand((s) => s.split(RegExp(r'(?<=\S)(?=\s)')))
                   .toList();
             }
             return Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Color.fromARGB(255, 253, 253, 255),
               ),
               child: Column(
@@ -64,7 +63,7 @@ class MainTweetReplies extends StatelessWidget {
                       reposteruserid: tweet.reposteruserid,
                       reposteruserName: TempUser.name == reposteruserName
                           ? ' You'
-                          : '  ${reposteruserName}',
+                          : '  $reposteruserName',
                     ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,7 +95,7 @@ class MainTweetReplies extends StatelessWidget {
                                     ),
                               if (tweet.tweetText != null)
                                 Container(
-                                    padding: EdgeInsets.symmetric(vertical: 5),
+                                    padding: const EdgeInsets.symmetric(vertical: 5),
                                     margin: const EdgeInsets.only(
                                         left: 2, right: 2, bottom: 3),
                                     child: RichText(
@@ -113,7 +112,7 @@ class MainTweetReplies extends StatelessWidget {
                                               fontSize: 18,
                                               color: e.contains('#')
                                                   ? Colors.blue
-                                                  : Color.fromARGB(
+                                                  : const Color.fromARGB(
                                                       255, 40, 39, 39)),
                                         );
                                       }).toList(),
@@ -178,7 +177,7 @@ class MainTweetReplies extends StatelessWidget {
                     ),
                   ),
                   if (tweet.likesCount > 0 || tweet.retweetsCount > 0)
-                    Divider(
+                    const Divider(
                       height: 1,
                       color: Color.fromARGB(255, 153, 153, 153),
                     ),
@@ -228,12 +227,12 @@ class MainTweetReplies extends StatelessWidget {
                         ],
                       ),
                     ),
-                  Divider(
+                  const Divider(
                     height: 1,
                     color: Color.fromARGB(255, 153, 153, 153),
                   ),
                   InteractionReplyScreen(tweet: tweet),
-                  Divider(
+                  const Divider(
                     height: 1,
                     color: Color.fromARGB(255, 153, 153, 153),
                   ),

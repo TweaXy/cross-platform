@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:chatview/chatview.dart';
 // import 'package:dash_chat_2/dash_chat_2.dart';
@@ -12,15 +11,20 @@ class ChatRoomService {
   final Dio dio;
   late String userID;
   ChatRoomService(this.dio);
-  Future<List<Message>> getMessages(String id, int pageOffset) async {
+  Future<List<Message>> getMessages(
+      String? tokenSent, String id, int pageOffset) async {
     Response response;
     String? token;
-    try {
-      List<String> s = await loadPrefs();
-      token = s[1];
-      userID = s[0];
-    } catch (e) {
-      log(e.toString());
+    if (tokenSent != null) {
+      token = tokenSent;
+    } else {
+      try {
+        List<String> s = await loadPrefs();
+        token = s[1];
+        userID = s[0];
+      } catch (e) {
+        log(e.toString());
+      }
     }
     try {
       response = await Api.getwithToken(
@@ -79,15 +83,19 @@ class ChatRoomService {
   //   return messages;
   // }
 
-  Future<String> firstConversation(String username) async {
+  Future<String> firstConversation(String? tokenSent, String username) async {
     String returndata = "";
     Response response;
     String? token;
-    try {
-      List<String> s = await loadPrefs();
-      token = s[1];
-    } catch (e) {
-      log(e.toString());
+    if (tokenSent != null) {
+      token = tokenSent;
+    } else {
+      try {
+        List<String> s = await loadPrefs();
+        token = s[1];
+      } catch (e) {
+        log(e.toString());
+      }
     }
     try {
       response = await Api.post(

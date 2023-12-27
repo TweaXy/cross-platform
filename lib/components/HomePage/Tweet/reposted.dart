@@ -38,7 +38,7 @@ class RepostedBy extends StatelessWidget {
         }
       },
       child: Padding(
-        padding: EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
+        padding: const EdgeInsets.only(top: 5.0, bottom: 3, left: 25),
         child: Row(
           children: [
             const Icon(FontAwesomeIcons.retweet,
@@ -47,7 +47,7 @@ class RepostedBy extends StatelessWidget {
               constraints: BoxConstraints(maxWidth: screenWidth * 0.5),
               child: Text(
                 maxLines: 1,
-                '  ${reposteruserName}',
+                '  $reposteruserName',
                 style: const TextStyle(
                     overflow: TextOverflow.ellipsis,
                     fontSize: 17,

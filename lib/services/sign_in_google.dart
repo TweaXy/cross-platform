@@ -45,13 +45,13 @@ class GoogleAPI {
     await GoogleSignIn().signOut();
 
     String token = await signInWithGoogle();
-    if (token.length > 0) {
+    if (token.isNotEmpty) {
       Response response = await dio.post(
           '${baseURL}auth/google/android/',
           data: {'token': token});
       SharedPreferences user = await SharedPreferences.getInstance();
-      print('kk' + response.data.toString());
-      print('kkkk' + response.data['data']['token'].toString());
+      print('kk${response.data}');
+      print('kkkk${response.data['data']['token']}');
 
       user.setString('username', response.data['data']['user']['username']);
       user.setString("token", response.data['data']['token']);
@@ -62,7 +62,8 @@ class GoogleAPI {
       print(response.data['data']['user']['username']);
       await GoogleSignIn().signOut();
       return response.data;
-    } else
+    } else {
       return null;
+    }
   }
 }

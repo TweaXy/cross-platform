@@ -1,20 +1,11 @@
-import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:oktoast/oktoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Tweet%20Options/block_user_from_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Tweet%20Options/follow_user_from_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Tweet%20Options/mute_user_from_tweet.dart';
 import 'package:tweaxy/components/HomePage/Tweet/TweetSettings/wrap_modal_bottom_profile.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/models/user.dart';
-import 'package:tweaxy/services/blocking_user_service.dart';
-import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_user_by_id.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
@@ -66,7 +57,7 @@ class User_TweetInfo extends StatelessWidget {
                     // tweet.userName.trim().length <= 5
                     //     ? '@${tweet.userHandle}'
                     //     : '${'@${tweet.userHandle.substring(0, 7)}'}...',
-                    '${'@' + tweet.userHandle.toString()}',
+                    '@${tweet.userHandle}',
                     style: const TextStyle(
                       overflow: TextOverflow.ellipsis,
                       fontSize: 18,
@@ -77,7 +68,7 @@ class User_TweetInfo extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.only(top: 10),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 3.0),
                   width: 3,
@@ -104,10 +95,10 @@ class User_TweetInfo extends StatelessWidget {
                 alignment: Alignment.topRight,
                 child: IconButton(
                   padding: EdgeInsets.zero,
-                  constraints: BoxConstraints(),
+                  constraints: const BoxConstraints(),
                   key: ValueKey((Utils()).hashText(
                       DeleteTweetKeys.tweetSettingsClickMobile +
-                          (tweet.tweetText == null ? '' : tweet.tweetText)
+                          (tweet.tweetText ?? '')
                               .toString() +
                           tweet.userHandle.toString())),
                   icon: const Icon(FontAwesomeIcons.ellipsisVertical),
@@ -186,7 +177,7 @@ class User_TweetInfo extends StatelessWidget {
             ],
           ),
         ),
-        replyto.length > 0
+        replyto.isNotEmpty
             ? Padding(
                 padding: const EdgeInsets.only(bottom: 8.0, right: 25),
                 child: Wrap(
@@ -194,14 +185,14 @@ class User_TweetInfo extends StatelessWidget {
                     RichText(
                         text: TextSpan(
                       text: 'Replying to ',
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Color.fromARGB(255, 108, 108, 108),
                         fontWeight: FontWeight.w400,
                       ),
                       children: replyto.asMap().entries.map((e) {
                         return TextSpan(
-                            text: '${'@' + e.value}',
+                            text: '@${e.value}',
                             style: const TextStyle(
                                 fontWeight: FontWeight.w400,
                                 fontSize: 18,

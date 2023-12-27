@@ -4,10 +4,12 @@ import 'package:tweaxy/services/update_password_service.dart';
 
 void main() async {
   UpdatePasswordService service = UpdatePasswordService(Dio());
+  String token = '';
 
-  group('GetUserById testing', () {
+  group('Update Password testing', () {
     test('Test1 : Update password Successfuly', () async {
       final response = await service.updatePassword(
+        token,
         oldPassword: '12345678tT@',
         newPassword: '12345678yY@',
         confirmPassword: '12345678yY@',
@@ -18,6 +20,7 @@ void main() async {
         () async {
       expect(
           await service.updatePassword(
+            token,
               oldPassword: '12345678yY@',
               newPassword: '12345678tT@',
               confirmPassword: '12345677tT@'),
@@ -26,7 +29,9 @@ void main() async {
 
     test('Test3: Update password with invalid new password', () async {
       expect(
+        
           await service.updatePassword(
+            token,
               oldPassword: '12345678yY@',
               newPassword: '12345678tT',
               confirmPassword: '12345677tT'),

@@ -2,11 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/AppBar/tabbar.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/services/temp_user.dart';
-import 'package:tweaxy/shared/keys/profile_keys.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
@@ -31,7 +29,7 @@ class _ApplicationBarState extends State<ApplicationBar> {
       backgroundColor: Colors.transparent,
       centerTitle: true,
       title: IconButton(
-        key: new ValueKey(HomePageKeys.iconRefreshAppBar),
+        key: const ValueKey(HomePageKeys.iconRefreshAppBar),
         onPressed: () {
           //refresh
           BlocProvider.of<TweetsUpdateCubit>(context).refresh();

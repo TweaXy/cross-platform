@@ -5,10 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:tweaxy/helpers/firebase_api.dart';
-import 'package:tweaxy/services/get_unseen_notification_count.dart';
-import 'package:tweaxy/services/send_device_token.dart';
-import 'package:tweaxy/services/temp_user.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

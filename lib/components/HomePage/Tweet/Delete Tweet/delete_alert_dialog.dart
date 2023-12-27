@@ -30,7 +30,7 @@ class DeleteAlertDialog extends StatelessWidget {
           'This can\'t be undone and it will be removed from your profile, the timeline of any accounts that follow you, and from search results'), // Message which will be pop up on the screen
       actions: [
         TextButton(
-          key: new ValueKey(DeleteTweetKeys.tweetCancelDeleteMobile),
+          key: const ValueKey(DeleteTweetKeys.tweetCancelDeleteMobile),
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),
@@ -41,7 +41,7 @@ class DeleteAlertDialog extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 19)),
         ),
         TextButton(
-          key: new ValueKey(DeleteTweetKeys.tweetDeleteConfirmMobile),
+          key: const ValueKey(DeleteTweetKeys.tweetDeleteConfirmMobile),
           style: ButtonStyle(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
           ),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
@@ -15,7 +14,7 @@ class GetUserById {
   }
 
   Future<User> getUserById(String id) async {
-    print('uuu' + id.toString());
+    print('uuu$id');
     var response = await Api.getwithToken(
         url: baseURL + _endpoint + id, token: TempUser.token);
     var data = response.data;

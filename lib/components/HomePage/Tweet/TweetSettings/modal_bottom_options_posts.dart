@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/components/HomePage/Tweet/Delete%20Tweet/delete_alert_dialog.dart';
 import 'package:tweaxy/shared/keys/delete_tweet_keys.dart';
@@ -25,8 +24,8 @@ class ModalBottomProfilePosts extends StatelessWidget {
                   );
                 });
           },
-          leading: Icon(
-              key: new ValueKey(DeleteTweetKeys.tweetSettingsMenuDeleteMobile),
+          leading: const Icon(
+              key: ValueKey(DeleteTweetKeys.tweetSettingsMenuDeleteMobile),
               FontAwesomeIcons.trashCan),
           title: const Text(
             'Delete post',

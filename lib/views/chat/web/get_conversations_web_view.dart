@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-import 'package:tweaxy/components/chat/conversation.dart';
 import 'package:tweaxy/components/chat/conversation_web.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
 import 'package:tweaxy/components/custom_paragraph_text.dart';
@@ -13,7 +12,6 @@ import 'package:tweaxy/cubits/chat_web_cubit/chat_web_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
 import 'package:tweaxy/models/conversation_model.dart';
 import 'package:tweaxy/services/get_conversation_service.dart';
-import 'package:tweaxy/views/chat/chat_room.dart';
 import 'package:tweaxy/views/chat/web/chat_room_web.dart';
 import 'package:tweaxy/views/chat/web/diect_message_web.dart';
 import 'package:tweaxy/views/chat/web/no_convesations_web_view.dart';
@@ -59,7 +57,12 @@ class _GetConversationsWebViewState extends State<GetConversationsWebView> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _pagingController.error = const Center(
+        child: Text(
+          'No Conversations found',
+          style: TextStyle(color: Colors.black),
+        ),
+      );
     }
     setState(() {});
   }

@@ -43,10 +43,10 @@ class SearchTweetTweets {
     if (response is String) {
       return [];
     }
-    List<Map<String, dynamic>> m = await mapToList(response);
-    print('ressss' + m.toString());
+    List<Map<String, dynamic>> m = mapToList(response);
+    print('ressss$m');
 
-    print('mm' + m.toString());
+    print('mm$m');
     List<Tweet> t = initializeTweets(m);
     // print('hh' + m.whereType().toString());
     return t;

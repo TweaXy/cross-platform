@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/transition/custom_page_route.dart';
-import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
@@ -276,7 +275,7 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
         ],
       ),
       titleAlignment: ListTileTitleAlignment.top,
-      subtitle: Text(
+      subtitle: const Text(
         'akfnaofknsoaifnsainf asjif s asf a sf asf asfaifj asijf sah fajshf uash fuhas fuhas fuh as asinfoiasfn ia sf i',
         style: TextStyle(
           color: Colors.black54,
@@ -285,6 +284,5 @@ class _MutedUserListTileState extends State<MutedUserListTile> {
         maxLines: 2,
       ),
     );
-    ;
   }
 }

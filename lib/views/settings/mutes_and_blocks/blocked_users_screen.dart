@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,7 +11,6 @@ import 'package:tweaxy/models/user.dart';
 import 'package:tweaxy/services/blocking_user_service.dart';
 import 'package:tweaxy/services/follow_user.dart';
 import 'package:tweaxy/services/get_blocked_users.dart';
-import 'package:tweaxy/services/unfollow_user.dart';
 import 'package:tweaxy/views/notifications/notification_screen.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
 

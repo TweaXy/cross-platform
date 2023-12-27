@@ -44,7 +44,12 @@ class _TrendingScreenState extends State<TrendingScreen> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _pagingController.error = const Center(
+        child: Text(
+          'No trends found',
+          style: TextStyle(color: Colors.black),
+        ),
+      );
     }
     setState(() {});
   }

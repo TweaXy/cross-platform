@@ -1,21 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:tweaxy/components/custom_followers.dart';
-import 'package:tweaxy/components/showallFollowers.dart';
-import 'package:tweaxy/components/toasts/custom_toast.dart';
-import 'package:tweaxy/components/toasts/custom_web_toast.dart';
 import 'package:tweaxy/cubits/updata/updata_cubit.dart';
 import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
-import 'package:tweaxy/views/followersAndFollowing/custom_future.dart';
 import 'package:tweaxy/views/loading_screen.dart';
 
 class FollowingPage extends StatefulWidget {
-  FollowingPage({required this.username});
+  FollowingPage({super.key, required this.username});
   String username;
   @override
   State<FollowingPage> createState() => _FollowingPageState();

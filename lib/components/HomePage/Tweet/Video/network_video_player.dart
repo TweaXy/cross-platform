@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tweaxy/components/HomePage/Tweet/Video/full_video_screen.dart';
-import 'package:tweaxy/components/transition/custom_page_route.dart';
 import 'package:video_player/video_player.dart';
 
 class NetworkVideoPlayer extends StatefulWidget {
@@ -21,7 +19,7 @@ class _NetworkVideoPlayerState extends State<NetworkVideoPlayer> {
     //   ..addListener(() => setState(() {}))
     //   ..setLooping(true)
     //   ..initialize().then((_) => controller.play());
-    controller..setLooping(false);
+    controller.setLooping(false);
 
     controller.initialize().then((_) {
       // Adding the initialized controller to the list

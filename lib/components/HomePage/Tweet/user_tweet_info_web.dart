@@ -62,7 +62,7 @@ class User_TweetInfoWeb extends StatelessWidget {
             ),
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Container(
           alignment: Alignment.bottomRight,
           child: Container(
@@ -71,7 +71,7 @@ class User_TweetInfoWeb extends StatelessWidget {
                     tweetId: tweet.id, parentid: tweet.parentid,
                   )
                 : IconButton(
-                    key: new ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
+                    key: const ValueKey(DeleteTweetKeys.tweetSettingsClickWeb),
                     splashRadius: 15,
                     hoverColor: const Color.fromARGB(255, 207, 232, 253),
                     icon: const Icon(FontAwesomeIcons.ellipsis),

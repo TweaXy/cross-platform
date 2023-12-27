@@ -1,10 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:tweaxy/views/search_users/tweets_searched.dart';
 
 class SearchTweets extends StatefulWidget {
-  SearchTweets({required this.username, required this.id});
+  SearchTweets({super.key, required this.username, required this.id});
   String username;
   String id;
   @override

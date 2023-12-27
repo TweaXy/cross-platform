@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import 'package:tweaxy/constants.dart';
 import 'package:tweaxy/helpers/api.dart';
-import 'package:tweaxy/services/sign_in.dart';
-import 'package:tweaxy/services/tweets_services.dart';
 
 void main() {
   String baseUrl = 'https://tweaxybackend.mywire.org/api/v1';

@@ -54,7 +54,12 @@ class _GetConversationsViewState extends State<GetConversationsView> {
         _pagingController.appendPage(newItems, nextPageKey);
       }
     } catch (error) {
-      _pagingController.error = error;
+      _pagingController.error = const Center(
+        child: Text(
+          'No results found',
+          style: TextStyle(color: Colors.black),
+        ),
+      );
     }
     setState(() {});
   }
@@ -106,7 +111,6 @@ class _GetConversationsViewState extends State<GetConversationsView> {
             _pagingController.addPageRequestListener((pageKey) {
               _fetchPage(pageKey);
             });
-
             return const Center(
               child: CircularProgressIndicator(
                 color: Colors.blue,

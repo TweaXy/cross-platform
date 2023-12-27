@@ -65,7 +65,7 @@ class MuteUserTweet extends StatelessWidget {
         color: Colors.blueGrey[600],
       ),
       title: Text(
-       isMuted? 'Unmute @${userHandle}':'Mute @${userHandle}',
+       isMuted? 'Unmute @$userHandle':'Mute @$userHandle',
         style: const TextStyle(fontSize: 20),
       ),
     );
@@ -93,13 +93,13 @@ class MuteUserTweet extends StatelessWidget {
       duration: const Duration(seconds: 3),
       builder: ((context) {
         return Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
               color: failure ? Colors.red[100] : Colors.blue[100],
               border: Border.all(
                 color: Colors.blue[700]!,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              borderRadius: const BorderRadius.all(Radius.circular(20))),
           width: double.infinity,
           child: ListTile(
             title: Text(
@@ -118,7 +118,7 @@ class MuteUserTweet extends StatelessWidget {
                         icon: Icons.volume_off_outlined,
                         muteFlag: false,
                         mainContext: context,
-                        userName: userHandle!,
+                        userName: userHandle,
                       ).show(context);
                       isMuted = false;
                     },

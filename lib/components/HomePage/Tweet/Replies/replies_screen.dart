@@ -6,10 +6,7 @@ import 'package:tweaxy/components/add_tweet/custom_add_tweet_button.dart';
 import 'package:tweaxy/components/custom_circular_progress_indicator.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_cubit.dart';
 import 'package:tweaxy/cubits/Tweets/tweet_states.dart';
-import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_cubit.dart';
-import 'package:tweaxy/cubits/edit_profile_cubit/edit_profile_states.dart';
 import 'package:tweaxy/models/app_icons.dart';
-import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/shared/keys/add_reply_keys.dart';
 import 'package:tweaxy/views/add_tweet/add_tweet_view.dart';
@@ -56,7 +53,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> replytochild = new List.from(widget.replyto);
+    List<String> replytochild = List.from(widget.replyto);
     replytochild.add(widget.userHandle);
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
@@ -92,7 +89,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                   reposteruserName: widget.reposteruserName,
                 )),
                 RepliesList(
-                  replyto: replytochild as List<String>,
+                  replyto: replytochild,
                   mainTweetId: widget.tweetid,
                 )
               ],

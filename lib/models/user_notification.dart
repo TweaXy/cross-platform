@@ -1,5 +1,4 @@
 import 'package:tweaxy/models/interaction_model.dart';
-import 'package:tweaxy/models/user.dart';
 
 class UserNotification {
   String? userId;
