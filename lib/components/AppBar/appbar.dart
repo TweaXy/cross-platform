@@ -44,6 +44,7 @@ class ApplicationBar extends StatelessWidget {
         ),
       ),
       leading: Padding(
+        key: const ValueKey(ProfileKeys.homeScreenProfileButton),
         padding: const EdgeInsets.all(10.0),
         child: GestureDetector(
           onTap: () {
