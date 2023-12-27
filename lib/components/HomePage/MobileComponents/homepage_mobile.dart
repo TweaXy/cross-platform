@@ -14,6 +14,7 @@ import 'package:tweaxy/components/HomePage/trending_screen.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_cubit.dart';
 import 'package:tweaxy/cubits/sidebar_cubit/sidebar_states.dart';
 import 'package:tweaxy/views/profile/profile_screen.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class HomePageMobile extends StatefulWidget {
   HomePageMobile({super.key, required this.tabController});
@@ -111,6 +112,7 @@ class _HomePage2State extends State<HomePageMobile>
                 //search icon
                 BottomNavigationBarItem(
                     icon: SearchIcon(
+                      key: new ValueKey(HomePageKeys.navSearchIcon),
                       selectedIndex: _selectedIndex,
                     ),
                     label: ''),

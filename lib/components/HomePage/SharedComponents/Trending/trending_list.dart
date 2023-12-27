@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tweaxy/components/HomePage/SharedComponents/Trending/trending.dart';
 import 'package:tweaxy/models/trending_model.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class TrendingList extends StatelessWidget {
   const TrendingList({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class TrendingList extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     return Center(
       child: Container(
+        key: const ValueKey(HomePageKeys.trendingList),
         decoration: BoxDecoration(
             color: Theme.of(context).brightness == Brightness.light
                 ? const Color(0xfff7f9f9)

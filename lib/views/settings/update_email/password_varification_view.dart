@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/settings/update_email/change_email_view.dart';
+import 'package:tweaxy/views/settings/update_email/change_email_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';
@@ -112,7 +112,8 @@ class _PasswordVarificationViewState extends State<PasswordVarificationView> {
                         .checkPasswordCorrectness(passwordController.text);
                     if (response is String) {
                       showToastWidget(
-                        CustomToast(message:"Wrong Password!", screenWidth: width),
+                        CustomToast(
+                            message: "Wrong Password!", screenWidth: width),
                         position: ToastPosition.bottom,
                         duration: const Duration(seconds: 2),
                       );

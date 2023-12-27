@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tweaxy/models/trending_model.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class Trending extends StatelessWidget {
   const Trending({super.key, required this.trend});
@@ -21,6 +22,7 @@ class Trending extends StatelessWidget {
       ),
       onPressed: () {},
       child: Container(
+          key: const ValueKey(HomePageKeys.trendingItem),
           padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.009),
           margin: EdgeInsets.symmetric(vertical: screenWidth * 0.001),
           child: Column(
@@ -57,6 +59,7 @@ class Trending extends StatelessWidget {
               ),
               Text(
                 '${trend.numberOfPosts} posts',
+                key: const ValueKey(HomePageKeys.trendingItemPosts),
                 style: TextStyle(
                   color: Theme.of(context).brightness == Brightness.light
                       ? const Color.fromARGB(255, 150, 150, 150)

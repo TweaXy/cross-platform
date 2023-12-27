@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oktoast/oktoast.dart';
-import 'package:tweaxy/Views/settings/update_email/varification_code_view.dart';
+import 'package:tweaxy/views/settings/update_email/varification_code_view.dart';
 import 'package:tweaxy/components/custom_appbar.dart';
 import 'package:tweaxy/components/custom_button.dart';
 import 'package:tweaxy/components/custom_head_text.dart';

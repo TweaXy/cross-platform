@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tweaxy/services/like_tweet.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class TweetInteractions extends StatelessWidget {
   const TweetInteractions(
@@ -47,6 +48,7 @@ class TweetInteractions extends StatelessWidget {
             ],
           ),
           LikeButton(
+              key: const ValueKey(HomePageKeys.tweetLikesCount),
               onTap: (isLiked) async {
                 String token = '';
                 await Future(() async {

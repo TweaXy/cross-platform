@@ -9,6 +9,7 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:tweaxy/services/temp_user.dart';
 import 'package:tweaxy/views/followersAndFollowing/likers_in_tweet.dart';
+import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
   const CustomTweet({super.key, required this.tweet, required this.forProfile});
@@ -26,6 +27,7 @@ class CustomTweet extends StatelessWidget {
 
     print('kkkk' + k.toString());
     return Container(
+      key: const ValueKey(HomePageKeys.tweetContainer),
       padding: const EdgeInsets.symmetric(horizontal: 10),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 253, 253, 255),
