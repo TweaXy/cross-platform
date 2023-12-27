@@ -39,11 +39,11 @@ class _MyPageState extends State<HomePageBody> {
     });
   }
 
-  void dispose() {
-    super.dispose();
+  // void dispose() {
+  //   super.dispose();
 
-    _pagingController.dispose();
-  }
+  //   _pagingController.dispose();
+  // }
 
   final _pageSize = 10;
   Future<void> _fetchPage(int pageKey) async {

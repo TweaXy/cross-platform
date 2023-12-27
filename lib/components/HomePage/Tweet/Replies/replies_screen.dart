@@ -47,10 +47,10 @@ class _RepliesScreenState extends State<RepliesScreen> {
     });
   }
 
-  void dispose() {
-    tweetController.dispose();
-    super.dispose();
-  }
+  // void dispose() {
+  //   tweetController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

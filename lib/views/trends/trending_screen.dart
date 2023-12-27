@@ -72,7 +72,7 @@ class _TrendingScreenState extends State<TrendingScreen> {
             padding: const EdgeInsets.all(10.0),
             child: GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, kProfileScreen);
+                Scaffold.of(context).openDrawer();
               },
               child: CircleAvatar(
                 backgroundColor: Colors.transparent,

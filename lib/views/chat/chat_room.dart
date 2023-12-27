@@ -191,11 +191,24 @@ class _ChatRoomState extends State<ChatRoom> {
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.blueGrey[300],
-              backgroundImage:
-                  CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ProfileScreen(
+                      id: widget.id,
+                      text: "yara",
+                    ),
+                  ),
+                );
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundColor: Colors.blueGrey[300],
+                backgroundImage:
+                    CachedNetworkImageProvider(basePhotosURL + widget.avatar!),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10.0),
@@ -221,15 +234,15 @@ class _ChatRoomState extends State<ChatRoom> {
             GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(
-                      id: widget.id,
-                      text: "yara",
-                    ),
-                  ),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => ProfileScreen(
+                //       id: widget.id,
+                //       text: "yara",
+                //     ),
+                //   ),
+                // );
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
