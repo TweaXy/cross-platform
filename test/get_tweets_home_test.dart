@@ -6,6 +6,8 @@ import 'package:tweaxy/models/tweet.dart';
 import 'package:tweaxy/services/sign_in.dart';
 import 'package:tweaxy/services/tweets_services.dart';
 import 'package:tweaxy/utilities/tweets_utilities.dart';
+import 'package:dio/dio.dart';
+
 
 void main() {
   String userid = "eissqonj1eb4g2fgrbr3idsam";

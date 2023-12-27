@@ -174,7 +174,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                             // width: 140,
                             // height: 45,
                             child: CustomButton(
-                                color: (widget.user.blocksMe||
+                                color: (widget.user.blocksMe ||
                                         widget.user.blockedByMe)
                                     ? Colors.red
                                     : !widget.user.followedByMe
@@ -195,7 +195,7 @@ class _CustomFollowersState extends State<CustomFollowers> {
                                       );
                                       setState(() {
                                         widget.user.blockedByMe = false;
-                                        widget.user.followedByMe = true;
+                                        widget.user.followedByMe = false;
                                       });
                                     } else {
                                       Fluttertoast.showToast(

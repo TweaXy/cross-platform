@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:test/expect.dart';
 import 'package:test/scaffolding.dart';
 import 'package:tweaxy/constants.dart';

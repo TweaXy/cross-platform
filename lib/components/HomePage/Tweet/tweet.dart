@@ -15,16 +15,18 @@ import 'package:tweaxy/shared/keys/tweet_keys.dart';
 import 'package:tweaxy/shared/keys/home_page_keys.dart';
 
 class CustomTweet extends StatelessWidget {
-  const CustomTweet(
+  CustomTweet(
       {super.key,
       required this.tweet,
       required this.replyto,
       required this.isMuted,
-      required this.isUserBlocked});
+      required this.isUserBlocked,
+      this.tobebold});
   final List<String> replyto;
   final Tweet tweet;
   final bool isMuted;
   final bool isUserBlocked;
+  String? tobebold = '';
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CustomTweet extends StatelessWidget {
     List<String> rawLines = [];
     if (tweet.tweetText != null) {
       rawLines = tweet.tweetText!
-          .split(RegExp(r'(?<=#\w+)(?=\s)'))
+          .split(RegExp(r'(((?<=#\w+)(?=\s)) | {"$tobebold"} )'))
           .expand((s) => s.split(RegExp(r'(?<=\S)(?=\s)')))
           .toList();
     }
@@ -120,11 +122,15 @@ class CustomTweet extends StatelessWidget {
                                 return TextSpan(
                                   text: e,
                                   style: TextStyle(
-                                      fontWeight: FontWeight.w400,
+                                      fontWeight: tobebold != null &&
+                                              e.contains(tobebold!)
+                                          ? FontWeight.bold
+                                          : FontWeight.w400,
                                       fontSize: 18,
                                       color: e.contains('#')
                                           ? Colors.blue
-                                          : const Color.fromARGB(255, 40, 39, 39)),
+                                          : const Color.fromARGB(
+                                              255, 40, 39, 39)),
                                 );
                               }).toList(),
                             ))),

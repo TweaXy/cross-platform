@@ -334,6 +334,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
                           tweet: item,
                           replyto: const [],
                           isMuted: false,
+                          tobebold: queryTweets,
                         );
                       },
                     ),
