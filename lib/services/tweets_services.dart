@@ -86,7 +86,7 @@ class TweetsServices {
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '${baseURL}trends/$trendname?limit=5&offset=$offset', token: s);
+        url: '${baseURL}trends/$trendname?limit=10&offset=$offset', token: s);
     if (res is String) {
       // throw Future.error(res);
       return [];
