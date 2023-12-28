@@ -1,0 +1,8 @@
+
+class GetConversationsCubitStates{}
+
+class GetConversationsCubitInitial extends GetConversationsCubitStates{}
+
+class GetConversationsCubitLoading extends GetConversationsCubitStates{}
+
+class GetConversationsCubitSuccess extends GetConversationsCubitStates{}
