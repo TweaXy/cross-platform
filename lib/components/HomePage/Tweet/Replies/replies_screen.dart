@@ -22,7 +22,7 @@ class RepliesScreen extends StatefulWidget {
       required this.isARepost,
       required this.reposteruserName});
   final String tweetid;
-  final List<String> replyto;
+  final Set<String> replyto;
   final String userHandle;
   final bool isARepost;
   final String reposteruserName;
@@ -55,7 +55,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> replytochild = List.from(widget.replyto);
+    Set<String> replytochild = Set.from(widget.replyto);
     replytochild.add(widget.userHandle);
     return BlocBuilder<TweetsUpdateCubit, TweetUpdateState>(
       builder: (context, state) {
@@ -92,7 +92,7 @@ class _RepliesScreenState extends State<RepliesScreen> {
                 SliverToBoxAdapter(
                     child: MainTweetReplies(
                   tweetid: widget.tweetid,
-                  replyto: widget.replyto,
+                  replyto: widget.replyto.toList(),
                   isARepost: widget.isARepost,
                   reposteruserName: widget.reposteruserName,
                 )),

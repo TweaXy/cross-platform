@@ -24,7 +24,7 @@ class CustomTweet extends StatelessWidget {
       required this.isMuted,
       required this.isUserBlocked,
       this.tobebold});
-  final List<String> replyto;
+  final Set<String> replyto;
   final Tweet tweet;
   final bool isMuted;
   final bool isUserBlocked;
@@ -107,11 +107,11 @@ class CustomTweet extends StatelessWidget {
                       kIsWeb
                           ? User_TweetInfoWeb(
                               tweet: tweet,
-                              replyto: replyto,
+                              replyto: replyto.toList(),
                             )
                           : User_TweetInfo(
                               tweet: tweet,
-                              replyto: replyto,
+                              replyto: replyto.toList(),
                               isMuted: isMuted,
                               isUserBlocked: isUserBlocked,
                             ),

@@ -9,6 +9,7 @@ import 'package:tweaxy/cubits/updata/updata_states.dart';
 import 'package:tweaxy/models/followers_model.dart';
 import 'package:tweaxy/services/FollowersAndFollwing.dart';
 import 'package:tweaxy/views/loading_screen.dart';
+import 'package:tweaxy/views/settings/settings_and_privacy_view.dart';
 
 class FollowersPage extends StatefulWidget {
   FollowersPage({super.key, required this.username});
@@ -105,6 +106,11 @@ class _FollowersPageState extends State<FollowersPage> {
                     ),
                   ],
                   onSelected: (value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SettingsAndPrivacyView()),
+                    );
                     print('Selected: $value');
                   },
                 ),
