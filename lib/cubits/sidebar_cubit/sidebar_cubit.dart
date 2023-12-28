@@ -39,7 +39,7 @@ class SidebarCubit extends Cubit<SidebarState> {
     emit(FollowingFollowerListState(username, name));
   }
 
-  void showReplies(String tweetid, String userHandle, List<String> replyto) {
+  void showReplies(String tweetid, String userHandle, Set<String> replyto) {
     emit(OpenRepliesState(tweetid, userHandle, replyto));
   }
 }

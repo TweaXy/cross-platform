@@ -112,7 +112,7 @@ class _MyPageState extends State<HomePageBody> {
                 itemBuilder: (context, item, index) {
                   return CustomTweet(
                     tweet: item,
-                    replyto: const [],
+                    replyto:  {},
                     isMuted: false,
                     isUserBlocked: false,
                   );

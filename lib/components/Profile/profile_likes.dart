@@ -114,7 +114,7 @@ class _ProfileLikesState extends State<ProfileLikes> {
                   )
                 : CustomTweet(
                     tweet: item,
-                    replyto: const [],
+                    replyto: {},
                     isMuted: widget.isMuted,
                     isUserBlocked: widget.isUserBlocked,
                   );

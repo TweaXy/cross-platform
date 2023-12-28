@@ -332,7 +332,7 @@ class _TweetsSearchedState extends State<TweetsSearched>
                         return CustomTweet(
                           isUserBlocked: false,
                           tweet: item,
-                          replyto: const [],
+                          replyto: {},
                           isMuted: false,
                           tobebold: queryTweets,
                         );

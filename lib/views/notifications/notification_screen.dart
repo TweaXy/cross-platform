@@ -244,7 +244,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   itemBuilder: (context, item, index) {
                     return CustomTweet(
                       tweet: item,
-                      replyto: const [],
+                      replyto: {},
                       isMuted: false,
                       isUserBlocked: false,
                     );
@@ -303,7 +303,7 @@ class _AllNotificationsListTileState extends State<AllNotificationsListTile> {
           CustomPageRoute(
               child: RepliesScreen(
                 tweetid: widget.tweetId,
-                replyto: const [],
+                replyto: {},
                 userHandle: widget.username,
                 isARepost: false,
                 reposteruserName: '',

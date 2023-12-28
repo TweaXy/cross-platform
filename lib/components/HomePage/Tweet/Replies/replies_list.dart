@@ -16,7 +16,7 @@ import 'package:tweaxy/utilities/tweets_utilities.dart';
 class RepliesList extends StatefulWidget {
   const RepliesList(
       {super.key, required this.replyto, required this.mainTweetId});
-  final List<String> replyto;
+  final Set<String> replyto;
   final String mainTweetId;
   @override
   State<RepliesList> createState() => _MyPageState();
