@@ -104,12 +104,12 @@ class TweetsServices {
   }
 
   static Future<List<Tweet>> getReplies(
-      {required int offset, required String id}) async {
+      {required int offset, required String id,required int pageSize}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? s = prefs.getString('token');
     //down->false
     Response res = await Api.getwithToken(
-        url: '${baseURL}interactions/$id/replies?limit=5&offset=$offset',
+        url: '${baseURL}interactions/$id/replies?limit=$pageSize&offset=$offset',
         token: s);
     if (res is String) {
       // throw Future.error(res);
@@ -148,7 +148,9 @@ class TweetsServices {
           ['commentsCount'],
       id: res.data['data']['parent']['mainInteraction']['id'],
       userId: res.data['data']['parent']['mainInteraction']['user']['id'],
-      userImage: res.data['data']['parent']['mainInteraction']['user']['avatar'] ?? 'b631858bdaafa77258b9ed2f7c689bdb.png',
+      userImage: res.data['data']['parent']['mainInteraction']['user']
+              ['avatar'] ??
+          'b631858bdaafa77258b9ed2f7c689bdb.png',
       image: res.data['data']['parent']['mainInteraction']['media'] != null
           ? getImageList(
               res.data['data']['parent']['mainInteraction']['media'].toList())
