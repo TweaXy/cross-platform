@@ -113,7 +113,7 @@ Discover TweaXy, the friendly X clone that keeps it simple and fun. Built with F
     - user get mentioned
 
 ## <img src="https://github.com/YaraHisham61/AYKN-Search-Engine/assets/88517271/2783fa4c-1371-45d2-bbfa-7682bbc4b65d" width="30" height="30" /> Demo Videos <a name = "vid"></a>
-### Mobile
+### [Mobile](https://drive.google.com/file/d/1qyN3ecSbio69xsPv6Pcl7PZ_llfn3jhL/view?usp=sharing)
 
 ### [Web](https://drive.google.com/file/d/1hlKIBF9dd1S34iGNhqnxqxyr3KzL_YA2/view?usp=sharing)
 
